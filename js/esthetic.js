@@ -12,22 +12,20 @@ function flashmessages(e) {
 		'The Void',
 		'Nothing',
 		'Everything',
+		'Sanctuary',
+		'Heaven',
 	]
-	var speed = 80;
-	var i = 0;
-	var txt = xxx[Math.floor(Math.random()*xxx.length)];
-	function typeWriter() {
-		if (i < txt.length) {
-			e.innerHTML += txt.charAt(i);
-			i++;
-			setTimeout(typeWriter, speed);
-		}
-		else {
-			i = 0;
-			e.innerHTML = '&nbsp';
-			txt = xxx[Math.floor(Math.random()*xxx.length)];
-			setTimeout(typeWriter, speed);
-		}
+	var speed = 1000;
+	var i, j;
+	function writer() {
+		do {
+			j = Math.floor(Math.random()*xxx.length);
+		} while (j == i);
+		i = j;
+		txt = xxx[i];
+		e.innerText = txt;
+		e.setAttribute('data-text', txt);
 	}
-	typeWriter();
+	writer();
+	setInterval(writer, speed);
 }
