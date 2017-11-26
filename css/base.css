@@ -1,0 +1,99 @@
+body {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+
+	/* URL status bar gets in the way otherwise */
+	height: calc(100% - 25px);
+	margin-bottom: 25px;
+}
+.welcome {
+	margin-top: 100px;
+	text-align: center;
+	font-size: 200%;
+}
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+	content: attr(data-text);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.choicebox {
+	display: inline;
+	padding: 10px;
+	margin: 10px;
+	border-width: 1px;
+	border-style: solid;
+	text-align: center;
+	transition: box-shadow 0.5s, color 1s;
+}
+.choicebox > * {
+	margin: 10px;
+	border-width: 1px;
+
+}
+.choicebox:hover {
+	box-shadow: -5px 5px 10px;
+}
+#sakura {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	z-index: -100;
+}
+#sakura video,
+#sakura img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+#sakura img {
+	display: none;
+}
+#xxx {
+	white-space: nowrap;
+}
+@media (min-aspect-ratio: 16/9) {
+	#sakura video {
+		height: 300%;
+		top: -100%;
+	}
+}
+
+@media (max-aspect-ratio: 16/9) {
+	#sakura video{
+		width: 300%;
+		left: -100%;
+	}
+}
+@media (max-width: 767px) {
+	#sakura img {
+		display: initial;
+	}
+	#sakura video {
+		display: none;
+	}
+}
+
+a {
+	outline: none;
+	color: inherit;
+}
+input[type=submit] {
+	padding-left: 5px;
+	padding-right: 5px;
+}

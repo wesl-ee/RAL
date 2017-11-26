@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<HTML>
+<head>
+	<link rel=stylesheet href="css/base.css">
+	<link rel=stylesheet href="css/20XX.css">
+	<title>WELCOME TO RAL</title>
+</head>
+<body>
+	<div class=welcome>
+	<h1>Welcome to<br/><span class=glitch id=xxx></span></h1>
+	<div class=choicebox>
+		<a href='#'>Enter</a>
+	</div>
+	</div>
+<div id=sakura>
+	<video autoplay loop>
+		<source src='res/splash.mp4'>
+	</video>
+	<img src='res/fallback.gif'>
+</div>
+</body>
+<script src='js/esthetic.js'></script>
+<script>
+	flashmessages(document.getElementById('xxx'));
+</script>
+</HTML>
