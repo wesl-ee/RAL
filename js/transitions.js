@@ -2,11 +2,13 @@
 window.transitions = [];
 window.transitions.newpage = function(collection, page)
 {
-	var results_per_page = 10;
+	var results_per_page = 3;
 
 	collection.style.flexWrap = 'nowrap';
 	var children = collection.childNodes;
 	var timelines = window.remote.timelines();
+	timelines = timelines.slice(results_per_page*page,
+	results_per_page*(page+1));
 	console.log(timelines);
 	var i = 0;
 	var delay = 0;
