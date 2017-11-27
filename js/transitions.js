@@ -2,6 +2,8 @@
 window.transitions = [];
 window.transitions.newpage = function(collection, page)
 {
+	var results_per_page = 10;
+
 	collection.style.flexWrap = 'nowrap';
 	var children = collection.childNodes;
 	var timelines = window.remote.timelines();
@@ -12,11 +14,7 @@ window.transitions.newpage = function(collection, page)
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
-//			if (i >= timelines.length)
-//				node.parentNode.removeChild(node);
-//			else {
-				node.style.visibility = 'hidden';
-//			}
+			node.style.visibility = 'hidden';
 		}, delay, children[child]);
 		delay += 100;
 	}
@@ -38,12 +36,14 @@ window.transitions.newpage = function(collection, page)
 		}
 	}, delay);
 	setTimeout(function() {
-	var j = 0;
+	i = 0;
+	delay = 0;
 	children = collection.childNodes;
 	for (child in children) {
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
+			console.log(delay);
 			node.style.visibility = 'visible';
 		}, delay, children[child]);
 		delay += 100;
