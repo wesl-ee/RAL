@@ -3,7 +3,7 @@
 <head>
 	<link rel=stylesheet href="css/base.css">
 	<link rel=stylesheet href="css/20XX.css">
-	<title>WELCOME TO RAL</title>
+	<title>RAL</title>
 </head>
 <body>
 <div id=timelines class='frontcenter'>
@@ -18,8 +18,12 @@
 		<a>Me</a>
 	</div>
 	<nav id=timelinenav>
-	<a class='leftnav'>◀</a>
-	<a class='rightnav'>▶</a>
+	<a class='leftnav' onClick='window.transitions.newpage(
+		document.getElementById("test")
+	)'>◀</a>
+	<a class='rightnav' onClick='window.transitions.newpage(
+		document.getElementById("test")
+	)'>▶</a>
 	</nav>
 </div>
 <div id=sakura>

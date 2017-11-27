@@ -3,7 +3,7 @@
 <head>
 	<link rel=stylesheet href="css/base.css">
 	<link rel=stylesheet href="css/20XX.css">
-	<title>WELCOME TO RAL</title>
+	<title>RAL</title>
 </head>
 <body>
 <div id=welcome>

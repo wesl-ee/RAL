@@ -1,19 +1,21 @@
 /* TRANSITIONS */
 window.transitions = [];
-window.transitions.rightcollection = function(collection)
+window.transitions.newpage = function(collection)
 {
+	collection.style.flexWrap = 'nowrap';
 	var children = collection.childNodes;
-	var rightnames = ['Fuck', 'Ass', 'Honk', 'asssshiter'];
+	var newnames = ['Fuck', 'Ass', 'Honk', 'asssshiter'];
 	var i = 0;
 	var delay = 0;
 	for (child in children) {
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
-			if (i++ >= rightnames.length)
+			if (i >= newnames.length)
 				node.parentNode.removeChild(node);
 			else {
 				node.style.visibility = 'hidden';
+				node.innerText = newnames[i++];
 			}
 		}, delay, children[child]);
 		delay += 100;
@@ -24,16 +26,14 @@ window.transitions.rightcollection = function(collection)
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
-			if (j >= rightnames.length) return;
-			node.innerText = rightnames[j++];
-			node.style.visibility = 'visible';
+			if (!j) collection.style.flexWrap = 'initial';
+			if (j >= newnames.length) return;
+			else {
+				node.style.visibility = 'visible';
+			}
 		}, delay, children[child]);
 		delay += 100;
 	}
-}
-window.transitions.leftcollection = function(collection)
-{
-	
 }
 
 /* CREATION / DESTRUCTION */
