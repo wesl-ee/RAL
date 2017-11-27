@@ -5,7 +5,7 @@
 	<link rel=stylesheet href="css/20XX.css">
 	<title>RAL</title>
 </head>
-<body>
+<body class='preload'>
 <div id=welcome>
 	<h1>Welcome to<br/><span id=xxx></span></h1>
 	<div class=choicebox>
@@ -25,5 +25,8 @@
 <script src='js/transitions.js'></script>
 <script>
 	flashmessages(document.getElementById('xxx'));
+	setTimeout(function(){
+		document.body.className='';
+	},500);
 </script>
 </HTML>
