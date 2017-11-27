@@ -6,20 +6,23 @@
 	<title>WELCOME TO RAL</title>
 </head>
 <body>
-	<div class=welcome>
-	<h1>Welcome to<br/><span class=glitch id=xxx></span></h1>
+<div id=welcome>
+	<h1>Welcome to<br/><span id=xxx></span></h1>
 	<div class=choicebox>
-		<a href='#'>Enter</a>
+		<a onClick='window.destruction.welcome(
+			document.getElementById("welcome")
+		);'>Enter</a>
 	</div>
-	</div>
+</div>
 <div id=sakura>
 	<video autoplay loop>
-		<source src='res/splash.mp4'>
+		<source src='res/splash.webm'>
 	</video>
 	<img src='res/fallback.gif'>
 </div>
 </body>
 <script src='js/esthetic.js'></script>
+<script src='js/transitions.js'></script>
 <script>
 	flashmessages(document.getElementById('xxx'));
 </script>

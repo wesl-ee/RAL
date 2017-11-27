@@ -6,16 +6,15 @@ function flashmessages(e) {
 		'New society',
 		'Now',
 		'Forever',
-		'Today',
 		'Tomorrow',
 		'Yesterday',
 		'The Void',
 		'Nothing',
+		'Arcadia',
 		'Everything',
-		'Sanctuary',
-		'Heaven',
+		'Digital Heaven',
 	]
-	var speed = 1000;
+	var speed = 400;
 	var i, j;
 	function writer() {
 		do {
@@ -27,5 +26,5 @@ function flashmessages(e) {
 		e.setAttribute('data-text', txt);
 	}
 	writer();
-	setInterval(writer, speed);
+	window.textinterval = setInterval(writer, speed);
 }
