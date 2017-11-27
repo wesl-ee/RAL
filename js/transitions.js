@@ -1,3 +1,10 @@
+/* TRANSITIONS */
+window.transitions = [];
+window.transitions.timelinerotate(timeline)
+{
+	
+}
+
 /* CREATION / DESTRUCTION */
 window.creation = [];
 window.creation.sakura = function()
@@ -19,7 +26,7 @@ window.creation.sakura = function()
 }
 window.creation.timeline = function()
 {
-	alert('Timelines would appear now');
+
 }
 window.creation.welcome = function()
 {
@@ -62,8 +69,8 @@ window.creation.welcome = function()
 window.destruction = [];
 window.destruction.sakura = function(sakura)
 {
-	sakura.style.filter = 'fade(30px)';
-//	sakura.parentNode.removeChild(welcome);
+	sakura.style.filter = 'blur(30px)';
+	sakura.parentNode.removeChild(sakura);
 }
 window.destruction.welcome = function(welcome)
 {

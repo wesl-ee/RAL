@@ -12,13 +12,15 @@ body {
 	margin-bottom: 0;
 	height: 100%;
 }
-#welcome {
+#welcome,
+.frontcenter {
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	bottom: 0;
 	transform: translate(-50%, -50%);
 	text-align: center;
+}
+#welcome {
 	font-size: 200%;
 	white-space: nowrap;
 
@@ -27,6 +29,56 @@ body {
 	transform 0.8s ease-in,
 	top 0.8s ease-in,
 	opacity 0.3s ease-in;
+}
+#timelines::before {
+	position: absolute;
+	content: " ";
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: -1;
+
+	filter: blur(2px);
+	opacity: 0.9;
+}
+#timelines {
+	padding: 20px;
+	padding-bottom: 30px;
+
+}
+#timelines .collection {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 10px;
+}
+#timelines .collection > a {
+	margin-left: 7px;
+	margin-right: 7px;
+	padding-left: 5px;
+	padding-right: 5px;
+	transition: box-shadow 0.5s, color 1s;
+	border-width: 1px;
+	border-style: solid;
+	cursor: pointer;
+}
+#timelines .collection > a:hover {
+	box-shadow: -3px 3px 10px;
+}
+#timelinenav {
+	position: relative;
+}
+.leftnav,
+.rightnav {
+	position: absolute;
+	cursor: pointer;
+}
+.leftnav {
+	left: 0;
+}
+.rightnav {
+	right: 0;
 }
 @keyframes glitch-animation {
 0% {
@@ -204,6 +256,7 @@ clip: rect(38px, 9999px, 49px, 0);
 	left: 0;
 	overflow: hidden;
 	z-index: -100;
+	transition: filter 1s ease-in;
 }
 #sakura video,
 #sakura img {
@@ -245,4 +298,7 @@ a {
 input[type=submit] {
 	padding-left: 5px;
 	padding-right: 5px;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin: 0px;
 }
