@@ -1,6 +1,37 @@
 /* TRANSITIONS */
 window.transitions = [];
-window.transitions.timelinerotate(timeline)
+window.transitions.rightcollection = function(collection)
+{
+	var children = collection.childNodes;
+	var rightnames = ['Fuck', 'Ass', 'Honk', 'asssshiter'];
+	var i = 0;
+	var delay = 0;
+	for (child in children) {
+		if (!children.hasOwnProperty(child)
+		|| children[child].nodeType == 3) continue;
+		setTimeout(function(node) {
+			if (i++ >= rightnames.length)
+				node.parentNode.removeChild(node);
+			else {
+				node.style.visibility = 'hidden';
+			}
+		}, delay, children[child]);
+		delay += 100;
+	}
+	var j = 0;
+	children = collection.childNodes;
+	for (child in children) {
+		if (!children.hasOwnProperty(child)
+		|| children[child].nodeType == 3) continue;
+		setTimeout(function(node) {
+			if (j >= rightnames.length) return;
+			node.innerText = rightnames[j++];
+			node.style.visibility = 'visible';
+		}, delay, children[child]);
+		delay += 100;
+	}
+}
+window.transitions.leftcollection = function(collection)
 {
 	
 }
