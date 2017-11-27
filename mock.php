@@ -10,12 +10,6 @@
 	<h2>Connected</h2>
 	<span>128 ms delay</span>
 	<div class=collection id=test>
-		<a>Honk</a>
-		<a>Test</a>
-		<a>Funk</a>
-		<a>Space</a>
-		<a>You</a>
-		<a>Me</a>
 	</div>
 	<nav id=timelinenav>
 	<a class='leftnav' onClick='window.transitions.newpage(
@@ -35,4 +29,11 @@
 </body>
 <script src='js/esthetic.js'></script>
 <script src='js/transitions.js'></script>
+<script src='js/remote.js'></script>
+<script>
+	window.transitions.newpage(
+		document.getElementById('test'),
+		0
+	);
+</script>
 </HTML>

@@ -1,39 +1,55 @@
 /* TRANSITIONS */
 window.transitions = [];
-window.transitions.newpage = function(collection)
+window.transitions.newpage = function(collection, page)
 {
 	collection.style.flexWrap = 'nowrap';
 	var children = collection.childNodes;
-	var newnames = ['Fuck', 'Ass', 'Honk', 'asssshiter'];
+	var timelines = window.remote.timelines();
+	console.log(timelines);
 	var i = 0;
 	var delay = 0;
 	for (child in children) {
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
-			if (i >= newnames.length)
-				node.parentNode.removeChild(node);
-			else {
+//			if (i >= timelines.length)
+//				node.parentNode.removeChild(node);
+//			else {
 				node.style.visibility = 'hidden';
-				node.innerText = newnames[i++];
-			}
+//			}
 		}, delay, children[child]);
 		delay += 100;
 	}
+	setTimeout(function() {
+		i = 0;
+		for (child in children) {
+			if (!children.hasOwnProperty(child)
+			|| children[child].nodeType == 3) continue;
+			if (i >= timelines.length)
+				children[child].parentNode.removeChild(children[child]);
+			else
+				children[child].innerText = timelines[i++];
+		}
+		while (typeof timelines[i] !== 'undefined') {
+			var timeline = document.createElement('a');
+			timeline.innerText = timelines[i++];
+			timeline.style.visibility = 'hidden';
+			collection.appendChild(timeline);
+		}
+	}, delay);
+	setTimeout(function() {
 	var j = 0;
 	children = collection.childNodes;
 	for (child in children) {
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
-			if (!j) collection.style.flexWrap = 'initial';
-			if (j >= newnames.length) return;
-			else {
-				node.style.visibility = 'visible';
-			}
+			node.style.visibility = 'visible';
 		}, delay, children[child]);
 		delay += 100;
 	}
+	}, delay);
+	collection.style.flexWrap = '';
 }
 
 /* CREATION / DESTRUCTION */

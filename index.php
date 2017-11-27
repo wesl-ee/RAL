@@ -23,6 +23,7 @@
 </body>
 <script src='js/esthetic.js'></script>
 <script src='js/transitions.js'></script>
+<script src='js/remote.js'></script>
 <script>
 	flashmessages(document.getElementById('xxx'));
 	setTimeout(function(){
