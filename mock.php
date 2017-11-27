@@ -12,12 +12,8 @@
 	<div class=collection id=test>
 	</div>
 	<nav id=timelinenav>
-	<a class='leftnav' onClick='window.transitions.newpage(
-		document.getElementById("test")
-	)'>◀</a>
-	<a class='rightnav' onClick='window.transitions.newpage(
-		document.getElementById("test")
-	)'>▶</a>
+	<a class=leftnav>◀</a>
+	<a class=rightnav>▶</a>
 	</nav>
 </div>
 <div id=sakura>
@@ -31,9 +27,17 @@
 <script src='js/transitions.js'></script>
 <script src='js/remote.js'></script>
 <script>
-	window.transitions.newpage(
-		document.getElementById('test'),
-		0
-	);
+window.transitions.newpage(
+	document.getElementById('test'),
+	0
+);
+var collection = document.getElementById('test');
+var rightnav = collection.parentNode.getElementsByClassName('rightnav')[0];
+var leftnav = collection.parentNode.getElementsByClassName('leftnav')[0];
+leftnav.collection = collection;
+leftnav.addEventListener('click', window.transitions.newpageclick);
+rightnav.toPage = 1;
+rightnav.collection = collection;
+rightnav.addEventListener('click', window.transitions.newpageclick);
 </script>
 </HTML>

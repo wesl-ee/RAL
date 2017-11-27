@@ -1,16 +1,19 @@
 /* TRANSITIONS */
 window.transitions = [];
+window.transitions.newpageclick = function(evt)
+{
+	var page = this.toPage;
+	var collection = this.collection;
+
+	window.transitions.newpage(collection, page);
+}
 window.transitions.newpage = function(collection, page)
 {
-	var results_per_page = 3;
+	var results_per_page = 5;
 
-	collection.style.flexWrap = 'nowrap';
 	var children = collection.childNodes;
-	var timelines = window.remote.timelines();
-	timelines = timelines.slice(results_per_page*page,
-	results_per_page*(page+1));
-	console.log(timelines);
-	var i = 0;
+	var alltimelines = window.remote.timelines();
+	timelines = alltimelines.slice(results_per_page*page, results_per_page*(page+1));
 	var delay = 0;
 	for (child in children) {
 		if (!children.hasOwnProperty(child)
@@ -20,15 +23,18 @@ window.transitions.newpage = function(collection, page)
 		}, delay, children[child]);
 		delay += 100;
 	}
+	var i;
 	setTimeout(function() {
-		i = 0;
-		for (child in children) {
+		var i = 0, j = 0;
+		for (child = 0; child < children.length; child++) {
 			if (!children.hasOwnProperty(child)
 			|| children[child].nodeType == 3) continue;
-			if (i >= timelines.length)
-				children[child].parentNode.removeChild(children[child]);
-			else
+			if (i >= timelines.length ) {
+				children[child].parentNode.removeChild(children[child--]);
+			}
+			else {
 				children[child].innerText = timelines[i++];
+			}
 		}
 		while (typeof timelines[i] !== 'undefined') {
 			var timeline = document.createElement('a');
@@ -36,7 +42,10 @@ window.transitions.newpage = function(collection, page)
 			timeline.style.visibility = 'hidden';
 			collection.appendChild(timeline);
 		}
+
+
 	}, delay);
+	delay += 100;
 	setTimeout(function() {
 	i = 0;
 	delay = 0;
@@ -45,13 +54,28 @@ window.transitions.newpage = function(collection, page)
 		if (!children.hasOwnProperty(child)
 		|| children[child].nodeType == 3) continue;
 		setTimeout(function(node) {
-			console.log(delay);
 			node.style.visibility = 'visible';
 		}, delay, children[child]);
 		delay += 100;
 	}
 	}, delay);
-	collection.style.flexWrap = '';
+
+	var leftnav = collection.parentNode.getElementsByClassName('leftnav')[0];
+	if (!page) {
+		leftnav.style.visibility = 'hidden';
+	}
+	else {
+		leftnav.toPage = page - 1;
+		leftnav.style.visibility = 'visible';
+	}
+	var rightnav = collection.parentNode.getElementsByClassName('rightnav')[0];
+	if (page + 1 >= alltimelines.length / results_per_page) {
+		rightnav.style.visibility = 'hidden';
+	}
+	else {
+		rightnav.toPage = page + 1;
+		rightnav.style.visibility = 'visible';
+	}
 }
 
 /* CREATION / DESTRUCTION */
