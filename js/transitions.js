@@ -99,7 +99,7 @@ window.creation.timeline = function()
 {
 	var timelines = document.createElement('div');
 	var header = document.createElement('h2');
-	var delay = document.createElement('span');
+	var latency = document.createElement('span');
 	var collection = document.createElement('div');
 	var nav = document.createElement('nav');
 	var leftnav = document.createElement('a');
@@ -110,9 +110,11 @@ window.creation.timeline = function()
 	header.appendChild(
 		document.createTextNode('Connected')
 	);
-	delay.appendChild(
-		document.createTextNode('128ms delay')
-	);
+	window.remote.updatelatency(latency);
+	window.lagInterval = setInterval(function() {
+		window.remote.updatelatency(latency);
+	}, 60000);
+	latency.id = 'latency';
 	collection.className = 'collection';
 	leftnav.innerText = '◀';
 	leftnav.className = 'leftnav';
@@ -123,7 +125,7 @@ window.creation.timeline = function()
 	nav.appendChild(rightnav);
 
 	timelines.appendChild(header);
-	timelines.appendChild(delay);
+	timelines.appendChild(latency);
 	timelines.appendChild(collection);
 	timelines.appendChild(nav);
 	document.body.appendChild(timelines);
