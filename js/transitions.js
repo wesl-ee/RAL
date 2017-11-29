@@ -42,8 +42,6 @@ window.transitions.newpage = function(collection, page)
 			timeline.style.visibility = 'hidden';
 			collection.appendChild(timeline);
 		}
-
-
 	}, delay);
 	delay += 100;
 	setTimeout(function() {
@@ -99,7 +97,46 @@ window.creation.sakura = function()
 }
 window.creation.timeline = function()
 {
+	var timelines = document.createElement('div');
+	var header = document.createElement('h2');
+	var delay = document.createElement('span');
+	var collection = document.createElement('div');
+	var nav = document.createElement('nav');
+	var leftnav = document.createElement('a');
+	var rightnav = document.createElement('a');
 
+	timelines.className = 'frontcenter';
+	timelines.id = 'timelines';
+	header.appendChild(
+		document.createTextNode('Connected')
+	);
+	delay.appendChild(
+		document.createTextNode('128ms delay')
+	);
+	collection.className = 'collection';
+	leftnav.innerText = '◀';
+	leftnav.className = 'leftnav';
+	rightnav.innerText = '▶';
+	rightnav.className = 'rightnav';
+	nav.id = 'timelinenav';
+	nav.appendChild(leftnav);
+	nav.appendChild(rightnav);
+
+	timelines.appendChild(header);
+	timelines.appendChild(delay);
+	timelines.appendChild(collection);
+	timelines.appendChild(nav);
+	document.body.appendChild(timelines);
+
+	// Which collection does this nav control?
+	leftnav.collection = collection;
+	rightnav.collection = collection;
+	rightnav.toPage = 1;
+
+	leftnav.addEventListener('click', window.transitions.newpageclick);
+	rightnav.addEventListener('click', window.transitions.newpageclick);
+
+	window.transitions.newpage(collection, 0);
 }
 window.creation.welcome = function()
 {
