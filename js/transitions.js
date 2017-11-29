@@ -105,6 +105,7 @@ window.creation.timeline = function()
 	var leftnav = document.createElement('a');
 	var rightnav = document.createElement('a');
 
+
 	timelines.className = 'frontcenter';
 	timelines.id = 'timelines';
 	header.appendChild(
@@ -128,7 +129,13 @@ window.creation.timeline = function()
 	timelines.appendChild(latency);
 	timelines.appendChild(collection);
 	timelines.appendChild(nav);
+
+	timelines.style.opacity = 0;
+	setTimeout(function() {
+		timelines.style.opacity = 1;
+	}, 100);
 	document.body.appendChild(timelines);
+
 
 	// Which collection does this nav control?
 	leftnav.collection = collection;

@@ -45,6 +45,7 @@ body {
 #timelines {
 	padding: 20px;
 	padding-bottom: 30px;
+	transition: opacity 0.8s ease-in;
 }
 #timelines .collection {
 	display: flex;
