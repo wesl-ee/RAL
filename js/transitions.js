@@ -1,5 +1,18 @@
 /* TRANSITIONS */
 window.transitions = [];
+/*
+* Controls what happens when a user selects a timeline
+*/
+window.transitions.timelineselect = function(evt)
+{
+	var button = evt.target;
+	var name = button.innerText;
+
+	window.creation.timelineview(name);
+}
+/*
+* Handles next / previous page clicks
+*/
 window.transitions.newpageclick = function(evt)
 {
 	var page = this.toPage;
@@ -7,6 +20,9 @@ window.transitions.newpageclick = function(evt)
 
 	window.transitions.newpage(collection, page);
 }
+/*
+* Next / previous page rendering
+*/
 window.transitions.newpage = function(collection, page)
 {
 	var results_per_page = 5;
@@ -38,24 +54,26 @@ window.transitions.newpage = function(collection, page)
 		}
 		while (typeof timelines[i] !== 'undefined') {
 			var timeline = document.createElement('a');
-			timeline.innerText = timelines[i++];
+			var name = timelines[i++];
+			timeline.innerText = name;
 			timeline.style.visibility = 'hidden';
+			timeline.addEventListener('click', window.transitions.timelineselect);
 			collection.appendChild(timeline);
 		}
 	}, delay);
 	delay += 100;
 	setTimeout(function() {
-	i = 0;
-	delay = 0;
-	children = collection.childNodes;
-	for (child in children) {
-		if (!children.hasOwnProperty(child)
-		|| children[child].nodeType == 3) continue;
-		setTimeout(function(node) {
-			node.style.visibility = 'visible';
-		}, delay, children[child]);
-		delay += 100;
-	}
+		i = 0;
+		delay = 0;
+		children = collection.childNodes;
+		for (child in children) {
+			if (!children.hasOwnProperty(child)
+			|| children[child].nodeType == 3) continue;
+			setTimeout(function(node) {
+				node.style.visibility = 'visible';
+			}, delay, children[child]);
+			delay += 100;
+		}
 	}, delay);
 
 	var leftnav = collection.parentNode.getElementsByClassName('leftnav')[0];
@@ -146,6 +164,10 @@ window.creation.timeline = function()
 	rightnav.addEventListener('click', window.transitions.newpageclick);
 
 	window.transitions.newpage(collection, 0);
+}
+window.creation.timelineview = function(name)
+{
+	console.log('Selected timeline: ' + name);
 }
 window.creation.welcome = function()
 {
