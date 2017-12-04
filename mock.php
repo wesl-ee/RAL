@@ -6,7 +6,7 @@
 	<title>RAL</title>
 </head>
 <body>
-<div id=timelines class='frontcenter'>
+<div id=timelines class=sidebar>
 	<h2>Connected</h2>
 	<span>128 ms delay</span>
 	<div class=collection id=test>
@@ -16,8 +16,38 @@
 	<a class=rightnav>▶</a>
 	</nav>
 </div>
+<div id=reader class=timeline>
+	<h3 class=title>Anime</h3>
+	<article class=topic id=5>
+		<time datetime=2017-12-03T19:00>Today</time>
+		<span class=num>No. 5</span>
+		<span class=subject onClick='window.handlers.open(this)'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span>
+	</article>
+	<article class=topic id=4>
+		<time datetime=2017-12-03T19:00>Today</time>
+		<span class=num>No. 4</span>
+		<span class=subject>fuck</span>
+	</article>
+	<article class=topic id=3>
+		<time datetime=2017-12-03T19:00>Today</time>
+		<span class=num>No. 3</span>
+		<span class=subject>fuck</span>
+	</article>
+	<article class=topic id=2>
+		<time datetime=2017-12-03T19:00>Today</time>
+		<span class=num>No. 2</span>
+		<span class=subject>fuck</span>
+	</article>
+	<article class=topic id=1>
+		<time datetime=2017-12-03T19:00>Today</time>
+		<span class=num>No. 1</span>
+		<span class=subject>fuck</span>
+	</article>
+	<div id=redzone>
+	</div>
+</div>
 <div id=sakura>
-	<video autoplay loop>
+	<video autoplay loop muted>
 		<source src='res/splash.webm'>
 	</video>
 	<img src='res/fallback.gif'>

@@ -17,7 +17,7 @@
 	</div>
 </div>
 <div id=sakura>
-	<video autoplay loop>
+	<video autoplay muted loop>
 		<source src='res/splash.webm'>
 	</video>
 	<img src='res/fallback.gif'>

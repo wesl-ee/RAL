@@ -1,3 +1,11 @@
+window.handlers = [];
+window.handlers.open = function(topic)
+{
+	var topic = topic.parentNode;
+	var topicnum = topic.id;
+	console.log('Opening topic ' + topicnum);
+	window.transitions.open(topicnum);
+}
 /* TRANSITIONS */
 window.transitions = [];
 /*
@@ -7,6 +15,7 @@ window.transitions.timelineselect = function(evt)
 {
 	var button = evt.target;
 	var name = button.innerText;
+	document.getElementById('timelines').className = 'sidebar';
 
 	window.creation.timelineview(name);
 }
@@ -92,6 +101,35 @@ window.transitions.newpage = function(collection, page)
 		rightnav.toPage = page + 1;
 		rightnav.style.visibility = 'visible';
 	}
+}
+window.transitions.open = function(topicnum)
+{
+	var topic = document.getElementById(topicnum);
+	var offset = 0; var animationtime = 1600; var delay = 100;
+	var topics = topic.parentNode.children;
+
+	/* Collapse all topics except for the one we're interested in */
+	for (var i = topics.length-1; i > 0; i--) {
+		if (topics[i] != topic) {
+			setTimeout(function(node) {
+				node.style.width = '0';
+				node.style.height = '0';
+				node.style.padding = '0';
+				node.style.margin = '0';
+				setTimeout(function(node) {
+					node.parentNode.removeChild(node);
+				}, animationtime, node);
+			}, offset, topics[i]);
+		}
+		offset += delay;
+	}
+	// Fucking calculation is wrong -- close enough but it should be tighter
+	// How long do all the delays and animations take?
+	offset = delay * topics.length + animationtime;
+	/* Bring the topic to the top */
+	setTimeout(function(node) {
+		node.parentNode.className = 'expanded';
+	}, offset, topics[i]);
 }
 
 /* CREATION / DESTRUCTION */
