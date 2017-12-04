@@ -11,6 +11,15 @@ window.remote.timelines = function()
 		'Tokyo'
 	];
 }
+window.remote.fetchtopics = function(timeline)
+{
+	var topics = [];
+	topics[0] = {};
+	topics[0].num = 1;
+	topics[0].updated = '2017-12-04T04:22:07+00:00';
+	topics[0].content = 'First!';
+	return topics;
+}
 window.remote.updatelatency = function(display)
 {
 	var t1 = performance.now();

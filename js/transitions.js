@@ -1,8 +1,9 @@
 window.handlers = [];
-window.handlers.open = function(topic)
+window.handlers.open = function(evt)
 {
-	var topic = topic.parentNode;
-	var topicnum = topic.id;
+	evt.target.removeEventListener('click', window.handlers.open);
+	var article = evt.target.parentNode;
+	var topicnum = article.id;
 	console.log('Opening topic ' + topicnum);
 	window.transitions.open(topicnum);
 }
@@ -14,10 +15,10 @@ window.transitions = [];
 window.transitions.timelineselect = function(evt)
 {
 	var button = evt.target;
-	var name = button.innerText;
+	var timeline = button.innerText;
 	document.getElementById('timelines').className = 'sidebar';
 
-	window.creation.timelineview(name);
+	window.creation.reader(timeline);
 }
 /*
 * Handles next / previous page clicks
@@ -125,11 +126,12 @@ window.transitions.open = function(topicnum)
 	}
 	// Fucking calculation is wrong -- close enough but it should be tighter
 	// How long do all the delays and animations take?
-	offset = delay * topics.length + animationtime;
+	offset = delay * (topics.length - 1) + animationtime;
 	/* Bring the topic to the top */
 	setTimeout(function(node) {
 		node.parentNode.className = 'expanded';
 	}, offset, topics[i]);
+	offset += delay;
 }
 
 /* CREATION / DESTRUCTION */
@@ -203,9 +205,58 @@ window.creation.timeline = function()
 
 	window.transitions.newpage(collection, 0);
 }
-window.creation.timelineview = function(name)
+window.creation.reader = function(name)
 {
 	console.log('Selected timeline: ' + name);
+	var reader = document.createElement('div');
+	var h3 = document.createElement('h3');
+
+
+	reader.id = 'reader';
+	reader.className = 'timeline';
+	h3.className = 'title';
+	h3.appendChild(
+		document.createTextNode(name)
+	);
+	reader.appendChild(h3);
+
+	// Initialize the timeline with all topics
+	var topics = window.remote.fetchtopics(name);
+	for (var i = topics.length - 1; i + 1; i--) {
+		var topic = topics[i];
+		console.log(JSON.stringify(topic));
+		var article = document.createElement('article');
+		var updated = document.createElement('time');
+		var num = document.createElement('span');
+		var content = document.createElement('content');
+
+		// Date formatting
+		var time = new Date(topic.updated);
+		updated.innerText = (time.getMonth() + 1)
+		+ '/' + time.getDate()
+		+ ' ' + time.getHours()
+		+ ':' + time.getMinutes();
+
+		article.className = 'topic';
+		article.id = topic.num;
+		updated.dateTime = topic.updated;
+		num.innerText = 'No. ' + topic.num;
+		num.className = 'num';
+		content.innerText = topic.content;
+		content.className = 'content';
+
+		content.addEventListener('click',
+			window.handlers.open, this
+		);
+
+		article.appendChild(updated);
+		article.appendChild(num);
+		article.appendChild(content);
+
+		reader.appendChild(article);
+	}
+
+	document.body.appendChild(reader);
 }
 window.creation.welcome = function()
 {
@@ -263,3 +314,13 @@ window.destruction.welcome = function(welcome)
 	}, 1100);
 	window.creation.timeline();
 }
+var weekdays = [
+	'Sunday',
+	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'Thursday',
+	'Friday',
+	'Saturday',
+	'Sunday'
+];

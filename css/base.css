@@ -119,7 +119,7 @@ body {
 /* Timeline view */
 #reader .topic {
 	display: flex;
-	flex-flow: row-reverse;
+	flex-direction: row-reverse;
 	margin-bottom: 5px;
 	overflow-x: hidden;
 	width: 100%;
@@ -131,7 +131,7 @@ body {
 }
 #reader .topic time,
 #reader .topic .num,
-#reader .topic .subject {
+#reader .topic .content {
 	white-space: nowrap;
 }
 #reader .topic time,
@@ -139,12 +139,13 @@ body {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-#reader .topic .subject {
+#reader .topic .content {
 	border-right-width: 1px;
 	border-right-style: solid;
 	padding-right: 10px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: justify;
 	cursor: pointer;
 	transition: height 0.8s ease-in-out;
 }
@@ -152,8 +153,7 @@ body {
 	overflow: visible;
 	height: initial;
 }
-#reader.expanded .topic .subject {
-/*	overflow: visible;*/
+#reader.expanded .topic .content {
 	white-space: initial;
 	text-align: justify;
 	justify-align-last: right;
