@@ -28,15 +28,46 @@ window.transitions.timelineselect = function(evt)
 {
 	var button = evt.target;
 	var timeline = button.innerText;
-	document.getElementById('timelines').classList.add('sidebar');
-	document.getElementById('timelines').classList.remove('frontcenter');
 
 	var reader = document.getElementById('reader');
-	if (reader) {
-	}
-	else {
+	if (!reader) {
+		document.getElementById('timelines').classList.add('sidebar');
+		document.getElementById('timelines').classList.remove('frontcenter');
 		window.creation.reader(timeline);
 	}
+	else {
+		window.transitions.timelinejump(timeline);
+	}
+}
+window.transitions.timelinejump = function(timeline)
+{
+	var reader = document.getElementById('reader');
+	var animationtime = 800;
+	reader.style.top = '100%';
+
+	setTimeout(function() {
+		// Clear the reader
+		while (reader.firstChild) {
+			reader.removeChild(reader.firstChild);
+		}
+
+		// Fill out the reader with the new timeline
+		var h3 = document.createElement('h3');
+
+		reader.id = 'reader';
+		reader.className = 'timeline';
+		h3.id = 'title';
+		h3.appendChild(
+			document.createTextNode(timeline)
+		);
+		reader.appendChild(h3);
+
+		// Initialize the reader with all topics
+		window.remote.rendertopics(timeline, reader);
+		reader.style.top = '0px';
+	}, animationtime);
+
+
 }
 /*
 * Handles next / previous page clicks
@@ -193,15 +224,13 @@ window.creation.timeline = function()
 			window.remote.updatelatency(latency);
 	}, 60000);
 	window.addEventListener('blur', function() {
-		window.removeEventListener(window.lagInterval);
+		window.clearInterval(window.lagInterval);
 	});
 	window.addEventListener('focus', function() {
-		window.remote.updatelatency(latency);
 		window.lagInterval = setInterval(function() {
 		if (latency.className != 'error')
 			window.remote.updatelatency(latency);
 		}, 60000);
-
 	});
 	latency.id = 'latency';
 	collection.className = 'collection';
@@ -237,7 +266,6 @@ window.creation.timeline = function()
 }
 window.creation.reader = function(name)
 {
-	console.log('Selected timeline: ' + name);
 	var reader = document.createElement('div');
 	var h3 = document.createElement('h3');
 
