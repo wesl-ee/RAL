@@ -24,6 +24,7 @@ dl, ul, ol {
 #reader::before {
 	background: black;
 }
-#reader.timeline .content:hover {
+#reader.timeline .content:hover,
+#reader.expanded #title:hover {
 	color: #5ABFCF;
 }

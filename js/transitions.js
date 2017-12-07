@@ -1,11 +1,23 @@
 window.handlers = [];
 window.handlers.open = function(evt)
 {
+	// Clicking twice doesn't make it load faster!
 	evt.target.removeEventListener('click', window.handlers.open);
+	document.getElementById('title').addEventListener('click',
+		window.handlers.close
+	);
 	var article = evt.target.parentNode;
 	var topicnum = article.id;
 	console.log('Opening topic ' + topicnum);
 	window.transitions.open(topicnum);
+}
+window.handlers.close = function(evt)
+{
+	evt.target.removeEventListener('click', window.handlers.close);
+	var article = evt.target.parentNode;
+	var reader = document.getElementById('reader');
+
+	reader.className = 'timeline';
 }
 /* TRANSITIONS */
 window.transitions = [];
@@ -214,47 +226,14 @@ window.creation.reader = function(name)
 
 	reader.id = 'reader';
 	reader.className = 'timeline';
-	h3.className = 'title';
+	h3.id = 'title';
 	h3.appendChild(
 		document.createTextNode(name)
 	);
 	reader.appendChild(h3);
 
 	// Initialize the timeline with all topics
-	var topics = window.remote.fetchtopics(name);
-	for (var i = topics.length - 1; i + 1; i--) {
-		var topic = topics[i];
-		console.log(JSON.stringify(topic));
-		var article = document.createElement('article');
-		var updated = document.createElement('time');
-		var num = document.createElement('span');
-		var content = document.createElement('content');
-
-		// Date formatting
-		var time = new Date(topic.updated);
-		updated.innerText = (time.getMonth() + 1)
-		+ '/' + time.getDate()
-		+ ' ' + time.getHours()
-		+ ':' + time.getMinutes();
-
-		article.className = 'topic';
-		article.id = topic.num;
-		updated.dateTime = topic.updated;
-		num.innerText = 'No. ' + topic.num;
-		num.className = 'num';
-		content.innerText = topic.content;
-		content.className = 'content';
-
-		content.addEventListener('click',
-			window.handlers.open, this
-		);
-
-		article.appendChild(updated);
-		article.appendChild(num);
-		article.appendChild(content);
-
-		reader.appendChild(article);
-	}
+	window.remote.rendertopics(name, reader);
 
 	document.body.appendChild(reader);
 }

@@ -159,6 +159,12 @@ body {
 	justify-align-last: right;
 	cursor: default;
 }
+#reader.expanded #title {
+	display: inline-block;
+}
+#reader.expanded #title {
+	cursor: pointer;
+}
 /* Expanded topic (thread view) */
 /*#reader.expanded .topic {
 	padding: 5px;
