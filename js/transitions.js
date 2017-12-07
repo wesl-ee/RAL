@@ -168,7 +168,7 @@ window.creation.sakura = function()
 window.creation.timeline = function()
 {
 	var timelines = document.createElement('div');
-	var header = document.createElement('h2');
+	var header = document.createElement('h3');
 	var latency = document.createElement('span');
 	var collection = document.createElement('div');
 	var nav = document.createElement('nav');
@@ -179,11 +179,12 @@ window.creation.timeline = function()
 	timelines.className = 'frontcenter';
 	timelines.id = 'timelines';
 	header.appendChild(
-		document.createTextNode('Connected')
+		document.createTextNode('RAL')
 	);
 	window.remote.updatelatency(latency);
 	window.lagInterval = setInterval(function() {
-		window.remote.updatelatency(latency);
+		if (latency.className != 'error')
+			window.remote.updatelatency(latency);
 	}, 60000);
 	latency.id = 'latency';
 	collection.className = 'collection';
@@ -293,6 +294,14 @@ window.destruction.welcome = function(welcome)
 	}, 1100);
 	window.creation.timeline();
 }
+
+window.render = [];
+window.render.connerror = function(message) {
+	var lag = document.getElementById('latency');
+	lag.className = 'error';
+	lag.innerText = message;
+}
+
 var weekdays = [
 	'Sunday',
 	'Monday',

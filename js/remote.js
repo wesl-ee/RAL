@@ -14,8 +14,17 @@ window.remote.timelines = function()
 window.remote.rendertopics = function(timeline, reader)
 {
 	var xhr = new XMLHttpRequest();
+	var t1 = performance.now();
 	xhr.onreadystatechange = function() {
-	if (this.readyState == 4) {
+	if (this.readyState == 2) {
+		var latency = document.getElementById('latency');
+		var t2 = performance.now();
+		latency.classList.remove('error');
+		latency.innerText = Math.round(t2 - t1) + "ms latency";
+	}
+	if (this.readyState == 4)
+	if (this.status == 200)
+	if (this.responseText) {
 		var topics = JSON.parse(this.responseText);
 		for (var i = topics.length - 1; i + 1; i--) {
 			var topic = topics[i];
@@ -49,7 +58,12 @@ window.remote.rendertopics = function(timeline, reader)
 			article.appendChild(content);
 
 			reader.appendChild(article);
-		}
+		} }
+		else {
+			window.render.connerror('Could not receive topics');
+			setTimeout(function() {
+				window.remote.rendertopics(timeline, reader);
+			}, 1000);
 	} }
 	var uri = '?fetch&timeline=' + timeline;
 	xhr.open('GET', '/courier.php' + uri);

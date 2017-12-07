@@ -39,10 +39,6 @@ body {
 	top: 0;
 	left: 0;
 	z-index: -1;
-	border-radius: 5px;
-
-	filter: blur(2px);
-	opacity: 0.9;
 }
 .sidebar {
 	position: absolute;
@@ -50,7 +46,7 @@ body {
 	top: 0;
 	left: 0;
 	transition: top 1s linear;
-	max-width: calc(20% - 20px);
+	max-width: calc(15% - 20px);
 }
 .sidebar .collection {
 	flex-direction: column;
@@ -375,14 +371,14 @@ clip: rect(38px, 9999px, 49px, 0);
 #sakura img {
 	display: none;
 }
-@media (min-aspect-ratio: 16/9) {
+@media (min-aspect-ratio: 4/3) {
 	#sakura video {
 		height: 300%;
 		top: -100%;
 	}
 }
 
-@media (max-aspect-ratio: 16/9) {
+@media (max-aspect-ratio: 4/3) {
 	#sakura video{
 		width: 300%;
 		left: -100%;

@@ -20,11 +20,18 @@ h1 {
 dl, ul, ol {
 	list-style-type: square;
 }
+#timelines,
+#reader {
+	color: black;
+}
 #timelines::before,
 #reader::before {
-	background: black;
+	background: white;
 }
 #reader.timeline .content:hover,
 #reader.expanded #title:hover {
 	color: #5ABFCF;
+}
+.error {
+	color: red;
 }
