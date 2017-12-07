@@ -28,9 +28,15 @@ window.transitions.timelineselect = function(evt)
 {
 	var button = evt.target;
 	var timeline = button.innerText;
-	document.getElementById('timelines').className = 'sidebar';
+	document.getElementById('timelines').classList.add('sidebar');
+	document.getElementById('timelines').classList.remove('frontcenter');
 
-	window.creation.reader(timeline);
+	var reader = document.getElementById('reader');
+	if (reader) {
+	}
+	else {
+		window.creation.reader(timeline);
+	}
 }
 /*
 * Handles next / previous page clicks
@@ -186,6 +192,17 @@ window.creation.timeline = function()
 		if (latency.className != 'error')
 			window.remote.updatelatency(latency);
 	}, 60000);
+	window.addEventListener('blur', function() {
+		window.removeEventListener(window.lagInterval);
+	});
+	window.addEventListener('focus', function() {
+		window.remote.updatelatency(latency);
+		window.lagInterval = setInterval(function() {
+		if (latency.className != 'error')
+			window.remote.updatelatency(latency);
+		}, 60000);
+
+	});
 	latency.id = 'latency';
 	collection.className = 'collection';
 	leftnav.innerText = '◀';

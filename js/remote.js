@@ -60,7 +60,7 @@ window.remote.rendertopics = function(timeline, reader)
 			reader.appendChild(article);
 		} }
 		else {
-			window.render.connerror('Could not receive topics');
+			window.render.connerror('Lost connection');
 			setTimeout(function() {
 				window.remote.rendertopics(timeline, reader);
 			}, 1000);
