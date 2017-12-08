@@ -104,7 +104,7 @@ body {
 .rightnav {
 	right: 0;
 }
-#reader {
+#rightpanel {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -117,7 +117,7 @@ body {
 	overflow-x: hidden;
 	transition: top 0.8s ease-in-out;
 }
-#reader main {
+#rightpanel main {
 	width: 100%;
 }
 /* Timeline view */
@@ -128,10 +128,10 @@ body {
 	overflow-x: hidden;
 	width: 100%;
 	height: calc(1em + 5px);
-	transition: width 0.8s ease-in-out,
-	height 0.8s ease-in 0.8s,
-	padding 0.8s ease-in 0.8s,
-	margin 0.8s ease-in 0.8s;
+	transition: width 0.2s ease-in-out,
+	height 0.2s ease-in 0.2s,
+	padding 0.2s ease-in 0.2s,
+	margin 0.2s ease-in 0.2s;
 }
 #reader .topic time,
 #reader .topic .num,

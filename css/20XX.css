@@ -21,7 +21,7 @@ dl, ul, ol {
 	list-style-type: square;
 }
 #timelines,
-#reader {
+#rightpanel {
 	color: black;
 }
 #timelines::before,

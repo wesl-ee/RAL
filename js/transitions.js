@@ -8,6 +8,7 @@ window.handlers.open = function(evt)
 	);
 	var article = evt.target.parentNode;
 	var topicnum = article.id;
+
 	console.log('Opening topic ' + topicnum);
 	window.transitions.open(topicnum);
 }
@@ -42,16 +43,18 @@ window.transitions.timelineselect = function(evt)
 window.transitions.timelinejump = function(timeline)
 {
 	var reader = document.getElementById('reader');
+	var rightpanel = document.getElementById('rightpanel');
 	var animationtime = 800;
-	reader.style.top = '100%';
+	rightpanel.style.top = '100%';
 
 	setTimeout(function() {
-		// Clear the reader
-		while (reader.firstChild) {
-			reader.removeChild(reader.firstChild);
+		var reader = document.createElement('main');
+		// Clear the rightpanel
+		while (rightpanel.firstChild) {
+			rightpanel.removeChild(rightpanel.firstChild);
 		}
 
-		// Fill out the reader with the new timeline
+		// Fill out the rightpanel with the new timeline
 		var h3 = document.createElement('h3');
 
 		reader.id = 'reader';
@@ -60,11 +63,16 @@ window.transitions.timelinejump = function(timeline)
 		h3.appendChild(
 			document.createTextNode(timeline)
 		);
-		reader.appendChild(h3);
+		rightpanel.appendChild(h3);
+		rightpanel.appendChild(reader);
 
-		// Initialize the reader with all topics
+		// Unsubscribe from the previous view
+		if (window.xhr) window.xhr.abort();
+
+		// Initialize the rightpanel with all topics
 		window.remote.rendertopics(timeline, reader);
-		reader.style.top = '0px';
+		window.remote.subscribetimeline(timeline, reader);
+		rightpanel.style.top = '0px';
 	}, animationtime);
 
 
@@ -155,8 +163,12 @@ window.transitions.newpage = function(collection, page)
 window.transitions.open = function(topicnum)
 {
 	var topic = document.getElementById(topicnum);
-	var offset = 0; var animationtime = 1600; var delay = 100;
+	var offset = 0; var animationtime = 400; var delay = 50;
+	var maxtime = 2000;
 	var topics = topic.parentNode.children;
+
+	// Unsubscribe from updates
+	if (window.xhr) window.xhr.abort();
 
 	/* Collapse all topics except for the one we're interested in */
 	for (var i = topics.length-1; i > 0; i--) {
@@ -171,16 +183,14 @@ window.transitions.open = function(topicnum)
 				}, animationtime, node);
 			}, offset, topics[i]);
 		}
-		offset += delay;
+		if (offset < maxtime) offset += delay;
 	}
-	// Fucking calculation is wrong -- close enough but it should be tighter
-	// How long do all the delays and animations take?
-	offset = delay * (topics.length - 1) + animationtime;
 	/* Bring the topic to the top */
+	if (offset > maxtime) offset = maxtime;
+	else offset = delay * (topics.length - 1) + animationtime;
 	setTimeout(function(node) {
 		node.parentNode.className = 'expanded';
 	}, offset, topics[i]);
-	offset += delay;
 }
 
 /* CREATION / DESTRUCTION */
@@ -267,25 +277,29 @@ window.creation.timeline = function()
 }
 window.creation.reader = function(name)
 {
-	var reader = document.createElement('div');
+	var rightpanel = document.createElement('div');
 	var h3 = document.createElement('h3');
+	var reader = document.createElement('main');
 
 
+	rightpanel.id = 'rightpanel';
 	reader.id = 'reader';
 	reader.className = 'timeline';
 	h3.id = 'title';
 	h3.appendChild(
 		document.createTextNode(name)
 	);
-	reader.appendChild(h3);
+	rightpanel.appendChild(h3);
+	rightpanel.appendChild(reader);
 
 	// Initialize the timeline with all topics
 	window.remote.rendertopics(name, reader);
+	window.remote.subscribetimeline(name, reader);
 
-	reader.style.top = '100%';
-	document.body.appendChild(reader);
+	rightpanel.style.top = '100%';
+	document.body.appendChild(rightpanel);
 	setTimeout(function() {
-		reader.style.top = '0px';
+		rightpanel.style.top = '0px';
 	}, 100);
 }
 window.creation.welcome = function()
@@ -358,6 +372,37 @@ window.render.connerror = function(message, reload) {
 			lag.removeEventListener('click', this);
 		});
 	}
+}
+window.render.newtopic = function(reader, topic) {
+	var article = document.createElement('article');
+	var updated = document.createElement('time');
+	var num = document.createElement('span');
+	var content = document.createElement('content');
+
+	// Date formatting
+	var time = new Date(topic.modified);
+	updated.innerText = (time.getMonth() + 1)
+	+ '/' + time.getDate()
+	+ ' ' + time.getHours()
+	+ ':' + time.getMinutes();
+
+	article.className = 'topic';
+	article.id = topic.id;
+	updated.dateTime = topic.modified;
+	num.innerText = 'No. ' + topic.id;
+	num.className = 'num';
+	content.innerText = topic.content;
+	content.className = 'content';
+
+	content.addEventListener('click',
+		window.handlers.open, this
+	);
+
+	article.appendChild(updated);
+	article.appendChild(num);
+	article.appendChild(content);
+
+	reader.insertBefore(article, reader.childNodes[0]);
 }
 
 var weekdays = [

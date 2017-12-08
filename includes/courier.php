@@ -8,7 +8,7 @@ function fetch_topics($timeline)
 	mysqli_set_charset($dbh, 'utf8');
 	$timeline = mysqli_real_escape_string($dbh, $timeline);
 	$query = "SELECT `Id`, `Owner`, `Content`, MAX(Modified) AS `Modified` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Modified`) ASC";
+	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Modified`) DESC";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {

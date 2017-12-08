@@ -26,38 +26,10 @@ window.remote.rendertopics = function(timeline, reader)
 	if (this.status == 200)
 	if (this.responseText) {
 		var topics = JSON.parse(this.responseText);
-		for (var i = topics.length - 1; i + 1; i--) {
+		for (var i = 0; i - topics.length; i++) {
 			var topic = topics[i];
 			console.log(JSON.stringify(topic));
-			var article = document.createElement('article');
-			var updated = document.createElement('time');
-			var num = document.createElement('span');
-			var content = document.createElement('content');
-
-			// Date formatting
-			var time = new Date(topic.modified);
-			updated.innerText = (time.getMonth() + 1)
-			+ '/' + time.getDate()
-			+ ' ' + time.getHours()
-			+ ':' + time.getMinutes();
-
-			article.className = 'topic';
-			article.id = topic.id;
-			updated.dateTime = topic.modified;
-			num.innerText = 'No. ' + topic.id;
-			num.className = 'num';
-			content.innerText = topic.content;
-			content.className = 'content';
-
-			content.addEventListener('click',
-				window.handlers.open, this
-			);
-
-			article.appendChild(updated);
-			article.appendChild(num);
-			article.appendChild(content);
-
-			reader.appendChild(article);
+			window.render.newtopic(reader, topic);
 		} }
 		else {
 			var errors = ++window.render.connerror.errors;
@@ -87,4 +59,69 @@ window.remote.updatelatency = function(display)
 	}
 	xhr.open('GET', '/');
 	xhr.send();
+}
+window.remote.subscribetopic = function(timelinename, topicnum)
+{
+	window.xhr = new XMLHttpRequest();
+	// i holds the length of the last response
+	var i = 0;
+
+	// Long polling set-up
+	window.xhr.timeout = 60000;
+	window.xhr.ontimeout = function() {
+		window.remote.subscribetopic(timelinename, topicnum);
+	}
+
+	window.xhr.onreadystatechange = function() {
+	if (this.readyState == 3) {
+		// Read the most recent topic
+		var newtopic = JSON.parse(this.responseText.substring(i));
+		i = this.responseText.length;
+
+		// For sanity
+		console.log(newtopic);
+
+		//For valor
+		var reader = document.getElementById('reader');
+	}
+	if (this.readyState == 4) {
+		window.remote.subscribetopic(timelinename, topicnum);
+	} }
+
+	var uri = '?subscribe&timeline=' + timelinename + '&topic=' + topicnum;
+	window.xhr.open('GET', '/courier.php' + uri);
+	window.xhr.send();
+}
+window.remote.subscribetimeline = function(timelinename, reader)
+{
+	window.xhr = new XMLHttpRequest();
+	// i holds the length of the last response
+	var i = 0;
+
+	// Long polling set-up
+	window.xhr.timeout = 60000;
+	window.xhr.ontimeout = function() {
+		window.remote.subscribetimeline(timelinename, reader);
+	}
+
+	window.xhr.onreadystatechange = function() {
+	if (this.readyState == 3) {
+		// Read the most recent topic
+		var newtopic = JSON.parse(this.responseText.substring(i));
+		i = this.responseText.length;
+
+		// For sanity
+		console.log(newtopic);
+
+		// For Vorkuta
+		window.render.newtopic(reader, newtopic);
+	}
+	if (this.readyState == 4) {
+		console.log('Unsubscribed from ' + timelinename);
+//		window.remote.subscribetopic(timelinename, topicnum);
+	} }
+
+	var uri = '?subscribe&timeline=' + timelinename;
+	window.xhr.open('GET', '/courier.php' + uri);
+	window.xhr.send();
 }
