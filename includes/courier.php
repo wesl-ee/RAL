@@ -10,6 +10,7 @@ function fetch_topics($timeline)
 	$query = "SELECT `Id`, `Owner`, `Content`, MAX(Modified) AS `Modified` FROM `Posts`"
 	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Modified`) ASC";
 	$res = mysqli_query($dbh, $query);
+	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'id' => $row['Id'],

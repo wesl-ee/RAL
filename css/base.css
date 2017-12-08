@@ -46,7 +46,14 @@ body {
 	top: 0;
 	left: 0;
 	transition: top 1s linear;
-	width: calc(15% - 20px);
+	width: 100px;
+	max-width: calc(20% - 20px);
+	text-align: justify;
+}
+.sidebar #latency {
+	width: 100%;
+	text-wrap: break-word;
+	text-align: justify;
 }
 .sidebar .collection {
 	flex-direction: column;

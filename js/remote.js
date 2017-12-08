@@ -60,10 +60,15 @@ window.remote.rendertopics = function(timeline, reader)
 			reader.appendChild(article);
 		} }
 		else {
-			window.render.connerror('Lost connection');
-			setTimeout(function() {
-				window.remote.rendertopics(timeline, reader);
-			}, 1000);
+			var errors = ++window.render.connerror.errors;
+			if (errors > 5) {
+				window.render.connerror('Lost connection');
+			} else {
+				window.render.connerror('Out of sync');
+				setTimeout(function() {
+					window.remote.rendertopics(timeline, reader);
+				}, 1000);
+			}
 	} }
 	var uri = '?fetch&timeline=' + timeline;
 	xhr.open('GET', '/courier.php' + uri);

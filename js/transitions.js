@@ -262,6 +262,7 @@ window.creation.timeline = function()
 	leftnav.addEventListener('click', window.transitions.newpageclick);
 	rightnav.addEventListener('click', window.transitions.newpageclick);
 
+	// Start us off on the first page timelines
 	window.transitions.newpage(collection, 0);
 }
 window.creation.reader = function(name)
@@ -281,7 +282,11 @@ window.creation.reader = function(name)
 	// Initialize the timeline with all topics
 	window.remote.rendertopics(name, reader);
 
+	reader.style.top = '100%';
 	document.body.appendChild(reader);
+	setTimeout(function() {
+		reader.style.top = '0px';
+	}, 100);
 }
 window.creation.welcome = function()
 {
@@ -341,10 +346,18 @@ window.destruction.welcome = function(welcome)
 }
 
 window.render = [];
-window.render.connerror = function(message) {
+window.render.connerror = function(message, reload) {
 	var lag = document.getElementById('latency');
 	lag.className = 'error';
 	lag.innerText = message;
+
+	if (typeof reload != 'null') {
+		lag.className = 'fatalerror';
+		lag.addEventListener('click', function() {
+			// Page reloading stuff here
+			lag.removeEventListener('click', this);
+		});
+	}
 }
 
 var weekdays = [
