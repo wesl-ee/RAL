@@ -9,7 +9,7 @@
 </head>
 <body class='preload'>
 <div id=welcome>
-	<h1>Welcome to<br/><span id=xxx></span></h1>
+	<h1>Welcome to<br/><span id=xxx>RAL</span></h1>
 	<div class=choicebox>
 		<a onClick='window.destruction.welcome(
 			document.getElementById("welcome")

@@ -7,6 +7,11 @@ if (isset($_GET['fetch'])) {
 	$topic = $_GET['topic'];
 
 	if (isset($timeline, $topic)) {
+		print json_encode([[
+			'id' => 0,
+			'modified' => '2017-12-07 01:13:24',
+			'content' => "Hello from $timeline topic $topic 【 =◈︿◈= 】"
+		]]);
 	}
 	else if (isset($timeline)) {
 		$topics = fetch_topics($timeline);
@@ -30,11 +35,11 @@ if (isset($_GET['subscribe'])) {
 	}
 	else if (isset($timeline)) {
 		while (!sleep(1)) {
-		print json_encode([
+/*		print json_encode([
 			'id' => 0,
 			'modified' => '2017-12-07 01:13:24',
 			'content' => "Hello from $timeline 【 =◈︿◈= 】"
-		]);
+		]);*/
 			flush();
 		}
 	}

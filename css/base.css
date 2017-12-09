@@ -2,14 +2,12 @@ body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100%;
-	margin-left: 0;
-	margin-right: 0;
+	 width: 100%;
+	margin: 0;
 
 	/* URL status bar gets in the way otherwise */
 /*	height: calc(100% - 25px);
 	margin-bottom: 25px;*/
-	margin-bottom: 0;
 	height: 100%;
 }
 #welcome,
@@ -30,7 +28,7 @@ body {
 	top 0.8s ease-in,
 	opacity 0.3s ease-in;
 }
-#timelines::before,
+/*#timelines::before,
 #reader::before {
 	position: absolute;
 	content: " ";
@@ -39,7 +37,7 @@ body {
 	top: 0;
 	left: 0;
 	z-index: -1;
-}
+}*/
 .sidebar {
 	position: absolute;
 	margin: 20px;
@@ -112,38 +110,36 @@ body {
 	margin-left: 40px;
 	padding: 20px;
 	width: calc(80% - 100px);
-	max-height: calc(100% - 40px);
+	max-height: calc(100% - 80px);
 	overflow-y: auto;
-	overflow-x: hidden;
 	transition: top 0.8s ease-in-out;
 }
-#rightpanel main {
+#reader {
 	width: 100%;
 }
 /* Timeline view */
-#reader .topic {
+#reader article {
 	display: flex;
 	flex-direction: row-reverse;
 	margin-bottom: 5px;
 	overflow-x: hidden;
 	width: 100%;
-	height: calc(1em + 5px);
 	transition: width 0.2s ease-in-out,
 	height 0.2s ease-in 0.2s,
 	padding 0.2s ease-in 0.2s,
 	margin 0.2s ease-in 0.2s;
 }
-#reader .topic time,
-#reader .topic .num,
-#reader .topic .content {
+#reader article time,
+#reader article .num,
+#reader article .content {
 	white-space: nowrap;
 }
-#reader .topic time,
-#reader .topic .num {
+#reader article time,
+#reader article .num {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-#reader .topic .content {
+#reader article .content {
 	border-right-width: 1px;
 	border-right-style: solid;
 	padding-right: 10px;
@@ -153,43 +149,19 @@ body {
 	cursor: pointer;
 	transition: height 0.8s ease-in-out;
 }
-#reader.expanded .topic {
+#reader.expanded article {
 	overflow: visible;
 	height: initial;
 }
-#reader.expanded .topic .content {
+#reader.expanded article .content {
 	white-space: initial;
 	text-align: justify;
 	justify-align-last: right;
 	cursor: default;
 }
-#reader.expanded #title {
+#title {
 	display: inline-block;
 }
-#reader.expanded #title {
-	cursor: pointer;
-}
-/* Expanded topic (thread view) */
-/*#reader.expanded .topic {
-	padding: 5px;
-	border-collapse: collapse;
-
-	border-width: 1px;
-	border-style: solid;
-}
-#reader.expanded .topic header > * {
-	padding-left: 5px;
-}
-#reader.expanded .topic header {
-	display: flex;
-	flex-flow: row;
-	justify-content: flex-end;
-	
-}
-#reader.expanded topic blockquote {
-	text-align: justify;
-	text-align-last: left;
-}*/
 @keyframes glitch-animation {
 0% {
 clip: rect(42px, 9999px, 44px, 0);

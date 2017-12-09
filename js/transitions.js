@@ -6,11 +6,13 @@ window.handlers.open = function(evt)
 	document.getElementById('title').addEventListener('click',
 		window.handlers.close
 	);
+	var reader = document.getElementById('reader');
 	var article = evt.target.parentNode;
 	var topicnum = article.id;
+	var timeline = reader.getAttribute('data-timeline');
 
-	console.log('Opening topic ' + topicnum);
-	window.transitions.open(topicnum);
+	console.log('Opening topic ' + topicnum + ' at ' + timeline);
+	window.transitions.open(timeline, topicnum);
 }
 window.handlers.close = function(evt)
 {
@@ -29,8 +31,8 @@ window.transitions.timelineselect = function(evt)
 {
 	var button = evt.target;
 	var timeline = button.innerText;
-
 	var reader = document.getElementById('reader');
+
 	if (!reader) {
 		document.getElementById('timelines').classList.add('sidebar');
 		document.getElementById('timelines').classList.remove('frontcenter');
@@ -44,8 +46,10 @@ window.transitions.timelinejump = function(timeline)
 {
 	var reader = document.getElementById('reader');
 	var rightpanel = document.getElementById('rightpanel');
+
 	var animationtime = 800;
 	rightpanel.style.top = '100%';
+
 
 	setTimeout(function() {
 		var reader = document.createElement('main');
@@ -65,6 +69,8 @@ window.transitions.timelinejump = function(timeline)
 		);
 		rightpanel.appendChild(h3);
 		rightpanel.appendChild(reader);
+
+		reader.setAttribute('data-timeline', timeline);
 
 		// Unsubscribe from the previous view
 		if (window.xhr) window.xhr.abort();
@@ -160,7 +166,7 @@ window.transitions.newpage = function(collection, page)
 		rightnav.style.visibility = 'visible';
 	}
 }
-window.transitions.open = function(topicnum)
+window.transitions.open = function(timeline, topicnum)
 {
 	var topic = document.getElementById(topicnum);
 	var offset = 0; var animationtime = 400; var delay = 50;
@@ -175,7 +181,6 @@ window.transitions.open = function(topicnum)
 		if (topics[i] != topic) {
 			setTimeout(function(node) {
 				node.style.width = '0';
-				node.style.height = '0';
 				node.style.padding = '0';
 				node.style.margin = '0';
 				setTimeout(function(node) {
@@ -189,7 +194,10 @@ window.transitions.open = function(topicnum)
 	if (offset > maxtime) offset = maxtime;
 	else offset = delay * (topics.length - 1) + animationtime;
 	setTimeout(function(node) {
+		var title = document.getElementById('title');
+		title.innerText = timeline + ' Topic No. ' + topicnum ;
 		node.parentNode.className = 'expanded';
+		window.remote.renderposts(timeline, topicnum, reader);
 	}, offset, topics[i]);
 }
 
@@ -215,7 +223,8 @@ window.creation.sakura = function()
 window.creation.timeline = function()
 {
 	var timelines = document.createElement('div');
-	var header = document.createElement('h3');
+	var title = document.createElement('h3');
+	var header = document.createElement('header');
 	var latency = document.createElement('span');
 	var collection = document.createElement('div');
 	var nav = document.createElement('nav');
@@ -225,9 +234,10 @@ window.creation.timeline = function()
 
 	timelines.className = 'frontcenter';
 	timelines.id = 'timelines';
-	header.appendChild(
+	title.appendChild(
 		document.createTextNode('RAL')
 	);
+	header.appendChild(title);
 	window.remote.updatelatency(latency);
 	window.lagInterval = setInterval(function() {
 		if (latency.className != 'error')
@@ -281,7 +291,6 @@ window.creation.reader = function(name)
 	var h3 = document.createElement('h3');
 	var reader = document.createElement('main');
 
-
 	rightpanel.id = 'rightpanel';
 	reader.id = 'reader';
 	reader.className = 'timeline';
@@ -291,6 +300,7 @@ window.creation.reader = function(name)
 	);
 	rightpanel.appendChild(h3);
 	rightpanel.appendChild(reader);
+	reader.setAttribute('data-timeline', name);
 
 	// Initialize the timeline with all topics
 	window.remote.rendertopics(name, reader);
@@ -404,14 +414,34 @@ window.render.newtopic = function(reader, topic) {
 
 	reader.insertBefore(article, reader.childNodes[0]);
 }
+window.render.newpost = function(reader, post) {
+	var article = document.createElement('article');
+	var updated = document.createElement('time');
+	var num = document.createElement('span');
+	var content = document.createElement('content');
 
-var weekdays = [
-	'Sunday',
-	'Monday',
-	'Tuesday',
-	'Wednesday',
-	'Thursday',
-	'Friday',
-	'Saturday',
-	'Sunday'
-];
+	// Date formatting
+	var time = new Date(post.modified);
+	updated.innerText = (time.getMonth() + 1)
+	+ '/' + time.getDate()
+	+ ' ' + time.getHours()
+	+ ':' + time.getMinutes();
+
+	article.className = 'post';
+	article.id = post.id;
+	updated.dateTime = post.modified;
+	num.innerText = 'No. ' + post.id;
+	num.className = 'num';
+	content.innerText = post.content;
+	content.className = 'content';
+
+	num.addEventListener('click', function() {
+		alert('Replies not available yet!');
+	});
+
+	article.appendChild(updated);
+	article.appendChild(num);
+	article.appendChild(content);
+
+	reader.appendChild(article);
+}

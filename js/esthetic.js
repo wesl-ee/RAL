@@ -25,6 +25,5 @@ function flashmessages(e) {
 		e.innerText = txt;
 		e.setAttribute('data-text', txt);
 	}
-	writer();
 	window.textinterval = setInterval(writer, speed);
 }

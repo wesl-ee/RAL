@@ -24,8 +24,8 @@ dl, ul, ol {
 #rightpanel {
 	color: black;
 }
-#timelines::before,
-#reader::before {
+#timelines,
+#rightpanel {
 	background: white;
 }
 #reader.timeline .content:hover,

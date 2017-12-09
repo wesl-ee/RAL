@@ -46,6 +46,42 @@ window.remote.rendertopics = function(timeline, reader)
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
 }
+window.remote.renderposts = function(timeline, topic, reader)
+{
+	var xhr = new XMLHttpRequest();
+	var t1 = performance.now();
+	xhr.onreadystatechange = function() {
+	if (this.readyState == 2) {
+		var latency = document.getElementById('latency');
+		var t2 = performance.now();
+		latency.classList.remove('error');
+		latency.innerText = Math.round(t2 - t1) + "ms latency";
+	}
+	if (this.readyState == 4)
+	if (this.status == 200)
+	if (this.responseText) {
+		var posts = JSON.parse(this.responseText);
+		console.log(posts);
+		for (var i = 0; i - posts.length; i++) {
+			var post = posts[i];
+			console.log(JSON.stringify(post));
+			window.render.newpost(reader, post);
+		} }
+		else {
+			var errors = ++window.render.connerror.errors;
+			if (errors > 5) {
+				window.render.connerror('Lost connection');
+			} else {
+				window.render.connerror('Out of sync');
+				setTimeout(function() {
+					window.remote.renderposts(timeline, topic, reader);
+				}, 1000);
+			}
+	} }
+	var uri = '?fetch&timeline=' + timeline + '&topic=' + topic;
+	xhr.open('GET', '/courier.php' + uri);
+	xhr.send();
+}
 window.remote.updatelatency = function(display)
 {
 	var t1 = performance.now();
@@ -101,6 +137,7 @@ window.remote.subscribetimeline = function(timelinename, reader)
 	// Long polling set-up
 	window.xhr.timeout = 60000;
 	window.xhr.ontimeout = function() {
+		console.log('No response in some time; renewing XHR connection');
 		window.remote.subscribetimeline(timelinename, reader);
 	}
 
@@ -118,7 +155,6 @@ window.remote.subscribetimeline = function(timelinename, reader)
 	}
 	if (this.readyState == 4) {
 		console.log('Unsubscribed from ' + timelinename);
-//		window.remote.subscribetopic(timelinename, topicnum);
 	} }
 
 	var uri = '?subscribe&timeline=' + timelinename;
