@@ -2,10 +2,7 @@ window.handlers = [];
 window.handlers.opentopic = function(evt)
 {
 	// Clicking twice doesn't make it load faster!
-	evt.target.removeEventListener('click', window.handlers.open);
-	document.getElementById('title').addEventListener('click',
-		window.handlers.close
-	);
+	evt.target.removeEventListener('click', window.handlers.opentopic);
 	var reader = document.getElementById('reader');
 	var article = evt.target.parentNode;
 	var topicnum = article.id;
@@ -170,7 +167,7 @@ window.transitions.newpage = function(collection, page)
 window.transitions.opentopic = function(timeline, topicnum)
 {
 	var topic = document.getElementById(topicnum);
-	var offset = 0; var animationtime = 400; var delay = 50;
+	var offset = 0; var animationtime = 800; var delay = 0;
 	var maxtime = 2000;
 	var topics = topic.parentNode.children;
 
