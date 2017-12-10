@@ -178,7 +178,7 @@ window.transitions.opentopic = function(timeline, topicnum)
 	if (window.xhr) window.xhr.abort();
 
 	/* Collapse all topics except for the one we're interested in */
-	for (var i = topics.length-1; i > 0; i--) {
+	for (var i = topics.length-1; i+1; i--) {
 		if (topics[i] != topic) {
 			setTimeout(function(node) {
 				node.style.width = '0';
