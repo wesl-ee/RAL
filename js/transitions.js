@@ -422,6 +422,16 @@ window.render.newtopic = function(reader, topic) {
 	article.appendChild(num);
 	article.appendChild(content);
 
+	// Animation
+	if (!document.hasFocus()) {
+		article.classList.add('new');
+		window.addEventListener('focus', function() {
+			setTimeout(function() {
+				article.classList.remove('new');
+			}, 2000);
+		});
+	}
+
 	reader.insertBefore(article, reader.childNodes[0]);
 }
 window.render.newpost = function(reader, post) {
