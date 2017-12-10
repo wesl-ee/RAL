@@ -1,5 +1,5 @@
 window.handlers = [];
-window.handlers.open = function(evt)
+window.handlers.opentopic = function(evt)
 {
 	// Clicking twice doesn't make it load faster!
 	evt.target.removeEventListener('click', window.handlers.open);
@@ -12,7 +12,7 @@ window.handlers.open = function(evt)
 	var timeline = reader.getAttribute('data-timeline');
 
 	console.log('Opening topic ' + topicnum + ' at ' + timeline);
-	window.transitions.open(timeline, topicnum);
+	window.transitions.opentopic(timeline, topicnum);
 }
 window.handlers.close = function(evt)
 {
@@ -50,7 +50,6 @@ window.transitions.timelinejump = function(timeline)
 	var animationtime = 800;
 	rightpanel.style.top = '100%';
 
-
 	setTimeout(function() {
 		var reader = document.createElement('main');
 		// Clear the rightpanel
@@ -59,6 +58,7 @@ window.transitions.timelinejump = function(timeline)
 		}
 
 		// Fill out the rightpanel with the new timeline
+		var header = document.createElement('header');
 		var h3 = document.createElement('h3');
 
 		reader.id = 'reader';
@@ -67,7 +67,8 @@ window.transitions.timelinejump = function(timeline)
 		h3.appendChild(
 			document.createTextNode(timeline)
 		);
-		rightpanel.appendChild(h3);
+		header.appendChild(h3);
+		rightpanel.appendChild(header);
 		rightpanel.appendChild(reader);
 
 		reader.setAttribute('data-timeline', timeline);
@@ -166,7 +167,7 @@ window.transitions.newpage = function(collection, page)
 		rightnav.style.visibility = 'visible';
 	}
 }
-window.transitions.open = function(timeline, topicnum)
+window.transitions.opentopic = function(timeline, topicnum)
 {
 	var topic = document.getElementById(topicnum);
 	var offset = 0; var animationtime = 400; var delay = 50;
@@ -193,12 +194,21 @@ window.transitions.open = function(timeline, topicnum)
 	/* Bring the topic to the top */
 	if (offset > maxtime) offset = maxtime;
 	else offset = delay * (topics.length - 1) + animationtime;
-	setTimeout(function(node) {
+	setTimeout(function() {
+		var header = reader.parentNode.getElementsByTagName('header')[0];
 		var title = document.getElementById('title');
-		title.innerText = timeline + ' Topic No. ' + topicnum ;
-		node.parentNode.className = 'expanded';
+		var backbutton = document.createElement('a');
+		var subtitle = document.createElement('h3');
+		subtitle.innerText = ' Topic No. ' + topicnum ;
+		backbutton.innerText = '←';
+		backbutton.addEventListener('click', function() {
+			window.transitions.timelinejump(timeline);
+		});
+		header.insertBefore(backbutton, title);
+		header.appendChild(subtitle);
+		reader.className = 'expanded';
 		window.remote.renderposts(timeline, topicnum, reader);
-	}, offset, topics[i]);
+	}, offset);
 }
 
 /* CREATION / DESTRUCTION */
@@ -224,7 +234,6 @@ window.creation.timeline = function()
 {
 	var timelines = document.createElement('div');
 	var title = document.createElement('h3');
-	var header = document.createElement('header');
 	var latency = document.createElement('span');
 	var collection = document.createElement('div');
 	var nav = document.createElement('nav');
@@ -237,7 +246,6 @@ window.creation.timeline = function()
 	title.appendChild(
 		document.createTextNode('RAL')
 	);
-	header.appendChild(title);
 	window.remote.updatelatency(latency);
 	window.lagInterval = setInterval(function() {
 		if (latency.className != 'error')
@@ -262,7 +270,7 @@ window.creation.timeline = function()
 	nav.appendChild(leftnav);
 	nav.appendChild(rightnav);
 
-	timelines.appendChild(header);
+	timelines.appendChild(title);
 	timelines.appendChild(latency);
 	timelines.appendChild(collection);
 	timelines.appendChild(nav);
@@ -288,6 +296,7 @@ window.creation.timeline = function()
 window.creation.reader = function(name)
 {
 	var rightpanel = document.createElement('div');
+	var header = document.createElement('header');
 	var h3 = document.createElement('h3');
 	var reader = document.createElement('main');
 
@@ -298,7 +307,8 @@ window.creation.reader = function(name)
 	h3.appendChild(
 		document.createTextNode(name)
 	);
-	rightpanel.appendChild(h3);
+	header.appendChild(h3);
+	rightpanel.appendChild(header);
 	rightpanel.appendChild(reader);
 	reader.setAttribute('data-timeline', name);
 
@@ -405,7 +415,7 @@ window.render.newtopic = function(reader, topic) {
 	content.className = 'content';
 
 	content.addEventListener('click',
-		window.handlers.open, this
+		window.handlers.opentopic, this
 	);
 
 	article.appendChild(updated);
@@ -443,5 +453,10 @@ window.render.newpost = function(reader, post) {
 	article.appendChild(num);
 	article.appendChild(content);
 
+	// Animation
+	article.style.height = '0';
+	setTimeout(function() {
+		article.style.height = '';
+	}, 100);
 	reader.appendChild(article);
 }
