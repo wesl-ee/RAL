@@ -129,6 +129,9 @@ body {
 #rightpanel footer {
 	text-align: right;
 }
+header {
+	vertical-align: bottom;
+}
 header > * {
 	padding-right: 5px;
 	display: inline-block;
@@ -159,7 +162,7 @@ header > * {
 	margin-right: 5px;
 }
 #reader article .content {
-	border-right-width: 1px;
+	border-right-width: 2px;
 	border-right-style: solid;
 	padding-right: 10px;
 	overflow: hidden;
@@ -167,6 +170,9 @@ header > * {
 	text-align: justify;
 	cursor: pointer;
 	transition: height 0.8s ease-in-out;
+}
+#reader article .content.open {
+	border-right-color: red;
 }
 #reader.expanded article {
 /*	overflow: visible;*/
@@ -181,17 +187,17 @@ header > * {
 #reader.expanded .num:hover {
 	cursor: pointer;
 }
-#precommit {
+.precommit {
 	cursor: text;
 	background-color: yellow;
 	display: inline-block;
 	min-height: 1em;
 	min-width: 10px;
 }
-#postcommit {
+.postcommit {
 	background-color: red;
 }
-#precommit, #postcommit {
+.precommit, .postcommit {
 	white-space: pre;
 }
 #title {

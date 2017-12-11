@@ -48,7 +48,7 @@ function fetch_posts($timeline, $topic)
 	mysqli_set_charset($dbh, 'utf8');
 	$timeline = mysqli_real_escape_string($dbh, $timeline);
 	$topic = mysqli_real_escape_string($dbh, $topic);
-	$query = "SELECT `Id`, `Owner`, `Content`, Modified AS `Modified` FROM `Posts`"
+	$query = "SELECT `Id`, `Auth`, `Open`, `Content`, `Modified` FROM `Posts`"
 	. " WHERE `Timeline`='$timeline' AND `Topic`=$topic AND (Id!=$topic)";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
@@ -56,7 +56,9 @@ function fetch_posts($timeline, $topic)
 		$ret[] = [
 			'id' => $row['Id'],
 			'modified' => $row['Modified'],
-			'content' => $row['Content']
+			'content' => $row['Content'],
+			'open' => $row['Open'] == 1,
+			'mine' => ($_COOKIE['auth'] == $row['Auth'])
 		];
 	}
 	return $ret;

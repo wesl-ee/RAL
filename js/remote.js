@@ -98,10 +98,14 @@ window.remote.renderposts = function(timeline, topic, reader)
 		for (var i = 0; i - posts.length; i++) {
 			var post = posts[i];
 			console.log(JSON.stringify(post));
-			window.render.newpost(reader, post);
+			if (post.mine && post.open) {
+				window.creation.replybox(reader, post);
+			}
+			else
+				window.render.newpost(reader, post);
 		}
 	}
-	else {
+/*	else {
 		var errors = ++window.render.connerror.errors;
 		if (errors > 5) {
 			window.render.connerror('Lost connection');
@@ -111,7 +115,7 @@ window.remote.renderposts = function(timeline, topic, reader)
 				window.remote.renderposts(timeline, topic, reader);
 			}, 1000);
 		}
-	} }
+	}*/ }
 	var uri = '?fetch&timeline=' + timeline + '&topic=' + topic;
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
@@ -133,7 +137,7 @@ window.remote.updatelatency = function(display)
 	xhr.open('GET', '/');
 	xhr.send();
 }
-window.remote.subscribetopic = function(timelinename, topicnum)
+window.remote.subscribetopic = function(timelinename, topicnum, reader)
 {
 	window.xhr = new XMLHttpRequest();
 	// i holds the length of the last response
@@ -154,11 +158,10 @@ window.remote.subscribetopic = function(timelinename, topicnum)
 		// For sanity
 		console.log(newtopic);
 
-		//For valor
 		var reader = document.getElementById('reader');
 	}
 	if (this.readyState == 4) {
-		window.remote.subscribetopic(timelinename, topicnum);
+		window.remote.subscribetopic(timelinename, topicnum, reader);
 	} }
 
 	var uri = '?subscribe&timeline=' + timelinename + '&topic=' + topicnum;
@@ -197,4 +200,30 @@ window.remote.subscribetimeline = function(timelinename, reader)
 	var uri = '?subscribe&timeline=' + timelinename;
 	window.xhr.open('GET', '/courier.php' + uri);
 	window.xhr.send();
+}
+window.remote.appendpost = function(timeline, topic, content)
+{
+	var xhr = new XMLHttpRequest();
+	var t1;
+
+	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
+	if (this.readyState == 2) {
+		var latency = document.getElementById('latency');
+		var t2 = performance.now();
+		latency.classList.remove('error');
+		latency.innerText = Math.round(t2 - t1) + "ms latency";
+	}
+	if (this.readyState == 4)
+	if (this.status == 200)
+	if (this.responseText) {
+		var post = JSON.parse(this.responseText);
+		console.log(post);
+	} }
+	var uri = '?post&timeline=' + timeline + '&topic=' + topic;
+	xhr.open('POST', '/courier.php' + uri);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send('content='+content);
 }

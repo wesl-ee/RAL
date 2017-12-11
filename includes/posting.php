@@ -80,7 +80,7 @@ function append_post($timeline, $topic, $auth, $content)
 			ralog($err);
 			return false;
 		}
-		ralog("Created Post in $topic@$timeline");
+		ralog("Created Post");
 	}
 	else {
 		$row = mysqli_fetch_assoc($res);
@@ -103,6 +103,7 @@ function append_post($timeline, $topic, $auth, $content)
 	$id = $row['Id'];
 	$content = bbbbbbb($row['Content']);
 	$created = $row['Created'];
+
 	return [
 		'id' => $id,
 		'content' => $content,
