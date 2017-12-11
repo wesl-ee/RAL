@@ -117,6 +117,7 @@ body {
 	width: calc(80% - 102px);
 	max-height: calc(100% - 80px);
 	overflow-y: auto;
+	overflow-x: hidden;
 	transition: right 0.8s ease-in-out;
 }
 header > * {

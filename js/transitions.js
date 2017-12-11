@@ -169,7 +169,7 @@ window.transitions.opentopic = function(timeline, topicnum)
 	for (var i = topics.length-1; i+1; i--) {
 		if (topics[i] != topic) {
 			setTimeout(function(node) {
-				node.style.width = '0';
+				node.style.width = '200%';
 				node.style.padding = '0';
 				node.style.margin = '0';
 				setTimeout(function(node) {
