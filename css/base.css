@@ -70,7 +70,8 @@ body {
 	justify-content: center;
 	margin: 10px;
 }
-#timelines .collection > a {
+#timelines .collection > a,
+.minorbox {
 	margin: 7px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -79,7 +80,8 @@ body {
 	border-style: solid;
 	cursor: pointer;
 }
-#timelines .collection > a:hover {
+#timelines .collection > a:hover,
+.minorbox:hover {
 	box-shadow: -3px 3px 10px;
 }
 #timelinenav {
@@ -119,6 +121,13 @@ body {
 	overflow-y: auto;
 	overflow-x: hidden;
 	transition: right 0.8s ease-in-out;
+}
+#rightpanel > * {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#rightpanel footer {
+	text-align: right;
 }
 header > * {
 	padding-right: 5px;
@@ -168,6 +177,9 @@ header > * {
 	text-align: justify;
 	text-align-last: right;
 	cursor: default;
+}
+#reader.expanded .num:hover {
+	cursor: pointer;
 }
 #precommit {
 	cursor: text;

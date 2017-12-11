@@ -99,17 +99,18 @@ window.remote.renderposts = function(timeline, topic, reader)
 			var post = posts[i];
 			console.log(JSON.stringify(post));
 			window.render.newpost(reader, post);
-		} }
-		else {
-			var errors = ++window.render.connerror.errors;
-			if (errors > 5) {
-				window.render.connerror('Lost connection');
-			} else {
-				window.render.connerror('Out of sync');
-				setTimeout(function() {
-					window.remote.renderposts(timeline, topic, reader);
-				}, 1000);
-			}
+		}
+	}
+	else {
+		var errors = ++window.render.connerror.errors;
+		if (errors > 5) {
+			window.render.connerror('Lost connection');
+		} else {
+			window.render.connerror('Out of sync');
+			setTimeout(function() {
+				window.remote.renderposts(timeline, topic, reader);
+			}, 1000);
+		}
 	} }
 	var uri = '?fetch&timeline=' + timeline + '&topic=' + topic;
 	xhr.open('GET', '/courier.php' + uri);

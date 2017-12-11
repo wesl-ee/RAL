@@ -57,6 +57,7 @@ window.transitions.timelinejump = function(timeline)
 		// Fill out the rightpanel with the new timeline
 		var header = document.createElement('header');
 		var h3 = document.createElement('h3');
+		var footer = document.createElement('footer');
 
 		reader.id = 'reader';
 		reader.className = 'timeline';
@@ -67,6 +68,7 @@ window.transitions.timelinejump = function(timeline)
 		header.appendChild(h3);
 		rightpanel.appendChild(header);
 		rightpanel.appendChild(reader);
+		rightpanel.appendChild(footer);
 
 		reader.setAttribute('data-timeline', timeline);
 
@@ -196,10 +198,33 @@ window.transitions.opentopic = function(timeline, topicnum)
 		header.appendChild(subtitle);
 		reader.className = 'expanded';
 
-		// Create a reply box
-		window.render.replybox(reader);
 		window.remote.renderposts(timeline, topicnum, reader);
+		// Create a reply box
+		var footer = reader.parentNode.getElementsByTagName('footer')[0];
+		var a = document.createElement('a');
+		a.className = 'minorbox';
+		a.innerText = 'Start a Reply';
+		a.id = 'reply';
+		a.reader = reader;
+		a.addEventListener('click', window.transitions.openreply);
+		footer.appendChild(a);
 	}, offset);
+}
+window.transitions.openreply = function(evt)
+{
+	var a = evt.target;
+	a.removeEventListener('click', window.transitions.openreply);
+	window.render.replybox(a.reader);
+	a.addEventListener('click', window.transitions.closereply);
+	a.innerText = 'Finish';
+}
+window.transitions.closereply = function(evt)
+{
+	var a = evt.target;
+	a.removeEventListener('click', window.transitions.closereply);
+	alert('It was all a cruel trick!');
+	a.innerText = 'Start a Reply';
+	a.addEventListener('click', window.transitions.openreply);
 }
 
 /* CREATION / DESTRUCTION */
@@ -287,6 +312,7 @@ window.creation.reader = function(name)
 	var header = document.createElement('header');
 	var h3 = document.createElement('h3');
 	var reader = document.createElement('main');
+	var footer = document.createElement('footer');
 
 	rightpanel.id = 'rightpanel';
 	reader.id = 'reader';
@@ -298,6 +324,7 @@ window.creation.reader = function(name)
 	header.appendChild(h3);
 	rightpanel.appendChild(header);
 	rightpanel.appendChild(reader);
+	rightpanel.appendChild(footer);
 	reader.setAttribute('data-timeline', name);
 
 	// Initialize the timeline with all topics

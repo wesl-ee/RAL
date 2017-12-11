@@ -26,6 +26,7 @@ dl, ul, ol {
 	background: white;
 }
 #reader.timeline .content:hover,
+#reader.expanded .num:hover,
 header a:hover {
 	color: #5ABFCF;
 }
