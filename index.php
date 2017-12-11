@@ -1,3 +1,11 @@
+<?php
+/* PREAMBLE */
+// Generate an ID for posting authentication
+if (!isset($_COOKIE['auth'])) {
+	setcookie('auth', uniqid());
+}
+?>
+
 <!DOCTYPE HTML>
 <HTML>
 <head>

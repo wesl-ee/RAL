@@ -1,8 +1,7 @@
 <?php
 include 'includes/config.php';
 include 'includes/courier.php';
-
-
+include 'includes/posting.php';
 
 // Initial fetch for reading
 if (isset($_GET['fetch'])) {
@@ -58,5 +57,17 @@ if (isset($_GET['subscribe'])) {
 			flush();
 		}
 	}
+}
+// Real-time posting
+if (isset($_GET['post'])) {
+	$timeline = $_GET['timeline'];
+	$topic = $_GET['topic'];
+	$auth = $_COOKIE['auth'];
+	$content = $_GET['content'];
+
+	// Attempt to append $content to the post
+	// The post will be created if it is not already so
+	$post = append_post($timeline, $topic, $auth, $content);
+	var_dump($post);
 }
 ?>
