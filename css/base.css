@@ -102,6 +102,11 @@ body {
 .rightnav {
 	right: 0;
 }
+#rightpanel,
+#timelines {
+	border-width: 1px;
+	border-style: solid;
+}
 #rightpanel {
 	position: absolute;
 	top: 0;
@@ -109,7 +114,7 @@ body {
 	margin: 20px;
 	margin-left: 40px;
 	padding: 20px;
-	width: calc(80% - 100px);
+	width: calc(80% - 102px);
 	max-height: calc(100% - 80px);
 	overflow-y: auto;
 	transition: top 0.8s ease-in-out;

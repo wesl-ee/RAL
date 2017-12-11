@@ -1,7 +1,7 @@
 /* Theme colors and fonts */
 body {
-	color: white;
-	background-color: black;
+	color: black;
+	background-color: white;
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 h1, h2, h3 {
@@ -23,9 +23,6 @@ dl, ul, ol {
 #timelines,
 #rightpanel {
 	color: black;
-}
-#timelines,
-#rightpanel {
 	background: white;
 }
 #reader.timeline .content:hover,
