@@ -86,83 +86,74 @@ window.transitions.timelinejump = function(timeline)
 */
 window.transitions.newpageclick = function(evt)
 {
-	var page = this.toPage;
+	var page;
 	var collection = this.collection;
+	if (this.className == 'rightnav')
+		page = collection.currpage + 1;
+	else if (this.className == 'leftnav')
+		page = collection.currpage - 1;
 
-	window.transitions.newpage(collection, page);
+	window.transitions.timelinepage(collection, page);
 }
 /*
 * Next / previous page rendering
 */
-window.transitions.newpage = function(collection, page)
+window.transitions.timelinepage = function(collection, page)
 {
 	var results_per_page = 5;
 
 	var children = collection.childNodes;
-	var alltimelines = window.remote.timelines();
-	timelines = alltimelines.slice(results_per_page*page, results_per_page*(page+1));
 	var delay = 0;
-	for (child in children) {
-		if (!children.hasOwnProperty(child)
-		|| children[child].nodeType == 3) continue;
+	var i;
+
+	// Gradually hide currently shown elements
+	for (i = 0; i < children.length; i++) {
+		if (children[i].style.display == 'none') continue;
 		setTimeout(function(node) {
 			node.style.visibility = 'hidden';
-		}, delay, children[child]);
+		}, delay, children[i]);
 		delay += 100;
 	}
-	var i;
+
+	// Remove old page from document flow and add in the new page
 	setTimeout(function() {
-		var i = 0, j = 0;
-		for (child = 0; child < children.length; child++) {
-			if (!children.hasOwnProperty(child)
-			|| children[child].nodeType == 3) continue;
-			if (i >= timelines.length ) {
-				children[child].parentNode.removeChild(children[child--]);
+		for (i = 0; i < children.length; i++) {
+			if (i >= results_per_page*page &&
+			i < results_per_page*(page+1)) {
+				children[i].style.display = '';
 			}
 			else {
-				children[child].innerText = timelines[i++];
+				children[i].style.display = 'none';
 			}
 		}
-		while (typeof timelines[i] !== 'undefined') {
-			var timeline = document.createElement('a');
-			var name = timelines[i++];
-			timeline.innerText = name;
-			timeline.style.visibility = 'hidden';
-			timeline.addEventListener('click', window.transitions.timelineselect);
-			collection.appendChild(timeline);
-		}
-	}, delay);
-	delay += 100;
-	setTimeout(function() {
-		i = 0;
-		delay = 0;
-		children = collection.childNodes;
-		for (child in children) {
-			if (!children.hasOwnProperty(child)
-			|| children[child].nodeType == 3) continue;
+		// Gradually show the current page
+		var offset = 0;
+		for (i = 0; i < children.length; i++) {
+			if (children[i].style.display == 'none') continue;
 			setTimeout(function(node) {
 				node.style.visibility = 'visible';
-			}, delay, children[child]);
-			delay += 100;
+			}, offset, children[i]);
+			offset += 100;
 		}
+
+		// Should we show the right / left page nav?
+		var timelines = collection.parentNode;
+		var leftnav = timelines.getElementsByClassName('leftnav')[0];
+
+		if (!page)
+			leftnav.style.visibility = 'hidden';
+		else
+			leftnav.style.visibility = 'visible';
+		var rightnav = timelines.getElementsByClassName('rightnav')[0];
+		if (page + 1 >= children.length / results_per_page)
+			rightnav.style.visibility = 'hidden';
+		else
+			rightnav.style.visibility = 'visible';
 	}, delay);
 
-	var leftnav = collection.parentNode.getElementsByClassName('leftnav')[0];
-	if (!page) {
-		leftnav.style.visibility = 'hidden';
-	}
-	else {
-		leftnav.toPage = page - 1;
-		leftnav.style.visibility = 'visible';
-	}
-	var rightnav = collection.parentNode.getElementsByClassName('rightnav')[0];
-	if (page + 1 >= alltimelines.length / results_per_page) {
-		rightnav.style.visibility = 'hidden';
-	}
-	else {
-		rightnav.toPage = page + 1;
-		rightnav.style.visibility = 'visible';
-	}
+
+
+	collection.currpage = page;
 }
 window.transitions.opentopic = function(timeline, topicnum)
 {
@@ -237,7 +228,6 @@ window.creation.timeline = function()
 	var leftnav = document.createElement('a');
 	var rightnav = document.createElement('a');
 
-
 	timelines.className = 'frontcenter';
 	timelines.id = 'timelines';
 	title.appendChild(
@@ -287,8 +277,10 @@ window.creation.timeline = function()
 	leftnav.addEventListener('click', window.transitions.newpageclick);
 	rightnav.addEventListener('click', window.transitions.newpageclick);
 
+	window.remote.rendertimelines(collection);
+
 	// Start us off on the first page timelines
-	window.transitions.newpage(collection, 0);
+//	window.transitions.newpage(collection, 0);
 }
 window.creation.reader = function(name)
 {
@@ -313,10 +305,10 @@ window.creation.reader = function(name)
 	window.remote.rendertopics(name, reader);
 	window.remote.subscribetimeline(name, reader);
 
-	rightpanel.style.top = '100%';
+	rightpanel.style.right = '-100%';
 	document.body.appendChild(rightpanel);
 	setTimeout(function() {
-		rightpanel.style.top = '0px';
+		rightpanel.style.right = '0px';
 	}, 100);
 }
 window.creation.welcome = function()
@@ -355,6 +347,7 @@ window.creation.welcome = function()
 	welcome.appendChild(choicebox);
 
 	document.body.appendChild(welcome);
+
 	flashmessages(xxx);
 }
 window.destruction = [];

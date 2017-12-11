@@ -1,4 +1,23 @@
 <?php
+function fetch_timelines()
+{
+	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
+		CONFIG_RAL_USERNAME,
+		CONFIG_RAL_PASSWORD,
+		CONFIG_RAL_DATABASE);
+	mysqli_set_charset($dbh, 'utf8');
+	$query = "SELECT `Name`, `Description`  FROM `Timelines`"
+	. " ORDER BY `Name`";
+	$res = mysqli_query($dbh, $query);
+	$ret = [];
+	while ($row = mysqli_fetch_assoc($res)) {
+		$ret[] = [
+			'name' => $row['Name'],
+			'description' => $row['Description'],
+		];
+	}
+	return $ret;
+}
 function fetch_topics($timeline)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,

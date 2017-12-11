@@ -1,21 +1,49 @@
 window.remote = [];
-window.remote.timelines = function()
+window.remote.rendertimelines = function(collection)
 {
-	return [
-		'Anime',
-		'Work',
-		'Music',
-		'Warez',
-		'Hackz',
-		'PC',
-		'Tokyo'
-	];
+	var xhr = new XMLHttpRequest();
+	var t1;
+	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
+	if (this.readyState == 2) {
+		var latency = document.getElementById('latency');
+		var t2 = performance.now();
+		latency.classList.remove('error');
+		latency.innerText = Math.round(t2 - t1) + "ms latency";
+	}
+	if (this.readyState == 4)
+	if (this.status == 200)
+	if (this.responseText) {
+		var timelines = JSON.parse(this.responseText);
+		for (var i = 0; i - timelines.length; i++) {
+			var timeline = timelines[i];
+			console.log(JSON.stringify(timeline));
+
+			var a = document.createElement('a');
+			a.innerText = timeline.name;
+			a.style.display = 'none';
+			a.style.visibility = 'hidden';
+			a.addEventListener('click', window.transitions.timelineselect);
+			collection.appendChild(a);
+		}
+		window.transitions.timelinepage(collection, 0);
+	} else {
+		console.log('Error fetching timelines!');
+	} }
+	var uri = '?fetch';
+	xhr.open('GET', '/courier.php' + uri);
+	xhr.send();
 }
 window.remote.rendertopics = function(timeline, reader)
 {
 	var xhr = new XMLHttpRequest();
-	var t1 = performance.now();
+	var t1;
 	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
 	if (this.readyState == 2) {
 		var latency = document.getElementById('latency');
 		var t2 = performance.now();
@@ -49,8 +77,11 @@ window.remote.rendertopics = function(timeline, reader)
 window.remote.renderposts = function(timeline, topic, reader)
 {
 	var xhr = new XMLHttpRequest();
-	var t1 = performance.now();
+	var t1;
 	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
 	if (this.readyState == 2) {
 		var latency = document.getElementById('latency');
 		var t2 = performance.now();
@@ -84,9 +115,12 @@ window.remote.renderposts = function(timeline, topic, reader)
 }
 window.remote.updatelatency = function(display)
 {
-	var t1 = performance.now();
 	var xhr = new XMLHttpRequest();
+	var t1;
 	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
 	// HEADERS_RECEIVED
 	if (this.readyState == 2) {
 		var t2 = performance.now();
