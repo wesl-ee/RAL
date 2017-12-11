@@ -45,7 +45,7 @@ window.transitions.timelinejump = function(timeline)
 	var rightpanel = document.getElementById('rightpanel');
 
 	var animationtime = 800;
-	rightpanel.style.top = '100%';
+	rightpanel.style.right = '-100%';
 
 	setTimeout(function() {
 		var reader = document.createElement('main');
@@ -76,7 +76,7 @@ window.transitions.timelinejump = function(timeline)
 		// Initialize the rightpanel with all topics
 		window.remote.rendertopics(timeline, reader);
 		window.remote.subscribetimeline(timeline, reader);
-		rightpanel.style.top = '0px';
+		rightpanel.style.right = '0px';
 	}, animationtime);
 
 

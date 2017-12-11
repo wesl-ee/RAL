@@ -17,10 +17,10 @@
 	</div>
 </div>
 <div id=sakura>
-	<video autoplay loop>
+<!--	<video autoplay loop>
 		<source src='res/splash.webm'>
 	</video>
-	<img src='res/fallback.gif'>
+	<img src='res/fallback.gif'>-->
 </div>
 </body>
 <script src='js/esthetic.js'></script>

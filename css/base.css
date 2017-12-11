@@ -117,7 +117,7 @@ body {
 	width: calc(80% - 102px);
 	max-height: calc(100% - 80px);
 	overflow-y: auto;
-	transition: top 0.8s ease-in-out;
+	transition: right 0.8s ease-in-out;
 }
 header > * {
 	padding-right: 5px;
