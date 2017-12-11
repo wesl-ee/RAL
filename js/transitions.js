@@ -195,6 +195,9 @@ window.transitions.opentopic = function(timeline, topicnum)
 		header.insertBefore(backbutton, title);
 		header.appendChild(subtitle);
 		reader.className = 'expanded';
+
+		// Create a reply box
+		window.render.replybox(reader);
 		window.remote.renderposts(timeline, topicnum, reader);
 	}, offset);
 }
@@ -272,15 +275,11 @@ window.creation.timeline = function()
 	// Which collection does this nav control?
 	leftnav.collection = collection;
 	rightnav.collection = collection;
-	rightnav.toPage = 1;
 
 	leftnav.addEventListener('click', window.transitions.newpageclick);
 	rightnav.addEventListener('click', window.transitions.newpageclick);
 
 	window.remote.rendertimelines(collection);
-
-	// Start us off on the first page timelines
-//	window.transitions.newpage(collection, 0);
 }
 window.creation.reader = function(name)
 {
@@ -459,4 +458,49 @@ window.render.newpost = function(reader, post) {
 		article.style.height = '';
 	}, 100);
 	reader.appendChild(article);
+}
+window.render.replybox = function(reader) {
+	var article = document.createElement('article');
+	var updated = document.createElement('time');
+	var num = document.createElement('span');
+	var content = document.createElement('content');
+	var precommit = document.createElement('span');
+	var postcommit = document.createElement('span');
+
+	var time = new Date();
+	updated.innerText = (time.getMonth() + 1)
+	+ '/' + time.getDate()
+	+ ' ' + time.getHours()
+	+ ':' + time.getMinutes();
+
+	article.className = 'post';
+	num.className = 'num';
+	num.innerText = 'No. ';
+	content.className = 'content';
+	postcommit.id = 'postcommit';
+	precommit.id = 'precommit';
+	precommit.setAttribute('contentEditable', true);
+
+	precommit.addEventListener('input', function(evt) {
+	if (precommit.innerText.indexOf("\n") >= 0) {
+		// Remove trailing newline
+		precommit.innerText = precommit.innerText.substring(0, precommit.innerText.length - 1);
+//              if (!(committed.innerText.length > 0)) {
+//                      committed.parentElement.parentElement.className = 'open';
+//                      open(board, thread);
+//              }
+		postcommit.innerText += precommit.innerText;
+		precommit.innerHTML = '';
+	}
+	});
+
+	content.appendChild(postcommit);
+	content.appendChild(precommit);
+	article.appendChild(updated);
+	article.appendChild(num);
+	article.appendChild(content);
+
+	reader.appendChild(article);
+	precommit.focus()
+	return article;
 }

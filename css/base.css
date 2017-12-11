@@ -166,8 +166,21 @@ header > * {
 #reader.expanded article .content {
 	white-space: initial;
 	text-align: justify;
-	justify-align-last: right;
+	text-align-last: right;
 	cursor: default;
+}
+#precommit {
+	cursor: text;
+	background-color: yellow;
+	display: inline-block;
+	min-height: 1em;
+	min-width: 10px;
+}
+#postcommit {
+	background-color: red;
+}
+#precommit, #postcommit {
+	white-space: pre;
 }
 #title {
 	display: inline-block;
@@ -408,4 +421,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 a {
 	cursor: pointer;
+}
+textarea {
+	font-family: inherit;
+	outline: none;
+	resize: none;
+	overflow: hidden;
+	border: 0;
+	height: auto;
 }

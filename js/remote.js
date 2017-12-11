@@ -25,7 +25,9 @@ window.remote.rendertimelines = function(collection)
 			a.innerText = timeline.name;
 			a.style.display = 'none';
 			a.style.visibility = 'hidden';
-			a.addEventListener('click', window.transitions.timelineselect);
+			a.addEventListener('click',
+				window.transitions.timelineselect
+			);
 			collection.appendChild(a);
 		}
 		window.transitions.timelinepage(collection, 0);
