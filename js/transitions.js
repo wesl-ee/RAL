@@ -509,6 +509,11 @@ window.render.replybox = function(reader) {
 	precommit.setAttribute('contentEditable', true);
 
 	precommit.addEventListener('input', function(evt) {
+	if (precommit.innerText.length > 20) {
+		postcommit.innerText += precommit.innerText[0];
+		precommit.innerText = precommit.innerText.substring(1);
+		placeCaretAtEnd(precommit);
+	}
 	if (precommit.innerText.indexOf("\n") >= 0) {
 		// Remove trailing newline
 		precommit.innerText = precommit.innerText.substring(0, precommit.innerText.length - 1);
@@ -517,7 +522,7 @@ window.render.replybox = function(reader) {
 //                      open(board, thread);
 //              }
 		postcommit.innerText += precommit.innerText;
-		precommit.innerHTML = '';
+		precommit.innerText = '';
 	}
 	});
 
@@ -530,4 +535,21 @@ window.render.replybox = function(reader) {
 	reader.appendChild(article);
 	precommit.focus()
 	return article;
+}
+function placeCaretAtEnd(el) {
+	el.focus();
+	if (typeof window.getSelection != "undefined"
+	&& typeof document.createRange != "undefined") {
+		var range = document.createRange();
+		range.selectNodeContents(el);
+		range.collapse(false);
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+	} else if (typeof document.body.createTextRange != "undefined") {
+		var textRange = document.body.createTextRange();
+		textRange.moveToElementText(el);
+		textRange.collapse(false);
+		textRange.select();
+	}
 }
