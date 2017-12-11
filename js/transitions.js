@@ -417,10 +417,12 @@ window.render.newtopic = function(reader, topic) {
 
 	// Date formatting
 	var time = new Date(topic.modified);
-	updated.innerText = (time.getMonth() + 1)
-	+ '/' + time.getDate()
-	+ ' ' + time.getHours()
-	+ ':' + time.getMinutes();
+	function pad(n){return n<10 ? '0'+n : n}
+	updated.innerText = pad(time.getMonth()+1)
+	+ '/' + pad(time.getDate())
+	+ ' ' + pad(time.getHours())
+	+ ':' + pad(time.getMinutes());
+	console.log(updated.innerText);
 
 	article.className = 'topic';
 	article.id = topic.id;
@@ -458,10 +460,11 @@ window.render.newpost = function(reader, post) {
 
 	// Date formatting
 	var time = new Date(post.modified);
-	updated.innerText = (time.getMonth() + 1)
-	+ '/' + time.getDate()
-	+ ' ' + time.getHours()
-	+ ':' + time.getMinutes();
+	function pad(n){return n<10 ? '0'+n : n}
+	updated.innerText = pad(time.getMonth() + 1)
+	+ '/' + pad(time.getDate())
+	+ ' ' + pad(time.getHours())
+	+ ':' + pad(time.getMinutes());
 
 	article.className = 'post';
 	article.id = post.id;
