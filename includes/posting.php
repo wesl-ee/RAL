@@ -110,4 +110,19 @@ function append_post($timeline, $topic, $auth, $content)
 		'created' => $created
 	];
 }
+function close_post($timeline, $topic, $auth)
+{
+	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
+		CONFIG_RAL_USERNAME,
+		CONFIG_RAL_PASSWORD,
+		CONFIG_RAL_DATABASE);
+	mysqli_set_charset($dbh, 'utf8');
+	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$topic = mysqli_real_escape_string($dbh, $topic);
+	$auth = mysqli_real_escape_string($dbh, $auth);
+
+	$query = "UPDATE `Posts` SET `Open`=False WHERE"
+	. " `Timeline`='$timeline' AND `Topic`=$topic AND `Auth`='$auth'";
+	mysqli_query($dbh, $query);
+}
 ?>

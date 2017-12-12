@@ -227,3 +227,28 @@ window.remote.appendpost = function(timeline, topic, content)
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send('content='+content);
 }
+window.remote.closepost = function(timeline, topic)
+{
+	var xhr = new XMLHttpRequest();
+	var t1;
+
+	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
+	if (this.readyState == 2) {
+		var latency = document.getElementById('latency');
+		var t2 = performance.now();
+		latency.classList.remove('error');
+		latency.innerText = Math.round(t2 - t1) + "ms latency";
+	}
+	if (this.readyState == 4)
+	if (this.status == 200)
+	if (this.responseText) {
+		var post = JSON.parse(this.responseText);
+		console.log(post);
+	} }
+	var uri = '?close&timeline=' + timeline + '&topic=' + topic;
+	xhr.open('GET', '/courier.php' + uri);
+	xhr.send();
+}

@@ -70,4 +70,12 @@ if (isset($_GET['post'])) {
 	$post = append_post($timeline, $topic, $auth, $content);
 	print json_encode($post);
 }
+if (isset($_GET['close'])) {
+	$timeline = $_GET['timeline'];
+	$topic = $_GET['topic'];
+	$auth = $_COOKIE['auth'];
+
+	// Close the post in question
+	close_post($timeline, $topic, $auth);
+}
 ?>

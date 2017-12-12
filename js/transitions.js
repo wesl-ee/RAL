@@ -542,6 +542,7 @@ window.render.finalizereply = function(replybox)
 	var timeline = reader.getAttribute('data-timeline');
 	var topic = reader.childNodes[0].id;
 	window.remote.appendpost(timeline, topic, precommit.innerText);
+	window.remote.closepost(timeline, topic);
 
 	finalmsg = postcommit.innerText + precommit.innerText;
 	postcommit.parentNode.removeChild(postcommit);
