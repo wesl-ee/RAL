@@ -23,7 +23,6 @@ function flashmessages(e) {
 		i = j;
 		txt = xxx[i];
 		e.innerText = txt;
-		e.setAttribute('data-text', txt);
 	}
-	window.textinterval = setInterval(writer, speed);
+	setInterval(writer, speed);
 }

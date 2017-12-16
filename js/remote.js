@@ -29,7 +29,7 @@ window.remote.rendertimelines = function(collection)
 			a.style.display = 'none';
 			a.style.visibility = 'hidden';
 			a.addEventListener('click',
-				window.transitions.timelineselect
+				window.handlers.timelineselect
 			);
 			collection.appendChild(a);
 		}

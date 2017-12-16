@@ -28,16 +28,6 @@ body {
 	top 0.8s ease-in,
 	opacity 0.3s ease-in;
 }
-/*#timelines::before,
-#reader::before {
-	position: absolute;
-	content: " ";
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	z-index: -1;
-}*/
 .sidebar {
 	position: absolute;
 	margin: 20px;
@@ -136,11 +126,11 @@ header > * {
 	padding-right: 5px;
 	display: inline-block;
 }
-#reader {
+.reader {
 	width: 100%;
 }
 /* Timeline view */
-#reader article {
+.reader article {
 	display: flex;
 	flex-direction: row-reverse;
 	margin-bottom: 5px;
@@ -151,17 +141,17 @@ header > * {
 	padding 0.2s ease-in 0.8s,
 	margin 0.8s ease-in 0.8s;
 }
-#reader article time,
-#reader article .num,
-#reader article .content {
+.reader article time,
+.reader article .num,
+.reader article .content {
 	white-space: nowrap;
 }
-#reader article time,
-#reader article .num {
+.reader article time,
+.reader article .num {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-#reader article .content {
+.reader article .content {
 	border-right-width: 2px;
 	border-right-style: solid;
 	padding-right: 10px;
@@ -171,20 +161,20 @@ header > * {
 	cursor: pointer;
 	transition: height 0.8s ease-in-out;
 }
-#reader article .content.open {
+.reader article .content.open {
 	border-right-color: red;
 }
-#reader.expanded article {
+.reader.expanded article {
 /*	overflow: visible;*/
 	height: initial;
 }
-#reader.expanded article .content {
+.reader.expanded article .content {
 	white-space: initial;
 	text-align: justify;
 	text-align-last: right;
 	cursor: default;
 }
-#reader.expanded .num:hover {
+.reader.expanded .num:hover {
 	cursor: pointer;
 }
 .precommit {
@@ -203,157 +193,6 @@ header > * {
 #title {
 	display: inline-block;
 }
-@keyframes glitch-animation {
-0% {
-clip: rect(42px, 9999px, 44px, 0);
-}
-5% {
-clip: rect(12px, 9999px, 59px, 0);
-}
-10% {
-clip: rect(48px, 9999px, 29px, 0);
-}
-15% {
-clip: rect(42px, 9999px, 73px, 0);
-}
-20% {
-clip: rect(63px, 9999px, 27px, 0);
-}
-25% {
-clip: rect(34px, 9999px, 55px, 0);
-}
-30% {
-clip: rect(86px, 9999px, 73px, 0);
-}
-35% {
-clip: rect(20px, 9999px, 20px, 0);
-}
-40% {
-clip: rect(26px, 9999px, 60px, 0);
-}
-45% {
-clip: rect(25px, 9999px, 66px, 0);
-}
-50% {
-clip: rect(57px, 9999px, 98px, 0);
-}
-55% {
-clip: rect(5px, 9999px, 46px, 0);
-}
-60% {
-clip: rect(82px, 9999px, 31px, 0);
-}
-65% {
-clip: rect(54px, 9999px, 27px, 0);
-}
-70% {
-clip: rect(28px, 9999px, 99px, 0);
-}
-75% {
-clip: rect(45px, 9999px, 69px, 0);
-}
-80% {
-clip: rect(23px, 9999px, 30px, 0);
-}
-85% {
-clip: rect(54px, 9999px, 84px, 0);
-}
-90% {
-clip: rect(45px, 9999px, 47px, 0);
-}
-95% {
-clip: rect(37px, 9999px, 20px, 0);
-}
-100% {
-clip: rect(4px, 9999px, 91px, 0);
-}
-}
-@keyframes glitch-animation-2 {
-0% {
-clip: rect(65px, 9999px, 100px, 0);
-}
-5% {
-clip: rect(52px, 9999px, 74px, 0);
-}
-10% {
-clip: rect(79px, 9999px, 85px, 0);
-}
-15% {
-clip: rect(75px, 9999px, 5px, 0);
-}
-20% {
-clip: rect(67px, 9999px, 61px, 0);
-}
-25% {
-clip: rect(14px, 9999px, 79px, 0);
-}
-30% {
-clip: rect(1px, 9999px, 66px, 0);
-}
-35% {
-clip: rect(86px, 9999px, 30px, 0);
-}
-40% {
-clip: rect(23px, 9999px, 98px, 0);
-}
-45% {
-clip: rect(85px, 9999px, 72px, 0);
-}
-50% {
-clip: rect(71px, 9999px, 75px, 0);
-}
-55% {
-clip: rect(2px, 9999px, 48px, 0);
-}
-60% {
-clip: rect(30px, 9999px, 16px, 0);
-}
-65% {
-clip: rect(59px, 9999px, 50px, 0);
-}
-70% {
-clip: rect(41px, 9999px, 62px, 0);
-}
-75% {
-clip: rect(2px, 9999px, 82px, 0);
-}
-80% {
-clip: rect(47px, 9999px, 73px, 0);
-}
-85% {
-clip: rect(3px, 9999px, 27px, 0);
-}
-90% {
-clip: rect(26px, 9999px, 55px, 0);
-}
-95% {
-clip: rect(42px, 9999px, 97px, 0);
-}
-100% {
-clip: rect(38px, 9999px, 49px, 0);
-}
-}
-.glitch {
-	position: relative;
-}
-.glitch::before,
-.glitch::after {
-	content: attr(data-text);
-	position: absolute;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-	clip: rect( 0, 900px, 0, 0 );
-}
-.glitch::before {
-	animation: glitch-animation-2 0.9s infinite linear alternate-reverse;
-	left: -2px;
-}
-.glitch::after {
-	animation: glitch-animation 1.5s infinite linear alternate-reverse;
-	left: 2px;
-	text-shadow: -5px 0 black;
-}
 .choicebox {
 	display: inline;
 	border-width: 2px;
@@ -363,6 +202,7 @@ clip: rect(38px, 9999px, 49px, 0);
 	cursor: pointer;
 }
 .choicebox a {
+	text-decoration: none;
 	margin: 10px;
 	border-width: 1px;
 
@@ -370,7 +210,7 @@ clip: rect(38px, 9999px, 49px, 0);
 .choicebox:hover {
 	box-shadow: -5px 5px 10px;
 }
-#sakura {
+#background {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -380,35 +220,35 @@ clip: rect(38px, 9999px, 49px, 0);
 	z-index: -100;
 	transition: filter 1s ease-in;
 }
-#sakura video,
-#sakura img {
+#background video,
+#background img {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 }
-#sakura img {
+#background img {
 	display: none;
 }
 @media (min-aspect-ratio: 4/3) {
-	#sakura video {
+	#background video {
 		height: 300%;
 		top: -100%;
 	}
 }
 
 @media (max-aspect-ratio: 4/3) {
-	#sakura video{
+	#background video{
 		width: 300%;
 		left: -100%;
 	}
 }
 @media (max-width: 600px) {
-	#sakura img {
+	#background img {
 		display: initial;
 	}
-	#sakura video {
+	#background video {
 		display: none;
 	}
 	#welcome {
