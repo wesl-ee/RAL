@@ -26,14 +26,14 @@ function fetch_topics($timeline)
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
 	$timeline = mysqli_real_escape_string($dbh, $timeline);
-	$query = "SELECT `Id`, `Owner`, `Content`, MAX(Modified) AS `Modified` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Modified`) DESC";
+	$query = "SELECT `Id`, `Content`, MAX(`Created`) AS `Bump` FROM `Posts`"
+	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'id' => $row['Id'],
-			'modified' => $row['Modified'],
+			'bump' => $row['Bump'],
 			'content' => $row['Content']
 		];
 	}

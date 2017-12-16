@@ -1,4 +1,9 @@
 window.remote = [];
+window.remote.netmessage = function(m)
+{
+	var latency = document.getElementById('latency');
+	latency.innerText = m;
+}
 window.remote.rendertimelines = function(collection)
 {
 	var xhr = new XMLHttpRequest();
@@ -8,10 +13,8 @@ window.remote.rendertimelines = function(collection)
 		t1 = performance.now();
 	}
 	if (this.readyState == 2) {
-		var latency = document.getElementById('latency');
 		var t2 = performance.now();
-		latency.classList.remove('error');
-		latency.innerText = Math.round(t2 - t1) + "ms latency";
+		window.remote.netmessage(Math.round(t2 - t1) + "ms latency");
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
@@ -47,10 +50,8 @@ window.remote.rendertopics = function(timeline, reader)
 		t1 = performance.now();
 	}
 	if (this.readyState == 2) {
-		var latency = document.getElementById('latency');
 		var t2 = performance.now();
-		latency.classList.remove('error');
-		latency.innerText = Math.round(t2 - t1) + "ms latency";
+		window.remote.netmessage(Math.round(t2 - t1) + "ms latency");
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
@@ -85,10 +86,8 @@ window.remote.renderposts = function(timeline, topic, reader)
 		t1 = performance.now();
 	}
 	if (this.readyState == 2) {
-		var latency = document.getElementById('latency');
 		var t2 = performance.now();
-		latency.classList.remove('error');
-		latency.innerText = Math.round(t2 - t1) + "ms latency";
+		window.remote.netmessage(Math.round(t2 - t1) + "ms latency");
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
@@ -131,7 +130,7 @@ window.remote.updatelatency = function(display)
 	// HEADERS_RECEIVED
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		display.innerText = Math.round(t2 - t1) + "ms latency";
+		window.remote.netmessage(Math.round(t2 - t1) + "ms latency");
 	}
 	}
 	xhr.open('GET', '/');
@@ -201,7 +200,7 @@ window.remote.subscribetimeline = function(timelinename, reader)
 	window.xhr.open('GET', '/courier.php' + uri);
 	window.xhr.send();
 }
-window.remote.appendpost = function(timeline, topic, content)
+window.remote.createpost = function(timeline, topic, content)
 {
 	var xhr = new XMLHttpRequest();
 	var t1;
@@ -211,10 +210,8 @@ window.remote.appendpost = function(timeline, topic, content)
 		t1 = performance.now();
 	}
 	if (this.readyState == 2) {
-		var latency = document.getElementById('latency');
 		var t2 = performance.now();
-		latency.classList.remove('error');
-		latency.innerText = Math.round(t2 - t1) + "ms latency";
+		window.remote.netmessage(Math.round(t2 - t1) + "ms latency");
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
@@ -226,29 +223,4 @@ window.remote.appendpost = function(timeline, topic, content)
 	xhr.open('POST', '/courier.php' + uri);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send('content='+content);
-}
-window.remote.closepost = function(timeline, topic)
-{
-	var xhr = new XMLHttpRequest();
-	var t1;
-
-	xhr.onreadystatechange = function() {
-	if (this.readyState == 1) {
-		t1 = performance.now();
-	}
-	if (this.readyState == 2) {
-		var latency = document.getElementById('latency');
-		var t2 = performance.now();
-		latency.classList.remove('error');
-		latency.innerText = Math.round(t2 - t1) + "ms latency";
-	}
-	if (this.readyState == 4)
-	if (this.status == 200)
-	if (this.responseText) {
-		var post = JSON.parse(this.responseText);
-		console.log(post);
-	} }
-	var uri = '?close&timeline=' + timeline + '&topic=' + topic;
-	xhr.open('GET', '/courier.php' + uri);
-	xhr.send();
 }

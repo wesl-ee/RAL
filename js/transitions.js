@@ -19,12 +19,6 @@ window.handlers.close = function(evt)
 
 	reader.className = 'timeline';
 }
-window.handlers.closereply = function(evt)
-{
-	var a = evt.target;
-	a.removeEventListener('click', window.handlers.closereply);
-	window.render.finalizereply(a.parentNode);
-}
 /* TRANSITIONS */
 window.transitions = [];
 /*
@@ -84,7 +78,7 @@ window.transitions.timelinejump = function(timeline)
 
 		// Initialize the rightpanel with all topics
 		window.remote.rendertopics(timeline, reader);
-		window.remote.subscribetimeline(timeline, reader);
+//		window.remote.subscribetimeline(timeline, reader);
 		rightpanel.style.right = '0px';
 	}, animationtime);
 
@@ -206,35 +200,8 @@ window.transitions.opentopic = function(timeline, topicnum)
 		reader.className = 'expanded';
 
 		window.remote.renderposts(timeline, topicnum, reader);
-		// Create a reply box
-		var footer = reader.parentNode.getElementsByTagName('footer')[0];
-		var a = document.createElement('a');
-		a.className = 'minorbox';
-		a.innerText = 'Start a Reply';
-		a.id = 'reply';
-		a.reader = reader;
-		a.addEventListener('click', window.transitions.openreply);
-		footer.appendChild(a);
 	}, offset);
 }
-window.transitions.openreply = function(evt)
-{
-	var a = evt.target;
-	a.removeEventListener('click', window.transitions.openreply);
-	replybox = window.creation.replybox(a.reader);
-	a.replybox = replybox;
-	a.addEventListener('click', window.transitions.closereply);
-	a.innerText = 'Finish';
-}
-window.transitions.closereply = function(evt)
-{
-	var a = evt.target;
-	a.removeEventListener('click', window.transitions.closereply);
-	window.render.finalizereply(a.replybox);
-	a.innerText = 'Start a Reply';
-	a.addEventListener('click', window.transitions.openreply);
-}
-
 /* CREATION / DESTRUCTION */
 window.creation = [];
 window.creation.sakura = function()
@@ -269,7 +236,6 @@ window.creation.timeline = function()
 	title.appendChild(
 		document.createTextNode('RAL')
 	);
-	window.remote.updatelatency(latency);
 	window.lagInterval = setInterval(function() {
 		if (latency.className != 'error')
 			window.remote.updatelatency(latency);
@@ -337,7 +303,7 @@ window.creation.reader = function(name)
 
 	// Initialize the timeline with all topics
 	window.remote.rendertopics(name, reader);
-	window.remote.subscribetimeline(name, reader);
+//	window.remote.subscribetimeline(name, reader);
 
 	rightpanel.style.right = '-100%';
 	document.body.appendChild(rightpanel);
@@ -384,76 +350,6 @@ window.creation.welcome = function()
 
 	flashmessages(xxx);
 }
-window.creation.replybox = function(reader, post) {
-	var article = document.createElement('article');
-	var updated = document.createElement('time');
-	var num = document.createElement('span');
-	var content = document.createElement('content');
-	var precommit = document.createElement('span');
-	var postcommit = document.createElement('span');
-
-	var time = new Date();
-	updated.innerText = (time.getMonth() + 1)
-	+ '/' + time.getDate()
-	+ ' ' + time.getHours()
-	+ ':' + time.getMinutes();
-
-	article.className = 'post';
-	num.className = 'num';
-	num.innerText = 'No. ';
-	content.className = 'content';
-	postcommit.className = 'postcommit';
-	precommit.className = 'precommit';
-	precommit.setAttribute('contentEditable', true);
-
-	// Pre-populate a post to be edited
-	if (post) {
-		var time = new Date(post.modified);
-		function pad(n){return n<10 ? '0'+n : n}
-		updated.innerText = pad(time.getMonth()+1)
-		+ '/' + pad(time.getDate())
-		+ ' ' + pad(time.getHours())
-		+ ':' + pad(time.getMinutes());
-		article.id = post.id;
-		updated.dateTime = post.modified;
-		num.innerText = 'No. ' + post.id;
-		postcommit.innerText = post.content;
-		content.classList.add('open');
-		num.addEventListener('click', window.handlers.closereply);
-	}
-
-	var timeline = reader.getAttribute('data-timeline');
-	var topic = reader.childNodes[0].id;
-
-	precommit.addEventListener('input', function(evt) {
-	if (precommit.innerText.length > 20) {
-		window.remote.appendpost(timeline, topic, precommit.innerText[0]);
-		postcommit.innerText += precommit.innerText[0];
-		precommit.innerText = precommit.innerText.substring(1);
-		placeCaretAtEnd(precommit);
-	}
-	if (precommit.innerText.indexOf("\n") >= 0) {
-		// Remove trailing newline
-		precommit.innerText = precommit.innerText.substring(0, precommit.innerText.length - 1);
-//              if (!(committed.innerText.length > 0)) {
-//                      committed.parentElement.parentElement.className = 'open';
-//                      open(board, thread);
-//              }
-		postcommit.innerText += precommit.innerText;
-		precommit.innerText = '';
-	}
-	});
-
-	content.appendChild(postcommit);
-	content.appendChild(precommit);
-	article.appendChild(updated);
-	article.appendChild(num);
-	article.appendChild(content);
-
-	reader.appendChild(article);
-	precommit.focus()
-	return article;
-}
 window.destruction = [];
 window.destruction.sakura = function(sakura)
 {
@@ -472,23 +368,7 @@ window.destruction.welcome = function(welcome)
 	}, 1100);
 	window.creation.timeline();
 }
-window.destruction.replybox = function(replybox)
-{
-}
 window.render = [];
-window.render.connerror = function(message, reload) {
-	var lag = document.getElementById('latency');
-	lag.className = 'error';
-	lag.innerText = message;
-
-	if (typeof reload != 'null') {
-		lag.className = 'fatalerror';
-		lag.addEventListener('click', function() {
-			// Page reloading stuff here
-			lag.removeEventListener('click', this);
-		});
-	}
-}
 window.render.newtopic = function(reader, topic) {
 	var article = document.createElement('article');
 	var updated = document.createElement('time');
@@ -496,7 +376,7 @@ window.render.newtopic = function(reader, topic) {
 	var content = document.createElement('content');
 
 	// Date formatting
-	var time = new Date(topic.modified);
+	var time = new Date(topic.bump);
 	function pad(n){return n<10 ? '0'+n : n}
 	updated.innerText = pad(time.getMonth()+1)
 	+ '/' + pad(time.getDate())
@@ -506,7 +386,7 @@ window.render.newtopic = function(reader, topic) {
 
 	article.className = 'topic';
 	article.id = topic.id;
-	updated.dateTime = topic.modified;
+	updated.dateTime = topic.bump;
 	num.innerText = 'No. ' + topic.id;
 	num.className = 'num';
 	content.innerText = topic.content;
@@ -531,26 +411,6 @@ window.render.newtopic = function(reader, topic) {
 	}
 
 	reader.insertBefore(article, reader.childNodes[0]);
-}
-window.render.finalizereply = function(replybox)
-{
-	var precommit = replybox.getElementsByClassName('precommit')[0];
-	var postcommit = replybox.getElementsByClassName('postcommit')[0];
-	var content = precommit.parentNode;
-
-	var reader = document.getElementById('reader');
-	var timeline = reader.getAttribute('data-timeline');
-	var topic = reader.childNodes[0].id;
-	window.remote.appendpost(timeline, topic, precommit.innerText);
-	window.remote.closepost(timeline, topic);
-
-	finalmsg = postcommit.innerText + precommit.innerText;
-	postcommit.parentNode.removeChild(postcommit);
-	precommit.parentNode.removeChild(precommit);
-
-	if (finalmsg == '') content.parentNode.parentNode.removeChild(content.parentNode);
-	else content.innerText = finalmsg;
-
 }
 window.render.newpost = function(reader, post) {
 	var article = document.createElement('article');
@@ -590,22 +450,4 @@ window.render.newpost = function(reader, post) {
 		article.style.height = '';
 	}, 100);
 	reader.appendChild(article);
-}
-
-function placeCaretAtEnd(el) {
-	el.focus();
-	if (typeof window.getSelection != "undefined"
-	&& typeof document.createRange != "undefined") {
-		var range = document.createRange();
-		range.selectNodeContents(el);
-		range.collapse(false);
-		var sel = window.getSelection();
-		sel.removeAllRanges();
-		sel.addRange(range);
-	} else if (typeof document.body.createTextRange != "undefined") {
-		var textRange = document.body.createTextRange();
-		textRange.moveToElementText(el);
-		textRange.collapse(false);
-		textRange.select();
-	}
 }

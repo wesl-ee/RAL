@@ -36,9 +36,8 @@ function bbbbbbb($string)
 	}
 	return $string;
 }
-// Attempt to append $content to the post
-// The post will be created if it is not already so
-function append_post($timeline, $topic, $auth, $content)
+// Creates the post on a given (timeline, topic)
+function create_post($timeline, $topic, $auth, $content)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
@@ -50,67 +49,34 @@ function append_post($timeline, $topic, $auth, $content)
 	$auth = mysqli_real_escape_string($dbh, $auth);
 	$content = mysqli_real_escape_string($dbh, $content);
 
-	// Verify that the user is indeed the owner of the post
-	$query = "SELECT `Id`, `Content` FROM `Posts` WHERE `Topic`=$topic"
-	. " AND `Auth`='$auth' AND `Open`=TRUE LIMIT 1";
-	$res = mysqli_query($dbh, $query);
-	if (!mysqli_num_rows($res)) {
+	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
 		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Open`, `Auth`) SELECT"
 		. " `Post Count` AS `Id`"
 		. ", '$timeline' AS `Timeline`"
 		. ", $topic AS `Topic`"
-		. ", TRUE AS `Open`"
 		. ", '$auth' AS `Auth`"
 		. " FROM `Timelines` WHERE Name='$timeline'";
-		mysqli_query($dbh, $query);
-		if ($err = mysqli_error($dbh)) {
+		if (mysqli_query($dbh, $query)) {
+			$err = mysqli_error($dbh);
+			mysqli_query("ROLLBACK");
 			ralog($err);
 			return false;
 		}
-
 		// Update postcount
-		$query = "SELECT `Post Count` FROM `Timelines`"
-		. " WHERE `Name`='$timeline'";
-		$post = mysqli_fetch_assoc(mysqli_query($dbh, $query))['Post Count'];
 		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
 		. " WHERE `Name`='$timeline'";
-		mysqli_query($dbh, $query);
-		if ($err = mysqli_error($dbh)) {
+		if (mysqli_query($dbh, $query)) {
+			$err = mysqli_error($dbh);
 			ralog($err);
+			mysqli_query("ROLLBACK");
 			return false;
 		}
-		ralog("Created Post");
-	}
-	else {
-		$row = mysqli_fetch_assoc($res);
-		$post = $row['Id'];
-		$content = $row['Content'] . $content;
-	}
-	// Append the new content && update the modification time
-	$query = "UPDATE `Posts` SET `Content`='$content',"
-	. " `Modified`=current_timestamp() WHERE"
-	. " Timeline='$timeline' AND Id=$post";
-	mysqli_query($dbh, $query);
-
-	// Retrieve post information
-	$query = "SELECT `Id`, `Content`, `Created` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' AND `Id`=$post";
-	$res = mysqli_query($dbh, $query);
-	$row = mysqli_fetch_assoc($res);
-
-	// Return a BBEncoded version of our thread
-	$id = $row['Id'];
-	$content = bbbbbbb($row['Content']);
-	$created = $row['Created'];
-
-	return [
-		'id' => $id,
-		'content' => $content,
-		'created' => $created
-	];
+	mysqli_query("COMMIT");
+	ralog("Created Post");
 }
-function close_post($timeline, $topic, $auth)
+// Creates the post on a given (timeline, topic)
+function create_topic($timeline, $auth, $content)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
@@ -118,11 +84,33 @@ function close_post($timeline, $topic, $auth)
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
 	$timeline = mysqli_real_escape_string($dbh, $timeline);
-	$topic = mysqli_real_escape_string($dbh, $topic);
 	$auth = mysqli_real_escape_string($dbh, $auth);
+	$content = mysqli_real_escape_string($dbh, $content);
 
-	$query = "UPDATE `Posts` SET `Open`=False WHERE"
-	. " `Timeline`='$timeline' AND `Topic`=$topic AND `Auth`='$auth'";
-	mysqli_query($dbh, $query);
+	mysqli_query("BEGIN TRANSACTION");
+		// Insert post
+		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Open`, `Auth`) SELECT"
+		. " `Post Count` AS `Id`"
+		. ", '$timeline' AS `Timeline`"
+		. ", `Post Count` AS `Topic`"
+		. ", '$auth' AS `Auth`"
+		. " FROM `Timelines` WHERE Name='$timeline'";
+		if (mysqli_query($dbh, $query)) {
+			$err = mysqli_error($dbh);
+			mysqli_query("ROLLBACK");
+			ralog($err);
+			return false;
+		}
+		// Update postcount
+		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
+		. " WHERE `Name`='$timeline'";
+		if (mysqli_query($dbh, $query)) {
+			$err = mysqli_error($dbh);
+			ralog($err);
+			mysqli_query("ROLLBACK");
+			return false;
+		}
+	mysqli_query("COMMIT");
+	ralog("Created Post");
 }
 ?>

@@ -46,9 +46,9 @@ if (isset($_GET['subscribe'])) {
 		}
 	}
 	else if (isset($timeline)) {
-		while(msg_receive($queue, 0, $msgtype, 1024, $topic
-		, false, MSG_NOERROR)) {
-			print $topic;
+//		while(msg_receive($queue, 0, $msgtype, 1024, $topic
+//		, false, MSG_NOERROR)) {
+		while (!sleep(1)) {
 			print json_encode([
 				'id' => $i++,
 				'modified' => '2017-12-07 01:13:24',
@@ -65,17 +65,12 @@ if (isset($_GET['post'])) {
 	$auth = $_COOKIE['auth'];
 	$content = $_POST['content'];
 
-	// Attempt to append $content to the post
-	// The post will be created if it is not already so
-	$post = append_post($timeline, $topic, $auth, $content);
-	print json_encode($post);
-}
-if (isset($_GET['close'])) {
-	$timeline = $_GET['timeline'];
-	$topic = $_GET['topic'];
-	$auth = $_COOKIE['auth'];
-
-	// Close the post in question
-	close_post($timeline, $topic, $auth);
+	// Create a topic
+	if (!isset($topic)) {
+		$topic = create_topic($timeline, $auth, $content);
+	}
+	else {
+		$post = create_post($timeline, $topic, $auth, $content);
+	}
 }
 ?>
