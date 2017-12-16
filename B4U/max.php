@@ -6,7 +6,7 @@ $page = $_GET['p'];
 if (!isset($page)) $page = 0;
 $timeline = $_GET['timeline'];
 $topic = $_GET['topic'];
-$replymode = $_GET['replymode'];
+$postmode = $_GET['postmode'];
 
 // Update a variable in the HTTP GET
 function new_get($a, $value)
@@ -74,12 +74,12 @@ function new_get($a, $value)
 			. "</article>";
 		}
 		print "</div>";
-		if (isset($replymode)) {
+		if (isset($postmode)) {
 			$q = $_GET;
-			unset($q['replymode']);
+			unset($q['postmode']);
 			$q = http_build_query($q);
 			print "<form class=reply method=POST>"
-			. "<textarea rows=3 name=content></textarea>"
+			. "<textarea rows=5 name=content></textarea>"
 			. "<div class=buttons>"
 			. "<a href=?$q class='cancel'>Cancel</a>"
 			. "<input value=Post type=submit>"
@@ -89,7 +89,7 @@ function new_get($a, $value)
 			$q = http_build_query($_GET);
 			print "<footer>"
 			. "<span class=minorbox>"
-			. "<a href=?$q&replymode>Reply to Topic</a>"
+			. "<a href=?$q&postmode>Reply to Topic</a>"
 			. "</span>"
 			. "</footer>";
 		}
@@ -110,10 +110,23 @@ function new_get($a, $value)
 			. "</article>";
 		}
 		print "</div>";
-		if (isset($replymode)) {
+		if (isset($postmode)) {
+			$q = $_GET;
+			unset($q['postmode']);
+			$q = http_build_query($q);
+			print "<form class=reply method=POST>"
+			. "<textarea rows=5 name=content></textarea>"
+			. "<div class=buttons>"
+			. "<a href=?$q class='cancel'>Cancel</a>"
+			. "<input value=Post type=submit>"
+			. "</div>"
+			. "</form>";
 		} else {
+			$q = http_build_query($_GET);
 			print "<footer>"
-			. "<span class=minorbox><a>Create a Topic</a></span>"
+			. "<span class=minorbox>"
+			. "<a href=?$q&postmode>Create a Topic</a>"
+			. "</span>"
 			. "</footer>";
 		}
 	}
