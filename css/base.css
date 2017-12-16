@@ -69,6 +69,7 @@ body {
 	border-width: 1px;
 	border-style: solid;
 	cursor: pointer;
+	text-decoration: none;
 }
 #timelines .collection > a:hover,
 .minorbox:hover {
@@ -87,6 +88,7 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	text-decoration: none;
 }
 .leftnav {
 	left: 0;
@@ -94,7 +96,6 @@ body {
 .rightnav {
 	right: 0;
 }
-#rightpanel,
 #timelines {
 	border-width: 1px;
 	border-style: solid;
@@ -105,29 +106,28 @@ body {
 	right: 0;
 	margin: 20px;
 	margin-left: 40px;
-	padding: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
 	width: calc(80% - 102px);
 	max-height: calc(100% - 80px);
 	overflow-y: auto;
 	overflow-x: hidden;
 	transition: right 0.8s ease-in-out;
 }
-#rightpanel > * {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
 #rightpanel footer {
 	text-align: right;
 }
-header {
-	vertical-align: bottom;
-}
-header > * {
-	padding-right: 5px;
+#rightpanel footer > span {
 	display: inline-block;
+	border-width: 1px;
+	border-top-width: 0px;
+	border-style: solid;
+	border-radius: 0 0 5px 5px;
 }
 .reader {
 	width: 100%;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
 }
 /* Timeline view */
 .reader article {

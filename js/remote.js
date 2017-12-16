@@ -1,9 +1,4 @@
 window.remote = [];
-window.remote.netmessage = function(m)
-{
-	var latency = document.getElementById('latency');
-	latency.innerText = m;
-}
 window.remote.rendertimelines = function(collection)
 {
 	var xhr = new XMLHttpRequest();
@@ -130,7 +125,7 @@ window.remote.updatelatency = function(display)
 	// HEADERS_RECEIVED
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		window.remote.netmessage(Math.round(t2 - t1) + "ms latency");
+		display.innerText = (Math.round(t2 - t1) + "ms latency");
 	}
 	}
 	xhr.open('GET', '/');
