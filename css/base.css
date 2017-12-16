@@ -47,6 +47,10 @@ body {
 	flex-direction: column;
 	flex-wrap: no-wrap;
 }
+.frontcenter .collection a {
+	margin-left: 5px;
+	margin-right: 5px;
+}
 
 #timelines {
 	text-align: center;
@@ -60,19 +64,24 @@ body {
 	justify-content: center;
 	margin: 10px;
 }
+#timelines .collection > a {
+	margin-bottom: 15px;
+}
 #timelines .collection > a,
-.minorbox {
+.minorbox,
+.reply .buttons > * {
+	display: block;
 	margin-bottom: 15px;
 	padding-left: 5px;
 	padding-right: 5px;
 	transition: box-shadow 0.5s, color 1s;
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid;
 	cursor: pointer;
 	text-decoration: none;
 }
 #timelines .collection > a:hover,
-.minorbox:hover {
+.minorbox:hover,
+.reply .buttons > *:hover {
 	box-shadow: -3px 3px 10px;
 }
 #timelinenav {
@@ -102,6 +111,7 @@ body {
 }
 #rightpanel {
 	position: absolute;
+
 	top: 0;
 	right: 0;
 	margin: 20px;
@@ -110,8 +120,10 @@ body {
 	padding-right: 20px;
 	width: calc(80% - 102px);
 	max-height: calc(100% - 80px);
-	overflow-y: auto;
-	overflow-x: hidden;
+
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
 	transition: right 0.8s ease-in-out;
 }
 #rightpanel footer {
@@ -122,7 +134,25 @@ body {
 	border-width: 1px;
 	border-top-width: 0px;
 	border-style: solid;
-	border-radius: 0 0 5px 5px;
+}
+.reply {
+	display: flex;
+	align-content: flex-end;
+}
+.reply .buttons .cancel {
+	border-top: 0;
+	display: block;
+	margin: 0;
+	top: 0;
+}
+.reply .buttons input[type=submit] {
+	margin-left: auto;
+	display: block;
+	border-top: 0;
+}
+.reply textarea {
+	border-bottom: 1px solid;
+	border-left: 1px solid;
 }
 .reader {
 	width: 100%;
@@ -130,6 +160,7 @@ body {
 	padding-bottom: 5px;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
+	overflow: auto;
 }
 /* Timeline view */
 .reader article {
@@ -179,22 +210,6 @@ body {
 }
 .reader.expanded .num:hover {
 	cursor: pointer;
-}
-.precommit {
-	cursor: text;
-	background-color: yellow;
-	display: inline-block;
-	min-height: 1em;
-	min-width: 10px;
-}
-.postcommit {
-	background-color: red;
-}
-.precommit, .postcommit {
-	white-space: pre;
-}
-#title {
-	display: inline-block;
 }
 .choicebox {
 	display: inline;
@@ -276,18 +291,23 @@ body.preload * {
 input[type=submit] {
 	padding-left: 5px;
 	padding-right: 5px;
+	background: inherit;
+	font: inherit;
+	line-height: normal;
 }
 h1, h2, h3, h4, h5, h6 {
 	margin: 0px;
 }
 a {
 	cursor: pointer;
+	text-decoration: none;
 }
 textarea {
 	font-family: inherit;
+	width: 100%;
 	outline: none;
 	resize: none;
-	overflow: hidden;
 	border: 0;
 	height: auto;
+	margin: 0;
 }

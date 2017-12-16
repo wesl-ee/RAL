@@ -32,18 +32,14 @@ if (!isset($page)) $page = 0;
 	<?php
 	if ($page > 0) {
 		$nextpage = $page - 1;
-		$q = $_GET;
-		$q['p'] = $nextpage;
-		$q = http_build_query($q);
+		$q = "p=$nextpage";
 		print "<a class='leftnav' href='?$q'>"
 		. "◀"
 		. "</a>";
 	}
 	if ($page * $per_page < count($timelines) / $per_page) {
 		$nextpage = $page + 1;
-		$q = $_GET;
-		$q['p'] = $nextpage;
-		$q = http_build_query($q);
+		$q = "p=$nextpage";
 		print "<a class='rightnav' href='?$q'>"
 		. "▶"
 		. "</a>";

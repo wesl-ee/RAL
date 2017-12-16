@@ -6,6 +6,7 @@ $page = $_GET['p'];
 if (!isset($page)) $page = 0;
 $timeline = $_GET['timeline'];
 $topic = $_GET['topic'];
+$replymode = $_GET['replymode'];
 
 // Update a variable in the HTTP GET
 function new_get($a, $value)
@@ -72,10 +73,26 @@ function new_get($a, $value)
 			. "<span class=content>$content</a>"
 			. "</article>";
 		}
-		print "</div>"
-		. "<footer>"
-		. "<span class=minorbox><a>Reply to Topic</a></span>"
-		. "</footer>";
+		print "</div>";
+		if (isset($replymode)) {
+			$q = $_GET;
+			unset($q['replymode']);
+			$q = http_build_query($q);
+			print "<form class=reply method=POST>"
+			. "<textarea rows=3 name=content></textarea>"
+			. "<div class=buttons>"
+			. "<a href=?$q class='cancel'>Cancel</a>"
+			. "<input value=Post type=submit>"
+			. "</div>"
+			. "</form>";
+		} else {
+			$q = http_build_query($_GET);
+			print "<footer>"
+			. "<span class=minorbox>"
+			. "<a href=?$q&replymode>Reply to Topic</a>"
+			. "</span>"
+			. "</footer>";
+		}
 	} else {
 		$title = strtoupper($timeline);
 		print "<h3>$title</h3>"
@@ -92,13 +109,15 @@ function new_get($a, $value)
 			. "<a href='?$q'class=content>$content</a>"
 			. "</article>";
 		}
-		print "</div>"
-		. "<footer>"
-		. "<span class=minorbox><a>Create a Topic</a></span>"
-		. "</footer>";
+		print "</div>";
+		if (isset($replymode)) {
+		} else {
+			print "<footer>"
+			. "<span class=minorbox><a>Create a Topic</a></span>"
+			. "</footer>";
+		}
 	}
 	?>
-
 </div>
 </body>
 <script src='/js/esthetic.js'></script>
