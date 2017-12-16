@@ -5,6 +5,7 @@ include '../includes/courier.php';
 $page = $_GET['p'];
 if (!isset($page)) $page = 0;
 $timeline = $_GET['timeline'];
+$topic = $_GET['topic'];
 
 // Update a variable in the HTTP GET
 function new_get($a, $value)
@@ -34,7 +35,7 @@ function new_get($a, $value)
 	&& ($i < count($timelines)); $i++) {
 		$name = $timelines[$i]['name'];
 		$desc = $timelines[$i]['name'];
-		$q = new_get('timeline', $name);
+		$q = "p=$page&timeline=$name";
 		print "<a href=max.php?$q>$name</a>";
 	}
 	?></div>
@@ -56,16 +57,48 @@ function new_get($a, $value)
 	?>
 </div>
 <div id=rightpanel>
-	<h3><?php print strtoupper($timeline)?></h3>
-	<div class=reader>
-		<article>a</article>
-		<article>a</article>
-		<article>a</article>
-		<article>a</article>
-	</div>
-	<footer>
-		<span><a>Reply</a></span>
-	</footer>
+	<?php if (isset($topic)) {
+		$title = strtoupper("$timeline No. $topic");
+		print "<h3>$title</h3>"
+		. "<div class='reader expanded'>";
+		$posts = fetch_posts($timeline, $topic);
+		foreach ($posts as $post) {
+			$content = $post['content'];
+			$time = date('m/d h:m', strtotime($post['date']));
+			$id = $post['id'];
+			print "<article>"
+			. "<time>$time</time>"
+			. "<span class=id>No. $id</span>"
+			. "<span class=content>$content</a>"
+			. "</article>";
+		}
+		print "</div>"
+		. "<footer>"
+		. "<span class=minorbox><a>Reply to Topic</a></span>"
+		. "</footer>";
+	} else {
+		$title = strtoupper($timeline);
+		print "<h3>$title</h3>"
+		. "<div class='reader timeline'>";
+		$topics = fetch_topics($timeline);
+		foreach ($topics as $topic) {
+			$content = $topic['content'];
+			$time = date('m/d  h:m', strtotime($topic['date']));
+			$id = $topic['id'];
+			$q = new_get('topic', $id);
+			print "<article>"
+			. "<time>$time</time>"
+			. "<span class=id>No. $id</span>"
+			. "<a href='?$q'class=content>$content</a>"
+			. "</article>";
+		}
+		print "</div>"
+		. "<footer>"
+		. "<span class=minorbox><a>Create a Topic</a></span>"
+		. "</footer>";
+	}
+	?>
+
 </div>
 </body>
 <script src='/js/esthetic.js'></script>

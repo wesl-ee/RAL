@@ -38,7 +38,7 @@ body {
 	max-width: calc(20% - 20px);
 	text-align: justify;
 }
-.sidebar #latency {
+.sidebar .latency {
 	width: 100%;
 	text-wrap: break-word;
 	text-align: justify;
@@ -62,7 +62,7 @@ body {
 }
 #timelines .collection > a,
 .minorbox {
-	margin: 7px;
+	margin-bottom: 15px;
 	padding-left: 5px;
 	padding-right: 5px;
 	transition: box-shadow 0.5s, color 1s;
@@ -91,10 +91,10 @@ body {
 	text-decoration: none;
 }
 .leftnav {
-	left: 0;
+	left: 5px;
 }
 .rightnav {
-	right: 0;
+	right: 5px;
 }
 #timelines {
 	border-width: 1px;
@@ -126,6 +126,8 @@ body {
 }
 .reader {
 	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 }
@@ -142,12 +144,12 @@ body {
 	margin 0.8s ease-in 0.8s;
 }
 .reader article time,
-.reader article .num,
+.reader article .id,
 .reader article .content {
 	white-space: nowrap;
 }
 .reader article time,
-.reader article .num {
+.reader article .id {
 	margin-left: 5px;
 	margin-right: 5px;
 }
@@ -160,6 +162,7 @@ body {
 	text-align: justify;
 	cursor: pointer;
 	transition: height 0.8s ease-in-out;
+	text-decoration: none;
 }
 .reader article .content.open {
 	border-right-color: red;

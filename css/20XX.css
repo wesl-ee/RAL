@@ -25,9 +25,9 @@ dl, ul, ol {
 	color: black;
 	background: white;
 }
-#reader.timeline .content:hover,
-#reader.expanded .num:hover,
-header a:hover {
+.reader.timeline .content:hover,
+.reader.expanded .num:hover,
+footer a:hover {
 	color: #5ABFCF;
 }
 .error {
