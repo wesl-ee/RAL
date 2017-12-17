@@ -134,6 +134,7 @@ body {
 	border-width: 1px;
 	border-top-width: 0px;
 	border-style: solid;
+	margin-left: 10px;
 }
 .reply {
 	display: flex;

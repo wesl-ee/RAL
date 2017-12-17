@@ -19,14 +19,21 @@ if (!isset($page)) $page = 0;
 	<h3>RAL</h3>
 	<span class=latency>&nbsp</span>
 	<div class=collection><?php
-	$per_page = 5;
+	/* Draw the timelines panel (left sidebar) */
+	$per_page = CONFIG_TIMELINES_PER_PAGE;
 	$timelines = fetch_timelines();
-	for ($i = $page * $per_page; ($i < ($page + 1) * $per_page)
-	&& ($i < count($timelines))
-	&& ($i >= 0); $i++) {
+	for ($i = 0; $i < count($timelines); $i++) {
 		$name = $timelines[$i]['name'];
-		$desc = $timelines[$i]['name'];
-		print "<a href=max.php?timeline=$name>$name</a>";
+		$desc = $timelines[$i]['description'];
+		$q = "p=$page&timeline=$name";
+		// Put all timelines in the DOM (but only
+		// display some) (for JS)
+		if ($i < $page * $per_page
+		|| $i >= ($page + 1) * $per_page)
+			print "<a href=max.php?$q"
+			. " style=display:none>$name</a>";
+		else
+			print "<a href=max.php?$q>$name</a>";
 	}
 	?></div>
 	<?php
