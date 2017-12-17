@@ -1,6 +1,7 @@
 <?php
 include '../includes/config.php';
 include '../includes/courier.php';
+include '../includes/posting.php';
 
 // Track which page of timelines we are looking at
 $page = $_GET['p'];
@@ -73,6 +74,38 @@ $timelines = fetch_timelines();
 </div>
 <div id=rightpanel>
 	<?php
+	// Posting in a topic
+	if (isset($_POST['content']) && isset($topic)) {
+		$auth = $_COOKIE['auth'];
+		$content = $_POST['content'];
+
+		// Strip down the content ; )
+		$content = trim($content);
+		$content = stripslashes($content);
+		$content = htmlspecialchars($content);
+		if (create_post($timeline, $topic, $auth, $content)) {
+			print 'Post created!';
+		}
+		else {
+			print 'Failed to create post. . .';
+		}
+	}
+	// Posting to the timeline
+	else if (isset($_POST['content'])) {
+		$auth = $_COOKIE['auth'];
+		$content = $_POST['content'];
+
+		// Strip down the content ; )
+		$content = trim($content);
+		$content = stripslashes($content);
+		$content = htmlspecialchars($content);
+		if (create_topic($timeline, $auth, $content)) {
+			print 'Topic created!';
+		}
+		else {
+			print 'Failed to create topic. . .';
+		}
+	}
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
 		$title = strtoupper("$timeline No. $topic");
@@ -120,18 +153,19 @@ $timelines = fetch_timelines();
 		$title = strtoupper($timeline);
 		print "<h3>$title</h3>"
 		. "<div class='reader timeline'>";
+		$q = $_GET;
+		unset($q['postmode']);
 		$topics = fetch_topics($timeline);
 		foreach ($topics as $topic) {
 			$content = $topic['content'];
 			$time = date('m/d  h:m', strtotime($topic['date']));
 			$id = $topic['id'];
-			$q = $_GET;
 			$q['topic'] = $id;
-			$q = http_build_query($q);
+			$p = http_build_query($q);
 			print "<article>"
 			. "<time>$time</time>"
 			. "<span class=id>No. $id</span>"
-			. "<a href='?$q'class=content>$content</a>"
+			. "<a href='?$p'class=content>$content</a>"
 			. "</article>";
 		}
 		print "</div>";

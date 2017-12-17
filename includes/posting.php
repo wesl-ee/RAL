@@ -51,13 +51,14 @@ function create_post($timeline, $topic, $auth, $content)
 
 	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
-		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Open`, `Auth`) SELECT"
+		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Auth`, `Content`) SELECT"
 		. " `Post Count` AS `Id`"
 		. ", '$timeline' AS `Timeline`"
 		. ", $topic AS `Topic`"
 		. ", '$auth' AS `Auth`"
+		. ", '$content' AS `Content`"
 		. " FROM `Timelines` WHERE Name='$timeline'";
-		if (mysqli_query($dbh, $query)) {
+		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
 			ralog($err);
@@ -66,7 +67,7 @@ function create_post($timeline, $topic, $auth, $content)
 		// Update postcount
 		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
 		. " WHERE `Name`='$timeline'";
-		if (mysqli_query($dbh, $query)) {
+		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			ralog($err);
 			mysqli_query("ROLLBACK");
@@ -74,6 +75,7 @@ function create_post($timeline, $topic, $auth, $content)
 		}
 	mysqli_query("COMMIT");
 	ralog("Created Post");
+	return true;
 }
 // Creates the post on a given (timeline, topic)
 function create_topic($timeline, $auth, $content)
@@ -89,28 +91,30 @@ function create_topic($timeline, $auth, $content)
 
 	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
-		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Open`, `Auth`) SELECT"
+		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Auth`, `Content`) SELECT"
 		. " `Post Count` AS `Id`"
 		. ", '$timeline' AS `Timeline`"
 		. ", `Post Count` AS `Topic`"
 		. ", '$auth' AS `Auth`"
+		. ", '$content' AS `Content`"
 		. " FROM `Timelines` WHERE Name='$timeline'";
-		if (mysqli_query($dbh, $query)) {
+		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
-			ralog($err);
+			ralog("$err while creating topic");
 			return false;
 		}
 		// Update postcount
 		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
 		. " WHERE `Name`='$timeline'";
-		if (mysqli_query($dbh, $query)) {
+		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
-			ralog($err);
+			ralog("$err while updating post count after creating a topic");
 			mysqli_query("ROLLBACK");
 			return false;
 		}
 	mysqli_query("COMMIT");
-	ralog("Created Post");
+	ralog("Created topic");
+	return true;
 }
 ?>
