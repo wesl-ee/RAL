@@ -1,28 +1,12 @@
-function flashmessages(e) {
-	var xxx = [
-		'The future',
-		'Virtual Reality',
-		'20XX',
-		'New society',
-		'Now',
-		'Forever',
-		'Tomorrow',
-		'Yesterday',
-		'The Void',
-		'Nothing',
-		'Arcadia',
-		'Everything',
-		'Digital Heaven',
-	]
+function flashmessages(elem, messages) {
 	var speed = 400;
 	var i, j;
 	function writer() {
-		do {
-			j = Math.floor(Math.random()*xxx.length);
+		do { j = Math.floor(Math.random()*messages.length);
 		} while (j == i);
 		i = j;
-		txt = xxx[i];
-		e.innerText = txt;
+		txt = messages[i];
+		elem.innerText = txt;
 	}
 	setInterval(writer, speed);
 }

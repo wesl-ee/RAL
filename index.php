@@ -24,8 +24,22 @@ if (!isset($_COOKIE['auth'])) {
 </div>
 </body>
 <script src='js/esthetic.js'></script>
-<script src='js/remote.js'></script>
 <script>
-	flashmessages(document.getElementById('xxx'));
+	var xxx = [
+		'The future',
+		'Virtual Reality',
+		'20XX',
+		'New society',
+		'Now',
+		'Forever',
+		'Tomorrow',
+		'Yesterday',
+		'The Void',
+		'Nothing',
+		'Arcadia',
+		'Everything',
+		'Digital Heaven',
+	]
+	flashmessages(document.getElementById('xxx'), xxx);
 </script>
 </HTML>
