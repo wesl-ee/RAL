@@ -15,13 +15,50 @@ $postmode = $_GET['postmode'];
 // Default to the first page of timelines
 if (!isset($page)) $page = 0;
 
+// Posting in a topic
+if (isset($_POST['content']) && isset($topic)) {
+	$auth = $_COOKIE['auth'];
+	$content = $_POST['content'];
+
+	// Strip down the content ; )
+	$content = trim($content);
+	$content = stripslashes($content);
+	$content = htmlspecialchars($content);
+	if (create_post($timeline, $topic, $auth, $content)) {
+		header("HTTP/1.1 303 See Other");
+		header("Location: r3.php?$_SERVER[QUERY_STRING]");
+		die;
+	}
+	else {
+		print 'Failed to create post. . .';
+	}
+}
+// Posting to the timeline
+else if (isset($_POST['content'])) {
+	$auth = $_COOKIE['auth'];
+	$content = $_POST['content'];
+
+	// Strip down the content ; )
+	$content = trim($content);
+	$content = stripslashes($content);
+	$content = htmlspecialchars($content);
+	if (create_topic($timeline, $auth, $content)) {
+		header("HTTP/1.1 303 See Other");
+		header("Location: r3.php?$_SERVER[QUERY_STRING]");
+		die;
+	}
+	else {
+		print 'Failed to create topic. . .';
+	}
+}
+
 $timelines = fetch_timelines();
 ?>
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<link rel=stylesheet href="/css/base.css">
-	<link rel=stylesheet href="/css/20XX.css">
+	<link rel=stylesheet href="../css/base.css">
+	<link rel=stylesheet href="../css/20XX.css">
 	<meta name=viewport
 	content="width=device-width; maximum-scale=1; minimum-scale=1">
 	<title>RAL</title>
@@ -192,8 +229,7 @@ $timelines = fetch_timelines();
 	?>
 </div>
 </body>
-<script src='/js/esthetic.js'></script>
-<script src='/js/remote.js'></script>
+<script src='../js/remote.js'></script>
 <script>
 var timelines = document.getElementById('timelines');
 var latency = timelines.getElementsByClassName('latency')[0];

@@ -8,8 +8,8 @@ if (!isset($page)) $page = 0;
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<link rel=stylesheet href="/css/base.css">
-	<link rel=stylesheet href="/css/20XX.css">
+	<link rel=stylesheet href="../css/base.css">
+	<link rel=stylesheet href="../css/20XX.css">
 	<meta name=viewport
 	content="width=device-width; maximum-scale=1; minimum-scale=1">
 	<title>RAL</title>
@@ -54,8 +54,7 @@ if (!isset($page)) $page = 0;
 	?>
 </div>
 </body>
-<script src='/js/esthetic.js'></script>
-<script src='/js/remote.js'></script>
+<script src='../js/remote.js'></script>
 <script>
 var timelines = document.getElementById('timelines');
 var latency = timelines.getElementsByClassName('latency')[0];
