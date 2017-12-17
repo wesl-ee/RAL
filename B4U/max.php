@@ -166,6 +166,9 @@ $timelines = fetch_timelines();
 		$topics = fetch_topics($timeline);
 		foreach ($topics as $topic) {
 			$content = $topic['content'];
+			// Dress up the content
+			$content = nl2br($content);
+			$content = bbbbbbb($content);
 			$time = date("M d Y", strtotime($topic['date']));
 			$id = $topic['id'];
 			$q['topic'] = $id;
