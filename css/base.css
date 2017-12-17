@@ -77,12 +77,22 @@ body {
 	transition: box-shadow 0.5s, color 1s;
 	border: 1px solid;
 	cursor: pointer;
-	text-decoration: none;
 }
 #timelines .collection > a:hover,
 .minorbox:hover,
 .reply .buttons > *:hover {
 	box-shadow: -3px 3px 10px;
+}
+.collection a,
+.minorbox,
+.choicebox a,
+.content,
+.reply .buttons > a,
+.leftnav,
+.rightnav,
+footer a {
+	color: inherit;
+	text-decoration: none;
 }
 #timelinenav {
 	position: relative;
@@ -176,8 +186,7 @@ body {
 	margin 0.8s ease-in 0.8s;
 }
 .reader article time,
-.reader article .id,
-.reader article .content {
+.reader article .id {
 	white-space: nowrap;
 }
 .reader article time,
@@ -185,13 +194,18 @@ body {
 	margin-left: 5px;
 	margin-right: 5px;
 }
+.reader.timeline article .content {
+	position: relative;
+	max-height: 2.4em;
+}
 .reader article .content {
 	border-right-width: 2px;
 	border-right-style: solid;
 	padding-right: 10px;
 	overflow: hidden;
-	text-overflow: ellipsis;
+	line-height: 1.2em;
 	text-align: justify;
+	text-align-last: right;
 	cursor: pointer;
 	transition: height 0.8s ease-in-out;
 	text-decoration: none;
@@ -204,9 +218,6 @@ body {
 	height: initial;
 }
 .reader.expanded article .content {
-	white-space: initial;
-	text-align: justify;
-	text-align-last: right;
 	cursor: default;
 }
 .reader.expanded .num:hover {
@@ -274,10 +285,6 @@ body {
 		font-size: 125%;
 	}
 }
-a {
-	outline: none;
-	color: inherit;
-}
 body.preload * {
 	animation-duration: 0s !important;
 	-webkit-animation-duration: 0s !important;
@@ -301,7 +308,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 a {
 	cursor: pointer;
-	text-decoration: none;
+	outline: none;
 }
 textarea {
 	font-family: inherit;

@@ -49,7 +49,7 @@ function fetch_posts($timeline, $topic)
 	$timeline = mysqli_real_escape_string($dbh, $timeline);
 	$topic = mysqli_real_escape_string($dbh, $topic);
 	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' AND `Topic`=$topic AND (Id!=$topic)";
+	. " WHERE `Timeline`='$timeline' AND `Topic`=$topic";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {

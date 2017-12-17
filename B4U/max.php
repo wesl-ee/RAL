@@ -111,38 +111,6 @@ $timelines = fetch_timelines();
 </div>
 <div id=rightpanel>
 	<?php
-	// Posting in a topic
-	if (isset($_POST['content']) && isset($topic)) {
-		$auth = $_COOKIE['auth'];
-		$content = $_POST['content'];
-
-		// Strip down the content ; )
-		$content = trim($content);
-		$content = stripslashes($content);
-		$content = htmlspecialchars($content);
-		if (create_post($timeline, $topic, $auth, $content)) {
-			print 'Post created!';
-		}
-		else {
-			print 'Failed to create post. . .';
-		}
-	}
-	// Posting to the timeline
-	else if (isset($_POST['content'])) {
-		$auth = $_COOKIE['auth'];
-		$content = $_POST['content'];
-
-		// Strip down the content ; )
-		$content = trim($content);
-		$content = stripslashes($content);
-		$content = htmlspecialchars($content);
-		if (create_topic($timeline, $auth, $content)) {
-			print 'Topic created!';
-		}
-		else {
-			print 'Failed to create topic. . .';
-		}
-	}
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
 		$title = strtoupper("$timeline No. $topic");
@@ -151,12 +119,15 @@ $timelines = fetch_timelines();
 		$posts = fetch_posts($timeline, $topic);
 		foreach ($posts as $post) {
 			$content = $post['content'];
-			$time = date('m/d h:m', strtotime($post['date']));
+			// Dress up the content
+			$content = nl2br($content);
+			$content = bbbbbbb($content);
+			$time = date('M d Y h:i', strtotime($post['date']));
 			$id = $post['id'];
 			print "<article>"
 			. "<time>$time</time>"
 			. "<span class=id>No. $id</span>"
-			. "<span class=content>$content</a>"
+			. "<span class=content>$content</span>"
 			. "</article>";
 		}
 		print "</div>";
@@ -195,7 +166,7 @@ $timelines = fetch_timelines();
 		$topics = fetch_topics($timeline);
 		foreach ($topics as $topic) {
 			$content = $topic['content'];
-			$time = date('m/d  h:m', strtotime($topic['date']));
+			$time = date("M d Y", strtotime($topic['date']));
 			$id = $topic['id'];
 			$q['topic'] = $id;
 			$p = http_build_query($q);
