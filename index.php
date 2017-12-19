@@ -22,24 +22,26 @@ if (!isset($_COOKIE['auth'])) {
 		<a href='/B4U'>Enter</a>
 	</div>
 </div>
-</body>
+<!-- Scripts -->
 <script src='js/esthetic.js'></script>
 <script>
-	var xxx = [
-		'The future',
-		'Virtual Reality',
-		'20XX',
-		'New society',
-		'Now',
-		'Forever',
-		'Tomorrow',
-		'Yesterday',
-		'The Void',
-		'Nothing',
-		'Arcadia',
-		'Everything',
-		'Digital Heaven',
-	]
-	flashmessages(document.getElementById('xxx'), xxx);
+var xxx = [
+	'The future',
+	'Virtual Reality',
+	'20XX',
+	'New society',
+	'Now',
+	'Forever',
+	'Tomorrow',
+	'Yesterday',
+	'The Void',
+	'Nothing',
+	'Arcadia',
+	'Everything',
+	'Digital Heaven',
+]
+flashmessages(document.getElementById('xxx'), xxx, 300);
 </script>
+<!-- End of scripts -->
+</body>
 </HTML>

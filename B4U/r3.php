@@ -14,4 +14,23 @@ header("Refresh: 5;max.php?$_SERVER[QUERY_STRING]");
 	<h1 id=xxx>Successful</h1>
 </div>
 </body>
+<script src='../js/esthetic.js'></script>
+<script>
+var xxx = [
+	'Sent',
+	'Uploaded',
+	'Exported',
+	'Posted',
+	'Exchanged',
+	'Transmitted',
+	'Uplinked',
+	'Carried',
+	'Relayed',
+	'Delivered',
+	'Accepted',
+	'Entered',
+	'Comunicated',
+]
+flashmessages(document.getElementById('xxx'), xxx, 100);
+</script>
 </HTML>

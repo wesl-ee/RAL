@@ -31,13 +31,17 @@ if (!isset($page)) $page = 0;
 		if ($i < $page * $per_page
 		|| $i >= ($page + 1) * $per_page)
 			print "<a href=max.php?$q"
-			. " style=display:none>$name</a>";
+			. " style='visibility: hidden; display:none'>$name</a>";
 		else
 			print "<a href=max.php?$q>$name</a>";
 	}
 	?></div>
 	<?php
-	if ($page > 0) {
+	if (!$page) {
+		print "<a class='leftnav' style='visibility:hidden'>"
+		. "◀"
+		. "</a>";
+	} else {
 		$nextpage = $page - 1;
 		$q = "p=$nextpage";
 		print "<a class='leftnav' href='?$q'>"
@@ -50,14 +54,43 @@ if (!isset($page)) $page = 0;
 		print "<a class='rightnav' href='?$q'>"
 		. "▶"
 		. "</a>";
+	} else {
+		print "<a class='rightnav' style='visibility:hidden'>"
+		. "▶"
+		. "</a>";
 	}
 	?>
 </div>
-</body>
+
+<!-- Scripts -->
 <script src='../js/remote.js'></script>
+<script src='../js/esthetic.js'></script>
 <script>
+/* Make the site pretty if the user has JS */
 var timelines = document.getElementById('timelines');
 var latency = timelines.getElementsByClassName('latency')[0];
-window.remote.updatelatency(latency);
+updatelatency(latency);
+
+var collection = timelines.getElementsByClassName('collection')[0];
+var leftnav = timelines.getElementsByClassName('leftnav')[0];
+var rightnav = timelines.getElementsByClassName('rightnav')[0];
+collection.currpage = 0;
+
+// Control which collection to navigate
+leftnav.collection = collection;
+rightnav.collection = collection;
+
+rightnav.setAttribute('href', '');
+rightnav.addEventListener('click', function(e) {
+	e.preventDefault();
+	timelinescroll(collection, collection.currpage + 1);
+});
+leftnav.setAttribute('href', '');
+leftnav.addEventListener('click', function(e) {
+	e.preventDefault();
+	timelinescroll(collection, collection.currpage - 1);
+});
 </script>
+<!-- End of scripts -->
+</body>
 </HTML>
