@@ -14,6 +14,29 @@ function connectnav(collection, leftnav, rightnav)
 		e.preventDefault();
 		timelinescroll(collection, collection.currpage - 1);
 	});
+
+	// Remove the ?p= from the href query string (since JS
+	// keeps track of the current page
+	var children = collection.childNodes;
+	for (var i = 0; i < children.length; i++) {
+		var href = children[i].href;
+		var query = href.slice(href.indexOf('?') + 1);
+		var page = href.slice(0, href.indexOf('?'));
+		query = removequeryparts(query, ['p']);
+		children[i].href = page + '?' + query;
+	}
+}
+// Remove a parameter from the GET query string (do not pass
+// the ? or location!)
+function removequeryparts(query, params)
+{
+	var parts = query.split('&');
+	var newparts = [];
+	for (var k = 0; k < parts.length; k++) {
+		if (params.indexOf(parts[k].split('=')[0]) < 0)
+		newparts.push(parts[k]);
+	}
+	return newparts.join('&');
 }
 function timelinescroll(collection, page)
 {

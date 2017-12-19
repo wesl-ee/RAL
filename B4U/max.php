@@ -1,7 +1,7 @@
 <?php
 include '../includes/config.php';
-include '../includes/courier.php';
-include '../includes/posting.php';
+include '../includes/fetch.php';
+include '../includes/post.php';
 
 // Track which page of timelines we are looking at
 $page = $_GET['p'];
@@ -59,8 +59,7 @@ $timelines = fetch_timelines();
 <head>
 	<link rel=stylesheet href="../css/base.css">
 	<link rel=stylesheet href="../css/20XX.css">
-	<meta name=viewport
-	content="width=device-width; maximum-scale=1; minimum-scale=1">
+	<meta name=viewport content="width=device-width; maximum-scale=1; minimum-scale=1">
 	<title>RAL</title>
 </head>
 <body>

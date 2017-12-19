@@ -5,8 +5,7 @@ header("Refresh: 5;max.php?$_SERVER[QUERY_STRING]");
 <head>
 	<link rel=stylesheet href="../css/base.css">
 	<link rel=stylesheet href="../css/20XX.css">
-	<meta name=viewport
-	content="width=device-width; maximum-scale=1; minimum-scale=1">
+	<meta name=viewport content="width=device-width; maximum-scale=1; minimum-scale=1">
 	<title>RAL</title>
 </head>
 <body>

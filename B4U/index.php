@@ -1,6 +1,6 @@
 <?php
 include '../includes/config.php';
-include '../includes/courier.php';
+include '../includes/fetch.php';
 
 $page = $_GET['p'];
 if (!isset($page)) $page = 0;

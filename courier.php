@@ -1,6 +1,6 @@
 <?php
 include 'includes/config.php';
-include 'includes/courier.php';
+include 'includes/fetch.php';
 include 'includes/posting.php';
 
 // Initial fetch for reading

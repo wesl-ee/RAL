@@ -149,6 +149,7 @@ footer a {
 .reply {
 	display: flex;
 	align-content: flex-end;
+	flex: 0 0 auto;
 }
 .reply .buttons .cancel {
 	border-top: 0;
