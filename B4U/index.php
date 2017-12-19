@@ -74,22 +74,8 @@ updatelatency(latency);
 var collection = timelines.getElementsByClassName('collection')[0];
 var leftnav = timelines.getElementsByClassName('leftnav')[0];
 var rightnav = timelines.getElementsByClassName('rightnav')[0];
-collection.currpage = 0;
 
-// Control which collection to navigate
-leftnav.collection = collection;
-rightnav.collection = collection;
-
-rightnav.setAttribute('href', '');
-rightnav.addEventListener('click', function(e) {
-	e.preventDefault();
-	timelinescroll(collection, collection.currpage + 1);
-});
-leftnav.setAttribute('href', '');
-leftnav.addEventListener('click', function(e) {
-	e.preventDefault();
-	timelinescroll(collection, collection.currpage - 1);
-});
+connectnav(collection, leftnav, rightnav);
 </script>
 <!-- End of scripts -->
 </body>

@@ -13,7 +13,8 @@ header("Refresh: 5;max.php?$_SERVER[QUERY_STRING]");
 <div id=welcome>
 	<h1 id=xxx>Successful</h1>
 </div>
-</body>
+
+<!-- Scripts -->
 <script src='../js/esthetic.js'></script>
 <script>
 var xxx = [
@@ -33,4 +34,6 @@ var xxx = [
 ]
 flashmessages(document.getElementById('xxx'), xxx, 100);
 </script>
+<!-- End of scripts -->
+</body>
 </HTML>

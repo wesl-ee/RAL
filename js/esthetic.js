@@ -1,4 +1,21 @@
-timelinescroll = function(collection, page)
+// Add JS functionality to timeline navigators and
+// block their HTML hrefs
+function connectnav(collection, leftnav, rightnav)
+{
+	collection.currpage = 0;
+
+	rightnav.setAttribute('href', '');
+	rightnav.addEventListener('click', function(e) {
+		e.preventDefault();
+		timelinescroll(collection, collection.currpage + 1);
+	});
+	leftnav.setAttribute('href', '');
+	leftnav.addEventListener('click', function(e) {
+		e.preventDefault();
+		timelinescroll(collection, collection.currpage - 1);
+	});
+}
+function timelinescroll(collection, page)
 {
 	var results_per_page = 5;
 
