@@ -57,9 +57,9 @@ $timelines = fetch_timelines();
 <!DOCTYPE HTML>
 <HTML>
 <head>
+	<meta name=viewport content="width=device-width, maximum-scale=1, minimum-scale=1">
 	<link rel=stylesheet href="../css/base.css">
 	<link rel=stylesheet href="../css/20XX.css">
-	<meta name=viewport content="width=device-width; maximum-scale=1; minimum-scale=1">
 	<title>RAL</title>
 </head>
 <body>
