@@ -194,16 +194,24 @@ footer a {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-.reader.timeline article .content {
+.reader.timeline .content {
 	position: relative;
-	max-height: 2.4em;
+	max-height: 2.8em;
+}
+.reader .content pre {
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: auto;
+	text-align: left;
+	text-align-last: left;
 }
 .reader article .content {
 	border-right-width: 2px;
 	border-right-style: solid;
 	padding-right: 10px;
 	overflow: hidden;
-	line-height: 1.2em;
+	line-height: 1.4em;
 	text-align: justify;
 	text-align-last: right;
 	cursor: pointer;
