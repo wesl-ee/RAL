@@ -15,6 +15,7 @@ function bbbbbbb($string)
 	$commits = [];
 	// First, find all changes which should be made and make note of them
 	for ($i = 0; $i < count($lines); $i++) {
+		$line = $lines[$i];
 		$a = 0;
 		while (($a = indexOf($lines[$i], "[", $a) + 1) > 0
 		&& ($b = indexOf($lines[$i], "]", $a)) > $a) {
@@ -46,8 +47,11 @@ function bbbbbbb($string)
 				}
 
 				// Replace the bbCode tag
-				$lines[$i] = substr($lines[$i], 0, $a - 1)
-				. substr($lines[$i], $b + 1);
+/*				for ($k = $a - 1; $k <= $b; $k++) {
+					$line{$k} = '';
+				}*/
+				$line = substr($line, 0, $a - 1)
+				. substr($line, $b + 1);
 
 				$commits[$i][$a-1] = $replacement;
 				$opened[$tag]--;
@@ -80,24 +84,30 @@ function bbbbbbb($string)
 				}
 
 				// Replace the bbCode tag
-				$lines[$i] = substr($lines[$i], 0, $a - 1)
-				. substr($lines[$i], $b + 1);
+/*				for ($k = $a - 1; $k <= $b; $k++) {
+					$line{$k} = '';
+				}*/
+				$line = substr($line, 0, $a - 1)
+				. substr($line, $b + 1);
 
 				$commits[$i][$a-1] = $replacement;
 				$opened[$tag]++;
 			}
+			$lines[$i] = $line;
 		}
 	}
-
 	// Commit the changes which were suggested
 	foreach ($commits as $n => $changes) {
 	$o = 0;
+	$line = $lines[$n];
+	$linelen = strlen($line);
 	foreach ($changes as $i => $change) {
-		$lines[$n] = substr($lines[$n], 0, $i + $o)
+		$line = substr($line, 0, $i + $o)
 		. $change
-		. substr($lines[$n], $i + $o);
+		. substr($line, $i + $o);
+
 		$o += strlen($change);
-	} }
+	} $lines[$n] = $line; }
 	return join(PHP_EOL, $lines);
 }
 // Creates the post on a given (timeline, topic)

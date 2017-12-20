@@ -75,6 +75,26 @@ var leftnav = timelines.getElementsByClassName('leftnav')[0];
 var rightnav = timelines.getElementsByClassName('rightnav')[0];
 
 connectnav(collection, leftnav, rightnav);
+
+// Zoom out animation
+var children = collection.childNodes;
+for (var i = 0; i < children.length; i++) {
+	children[i].addEventListener('click', function(e) {
+		e.preventDefault();
+		var timelines = document.getElementById('timelines');
+		timelines.style.opacity = '0';
+		timelines.style.top = '0';
+		timelines.addEventListener('transitionend', function(t) {
+			// Box shadows trigger for some reason
+			if (t.propertyName == 'opacity' || t.propertyName == 'top')
+			window.location = e.target.href;
+			console.log(t);
+		});
+	});
+}
+
+// Disable bfCache on firefox (we want JS to execute again!)
+window.onunload= function(){};
 </script>
 <!-- End of scripts -->
 </body>
