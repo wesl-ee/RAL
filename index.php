@@ -40,23 +40,6 @@ var xxx = [
 	'Digital Heaven'
 ];
 flashmessages(document.getElementById('xxx'), xxx, 300);
-
-// Zoom out animation
-var welcome = document.getElementById('welcome');
-var choicebox = welcome.getElementsByClassName('choicebox')[0];
-choicebox.addEventListener('click', function(e) {
-	e.preventDefault();
-	var welcome = document.getElementById('welcome');
-	welcome.style.opacity = '0';
-	welcome.style.top = '0';
-	welcome.addEventListener('transitionend', function(t) {
-		if (t.propertyName == 'opacity' || t.propertyName == 'top')
-		window.location = e.target.href;
-	});
-});
-
-// Disable bfCache on firefox (we want JS to execute again!)
-window.onunload= function(){};
 </script>
 <!-- End of scripts -->
 </body>

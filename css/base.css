@@ -17,8 +17,8 @@ body {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
-	transition: top 1.5s,
-	opacity 0.7s;
+	transition: top 0.4s,
+	opacity 0.3s;
 }
 #welcome {
 	font-size: 200%;

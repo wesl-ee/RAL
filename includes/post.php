@@ -2,113 +2,80 @@
 // Magical BBCode parse
 function bbbbbbb($string)
 {
-	$lines = explode(PHP_EOL, $string);
-	$newlines = $lines;
-	$opened = [
-		'b' => 0,
-		'i' => 0,
-		'color' => 0,
-		'quote' => 0,
-		'url' => 0,
-		'code' => 0
-	];
-	$commits = [];
-	// First, find all changes which should be made and make note of them
-	for ($i = 0; $i < count($lines); $i++) {
-		$line = $lines[$i];
-		$a = 0;
-		while (($a = indexOf($lines[$i], "[", $a) + 1) > 0
-		&& ($b = indexOf($lines[$i], "]", $a)) > $a) {
-			$inside = substr($lines[$i], $a, $b - $a);
-			if ($inside{0} == "/") {
-				$tag = substr($inside, 1);
-				if (!$opened[$tag]) continue;
+	$opened = []; $contents = [];
+	$offset = 0;
+	while (($a = indexOf($string, "[", $offset)) >= 0
+	&& ($b = indexOf($string, "]", $offset)) > $a) {
+		// Push the parsed contents to an array
+		$contents[] = substr($string, $offset, $a - $offset);
+		$tag = substr($string, $a, $b + 1 - $a);
+		$contents[] = $tag;
 
-				switch($tag) {
-				case  'b':
-					$replacement = "</strong>";
-					break;
-				case 'i':
-					$replacement = "</em>";
-					break;
-				case 'color':
-					$replacement = "</span>";
-					break;
-				case 'quote':
-					$replacement = "</blockquote>";
-					break;
-				case 'url':
-					$replacement = "</a>";
-					break;
-				case 'code':
-					$replacement = "</pre>";
-					break;
-				default: continue;
-				}
+		// Since we finished scanning the part of the string
+		// that is behind the last seen bracket, advance
+		// the scanning offset
+		$offset = $b + 1;
 
-				// Replace the bbCode tag
-/*				for ($k = $a - 1; $k <= $b; $k++) {
-					$line{$k} = '';
-				}*/
-				$line = substr($line, 0, $a - 1)
-				. substr($line, $b + 1);
+		// Strip brackets
+		$inside = substr($tag, 1, strlen($tag) - 2);
 
-				$commits[$i][$a-1] = $replacement;
-				$opened[$tag]--;
-			} else {
-				if (($c = indexOf($inside, "=")) >= 0) {
-					$tag = substr($inside, 0, $c);
-					$param = substr($inside, $c + 1);
-				} else $tag = $inside;
+		// Is this a closing or opening tag?
+		if ($inside{0} == "/") {
+			$tag = substr($inside, 1);
+			if (!count($opened[$tag]))
+				continue;
+			$opening_tag = array_pop($opened[$tag]);
+			$from = $opening_tag["index"];
+			$param = $opening_tag["param"];
+			$to = count($contents) - 1;
 
-				switch ($tag) {
-				case  'b':
-					$replacement = "<strong>";
-					break;
-				case 'i':
-					$replacement = "<em>";
-					break;
-				case 'color':
-					$replacement = "<span style=color:$param>";
-					break;
-				case 'quote':
-					$replacement = "<blockquote>";
-					break;
-				case 'url':
-					$replacement = "<a href='$param'>";
-					break;
-				case 'code':
-					$replacement = "<pre>";
-					break;
-				default: continue;
-				}
-
-				// Replace the bbCode tag
-/*				for ($k = $a - 1; $k <= $b; $k++) {
-					$line{$k} = '';
-				}*/
-				$line = substr($line, 0, $a - 1)
-				. substr($line, $b + 1);
-
-				$commits[$i][$a-1] = $replacement;
-				$opened[$tag]++;
+			switch($tag) {
+			case  'b':
+				$open = "<strong>";
+				$close = "</strong>";
+				break;
+			case 'i':
+				$open = "<em>";
+				$close = "</em>";
+				break;
+			case 'color':
+				$color = htmlspecialchars($param);
+				$open = "<span style='color:$color'>";
+				$close = "</span>";
+				break;
+			case 'quote':
+				$open = "<blockquote>";
+				$close = "</blockquote>";
+				break;
+			case 'url':
+				$url = htmlspecialchars($param);
+				$open = "<a href='$url'>";
+				$close = "</a>";
+				break;
+			case 'code':
+				$open = "<pre>";
+				$close = "</pre>";
+				break;
+			default: continue;
 			}
-			$lines[$i] = $line;
+			$contents[$from] = $open;
+			$contents[$to] = $close;
+		} else {
+			if (($c = indexOf($inside, "=")) > 0) {
+				$tag = substr($inside, 0, $c);
+				$param = substr($inside, $c + 1);
+			} else {
+				$tag = $inside;
+				unset($param);
+			}
+			$opened[$tag][] = [
+				"index" => count($contents) - 1,
+				"param" => $param
+			];
 		}
 	}
-	// Commit the changes which were suggested
-	foreach ($commits as $n => $changes) {
-	$o = 0;
-	$line = $lines[$n];
-	$linelen = strlen($line);
-	foreach ($changes as $i => $change) {
-		$line = substr($line, 0, $i + $o)
-		. $change
-		. substr($line, $i + $o);
-
-		$o += strlen($change);
-	} $lines[$n] = $line; }
-	return join(PHP_EOL, $lines);
+	$contents[] = substr($string, $offset);
+	return join($contents);
 }
 // Creates the post on a given (timeline, topic)
 function create_post($timeline, $topic, $auth, $content)
