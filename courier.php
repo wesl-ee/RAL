@@ -36,13 +36,15 @@ if (isset($_GET['subscribe'])) {
 		return;
 	}*/
 
+	header('X-Accel-Buffering: no');
 	if (isset($timeline, $topic)) {
-		while (!sleep(1)) {
-		print json_encode([
-			'id' => $i++,
-			'modified' => '2017-12-07 01:13:24',
-			'content' => "Hello from $timeline topic #$topic【 =◈︿◈= 】"
-		]);
+		for ($i = 0; $i < 5; $i++) {
+			sleep(1);
+			print json_encode([
+				'id' => $i,
+				'modified' => '2017-12-07 01:13:24',
+				'content' => "Hello from $timeline topic #$topic【 =◈︿◈= 】"
+			]);
 			flush();
 		}
 	}

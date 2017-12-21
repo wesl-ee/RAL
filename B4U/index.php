@@ -16,7 +16,7 @@ if (!isset($page)) $page = 0;
 <body>
 <div id=timelines class=frontcenter>
 	<h3>RAL</h3>
-	<span class=latency>&nbsp</span>
+	<span id=latency>&nbsp</span>
 	<div class=collection><?php
 	/* Draw the timelines panel (left sidebar) */
 	$per_page = CONFIG_TIMELINES_PER_PAGE;
@@ -67,8 +67,7 @@ if (!isset($page)) $page = 0;
 <script>
 /* Make the site pretty if the user has JS */
 var timelines = document.getElementById('timelines');
-var latency = timelines.getElementsByClassName('latency')[0];
-updatelatency(latency);
+updatelatency();
 
 var collection = timelines.getElementsByClassName('collection')[0];
 var leftnav = timelines.getElementsByClassName('leftnav')[0];

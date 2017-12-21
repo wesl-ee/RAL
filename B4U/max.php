@@ -65,7 +65,7 @@ $timelines = fetch_timelines();
 <body>
 <div id=timelines class=sidebar>
 	<h3>RAL</h3>
-	<span class=latency>&nbsp</span>
+	<span id=latency>&nbsp</span>
 	<div class=collection><?php
 	/* Draw the timelines panel (left sidebar) */
 	$per_page = CONFIG_TIMELINES_PER_PAGE;
@@ -122,7 +122,8 @@ $timelines = fetch_timelines();
 	if (isset($topic)) {
 		$title = strtoupper("$timeline No. $topic");
 		print "<h3>$title</h3>"
-		. "<div class='reader expanded'>";
+		. "<div class='reader expanded'"
+		. " data-timeline='$timeline'>";
 		$posts = fetch_posts($timeline, $topic);
 		foreach ($posts as $post) {
 			$content = $post['content'];
@@ -167,7 +168,8 @@ $timelines = fetch_timelines();
 	} else {
 		$title = strtoupper($timeline);
 		print "<h3>$title</h3>"
-		. "<div class='reader timeline'>";
+		. "<div class='reader timeline'"
+		. " data-timeline='$timeline'>";
 		$q = $_GET;
 		unset($q['postmode']);
 		$topics = fetch_topics($timeline);
@@ -212,10 +214,12 @@ $timelines = fetch_timelines();
 </body>
 <script src='../js/remote.js'></script>
 <script src='../js/esthetic.js'></script>
+<script src='../js/render.js'></script>
 <script>
+var reader = document.getElementById(
+	'rightpanel'
+).getElementsByClassName('reader')[0];
 var timelines = document.getElementById('timelines');
-var latency = timelines.getElementsByClassName('latency')[0];
-updatelatency(latency);
 
 var collection = timelines.getElementsByClassName('collection')[0];
 var leftnav = timelines.getElementsByClassName('leftnav')[0];
