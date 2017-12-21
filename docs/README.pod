@@ -1,0 +1,48 @@
+=head1 RAL
+
+NEO-FORUM; FUTURE SOCIETY
+
+=head2 EXECUTIVE SUMMARY
+
+Forums are natural extensions of the Bulletin Board Systems (BBS) of last
+century; posting on a traditional forum, you maintain an identity which
+is attached to your screen name. RAL has no screen-names, no voting system,
+and no reply counts; being widely-used is not a goal of RAL.
+
+Moreover, the purpose is not to keep you coming back; we're not
+interested in advertising or monetization. If you're a business looking
+for forum software, this is definitely not for you.
+
+The purpose of RAL is to create a network where you never confuse
+ALTERNATE REALITY with VIRTUAL SELF
+
+=head2 DEPENDENCIES
+
+=over 12
+
+=item Web Server w/ PHP enabled
+
+Tested with lighttpd; should work with most web server software which
+provides some way to interpret PHP (either CGI or as a module)
+
+=item PHP
+
+PHP >= 5.1 is recommended
+
+=over 12
+
+=item MySQL Improved Extension
+
+SQL database hooks to access a DB from PHP
+
+=back
+
+=item MariaDB / MySQL
+
+Organization / Storage
+
+=back
+
+=head2 LICENSE
+
+Modified BSD License (see C<docs/LICENSE>)
