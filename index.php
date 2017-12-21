@@ -39,7 +39,33 @@ var xxx = [
 	'Worlds',
 	'Digital Heaven'
 ];
-flashmessages(document.getElementById('xxx'), xxx, 300);
+var flash = flashmessages(document.getElementById('xxx'), xxx, 300);
+
+// Zoom out animation
+var welcome = document.getElementById('welcome');
+var choicebox = welcome.getElementsByClassName('choicebox')[0];
+choicebox.addEventListener('click', function(e) {
+	e.preventDefault();
+	clearInterval(flash);
+	var welcome = document.getElementById('welcome');
+	// BUG: choicebox bottom-border is cut off
+	welcome.style.overflow = 'hidden';
+	welcome.style.width = welcome.offsetWidth + "px";
+	welcome.style.height = welcome.offsetHeight + "px";
+	welcome.style.borderRightWidth = '10px';
+	welcome.style.borderLeftWidth = '10px';
+	welcome.addEventListener('transitionend', function(t) {
+	if (t.propertyName == 'border-right-width'
+	|| t.propertyName == 'border-left-width')
+		welcome.style.width = '0';
+	if (t.propertyName == 'width')
+		welcome.style.height = '0';
+	if (t.propertyName == 'height')
+		window.location = e.target.href;
+	});
+});
+// Disable bfCache on firefox (we want JS to execute again!)
+window.onunload= function(){};
 </script>
 <!-- End of scripts -->
 </body>

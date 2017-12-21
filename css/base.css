@@ -17,11 +17,14 @@ body {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
-	transition: top 0.4s,
-	opacity 0.3s;
 }
 #welcome {
 	font-size: 200%;
+	border-width: 0px;
+	border-style: solid;
+	transition: border-width 0.2s,
+	height 0.4s,
+	width 0.4s;
 	white-space: nowrap;
 }
 .sidebar {
@@ -29,7 +32,6 @@ body {
 	margin: 20px;
 	top: 0;
 	left: 0;
-	transition: top 1s linear;
 	width: 100px;
 	max-width: calc(20% - 20px);
 	text-align: justify;
@@ -129,7 +131,6 @@ footer a {
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	transition: right 0.8s ease-in-out;
 }
 #rightpanel footer {
 	text-align: right;

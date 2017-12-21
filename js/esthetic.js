@@ -52,7 +52,7 @@ function timelinescroll(collection, page)
 		setTimeout(function(node) {
 				node.style.visibility = 'hidden';
 		}, delay, children[i]);
-		delay += 100;
+		delay += 50;
 	}
 
 	// Remove old page from document flow and add in the new page
@@ -73,7 +73,7 @@ function timelinescroll(collection, page)
 		setTimeout(function(node) {
 			node.style.visibility = 'visible';
 		}, offset, children[i]);
-		offset += 100;
+		offset += 50;
 	}
 
 	// Should we show the right / left page nav?
@@ -102,5 +102,5 @@ function flashmessages(elem, messages, delay) {
 		txt = messages[i];
 		elem.innerText = txt;
 	}
-	setInterval(writer, delay);
+	return setInterval(writer, delay);
 }
