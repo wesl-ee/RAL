@@ -26,8 +26,8 @@ dl, ul, ol {
 	background: white;
 }
 /* Hover-over links */
-a:hover,
-a:hover * {
+.content a:hover,
+.content a:hover * {
 	/* Override bbCode */
 	color: #5ABFCF !important;
 }

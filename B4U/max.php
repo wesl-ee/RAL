@@ -22,15 +22,15 @@ if (isset($_POST['content']) && isset($topic)) {
 
 	// Strip down the content ; )
 	$content = trim($content);
-	$content = stripslashes($content);
 	$content = htmlspecialchars($content);
-	if (create_post($timeline, $topic, $auth, $content)) {
+	if (strlen($content) > CONFIG_RAL_MAXPOSTLEN
+	|| !create_post($timeline, $topic, $auth, $content)) {
+		print 'Failed to create post. . .';
+	}
+	else {
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
 		die;
-	}
-	else {
-		print 'Failed to create post. . .';
 	}
 }
 // Posting to the timeline
@@ -128,9 +128,10 @@ $timelines = fetch_timelines();
 		foreach ($posts as $post) {
 			$content = $post['content'];
 			// Dress up the content
+			$content = htmlspecialchars($content);
 			$content = nl2br($content);
 			$content = bbbbbbb($content);
-			$time = date('M d Y h:i', strtotime($post['date']));
+			$time = date('M d Y', strtotime($post['date']));
 			$id = $post['id'];
 			print "<article>"
 			. "<time>$time</time>"
@@ -144,7 +145,9 @@ $timelines = fetch_timelines();
 			unset($q['postmode']);
 			$q = http_build_query($q);
 			print "<form class=reply method=POST action=?$q>"
-			. "<textarea rows=5 name=content></textarea>"
+			. "<textarea rows=5"
+			. " maxlength=" . CONFIG_RAL_POSTMAXLEN
+			. " name=content></textarea>"
 			. "<div class=buttons>"
 			. "<a href=?$q class='cancel'>Cancel</a>"
 			. "<input value=Post type=submit>"
@@ -176,6 +179,7 @@ $timelines = fetch_timelines();
 		foreach ($topics as $topic) {
 			$content = $topic['content'];
 			// Dress up the content
+			$content = htmlspecialchars($content);
 			$content = nl2br($content);
 			$content = bbbbbbb($content);
 			$time = date("M d Y", strtotime($topic['date']));
@@ -196,7 +200,9 @@ $timelines = fetch_timelines();
 			unset($q['postmode']);
 			$q = http_build_query($q);
 			print "<form class=reply method=POST action=?$q>"
-			. "<textarea rows=5 name=content></textarea>"
+			. "<textarea rows=5"
+			. " maxlength=" . CONFIG_RAL_POSTMAXLEN
+			. " name=content></textarea>"
 			. "<div class=buttons>"
 			. "<a href=?$q class='cancel'>Cancel</a>"
 			. "<input value=Post type=submit>"

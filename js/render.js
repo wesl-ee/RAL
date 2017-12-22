@@ -3,7 +3,8 @@ function newtopic(reader, topic)
 	var article = document.createElement('article');
 	var updated = document.createElement('time');
 	var num = document.createElement('span');
-	var content = document.createElement('a');
+	var content = document.createElement('span');
+	var text = document.createElement('a');
 
 	// Date formatting
 	var time = new Date(topic.modified);
@@ -12,23 +13,23 @@ function newtopic(reader, topic)
 	+ '/' + pad(time.getDate())
 	+ ' ' + pad(time.getHours())
 	+ ':' + pad(time.getMinutes());
-	console.log(updated.innerText);
 
 	article.className = 'topic';
 
 	article.id = topic.id;
 	updated.dateTime = topic.modified;
-	num.innerText = 'No. ' + topic.id;
+
+	num.appendChild(document.createTextNode('No. ' + topic.id));
 	num.className = 'id';
-	content.innerText = topic.content;
+
 	content.className = 'content';
 
-	content.href = '?timeline=' + reader.getAttribute('data-timeline')
+	// topic.content may contain HTML (parsed BBcode)
+	text.innerHTML = topic.content;
+	text.href = '?timeline=' + reader.getAttribute('data-timeline')
 	+ '&topic=' + topic.id;
-//	content.addEventListener('click',
-//		window.handlers.opentopic, this
-//	);
 
+	content.appendChild(text);
 	article.appendChild(updated);
 	article.appendChild(num);
 	article.appendChild(content);
@@ -47,7 +48,7 @@ function newpost(reader, post)
 	var article = document.createElement('article');
 	var updated = document.createElement('time');
 	var num = document.createElement('span');
-	var content = document.createElement('content');
+	var content = document.createElement('span');
 
 	// Date formatting
 	var time = new Date(post.modified);
@@ -61,8 +62,10 @@ function newpost(reader, post)
 	article.id = post.id;
 	updated.dateTime = post.modified;
 	num.innerText = 'No. ' + post.id;
-	num.className = 'num';
-	content.innerText = post.content;
+	num.className = 'id';
+
+	// post.content may contain HTML (parsed BBcode)
+	content.innerHTML = post.content;
 	content.className = 'content';
 
 	if (post.open) content.classList.add('open');

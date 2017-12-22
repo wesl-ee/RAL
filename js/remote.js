@@ -87,14 +87,17 @@ function subscribetopic(timeline, topic, reader)
 	window.xhr.onreadystatechange = function() {
 	if (this.readyState == 3) {
 		// Read the most recent topic
-		var newtopic = JSON.parse(this.responseText.substring(i));
+		var post = JSON.parse(this.responseText.substring(i));
 		i = this.responseText.length;
 
 		// For sanity
-		console.log(newtopic);
+		console.log(post);
+
+		// For Vorkuta
+		newpost(reader, post);
 	}
 	if (this.readyState == 4) {
-		subscribetopic(timeline, topic, reader);
+		console.log('Unsubscribed from ' + timeline + ' topic No. ' + topic);
 	} }
 
 	var uri = '?subscribe&timeline=' + timeline + '&topic=' + topic;
