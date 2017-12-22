@@ -25,10 +25,9 @@ dl, ul, ol {
 	color: black;
 	background: white;
 }
-/* Hover-over topics */
-.reader.timeline .content:hover,
-.reader.timeline .content *:hover,
-.reader.expanded .num:hover {
+/* Hover-over links */
+a:hover,
+a:hover * {
 	/* Override bbCode */
 	color: #5ABFCF !important;
 }

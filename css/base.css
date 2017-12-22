@@ -83,7 +83,7 @@ body {
 .collection a,
 .minorbox,
 .choicebox a,
-.content,
+.content a,
 .reply .buttons > a,
 .leftnav,
 .rightnav,
@@ -211,7 +211,6 @@ footer a {
 	line-height: 1.4em;
 	text-align: justify;
 	text-align-last: right;
-	cursor: pointer;
 	transition: height 0.8s ease-in-out;
 	text-decoration: none;
 }

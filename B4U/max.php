@@ -185,7 +185,9 @@ $timelines = fetch_timelines();
 			print "<article>"
 			. "<time>$time</time>"
 			. "<span class=id>No. $id</span>"
-			. "<a href='?$p'class=content>$content</a>"
+			. "<span class=content>"
+			. "<a href='?$p'>$content</a>"
+			. "</span>"
 			. "</article>";
 		}
 		print "</div>";
@@ -220,6 +222,8 @@ var reader = document.getElementById(
 	'rightpanel'
 ).getElementsByClassName('reader')[0];
 var timelines = document.getElementById('timelines');
+
+updatelatency();
 
 var collection = timelines.getElementsByClassName('collection')[0];
 var leftnav = timelines.getElementsByClassName('leftnav')[0];
