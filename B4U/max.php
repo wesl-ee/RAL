@@ -23,11 +23,13 @@ if (isset($_POST['content']) && isset($topic)) {
 	// Strip down the content ; )
 	$content = trim($content);
 	$content = htmlspecialchars($content);
-	if (strlen($content) > CONFIG_RAL_MAXPOSTLEN
-	|| !create_post($timeline, $topic, $auth, $content)) {
+	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
+	|| !($post = create_post($timeline, $topic, $auth, $content))) {
 		print 'Failed to create post. . .';
+		die;
 	}
 	else {
+		notify_listeners($post);
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
 		die;
@@ -42,13 +44,15 @@ else if (isset($_POST['content'])) {
 	$content = trim($content);
 	$content = stripslashes($content);
 	$content = htmlspecialchars($content);
-	if (create_topic($timeline, $auth, $content)) {
+	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
+	|| !($topic = create_topic($timeline, $auth, $content))) {
+		print 'Failed to create topic. . .';
+	}
+	else {
+		notify_listeners($topic);
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
 		die;
-	}
-	else {
-		print 'Failed to create topic. . .';
 	}
 }
 

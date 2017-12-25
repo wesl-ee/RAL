@@ -1,7 +1,7 @@
 <?php
 include 'includes/config.php';
 include 'includes/fetch.php';
-include 'includes/posting.php';
+include 'includes/post.php';
 
 // Initial fetch for reading
 if (isset($_GET['fetch'])) {
@@ -30,34 +30,27 @@ if (isset($_GET['subscribe'])) {
 	$topic = $_GET['topic'];
 	$init = isset($_GET['init']);
 
-	// Get a key to attach to the message queue
-/*	$queue = msg_get_queue(CONFIG_RAL_KEY);
-	if (!$queue) {
-		return;
-	}*/
-
 	header('X-Accel-Buffering: no');
-	if (isset($timeline, $topic)) {
-		for ($i = 0; $i < 5; $i++) {
-			sleep(1);
-			print json_encode([
-				'id' => $i,
-				'modified' => '2017-12-07 01:13:24',
-				'content' => "Hello from $timeline topic #$topic【 =◈︿◈= 】"
-			]);
-			flush();
-		}
-	}
-	else if (isset($timeline)) {
-		while (!sleep(1)) {
-			print json_encode([
-				'id' => $i++,
-				'modified' => '2017-12-07 01:13:24',
-				'content' => "Hello from $timeline 【 =◈︿◈= 】"
-			]);
-			flush();
-		}
-	}
+
+	// Listening to a topic
+	if (isset($timeline, $topic))
+		$tags = [
+		'timeline' => $timeline,
+		'topic' => (int)$topic
+		];
+	// Listening to a timeline
+	elseif (isset($timeline))
+		$tags = [
+		'timeline' => $timeline,
+		];
+	$c_id = create_listener($tags);
+	do {
+		$post = fetch_message($c_id);
+		var_dump($post);
+		flush();
+	} while (!connection_aborted());
+
+	destroy_listener($c_id);
 }
 // Posting
 if (isset($_GET['post'])) {
