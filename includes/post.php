@@ -135,7 +135,14 @@ function create_post($timeline, $topic, $auth, $content)
 			ralog($err);
 			return false;
 		}
-		$post = mysqli_fetch_assoc($result);
+		$row = mysqli_fetch_assoc($result);
+		$post = [
+			'id' => $row['Id'],
+			'timeline' => $row['Timeline'],
+			'topic' => $row['Topic'],
+			'content' => $row['Content'],
+			'Auth' => $row['Auth'],
+		];
 	mysqli_query("COMMIT");
 	ralog("Created Post");
 	return $post;
@@ -195,7 +202,14 @@ function create_topic($timeline, $auth, $content)
 			ralog("$err while fetching inserted row information");
 			return false;
 		}
-		$topic = mysqli_fetch_assoc($result);
+		$row = mysqli_fetch_assoc($result);
+		$topic = [
+			'id' => $row['Id'],
+			'timeline' => $row['Timeline'],
+			'topic' => $row['Topic'],
+			'content' => $row['Content'],
+			'Auth' => $row['Auth'],
+		];
 	mysqli_query("COMMIT");
 	ralog("Created topic");
 	return $topic;
@@ -223,9 +237,11 @@ function notify_listeners($post)
 		print "Initializing an empty client array\n";
 		$clients = [];
 		if (!shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients)) {
-			ralog('Ran out of shared memory');
-			print 'Ran out of shared memory'; die;
-			return False;
+			ralog('Ran out of shared memory...'
+			. 'Wiping the current shared memory');
+			handle_full_memory($shm);
+			return false;
+//			return notify_listeners($post);
 		}
 	} else {
 		$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
@@ -250,10 +266,10 @@ function notify_listeners($post)
 			else
 				$fail++;
 	}
-	$log = "Successfully broadcast to $succ clients";
+	$log = "Broadcast post #" . $post['id'] . " to $succ clients";
 	if ($fail > 0) $log .= " ($fail failures)";
-	print "$log\n";
 //	ralog($log);
+	print "$log\n";
 	shm_detach($shm);
 }
 function create_listener($tags)
@@ -278,11 +294,13 @@ function create_listener($tags)
 		$c_id = rand();
 	} while(shm_has_var($shm, $c_id));
 
-	shm_put_var($shm, $c_id, $tags);
+	if (!shm_put_var($shm, $c_id, $tags)) {
+		handle_full_memory($shm);
+	}
 	// Insert this client id into the client list (thread-safe)
 	if (!shm_has_var($shm, CONFIG_RAL_SHMCLIENTLIST)) {
-		print "Could not fetch a the client list\n";
-		die;
+		$clients = [];
+		shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
 	}
 	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
 	$c_index = count($clients);
@@ -321,6 +339,15 @@ function destroy_listener($c_id)
 
 	// Free resources dedicated to shared memory
 	shm_detach($shm);
+}
+/* Should loop through all clients and check if they're still listening
+ * then drop all non-responsive clients. For now it just nukes the
+ * whole thing.
+*/
+function handle_full_memory($shm)
+{
+	ralog('Shared memory full. . . deleting all clients');
+	shm_remove($shm);
 }
 function fetch_message($c_id)
 {
