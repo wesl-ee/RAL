@@ -30,8 +30,6 @@ if (isset($_GET['subscribe'])) {
 	$topic = $_GET['topic'];
 	$init = isset($_GET['init']);
 
-	header('X-Accel-Buffering: no');
-
 	// Listening to a topic
 	if (isset($timeline, $topic))
 		$tags = [
@@ -44,11 +42,10 @@ if (isset($_GET['subscribe'])) {
 		'timeline' => $timeline,
 		];
 	$c_id = create_listener($tags);
-	do {
-		$post = fetch_message($c_id);
-		var_dump($post);
-		flush();
-	} while (!connection_aborted());
+	register_shutdown_function('destroy_listener', $c_id);
+
+	$post = fetch_message($c_id);
+	print json_encode($post);
 
 	destroy_listener($c_id);
 }

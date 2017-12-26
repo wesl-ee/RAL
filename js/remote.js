@@ -74,65 +74,58 @@ function fetchposts(timeline, topic, reader)
 }
 function subscribetopic(timeline, topic, reader)
 {
-	window.xhr = new XMLHttpRequest();
-	// i holds the length of the last response
-	var i = 0;
+	xhr = new XMLHttpRequest();
 
 	// Long polling set-up
-	window.xhr.timeout = 60000;
-	window.xhr.ontimeout = function() {
-		subscribetopic(timeline, topic);
+	xhr.timeout = 15000;
+	xhr.ontimeout = function() {
+		console.log('Timed out, starting again. . . ');
+		subscribetopic(timeline, topic, reader);
 	}
 
-	window.xhr.onreadystatechange = function() {
-	if (this.readyState == 3) {
+	xhr.onload = function() {
 		// Read the most recent topic
-		var post = JSON.parse(this.responseText.substring(i));
-		i = this.responseText.length;
+		var post = JSON.parse(this.responseText);
 
 		// For sanity
 		console.log(post);
 
 		// For Vorkuta
 		newpost(reader, post);
+		subscribetopic(timeline, topic, reader);
 	}
-	if (this.readyState == 4) {
-		console.log('Unsubscribed from ' + timeline + ' topic No. ' + topic);
-	} }
 
 	var uri = '?subscribe&timeline=' + timeline + '&topic=' + topic;
-	window.xhr.open('GET', '/courier.php' + uri);
-	window.xhr.send();
+	xhr.open('GET', '/courier.php' + uri);
+	xhr.send();
 }
-function subscribetimeline(timelinename, reader)
+function subscribetimeline(timeline, reader)
 {
-	window.xhr = new XMLHttpRequest();
+	xhr = new XMLHttpRequest();
 	// i holds the length of the last response
 	var i = 0;
 
 	// Long polling set-up
-	window.xhr.timeout = 60000;
-	window.xhr.ontimeout = function() {
-		subscribetimeline(timelinename, reader);
+	xhr.timeout = 15000;
+	xhr.ontimeout = function() {
+		console.log('Timed out, starting again. . . ');
+		xhr.abort();
+		subscribetimeline(timeline, reader);
 	}
 
-	window.xhr.onreadystatechange = function() {
-	if (this.readyState == 3) {
+	xhr.onload = function() {
 		// Read the most recent topic
-		var topic = JSON.parse(this.responseText.substring(i));
-		i = this.responseText.length;
+		var topic = JSON.parse(this.responseText);
 
 		// For sanity
 		console.log(topic);
 
 		// For Vorkuta
 		newtopic(reader, topic);
+		subscribetimeline(timeline, reader);
 	}
-	if (this.readyState == 4) {
-		console.log('Unsubscribed from ' + timelinename);
-	} }
 
-	var uri = '?subscribe&timeline=' + timelinename;
-	window.xhr.open('GET', '/courier.php' + uri);
-	window.xhr.send();
+	var uri = '?subscribe&timeline=' + timeline;
+	xhr.open('GET', '/courier.php' + uri);
+	xhr.send();
 }

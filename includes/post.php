@@ -207,7 +207,7 @@ function create_topic($timeline, $auth, $content)
 function notify_listeners($post)
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
-	$shm = shm_attach(CONFIG_RAL_SHMKEY);
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
 	$msg = json_encode($post);
 
 	if ($shm === False) {
@@ -222,7 +222,11 @@ function notify_listeners($post)
 	if (!shm_has_var($shm, CONFIG_RAL_SHMCLIENTLIST)) {
 		print "Initializing an empty client array\n";
 		$clients = [];
-		shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
+		if (!shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients)) {
+			ralog('Ran out of shared memory');
+			print 'Ran out of shared memory'; die;
+			return False;
+		}
 	} else {
 		$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
 	}
@@ -255,7 +259,7 @@ function notify_listeners($post)
 function create_listener($tags)
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
-	$shm = shm_attach(CONFIG_RAL_SHMKEY);
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
 
 	if (!$shm) {
@@ -268,6 +272,7 @@ function create_listener($tags)
 		print 'Could not get the semaphore';
 		die;
 	}
+	sem_acquire($sem);
 	// Acquire a unique Client ID
 	do {
 		$c_id = rand();
@@ -279,7 +284,6 @@ function create_listener($tags)
 		print "Could not fetch a the client list\n";
 		die;
 	}
-	sem_acquire($sem);
 	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
 	$c_index = count($clients);
 	$clients[$c_id] = 1;
@@ -293,7 +297,7 @@ function create_listener($tags)
 }
 function destroy_listener($c_id)
 {
-	$shm = shm_attach(CONFIG_RAL_SHMKEY);
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
 
 	if (!$shm) {
@@ -310,11 +314,10 @@ function destroy_listener($c_id)
 	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
 	unset($clients[$c_id]);
 	shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
-	sem_release($sem);
 
 	// Remove this client's particulars too
-/*	if (shm_has_var($shm, $c_id))*/
 	shm_remove_var($shm, $c_id);
+	sem_release($sem);
 
 	// Free resources dedicated to shared memory
 	shm_detach($shm);
@@ -322,7 +325,7 @@ function destroy_listener($c_id)
 function fetch_message($c_id)
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
-	if (msg_receive($queue, $c_id, $msgtype, 10000, $msg)) {
+	if (msg_receive($queue, $c_id, $msgtype, 20000, $msg)) {
 		return $msg;
 	}
 }
