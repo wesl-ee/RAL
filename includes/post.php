@@ -237,11 +237,8 @@ function notify_listeners($post)
 		print "Initializing an empty client array\n";
 		$clients = [];
 		if (!shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients)) {
-			ralog('Ran out of shared memory...'
-			. 'Wiping the current shared memory');
 			handle_full_memory($shm);
 			return false;
-//			return notify_listeners($post);
 		}
 	} else {
 		$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
@@ -251,25 +248,28 @@ function notify_listeners($post)
 		die;
 	}
 	$succ = 0; $fail = 0;
-	foreach ($clients as $client => $one) {
+	foreach ($clients as $c_id => $one) {
 		// Get client info
-		if (($client_tags = shm_get_var($shm, $client)) === False) {
+		$client_info = shm_get_var($shm, $c_id);
+		if ($client_info === False) {
 			$fail++;
 			continue;
 		}
+		$client_tags = $client_info['tags'];
 		$i = count($client_tags);
 		foreach ($client_tags as $tag => $value)
 			if ($post[$tag] === $value) $i--;
 		if (!$i)
-			if (msg_send($queue, $client, $msg, True, False))
+			if (msg_send($queue, $c_id, $msg, True, False))
 				$succ++;
-			else
+			else {
+				destroy_listener($c_id);
 				$fail++;
+			}
 	}
 	$log = "Broadcast post #" . $post['id'] . " to $succ clients";
 	if ($fail > 0) $log .= " ($fail failures)";
-//	ralog($log);
-	print "$log\n";
+	ralog($log);
 	shm_detach($shm);
 }
 function create_listener($tags)
@@ -288,13 +288,18 @@ function create_listener($tags)
 		print 'Could not get the semaphore';
 		die;
 	}
+	$client_info = [
+		'tags' => $tags,
+		'last_seen' => time()
+	];
+
 	sem_acquire($sem);
 	// Acquire a unique Client ID
 	do {
 		$c_id = rand();
 	} while(shm_has_var($shm, $c_id));
 
-	if (!shm_put_var($shm, $c_id, $tags)) {
+	if (!shm_put_var($shm, $c_id, $client_info)) {
 		handle_full_memory($shm);
 	}
 	// Insert this client id into the client list (thread-safe)
@@ -346,8 +351,24 @@ function destroy_listener($c_id)
 */
 function handle_full_memory($shm)
 {
-	ralog('Shared memory full. . . deleting all clients');
-	shm_remove($shm);
+
+	$sem = sem_get(CONFIG_RAL_SEMKEY);
+	$now = time();
+	$i = 0;
+
+	sem_acquire($sem);
+	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
+	foreach ($clients as $c_id => $one) {
+		$client_info = shm_get_var($shm, $c_id);
+		if ($now - $client_info['last_seen'] > CONFIG_CLIENT_TIMEOUT) {
+			unset($clients[$c_id]);
+			shm_remove_var($shm, $c_id);
+			$i++;
+		}
+	}
+	ralog("Shared memory full. . . purging $i timed out clients");
+	shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
+	sem_release(CONFIG_RAL_SEMKEY);
 }
 function fetch_message($c_id)
 {
