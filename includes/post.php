@@ -290,11 +290,11 @@ function create_listener()
 	sem_acquire($sem);
 	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
 	$now = time();
-	$msg = ['type' => 'PING'];
+	$ping = ['type' => 'PING'];
 	foreach ($clients as $c_id => $one) {
 		$client_info = shm_get_var($shm, $c_id);
 		if ($now - $client_info['last_seen'] > CONFIG_CLIENT_TIMEOUT) {
-			msg_send($queue, $c_id, $msg, TRUE, False);
+			msg_send($queue, $c_id, $ping, TRUE, False);
 		}
 	}
 	sem_release($sem);

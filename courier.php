@@ -32,17 +32,23 @@ if (isset($_GET['subscribe'])) {
 	$c_id = create_listener();
 
 	do {
-		$post = fetch_message($c_id);
-		if (isset($timeline)
-		&& $post['body']['timeline'] != $timeline)
-			$relevant = False;
-		elseif (isset($topic)
-		&& $post['body']['topic'] != $topic)
-			$relevant = False;
-		else
+		$msg = fetch_message($c_id);
+		switch($msg['type']) {
+		case 'POST':
+			if (isset($timeline)
+			&& $msg['body']['timeline'] != $timeline)
+				$relevant = False;
+			elseif (isset($topic)
+			&& $msg['body']['topic'] != $topic)
+				$relevant = False;
+			else
+				$relevant = True;
+			break;
+		case 'PING':
 			$relevant = True;
+		}
 		if ($relevant)
-			print json_encode($post);
+			print json_encode($msg);
 	} while (!$relevant && !connection_aborted());
 
 	destroy_listener($c_id);
