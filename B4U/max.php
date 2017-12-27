@@ -29,7 +29,7 @@ if (isset($_POST['content']) && isset($topic)) {
 		die;
 	}
 	else {
-		notify_listeners($post);
+		notify_listeners('POST', $post);
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
 		die;
@@ -49,7 +49,7 @@ else if (isset($_POST['content'])) {
 		print 'Failed to create topic. . .';
 	}
 	else {
-		notify_listeners($topic);
+		notify_listeners('POST', $topic);
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
 		die;

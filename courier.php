@@ -28,24 +28,22 @@ if (isset($_GET['fetch'])) {
 if (isset($_GET['subscribe'])) {
 	$timeline = $_GET['timeline'];
 	$topic = $_GET['topic'];
-	$init = isset($_GET['init']);
 
-	// Listening to a topic
-	if (isset($timeline, $topic))
-		$tags = [
-		'timeline' => $timeline,
-		'topic' => (int)$topic
-		];
-	// Listening to a timeline
-	elseif (isset($timeline))
-		$tags = [
-		'timeline' => $timeline,
-		];
-	$c_id = create_listener($tags);
-	register_shutdown_function('destroy_listener', $c_id);
+	$c_id = create_listener();
 
-	$post = fetch_message($c_id);
-	print json_encode($post);
+	do {
+		$post = fetch_message($c_id);
+		if (isset($timeline)
+		&& $post['body']['timeline'] != $timeline)
+			$relevant = False;
+		elseif (isset($topic)
+		&& $post['body']['topic'] != $topic)
+			$relevant = False;
+		else
+			$relevant = True;
+		if ($relevant)
+			print json_encode($post);
+	} while (!$relevant && !connection_aborted());
 
 	destroy_listener($c_id);
 }

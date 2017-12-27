@@ -218,11 +218,14 @@ function create_topic($timeline, $auth, $content)
 /*
  * Notifies all listeners of a new post
 */
-function notify_listeners($post)
+function notify_listeners($msgtype, $body = '')
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
 	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
-	$msg = json_encode($post);
+	$msg = [
+		'type' => $msgtype,
+		'body' => $body
+	];
 
 	if ($shm === False) {
 		print 'Could not connect to the shm segment';
@@ -237,7 +240,7 @@ function notify_listeners($post)
 		print "Initializing an empty client array\n";
 		$clients = [];
 		if (!shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients)) {
-			handle_full_memory($shm);
+			purge_timedout($shm);
 			return false;
 		}
 	} else {
@@ -253,26 +256,21 @@ function notify_listeners($post)
 		$client_info = shm_get_var($shm, $c_id);
 		if ($client_info === False) {
 			$fail++;
-			continue;
 		}
-		$client_tags = $client_info['tags'];
-		$i = count($client_tags);
-		foreach ($client_tags as $tag => $value)
-			if ($post[$tag] === $value) $i--;
-		if (!$i)
-			if (msg_send($queue, $c_id, $msg, True, False))
-				$succ++;
-			else {
-				destroy_listener($c_id);
-				$fail++;
-			}
+		elseif (msg_send($queue, $c_id, $msg, True, False))
+			$succ++;
+		else {
+			destroy_listener($c_id);
+			$fail++;
+		}
 	}
-	$log = "Broadcast post #" . $post['id'] . " to $succ clients";
+	$log = "Broadcast message to $succ clients";
 	if ($fail > 0) $log .= " ($fail failures)";
 	ralog($log);
+//	print "$log\n";
 	shm_detach($shm);
 }
-function create_listener($tags)
+function create_listener()
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
 	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
@@ -288,11 +286,22 @@ function create_listener($tags)
 		print 'Could not get the semaphore';
 		die;
 	}
+	// Ping all clients who have timed out
+	sem_acquire($sem);
+	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
+	$now = time();
+	$msg = ['type' => 'PING'];
+	foreach ($clients as $c_id => $one) {
+		$client_info = shm_get_var($shm, $c_id);
+		if ($now - $client_info['last_seen'] > CONFIG_CLIENT_TIMEOUT) {
+			msg_send($queue, $c_id, $msg, TRUE, False);
+		}
+	}
+	sem_release($sem);
+
 	$client_info = [
-		'tags' => $tags,
 		'last_seen' => time()
 	];
-
 	sem_acquire($sem);
 	// Acquire a unique Client ID
 	do {
@@ -300,7 +309,7 @@ function create_listener($tags)
 	} while(shm_has_var($shm, $c_id));
 
 	if (!shm_put_var($shm, $c_id, $client_info)) {
-		handle_full_memory($shm);
+		purge_timedout($shm);
 	}
 	// Insert this client id into the client list (thread-safe)
 	if (!shm_has_var($shm, CONFIG_RAL_SHMCLIENTLIST)) {
@@ -345,11 +354,7 @@ function destroy_listener($c_id)
 	// Free resources dedicated to shared memory
 	shm_detach($shm);
 }
-/* Should loop through all clients and check if they're still listening
- * then drop all non-responsive clients. For now it just nukes the
- * whole thing.
-*/
-function handle_full_memory($shm)
+function purge_timedout($shm)
 {
 
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
@@ -366,9 +371,9 @@ function handle_full_memory($shm)
 			$i++;
 		}
 	}
-	ralog("Shared memory full. . . purging $i timed out clients");
+	ralog("Purged $i timed out clients (memory full)");
 	shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
-	sem_release(CONFIG_RAL_SEMKEY);
+	sem_release($sem);
 }
 function fetch_message($c_id)
 {
