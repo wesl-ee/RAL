@@ -92,6 +92,7 @@ function subscribetopic(timeline, topic, reader)
 		// For Vorkuta
 		if (msg.type == 'POST') {
 			var post = msg.body;
+			doctitlenotify();
 			newpost(reader, post);
 		}
 		subscribetopic(timeline, topic, reader);
@@ -115,13 +116,17 @@ function subscribetimeline(timeline, reader)
 
 	xhr.onload = function() {
 		// Read the most recent topic
-		var topic = JSON.parse(this.responseText);
+		var msg = JSON.parse(this.responseText);
 
 		// For sanity
 		console.log(topic);
 
 		// For Vorkuta
-		newtopic(reader, topic);
+		if (msg.type == 'POST') {
+			var topic = msg.body;
+			doctitlenotify();
+			newtopic(reader, topic);
+		}
 		subscribetimeline(timeline, reader);
 	}
 

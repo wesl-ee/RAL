@@ -88,3 +88,41 @@ function formatdate(date)
 	+ ' ' + pad(date.getDate())
 	+ ' ' + pad(date.getFullYear());
 }
+function doctitlenotify()
+{ if (!document.hasFocus()) {
+	incrementdoctitle();
+	window.addEventListener('focus', function x(e) {
+		resetdoctitle();
+		window.removeEventListener('focus', x, true);
+	}, true);
+} }
+function incrementdoctitle()
+{
+	var n;
+	var title = document.title;
+	var from = title.lastIndexOf('(');
+	var to = title.lastIndexOf(')');
+
+	var newtitle;
+	console.log(from + ' ' + to);
+	if (from < 0 || to < 0) {
+		n = 1;
+		newtitle = title + " (" + n + ")";
+	}
+	else {
+		n = title.substr(from + 1, to - from - 1);
+		console.log(n);
+		newtitle = title.substr(0, from)
+		+ " (" + ++n + ")" + title.substr(to + 1);
+	}
+	document.title = newtitle;
+}
+function resetdoctitle()
+{
+	var title = document.title;
+	var from = title.lastIndexOf('(');
+	var to = title.lastIndexOf(')');
+	if (from < 0 || to < 0) return;
+
+	document.title = title.substr(0, from) + title.substr(to + 1);
+}
