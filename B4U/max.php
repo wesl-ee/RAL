@@ -29,6 +29,8 @@ if (isset($_POST['content']) && isset($topic)) {
 		die;
 	}
 	else {
+		// bbcode the content for our poor javascript listeners
+		$post['content'] = bbbbbbb($post['content']);
 		notify_listeners('POST', $post);
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
@@ -127,6 +129,7 @@ $timelines = fetch_timelines();
 		$title = strtoupper("$timeline No. $topic");
 		print "<h3>$title</h3>"
 		. "<div class='reader expanded'"
+		. " data-topic='$topic'"
 		. " data-timeline='$timeline'>";
 		$posts = fetch_posts($timeline, $topic);
 		foreach ($posts as $post) {
@@ -232,6 +235,14 @@ var reader = document.getElementById(
 	'rightpanel'
 ).getElementsByClassName('reader')[0];
 var timelines = document.getElementById('timelines');
+var timelinename = reader.getAttribute('data-timeline');
+var topicid = reader.getAttribute('data-topic');
+
+if (topicid === null) {
+	subscribetimeline(timelinename, reader);
+} else {
+	subscribetopic(timelinename, topicid, reader);
+}
 
 updatelatency();
 

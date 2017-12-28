@@ -7,12 +7,8 @@ function newtopic(reader, topic)
 	var text = document.createElement('a');
 
 	// Date formatting
-	var time = new Date(topic.modified);
-	function pad(n){return n<10 ? '0'+n : n}
-	updated.innerText = pad(time.getMonth()+1)
-	+ '/' + pad(time.getDate())
-	+ ' ' + pad(time.getHours())
-	+ ':' + pad(time.getMinutes());
+	var time = new Date(topic.date);
+	updated.innerText = formatdate(time);
 
 	article.className = 'topic';
 
@@ -51,16 +47,12 @@ function newpost(reader, post)
 	var content = document.createElement('span');
 
 	// Date formatting
-	var time = new Date(post.modified);
-	function pad(n){return n<10 ? '0'+n : n}
-	updated.innerText = pad(time.getMonth() + 1)
-	+ '/' + pad(time.getDate())
-	+ ' ' + pad(time.getHours())
-	+ ':' + pad(time.getMinutes());
+	var time = new Date(post.date);
+	updated.innerText = formatdate(time);
 
 	article.className = 'post';
 	article.id = post.id;
-	updated.dateTime = post.modified;
+	updated.dateTime = post.date;
 	num.innerText = 'No. ' + post.id;
 	num.className = 'id';
 
@@ -85,4 +77,14 @@ function newpost(reader, post)
 		});
 	}*/
 	reader.appendChild(article);
+}
+function formatdate(date)
+{
+	var monthNames = ["January", "February", "March", "April", "May",
+	"June",	"July", "August", "September", "October", "November",
+	"December"];
+	function pad(n){return n<10 ? '0'+n : n}
+	return monthNames[date.getMonth()].substr(0, 3)
+	+ ' ' + pad(date.getDate())
+	+ ' ' + pad(date.getFullYear());
 }

@@ -79,19 +79,21 @@ function subscribetopic(timeline, topic, reader)
 	// Long polling set-up
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
-		console.log('Timed out, starting again. . . ');
 		subscribetopic(timeline, topic, reader);
 	}
 
 	xhr.onload = function() {
 		// Read the most recent topic
-		var post = JSON.parse(this.responseText);
+		var msg = JSON.parse(this.responseText);
 
 		// For sanity
-		console.log(post);
+		console.log(msg);
 
 		// For Vorkuta
-		newpost(reader, post);
+		if (msg.type == 'POST') {
+			var post = msg.body;
+			newpost(reader, post);
+		}
 		subscribetopic(timeline, topic, reader);
 	}
 
@@ -108,8 +110,6 @@ function subscribetimeline(timeline, reader)
 	// Long polling set-up
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
-		console.log('Timed out, starting again. . . ');
-		xhr.abort();
 		subscribetimeline(timeline, reader);
 	}
 

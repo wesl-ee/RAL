@@ -127,8 +127,8 @@ function create_post($timeline, $topic, $auth, $content)
 			mysqli_query("ROLLBACK");
 			return false;
 		}
-		$query = "SELECT `Id`, `Timeline`, `Topic`, `Content`, `Auth`"
-		. " FROM `Posts` WHERE `Id`=$id";
+		$query = "SELECT `Id`, `Timeline`, `Topic`, `Content`"
+		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
@@ -141,7 +141,8 @@ function create_post($timeline, $topic, $auth, $content)
 			'timeline' => $row['Timeline'],
 			'topic' => $row['Topic'],
 			'content' => $row['Content'],
-			'Auth' => $row['Auth'],
+			'date' => $row['Created'],
+			'auth' => $row['Auth'],
 		];
 	mysqli_query("COMMIT");
 	ralog("Created Post");
@@ -194,8 +195,8 @@ function create_topic($timeline, $auth, $content)
 			mysqli_query("ROLLBACK");
 			return false;
 		}
-		$query = "SELECT `Id`, `Timeline`, `Topic`, `Content`, `Auth`"
-		. " FROM `Posts` WHERE `Id`=$id";
+		$query = "SELECT `Id`, `Timeline`, `Topic`, `Content`"
+		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
@@ -208,7 +209,8 @@ function create_topic($timeline, $auth, $content)
 			'timeline' => $row['Timeline'],
 			'topic' => $row['Topic'],
 			'content' => $row['Content'],
-			'Auth' => $row['Auth'],
+			'date' => $row['Created'],
+			'auth' => $row['Auth'],
 		];
 	mysqli_query("COMMIT");
 	ralog("Created topic");
