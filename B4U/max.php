@@ -242,6 +242,5 @@ var leftnav = timelines.getElementsByClassName('leftnav')[0];
 var rightnav = timelines.getElementsByClassName('rightnav')[0];
 
 connectnav(collection, leftnav, rightnav);
-connectreader(reader);
 </script>
 </HTML>

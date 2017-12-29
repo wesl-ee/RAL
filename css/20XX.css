@@ -1,8 +1,12 @@
 /* Theme colors and fonts */
+body,
+#welcome .choicebox {
+	background-color: white;
+}
 body {
 	color: black;
-	background-color: white;
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	background: url('sakura.gif');
 }
 h1, h2, h3 {
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;

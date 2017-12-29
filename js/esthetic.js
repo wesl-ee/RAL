@@ -25,23 +25,6 @@ function connectnav(collection, leftnav, rightnav)
 		children[i].href = page + '?' + query;
 	}
 }
-function connectreader(reader)
-{
-	var timeline = reader.getAttribute('data-timeline');
-	var topic = reader.getAttribute('data-topic');
-
-	var children = reader.childNodes;
-	for (var i = 0; i < children.length; i++) {
-		var child = children[i];
-		if (topic === null) {
-			var content = child.getElementsByClassName(
-				'content'
-			)[0];
-			var a = content.childNodes[0];
-			a.addEventListener('click', handleopentopic);
-		}
-	}
-}
 // Remove a parameter from the GET query string (do not pass
 // the ? or location!)
 function removequeryparts(query, params)
@@ -119,25 +102,4 @@ function flashmessages(elem, messages, delay) {
 		elem.innerText = txt;
 	}
 	return setInterval(writer, delay);
-}
-function handleopentopic(e)
-{
-	e.preventDefault();
-	// Hiearchy of an article in our reader
-	// <article>
-	// 	<content>
-	// 	<a></a>
-	// 	</content>
-	// </article>
-	var a = e.target;
-	while (!a.href) a = a.parentNode;
-
-	reader_followlink(reader, a);
-}
-function reader_followlink(reader, a)
-{
-	reader.style.width = '0';
-	reader.addEventListener('transitionend', function(e) {
-		document.location = a.href;
-	});
 }

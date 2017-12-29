@@ -20,12 +20,14 @@ body {
 }
 #welcome {
 	font-size: 200%;
-	border-width: 0px;
-	border-style: solid;
+	border: 0px solid;
 	transition: border-width 0.2s,
 	height 0.4s,
 	width 0.4s;
 	white-space: nowrap;
+}
+#welcome .choicebox {
+	background-color: inherit;
 }
 .sidebar {
 	position: absolute;
@@ -112,8 +114,7 @@ footer a {
 	right: 5px;
 }
 #timelines {
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid;
 }
 #rightpanel {
 	position: absolute;
@@ -123,7 +124,9 @@ footer a {
 	margin: 20px;
 	margin-right: 20px;
 	margin-left: 20px;
-	width: calc(80% - 40px);
+	padding: 10px;
+	border: 1px solid;
+	width: calc(80% - 80px);
 	max-height: calc(100% - 80px);
 
 	display: flex;
@@ -167,8 +170,6 @@ footer a {
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;
-	transition: width 0.8s,
-	padding 0.8s;
 }
 /* Timeline view */
 .reader article {
@@ -219,8 +220,7 @@ footer a {
 }
 .choicebox {
 	display: inline;
-	border-width: 2px;
-	border-style: solid;
+	border: 2px solid;
 	text-align: center;
 	transition: box-shadow 0.5s, color 1s;
 	cursor: pointer;
