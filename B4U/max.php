@@ -29,8 +29,6 @@ if (isset($_POST['content']) && isset($topic)) {
 		die;
 	}
 	else {
-		// bbcode the content for our poor javascript listeners
-		$post['content'] = bbbbbbb($post['content']);
 		notify_listeners('POST', $post);
 		header("HTTP/1.1 303 See Other");
 		header("Location: r3.php?$_SERVER[QUERY_STRING]");
@@ -134,10 +132,6 @@ $timelines = fetch_timelines();
 		$posts = fetch_posts($timeline, $topic);
 		foreach ($posts as $post) {
 			$content = $post['content'];
-			// Dress up the content
-			$content = htmlspecialchars($content);
-			$content = nl2br($content);
-			$content = bbbbbbb($content);
 			$time = date('M d Y', strtotime($post['date']));
 			$id = $post['id'];
 			print "<article>"
@@ -186,9 +180,6 @@ $timelines = fetch_timelines();
 		foreach ($topics as $topic) {
 			$content = $topic['content'];
 			// Dress up the content
-			$content = htmlspecialchars($content);
-			$content = nl2br($content);
-			$content = bbbbbbb($content);
 			$time = date("M d Y", strtotime($topic['date']));
 			$id = $topic['id'];
 			$q['topic'] = $id;
@@ -196,7 +187,7 @@ $timelines = fetch_timelines();
 			print "<article>"
 			. "<time>$time</time>"
 			. "<span class=id>No. $id</span>"
-			. "<span class=content>"
+			. "<span class=content data-topic=$id>"
 			. "<a href='?$p'>$content</a>"
 			. "</span>"
 			. "</article>";
@@ -251,5 +242,6 @@ var leftnav = timelines.getElementsByClassName('leftnav')[0];
 var rightnav = timelines.getElementsByClassName('rightnav')[0];
 
 connectnav(collection, leftnav, rightnav);
+connectreader(reader);
 </script>
 </HTML>

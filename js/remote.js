@@ -65,7 +65,7 @@ function fetchposts(timeline, topic, reader)
 		for (var i = 0; i - posts.length; i++) {
 			var post = posts[i];
 			console.log(JSON.stringify(posts));
-//
+			newpost(reader, post)
 		}
 	} }
 	var uri = '?fetch&timeline=' + timeline + "&topic=" + topic;

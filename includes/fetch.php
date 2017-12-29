@@ -34,7 +34,7 @@ function fetch_topics($timeline)
 		$ret[] = [
 			'id' => $row['Id'],
 			'date' => $row['Date'],
-			'content' => $row['Content']
+			'content' => nl2br(bbbbbbb($row['Content']))
 		];
 	}
 	return $ret;
@@ -56,7 +56,7 @@ function fetch_posts($timeline, $topic)
 		$ret[] = [
 			'id' => $row['Id'],
 			'date' => $row['Date'],
-			'content' => $row['Content'],
+			'content' => nl2br(bbbbbbb($row['Content'])),
 			'mine' => ($_COOKIE['auth'] == $row['Auth'])
 		];
 	}

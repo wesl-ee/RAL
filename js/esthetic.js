@@ -4,12 +4,11 @@ function connectnav(collection, leftnav, rightnav)
 {
 	collection.currpage = 0;
 
-	rightnav.setAttribute('href', '');
+	rightnav.removeAttribute('href');
 	rightnav.addEventListener('click', function(e) {
-		e.preventDefault();
 		timelinescroll(collection, collection.currpage + 1);
 	});
-	leftnav.setAttribute('href', '');
+	leftnav.removeAttribute('href');
 	leftnav.addEventListener('click', function(e) {
 		e.preventDefault();
 		timelinescroll(collection, collection.currpage - 1);
@@ -24,6 +23,23 @@ function connectnav(collection, leftnav, rightnav)
 		var page = href.slice(0, href.indexOf('?'));
 		query = removequeryparts(query, ['p']);
 		children[i].href = page + '?' + query;
+	}
+}
+function connectreader(reader)
+{
+	var timeline = reader.getAttribute('data-timeline');
+	var topic = reader.getAttribute('data-topic');
+
+	var children = reader.childNodes;
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i];
+		if (topic === null) {
+			var content = child.getElementsByClassName(
+				'content'
+			)[0];
+			var a = content.childNodes[0];
+			a.addEventListener('click', handleopentopic);
+		}
 	}
 }
 // Remove a parameter from the GET query string (do not pass
@@ -103,4 +119,25 @@ function flashmessages(elem, messages, delay) {
 		elem.innerText = txt;
 	}
 	return setInterval(writer, delay);
+}
+function handleopentopic(e)
+{
+	e.preventDefault();
+	// Hiearchy of an article in our reader
+	// <article>
+	// 	<content>
+	// 	<a></a>
+	// 	</content>
+	// </article>
+	var a = e.target;
+	while (!a.href) a = a.parentNode;
+
+	reader_followlink(reader, a);
+}
+function reader_followlink(reader, a)
+{
+	reader.style.width = '0';
+	reader.addEventListener('transitionend', function(e) {
+		document.location = a.href;
+	});
 }

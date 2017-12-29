@@ -70,12 +70,6 @@ function newpost(reader, post)
 	article.appendChild(num);
 	article.appendChild(content);
 
-/*	if (!document.hasFocus()) {
-		// Add to window title
-		window.addEventListener('focus', function() {
-			// Reset title
-		});
-	}*/
 	reader.appendChild(article);
 }
 function formatdate(date)

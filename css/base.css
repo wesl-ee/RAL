@@ -83,12 +83,11 @@ body {
 .collection a,
 .minorbox,
 .choicebox a,
-.content a,
+.timeline .content a,
 .reply .buttons > a,
 .leftnav,
 .rightnav,
 footer a {
-	color: inherit;
 	text-decoration: none;
 }
 #timelinenav {
@@ -122,10 +121,9 @@ footer a {
 	top: 0;
 	right: 0;
 	margin: 20px;
-	margin-left: 40px;
-	padding-left: 20px;
-	padding-right: 20px;
-	width: calc(80% - 102px);
+	margin-right: 20px;
+	margin-left: 20px;
+	width: calc(80% - 40px);
 	max-height: calc(100% - 80px);
 
 	display: flex;
@@ -169,6 +167,8 @@ footer a {
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;
+	transition: width 0.8s,
+	padding 0.8s;
 }
 /* Timeline view */
 .reader article {
@@ -176,11 +176,6 @@ footer a {
 	flex-direction: row-reverse;
 	margin-bottom: 5px;
 	overflow-x: hidden;
-	width: 100%;
-	transition: width 0.8s ease-in-out,
-	height 0.8s ease-in 0.8s,
-	padding 0.2s ease-in 0.8s,
-	margin 0.8s ease-in 0.8s;
 }
 .reader article time,
 .reader article .id {
@@ -211,18 +206,13 @@ footer a {
 	line-height: 1.4em;
 	text-align: justify;
 	text-align-last: right;
-	transition: height 0.8s ease-in-out;
 	text-decoration: none;
 }
 .reader article .content.open {
 	border-right-color: red;
 }
 .reader.expanded article {
-/*	overflow: visible;*/
 	height: initial;
-}
-.reader.expanded article .content {
-	cursor: default;
 }
 .reader.expanded .num:hover {
 	cursor: pointer;
@@ -311,6 +301,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0px;
 }
 a {
+	color: inherit;
 	cursor: pointer;
 	outline: none;
 }
@@ -324,6 +315,6 @@ textarea {
 	margin: 0;
 }
 ::-webkit-scrollbar {
-	width: 3px;
+	width: 2px;
 	height: 0;
 }
