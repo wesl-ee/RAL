@@ -1,38 +1,20 @@
 <?php
-header("Refresh: 5;max.php?$_SERVER[QUERY_STRING]");
+$ROOT = '../';
+include $ROOT."includes/main.php";
+header("Refresh: 3;max.php?$_SERVER[QUERY_STRING]");
 ?>
 <HTML>
 <head>
-	<meta name=viewport content="width=device-width, maximum-scale=1, minimum-scale=1">
-	<link rel=stylesheet href="../css/base.css">
-	<link rel=stylesheet href="../css/20XX.css">
+	<?php head($ROOT)?>
 	<title>RAL</title>
 </head>
 <body>
 <div id=welcome>
-	<h1 id=xxx>Successful</h1>
+	<h1 class=xxx-success>Successful</h1>
 </div>
 
 <!-- Scripts -->
-<script src='../js/esthetic.js'></script>
-<script>
-var xxx = [
-	'Sent',
-	'Uploaded',
-	'Exported',
-	'Posted',
-	'Exchanged',
-	'Transmitted',
-	'Uplinked',
-	'Carried',
-	'Relayed',
-	'Delivered',
-	'Accepted',
-	'Entered',
-	'Comunicated',
-]
-flashmessages(document.getElementById('xxx'), xxx, 100);
-</script>
+<script src='<?php print $ROOT?>js/esthetic.js'></script>
 <!-- End of scripts -->
 </body>
 </HTML>

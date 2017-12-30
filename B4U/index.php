@@ -62,8 +62,8 @@ if (!isset($page)) $page = 0;
 </div>
 
 <!-- Scripts -->
-<script src='../js/remote.js'></script>
-<script src='../js/esthetic.js'></script>
+<script src='<?php print $ROOT?>js/remote.js'></script>
+<script src='<?php print $ROOT?>js/esthetic.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
 var timelines = document.getElementById('timelines');

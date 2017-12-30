@@ -27,7 +27,8 @@ function head($ROOT)
 
 	switch(get_theme()) {
 	case '20XX':
-		print "<link rel=stylesheet href='$ROOT"."css/20XX.css'>";
+		print "<link rel=stylesheet href='$ROOT"."css/20XX.css'>"
+		. "<script src='$ROOT"."js/themes/20XX.js'></script>";
 		break;
 	}
 }

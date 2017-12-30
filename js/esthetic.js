@@ -92,14 +92,3 @@ function timelinescroll(collection, page)
 
 	collection.currpage = page;
 }
-function flashmessages(elem, messages, delay) {
-	var i, j;
-	function writer() {
-		do { j = Math.floor(Math.random()*messages.length);
-		} while (j == i);
-		i = j;
-		txt = messages[i];
-		elem.innerText = txt;
-	}
-	return setInterval(writer, delay);
-}
