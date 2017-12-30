@@ -24,16 +24,13 @@ function head($ROOT)
 	print "<meta name=viewport content='width=device-width,"
 	. " maximum-scale=1, minimum-scale=1'>"
 	. "<link rel=stylesheet href='$ROOT"."css/base.css'>";
+	$theme = get_theme();
 
-	switch(get_theme()) {
-	case '20XX':
-		print "<link rel=stylesheet href='$ROOT"."css/20XX.css'>"
-		. "<script src='$ROOT"."js/themes/20XX.js'></script>";
-	break;
-	case 'Lain':
-		print "<link rel=stylesheet href='$ROOT"."css/Lain.css'>"
-		. "<script src='$ROOT"."js/themes/Lain.js'></script>";
-	break; }
+	$path = dirname(__FILE__);
+	if (file_exists("$path/../js/themes/$theme.js"))
+		print "<script src='$ROOT"."js/themes/$theme.js'></script>";
+	if (file_exists("$path/../css/$theme.css"))
+		print "<link rel=stylesheet href='$ROOT"."css/$theme.css'>";
 }
 function get_theme()
 {

@@ -27,4 +27,12 @@ define("CONFIG_ADMIN_MAIL", "webmaster@domain.tld");
 define("CONFIG_ADMIN_NAME", "Admininstrator");
 
 define("CONFIG_DEFAULT_THEME", "20XX");
+
+define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
+
+define("CONFIG_THEMES",
+[
+	'20XX',
+	'Lain'
+]);
 ?>
