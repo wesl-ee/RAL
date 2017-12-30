@@ -1,12 +1,11 @@
 <?php
-include "../includes/config.php";
-include "../includes/post.php";
+$ROOT = '../';
+include $ROOT."includes/main.php";
+include $ROOT."includes/post.php";
 ?>
 <HTML>
 <head>
-	<meta name=viewport content="width=device-width, maximum-scale=1, minimum-scale=1">
-	<link rel=stylesheet href="../css/base.css">
-	<link rel=stylesheet href="../css/20XX.css">
+	<?php head($ROOT)?>
 	<title>RAL</title>
 </head>
 <body>

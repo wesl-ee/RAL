@@ -1,17 +1,12 @@
 <?php
-/* PREAMBLE */
-// Generate an ID for posting authentication
-if (!isset($_COOKIE['auth'])) {
-	setcookie('auth', uniqid());
-}
+$ROOT = './';
+include $ROOT.'includes/main.php';
 ?>
 
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<meta name=viewport content="width=device-width, maximum-scale=1, minimum-scale=1">
-	<link rel=stylesheet href="css/base.css">
-	<link rel=stylesheet href="css/20XX.css">
+	<?php head($ROOT)?>
 	<title>RAL</title>
 </head>
 <body>

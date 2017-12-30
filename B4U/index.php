@@ -1,6 +1,7 @@
 <?php
-include '../includes/config.php';
-include '../includes/fetch.php';
+$ROOT = '../';
+include $ROOT.'includes/main.php';
+include $ROOT.'includes/fetch.php';
 
 $page = $_GET['p'];
 if (!isset($page)) $page = 0;
@@ -8,9 +9,7 @@ if (!isset($page)) $page = 0;
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<meta name=viewport content="width=device-width, maximum-scale=1, minimum-scale=1">
-	<link rel=stylesheet href="../css/base.css">
-	<link rel=stylesheet href="../css/20XX.css">
+	<?php head($ROOT)?>
 	<title>RAL</title>
 </head>
 <body>

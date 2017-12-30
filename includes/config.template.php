@@ -26,15 +26,5 @@ define("CONFIG_CLIENT_TIMEOUT", 15);
 define("CONFIG_ADMIN_MAIL", "webmaster@domain.tld");
 define("CONFIG_ADMIN_NAME", "Admininstrator");
 
-// Core functions
-function ralog($m)
-{
-	$ip = $_SERVER['HTTP_X_REAL_IP'];
-	$time = date('c');
-	file_put_contents(
-		CONFIG_RAL_LOG,
-		"$time - ($ip) $m\n",
-		FILE_APPEND|LOCK_EX
-	);
-}
+define("CONFIG_DEFAULT_THEME", "20XX");
 ?>
