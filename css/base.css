@@ -35,7 +35,7 @@ body {
 	top: 0;
 	left: 0;
 	width: 100px;
-	max-width: calc(20% - 20px);
+	max-width: calc(20% - 40px);
 	text-align: center;
 	padding: 20px;
 }
@@ -123,8 +123,6 @@ footer a {
 	top: 0;
 	right: 0;
 	margin: 20px;
-	margin-right: 20px;
-	margin-left: 20px;
 	padding: 10px;
 	border: 1px solid;
 	width: calc(80% - 80px);
@@ -156,6 +154,7 @@ footer a {
 	top: 0;
 }
 .reply .buttons input[type=submit] {
+	color: inherit;
 	margin-left: auto;
 	display: block;
 	border-top: 0;
