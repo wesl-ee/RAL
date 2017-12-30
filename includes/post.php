@@ -51,8 +51,9 @@ function bbbbbbb($string)
 				break;
 			case 'url':
 				$url = htmlspecialchars($param);
-				if (indexOf($url, '://') < 0)
-					$url = 'http://' . $url;
+				// Assume http: protocol if none other is given
+				if (indexOf($url, ':') < 0)
+					$url = 'http:' . $url;
 				$open = "<a href='$url'>";
 				$close = "</a>";
 				break;

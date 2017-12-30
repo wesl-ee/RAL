@@ -23,6 +23,8 @@ define("CONFIG_TIMELINES_PER_PAGE", 5);
 
 define("CONFIG_CLIENT_TIMEOUT", 15);
 
+define("CONFIG_ADMIN_MAIL", "webmaster@domain.tld");
+
 // Core functions
 function ralog($m)
 {

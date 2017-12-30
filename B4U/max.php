@@ -119,6 +119,7 @@ $timelines = fetch_timelines();
 		. "</a>";
 	}
 	?>
+	<a class=help href=help.php>Help</a>
 </div>
 <div id=rightpanel>
 	<?php
@@ -229,11 +230,8 @@ var timelines = document.getElementById('timelines');
 var timelinename = reader.getAttribute('data-timeline');
 var topicid = reader.getAttribute('data-topic');
 
-if (topicid === null) {
-	subscribetimeline(timelinename, reader);
-} else {
+if (topicid !== null)
 	subscribetopic(timelinename, topicid, reader);
-}
 
 updatelatency();
 

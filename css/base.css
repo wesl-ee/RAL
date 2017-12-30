@@ -36,7 +36,8 @@ body {
 	left: 0;
 	width: 100px;
 	max-width: calc(20% - 20px);
-	text-align: justify;
+	text-align: center;
+	padding: 20px;
 }
 .sidebar .latency {
 	width: 100%;
@@ -55,18 +56,17 @@ body {
 #timelines {
 	text-align: center;
 	padding: 20px;
-	padding-bottom: 30px;
 }
-#timelines .collection {
+.collection {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	margin: 10px;
 }
-#timelines .collection > a {
+.collection > a {
 	margin-bottom: 15px;
 }
-#timelines .collection > a,
+.collection > a,
 .minorbox,
 .reply .buttons > * {
 	display: block;
@@ -77,7 +77,7 @@ body {
 	border: 1px solid;
 	cursor: pointer;
 }
-#timelines .collection > a:hover,
+.collection > a:hover,
 .minorbox:hover,
 .reply .buttons > *:hover {
 	box-shadow: -3px 3px 10px;
@@ -113,7 +113,8 @@ footer a {
 .rightnav {
 	right: 5px;
 }
-#timelines {
+#timelines,
+.sidebar {
 	border: 1px solid;
 }
 #rightpanel {
@@ -209,14 +210,11 @@ footer a {
 	text-align-last: right;
 	text-decoration: none;
 }
-.reader article .content.open {
+.reader article .content.new {
 	border-right-color: red;
 }
 .reader.expanded article {
 	height: initial;
-}
-.reader.expanded .num:hover {
-	cursor: pointer;
 }
 .choicebox {
 	display: inline;
@@ -304,6 +302,9 @@ a {
 	color: inherit;
 	cursor: pointer;
 	outline: none;
+}
+hr {
+	width: 100%;
 }
 textarea {
 	font-family: inherit;

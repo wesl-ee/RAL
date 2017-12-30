@@ -59,6 +59,7 @@ if (!isset($page)) $page = 0;
 		. "</a>";
 	}
 	?>
+	<a class=help href=help.php>Help</a>
 </div>
 
 <!-- Scripts -->
