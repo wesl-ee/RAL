@@ -168,6 +168,7 @@ footer a {
 	width: 100%;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	padding-right: 5px;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;
@@ -199,6 +200,9 @@ footer a {
 	margin-left: auto;
 	text-align: left;
 	text-align-last: left;
+}
+.reader p {
+	text-align: justify;
 }
 .reader article .content {
 	border-right-width: 2px;

@@ -29,7 +29,7 @@ include "../includes/post.php";
 	} else if (isset($_GET['about'])) {
 		print "<h3>About</h3>";
 	} else {
-		$mail = CONFIG_ADMIN_MAIL;
+		$mail = CONFIG_ADMIN_MAIL; $name = ucfirst(CONFIG_ADMIN_NAME);
 		// Probably read this in from a file
 		print
 <<<HTML
@@ -83,8 +83,8 @@ include "../includes/post.php";
 		</ul>
 
 		<h4>Who can I contact about abuse / questions?</h4><p>
-		The administrator, sole protector and guardian angel of RAL
-		can be reached via prayer or by mail:
+		$name is the administrator, sole protector and guardian angel
+		of RAL and can be reached via prayer or by mail:
 		<a href=mailto:$mail>$mail</a>
 		</p></div>
 HTML;
