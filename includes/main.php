@@ -6,7 +6,7 @@ if (!isset($_COOKIE['auth'])) {
 	setcookie('auth', uniqid());
 }
 if (!isset($_COOKIE['theme']))
-	setcookie('theme', CONFIG_DEFAULT_THEME);
+	setcookie('theme', CONFIG_DEFAULT_THEME, 0, '/');
 
 // Core functions
 function ralog($m)
@@ -29,8 +29,11 @@ function head($ROOT)
 	case '20XX':
 		print "<link rel=stylesheet href='$ROOT"."css/20XX.css'>"
 		. "<script src='$ROOT"."js/themes/20XX.js'></script>";
-		break;
-	}
+	break;
+	case 'Lain':
+		print "<link rel=stylesheet href='$ROOT"."css/Lain.css'>"
+		. "<script src='$ROOT"."js/themes/Lain.js'></script>";
+	break; }
 }
 function get_theme()
 {

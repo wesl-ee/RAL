@@ -160,8 +160,7 @@ footer a {
 	border-top: 0;
 }
 .reply textarea {
-	border-bottom: 1px solid;
-	border-left: 1px solid;
+	border-top: 0;
 }
 .reader {
 	width: 100%;
@@ -219,9 +218,11 @@ footer a {
 .reader.expanded article {
 	height: initial;
 }
-.choicebox {
+.choicebox,
+.minorbox {
 	display: inline;
 	border: 2px solid;
+	padding: 2px;
 	text-align: center;
 	transition: box-shadow 0.5s, color 1s;
 	cursor: pointer;
@@ -321,4 +322,22 @@ textarea {
 ::-webkit-scrollbar {
 	width: 2px;
 	height: 0;
+}
+input, select, textarea {
+	font-family: inherit;
+	color: inherit;
+        border: 1px solid;
+	margin-bottom: 1px;
+	font-size: 1em;
+	background-color: inherit;
+}
+input[type=submit] {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	transition: border 0.2s;
+	outline: 0;
 }

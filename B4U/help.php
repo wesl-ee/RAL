@@ -2,6 +2,15 @@
 $ROOT = '../';
 include $ROOT."includes/main.php";
 include $ROOT."includes/post.php";
+
+if (isset($_POST['theme'])) {
+	setcookie('theme', $_POST['theme'], 0, '/');
+}
+if (count($_POST)) {
+	header("Location: ?$_SERVER[QUERY_STRING]");
+	die;
+}
+
 ?>
 <HTML>
 <head>
@@ -22,7 +31,26 @@ include $ROOT."includes/post.php";
 </div>
 <div id=rightpanel>
 	<?php if (isset($_GET['theme'])) {
-		print "<h3>Theming</h3>";
+		$currtheme = get_theme();
+		print
+<<<HTML
+		<h3>Theming</h3>
+		<div class=reader>
+		<form action=?theme method=POST><dl><dt>Theme</dt>
+		<dd><select name=theme>
+HTML;
+		foreach (CONFIG_THEMES as $theme) {
+			if ($theme == $currtheme)
+				print "<option selected>$theme</option>";
+			else
+				print "<option>$theme</option>";
+		}
+		print
+<<<HTML
+		</select></dd>
+		</dl><input type=submit value=Commit></form>
+HTML;
+
 	} else if (isset($_GET['staff'])) {
 		print "<h3>Staff</h3>";
 	} else if (isset($_GET['about'])) {

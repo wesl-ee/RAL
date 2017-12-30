@@ -6,7 +6,7 @@ body,
 body {
 	color: black;
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	background-image: url('sakura.gif');
+	background-image: url('img/sakura.gif');
 }
 h1, h2, h3 {
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
