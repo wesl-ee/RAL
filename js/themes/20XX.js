@@ -26,9 +26,9 @@ window.addEventListener('load', function() {
 		'Worlds',
 		'Digital Heaven'
 	];
-	var nodes = document.getElementsByClassName('xxx-success');
+	var nodes = document.getElementsByClassName('xxx-welcome');
 	for (var i = 0; i < nodes.length; i++) {
-		flashmessages(nodes[i], xxx, 100);
+		flashmessages(nodes[i], xxx, 300);
 	}
 	xxx = [
 		'Sent',
@@ -45,8 +45,8 @@ window.addEventListener('load', function() {
 		'Entered',
 		'Comunicated',
 	]
-	var nodes = document.getElementsByClassName('xxx-welcome');
+	var nodes = document.getElementsByClassName('xxx-success');
 	for (var i = 0; i < nodes.length; i++) {
-		flashmessages(nodes[i], xxx, 300);
+		flashmessages(nodes[i], xxx, 100);
 	}
 });
