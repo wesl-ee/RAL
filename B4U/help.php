@@ -4,7 +4,7 @@ include $ROOT."includes/main.php";
 include $ROOT."includes/post.php";
 
 if (isset($_POST['theme'])) {
-	setcookie('theme', $_POST['theme'], 0, '/');
+	setcookie('theme', $_POST['theme'], CONFIG_COOKIE_TIMEOUT+time(), '/');
 }
 if (count($_POST)) {
 	header("Location: ?$_SERVER[QUERY_STRING]");

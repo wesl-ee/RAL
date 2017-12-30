@@ -3,10 +3,11 @@ include 'config.php';
 
 // Generate an ID for posting authentication
 if (!isset($_COOKIE['auth'])) {
-	setcookie('auth', uniqid());
+	setcookie('auth', uniqid(), CONFIG_COOKIE_TIMEOUT + time(), '/');
 }
 if (!isset($_COOKIE['theme']))
-	setcookie('theme', CONFIG_DEFAULT_THEME, 0, '/');
+	setcookie('theme', CONFIG_DEFAULT_THEME,
+	CONFIG_COOKIE_TIMEOUT + time(), '/');
 
 // Core functions
 function ralog($m)
