@@ -10,6 +10,10 @@ if (count($_POST)) {
 	header("Location: ?$_SERVER[QUERY_STRING]");
 	die;
 }
+function nl22br($string)
+{
+	return str_replace("\n\n", "<br/><br/>", $string);
+}
 
 ?>
 <HTML>
@@ -54,7 +58,14 @@ HTML;
 	} else if (isset($_GET['staff'])) {
 		print "<h3>Staff</h3>";
 	} else if (isset($_GET['about'])) {
-		print "<h3>About</h3>";
+		$txt = nl22br(bbbbbbb(file_get_contents('about.txt')));
+		print
+<<<HTML
+		<h3>About</h3>
+		<div class=reader>
+		$txt
+		</div>
+HTML;
 	} else {
 		$mail = CONFIG_ADMIN_MAIL; $name = ucfirst(CONFIG_ADMIN_NAME);
 		// Probably read this in from a file
