@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-use warnings;
 use strict;
 use DBI;
 use File::Basename;
@@ -66,6 +65,31 @@ sub present_choices {
 	}
 	$_[$choice-1];
 }
+sub rail_fence {
+	# Parameters
+	my $txt = shift @_;
+	my $n = shift @_;
+
+	# Set up the fence with $n rails
+	my @fence = ();
+	my $rail = 0;
+	my $halfcycle = $n - 1;
+	my $secret = '';
+
+	for (my $i = 0; $i < length $txt; $i++) {
+		# Put a letter on the fence
+		push @{$fence[$rail]}, substr($txt, $i, 1);
+
+		# Consider what our next move along the fence will be
+		$rail++ if ($i % ($halfcycle * 2) < $halfcycle);
+		$rail-- if ($i % ($halfcycle * 2) >= $halfcycle);
+	}
+
+	# Read the message from the fence
+	while ($n--) {
+		$secret = join('', @{$fence[$n]}) . $secret;
+	} return $secret;
+}
 
 # Read SQL settings from the config file
 my ($CONFIG_RAL_SERVER,
@@ -109,26 +133,46 @@ print FG_CYAN
 . "Welcome home $CONFIG_ADMIN_NAME\n"
 . FG_DEFAULT;
 
-my $choice; my $quit = 0;
+my $choice;
 do {
 $choice = present_choices(
 	'Metrics',
-	'Delete a post',
-	'Ban Someone',
+	'Encrypt a post',
+	'Bans',
+	'Post Details',
 	'Quit'
 );
 if ($choice eq 'Metrics') {
-	my $tb = Text::Table->new("Name\n----",
-	"Post Count\n---------");
+	my $tb = Text::Table->new("Name", "Post Count");
 	$sth = $dbh->prepare('SELECT `Name`, `Post Count` FROM `Timelines`');
 	$sth->execute or die_error DBI::errstr;
 	while ($row = $sth->fetchrow_hashref) {
 		$tb->add($row->{'Name'}, $row->{'Post Count'});
 	}
 	print $tb;
-
-} elsif ($choice eq 'Delete a post') {
-} elsif ($choice eq 'Ban Someone') {
-} elsif ($choice eq 'Quit') {
-	$quit = 0;
-} print "\n"; } while (!$quit);
+} elsif ($choice eq 'Encrypt a post') {
+	print "\nFrom which continuity?\n";
+	my $c = present_choices @continuities;
+	print "\nPost id: ";
+	my $id = <>;
+	$sth = $dbh->prepare('SELECT `Content` FROM `Posts` WHERE `Timeline`=(?)'
+	. ' AND `Id`=(?)');
+	$sth->execute($c, $id) or die_error DBI::errstr;
+	if (!$sth->rows) {
+		notify_warn 'No such post';
+		continue;
+	}
+	my $content = $sth->fetchrow_hashref->{'Content'};
+	my $rails = int(rand(8)+3);
+	my $ciphertext = rail_fence $content, $rails;
+	$sth = $dbh->prepare('UPDATE `Posts` SET `Content`=(?) WHERE'
+	. ' `Timeline`=(?) AND `Id`=(?)');
+	$sth->execute($ciphertext, $c, $id) or die_error ;
+	if ($sth->rows) {
+		notify_success "Successfully encrypted post $id ($rails rails)";
+	} else {
+		notify_warn "Nothing was changed";
+	}
+} elsif ($choice eq 'Bans') {
+} elsif ($choice eq 'Post Details') {
+} print "\n"; } while ($choice ne 'Quit');
