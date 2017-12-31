@@ -1,0 +1,134 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+use DBI;
+use File::Basename;
+use Text::Table;
+
+# Cute formatting; ANSI escape codes
+use constant HOOYA_VERSION => '0.7';
+use constant {
+	FG_BLACK => '[0;30m',
+	FG_RED => '[0;31m',
+	FG_GREEN => '[0;32m',
+	FG_YELLOW => '[0;33m',
+	FG_BLUE => '[0;34m',
+	FG_MAGENTA => '[0;35m',
+	FG_CYAN => '[0;36m',
+	FG_WHITE => '[0;37m',
+	FG_DEFAULT => '[0;39m',
+
+	BG_BLACK => '[0;40m',
+	BG_RED => '[0;41m',
+	BG_GREEN => '[0;42m',
+	BG_YELLOW => '[0;43m',
+	BG_BLUE => '[0;44m',
+	BG_MAGENTA => '[0;45m',
+	BG_CYAN => '[0;46m',
+	BG_WHITE => '[0;47m',
+	BG_DEFAULT => '[0;49m',
+
+	TEXT_RESET => '[0;0m',
+	TEXT_BOLD => '[0;1m',
+	TEXT_STANDOUT => '[0;3m',
+	TEXT_BLINK => '[0;5m',
+	TEXT_REVERSE => '[0;7m',
+};
+
+# Disable buffering
+$| = 1;
+
+# Notifications
+sub die_error { die FG_RED . $_[0] . FG_DEFAULT . "\n"; }
+sub notify_success { print FG_GREEN . $_[0] . FG_DEFAULT . "\n"; }
+sub notify_warn { print FG_YELLOW . $_[0] . FG_DEFAULT . "\n"; }
+sub notify_error { print FG_RED . $_[0] . FG_DEFAULT . "\n"; }
+sub status_update {
+	my ($current, $total) = @_;
+	my $percent = ($current/$total)*100;
+
+	printf("\33[2K\r");
+	printf("%.f%% done (%d / %d)", $percent, $current, $total);
+	print "\n" if ($current == $total);
+}
+
+# Fn
+sub present_choices {
+	my $i = 1;
+	foreach (@_) {
+		print "$i.) $_\n"; $i++;
+	}
+	print "\n> ";
+	my $choice = <>;
+	if ($choice >= $i) {
+		notify_error 'Invalid choice';
+		return &present_choices;
+	}
+	$_[$choice-1];
+}
+
+# Read SQL settings from the config file
+my ($CONFIG_RAL_SERVER,
+$CONFIG_RAL_USERNAME,
+$CONFIG_RAL_PASSWORD,
+$CONFIG_RAL_DATABASE,
+$CONFIG_ADMIN_NAME);
+my $incfile =  dirname($0) . "/../includes/config.php";
+open(FILE, $incfile);
+while (<FILE>) {
+	$CONFIG_RAL_SERVER = $1 if (/["']CONFIG_RAL_SERVER["'], ["'](.+)["']/);
+	$CONFIG_RAL_USERNAME = $1 if (/"CONFIG_RAL_USERNAME", ["'](.+)["']/);
+	$CONFIG_RAL_PASSWORD = $1 if (/["']CONFIG_RAL_PASSWORD["'], ["'](.+)["']/);
+	$CONFIG_RAL_DATABASE = $1 if (/["']CONFIG_RAL_DATABASE["'], ["'](.+)["']/);
+	$CONFIG_ADMIN_NAME = $1 if (/["']CONFIG_ADMIN_NAME["'], ["'](.+)["']/);
+}
+close(FILE);
+
+my $dsn = "DBI:mysql:database=" . $CONFIG_RAL_DATABASE
+. ";host=" . $CONFIG_RAL_SERVER;
+my $dbh = DBI->connect(
+	$dsn,
+	$CONFIG_RAL_USERNAME,
+	$CONFIG_RAL_PASSWORD,
+	{'PrintError' => 0}
+);
+if (!defined $dbh) {
+	die_error DBI::errstr;
+}
+my $sth; my $row;
+
+# Pre-fetch a list of all continuities
+my @continuities;
+$sth = $dbh->prepare('SELECT `Name` FROM `Timelines`');
+$sth->execute or die_error DBI::errstr;
+while ($row = $sth->fetchrow_hashref) {
+	push @continuities, $row->{'Name'};
+}
+
+print FG_CYAN
+. "Welcome home $CONFIG_ADMIN_NAME\n"
+. FG_DEFAULT;
+
+my $choice; my $quit = 0;
+do {
+$choice = present_choices(
+	'Metrics',
+	'Delete a post',
+	'Ban Someone',
+	'Quit'
+);
+if ($choice eq 'Metrics') {
+	my $tb = Text::Table->new("Name\n----",
+	"Post Count\n---------");
+	$sth = $dbh->prepare('SELECT `Name`, `Post Count` FROM `Timelines`');
+	$sth->execute or die_error DBI::errstr;
+	while ($row = $sth->fetchrow_hashref) {
+		$tb->add($row->{'Name'}, $row->{'Post Count'});
+	}
+	print $tb;
+
+} elsif ($choice eq 'Delete a post') {
+} elsif ($choice eq 'Ban Someone') {
+} elsif ($choice eq 'Quit') {
+	$quit = 0;
+} print "\n"; } while (!$quit);
