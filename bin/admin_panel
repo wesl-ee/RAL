@@ -152,12 +152,12 @@ if ($choice eq 'Metrics') {
 	print $tb;
 } elsif ($choice eq 'Encrypt a post') {
 	print "\nFrom which continuity?\n";
-	my $c = present_choices @continuities;
-	print "\nPost id: ";
+	$choice = present_choices @continuities;
+	print "Post id: ";
 	my $id = <>;
 	$sth = $dbh->prepare('SELECT `Content` FROM `Posts` WHERE `Timeline`=(?)'
 	. ' AND `Id`=(?)');
-	$sth->execute($c, $id) or die_error DBI::errstr;
+	$sth->execute($choice, $id) or die_error DBI::errstr;
 	if (!$sth->rows) {
 		notify_warn 'No such post';
 		continue;
@@ -167,12 +167,29 @@ if ($choice eq 'Metrics') {
 	my $ciphertext = rail_fence $content, $rails;
 	$sth = $dbh->prepare('UPDATE `Posts` SET `Content`=(?) WHERE'
 	. ' `Timeline`=(?) AND `Id`=(?)');
-	$sth->execute($ciphertext, $c, $id) or die_error ;
+	$sth->execute($ciphertext, $choice, $id) or die_error ;
 	if ($sth->rows) {
 		notify_success "Successfully encrypted post $id ($rails rails)";
 	} else {
 		notify_warn "Nothing was changed";
 	}
 } elsif ($choice eq 'Bans') {
+	$choice = present_choices 'View Bans', 'Shadow Ban';
+	if ($choice eq 'View Bans') {
+		my $tb = Text::Table->new('Id', 'Type', 'Date');
+		$sth = $dbh->prepare('SELECT `Id`, `Type`, `Date`'
+		. ' FROM `Bans` ORDER BY `Date`');
+		$sth->execute or die_error DBI::errstr;
+		while ($row = $sth->fetchrow_hashref) {
+			$tb->add($row->{'Id'},
+			$row->{'Type'}, $row->{'Date'});
+		}
+		if (!$sth->rows) {
+			print "No bans...wao!\n"
+		} else {
+			print $tb;
+		}
+	} elsif ($choice eq 'Enact a Shadow Ban') {
+	}
 } elsif ($choice eq 'Post Details') {
 } print "\n"; } while ($choice ne 'Quit');

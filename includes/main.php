@@ -1,13 +1,19 @@
 <?php
 include 'config.php';
+include 'mod.php';
 
 // Generate an ID for posting authentication
 if (!isset($_COOKIE['auth'])) {
-	setcookie('auth', uniqid(), CONFIG_COOKIE_TIMEOUT + time(), '/');
+	$auth = uniqid();
+	clearban($auth);
+	setcookie('auth', $auth, CONFIG_COOKIE_TIMEOUT + time(), '/');
+} else {
+	processbans($_COOKIE['auth']);
 }
 if (!isset($_COOKIE['theme']))
 	setcookie('theme', CONFIG_DEFAULT_THEME,
 	CONFIG_COOKIE_TIMEOUT + time(), '/');
+
 
 // Core functions
 function ralog($m)
