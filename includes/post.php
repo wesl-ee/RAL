@@ -100,7 +100,7 @@ function create_post($timeline, $topic, $auth, $content)
 	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
 		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Auth`, `Content`) SELECT"
-		. " `Post Count` AS `Id`"
+		. " `Post Count`+1 AS `Id`"
 		. ", '$timeline' AS `Timeline`"
 		. ", $topic AS `Topic`"
 		. ", '$auth' AS `Auth`"
@@ -168,9 +168,9 @@ function create_topic($timeline, $auth, $content)
 	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
 		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Auth`, `Content`) SELECT"
-		. " `Post Count` AS `Id`"
+		. " `Post Count`+1 AS `Id`"
 		. ", '$timeline' AS `Timeline`"
-		. ", `Post Count` AS `Topic`"
+		. ", `Post Count`+1 AS `Topic`"
 		. ", '$auth' AS `Auth`"
 		. ", '$content' AS `Content`"
 		. " FROM `Timelines` WHERE Name='$timeline'";
@@ -242,7 +242,7 @@ function notify_listeners($msgtype, $body = '')
 
 	// Send the message to every listening client
 	if (!shm_has_var($shm, CONFIG_RAL_SHMCLIENTLIST)) {
-		print "Initializing an empty client array\n";
+		ralog("Initializing an empty client array");
 		$clients = [];
 		if (!shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients)) {
 			// Nuclear option: memory is too full and nobody
@@ -275,7 +275,6 @@ function notify_listeners($msgtype, $body = '')
 	$log = "Broadcast message to $succ clients";
 	if ($fail > 0) $log .= " ($fail failures)";
 	ralog($log);
-//	print "$log\n";
 	shm_detach($shm);
 }
 function create_listener()

@@ -20,10 +20,13 @@ h1 {
 	margin-bottom: 50px;
 }
 ::-webkit-scrollbar-thumb {
-	background: black;
+	background: white;
 }
 dl, ul, ol {
 	list-style-type: square;
+}
+select option {
+	background-color: black;
 }
 #welcome {
 	text-shadow: -4px 4px black;
@@ -51,6 +54,13 @@ dl, ul, ol {
 	opacity: 0.9;
 	background-color: black;
 }
+@media (max-width: 600px) {
+.sidebar,
+#timelines,
+#rightpanel {
+	opacity: 0.9;
+	background-color: black;
+} }
 .id {
 	color: red;
 }

@@ -2,14 +2,18 @@ body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	 width: 100%;
 	margin: 0;
+	width: 100%;
 
-	/* URL status bar gets in the way otherwise */
-/*	height: calc(100% - 25px);
-	margin-bottom: 25px;*/
 	height: 100%;
 }
+@media (max-width: 600px) {
+body {
+	position: initial;
+	height: initial;
+	margin: 5px;
+	width: calc(100% - 5px);
+} }
 #welcome,
 .frontcenter {
 	position: absolute;
@@ -39,6 +43,14 @@ body {
 	text-align: center;
 	padding: 20px;
 }
+@media (max-width: 600px) {
+.sidebar {
+	position: relative;
+	width: initial;
+	max-width: calc(100% - 50px);
+	margin: 0;
+	margin-bottom: 5px;
+} }
 .sidebar .latency {
 	width: 100%;
 	text-wrap: break-word;
@@ -48,10 +60,19 @@ body {
 	flex-direction: column;
 	flex-wrap: no-wrap;
 }
+@media (max-width: 600px) {
+.sidebar .collection {
+	flex-direction: row;
+} }
 .frontcenter .collection a {
 	margin-left: 5px;
 	margin-right: 5px;
 }
+@media (max-width: 600px) {
+.sidebar .collection a {
+	margin-left: 5px;
+	margin-right: 5px;
+} }
 
 #timelines {
 	text-align: center;
@@ -107,12 +128,24 @@ footer a {
 	user-select: none;
 	text-decoration: none;
 }
+@media (max-width: 600px) {
+.leftnav, .rightnav {
+	font-size: 150%;
+} }
 .leftnav {
 	left: 5px;
 }
+@media (max-width: 600px) {
+.leftnav {
+	left: 20px;
+} }
 .rightnav {
 	right: 5px;
 }
+@media (max-width: 600px) {
+.rightnav {
+	right: 20px
+} }
 #timelines,
 .sidebar {
 	border: 1px solid;
@@ -126,12 +159,22 @@ footer a {
 	padding: 10px;
 	border: 1px solid;
 	width: calc(80% - 80px);
-	max-height: calc(100% - 80px);
+	max-height: calc(100% - 60px);
 
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+
+
 }
+@media (max-width: 600px) {
+#rightpanel {
+	position: relative;
+	display: block;
+	width: calc(100% - 30px);
+	margin: 0;
+	max-height: initial;
+} }
 #rightpanel footer {
 	text-align: right;
 }
@@ -340,4 +383,9 @@ select {
 	-moz-appearance: none;
 	transition: border 0.2s;
 	outline: 0;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+select option {
+	background-color: black;
 }
