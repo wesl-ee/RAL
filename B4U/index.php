@@ -58,7 +58,7 @@ if (!isset($page)) $page = 0;
 		. "</a>";
 	}
 	?>
-	<a class=help href=help.php>Help</a>
+	<a class=help href=help.php>About</a>
 </div>
 
 <!-- Scripts -->

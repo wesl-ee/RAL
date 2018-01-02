@@ -29,7 +29,7 @@ function nl22br($string)
 		<a href='?theme'>Theme</a>
 		<a href='?staff'>Staff</a>
 		<a href='?about'>About</a>
-		<a href='?'>Help</a>
+		<a href='?help'>Help</a>
 	</span>
 	<a href=.>Back</a>
 </div>
@@ -57,16 +57,7 @@ HTML;
 
 	} else if (isset($_GET['staff'])) {
 		print "<h3>Staff</h3>";
-	} else if (isset($_GET['about'])) {
-		$txt = nl22br(bbbbbbb(file_get_contents('about.txt')));
-		print
-<<<HTML
-		<h3>About</h3>
-		<div class=reader>
-		$txt
-		</div>
-HTML;
-	} else {
+	} else if (isset($_GET['help'])) {
 		$mail = CONFIG_ADMIN_MAIL; $name = ucfirst(CONFIG_ADMIN_NAME);
 		// Probably read this in from a file
 		print
@@ -126,6 +117,18 @@ HTML;
 		<a href=mailto:$mail>$mail</a>
 		</p></div>
 HTML;
+	} else {
+		$txt = nl22br(bbbbbbb(file_get_contents('about.txt')));
+		print
+<<<HTML
+		<h3>About</h3>
+		<div class=reader>
+		$txt
+		</div>
+HTML;
+
+
+
 	} ?>
 </div>
 </body>
