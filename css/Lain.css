@@ -4,8 +4,7 @@ body {
 }
 body {
 	color: white;
-
-	font-family: RAL;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 	background-image: url('img/wires.png');
 }
 h1, h2, h3 {
@@ -221,10 +220,6 @@ clip: rect(38px, 9999px, 49px, 0);
 	animation: glitch-animation 1.5s infinite linear alternate-reverse;
 	left: 1px;
 	text-shadow: -2px 0 red;
-}
-@font-face {
-	font-family: "RAL";
-	src: url('font/ral.ttf');
 }
 @font-face {
 	font-family: "Systemspace";

@@ -226,7 +226,7 @@ function create_topic($timeline, $auth, $content)
 function notify_listeners($msgtype, $body = '')
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
-	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 1000000);
 	$msg = [
 		'type' => $msgtype,
 		'body' => $body
@@ -245,7 +245,10 @@ function notify_listeners($msgtype, $body = '')
 		print "Initializing an empty client array\n";
 		$clients = [];
 		if (!shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients)) {
-			purge_timedout($shm);
+			// Nuclear option: memory is too full and nobody
+			// is dropping voluntarily
+			ralog('Shared memory full. . . Clearing memory');
+			shm_remove($shm);
 			return false;
 		}
 	} else {
@@ -278,7 +281,7 @@ function notify_listeners($msgtype, $body = '')
 function create_listener()
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
-	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 1000000);
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
 
 	if (!$shm) {
@@ -334,7 +337,7 @@ function create_listener()
 }
 function destroy_listener($c_id)
 {
-	$shm = shm_attach(CONFIG_RAL_SHMKEY, 20000);
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 1000000);
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
 
 	if (!$shm) {
@@ -383,7 +386,7 @@ function purge_timedout($shm)
 function fetch_message($c_id)
 {
 	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
-	if (msg_receive($queue, $c_id, $msgtype, 20000, $msg)) {
+	if (msg_receive($queue, $c_id, $msgtype, 1000000, $msg)) {
 		return $msg;
 	}
 }
