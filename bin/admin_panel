@@ -154,7 +154,7 @@ if ($choice eq 'Metrics') {
 	print "\nFrom which continuity?\n";
 	$choice = present_choices @continuities;
 	print "Post id: ";
-	my $id = <>;
+	my $id = <>; chomp $id;
 	$sth = $dbh->prepare('SELECT `Content` FROM `Posts` WHERE `Timeline`=(?)'
 	. ' AND `Id`=(?)');
 	$sth->execute($choice, $id) or die_error DBI::errstr;
@@ -165,16 +165,18 @@ if ($choice eq 'Metrics') {
 	my $content = $sth->fetchrow_hashref->{'Content'};
 	my $rails = int(rand(8)+3);
 	my $ciphertext = rail_fence $content, $rails;
+
+	print "Cipher: Rail-fence ($rails rails)\n";
 	$sth = $dbh->prepare('UPDATE `Posts` SET `Content`=(?) WHERE'
 	. ' `Timeline`=(?) AND `Id`=(?)');
 	$sth->execute($ciphertext, $choice, $id) or die_error ;
 	if ($sth->rows) {
-		notify_success "Successfully encrypted post $id ($rails rails)";
+		notify_success "Success: Encrypted $choice/$id";
 	} else {
-		notify_warn "Nothing was changed";
+		notify_warn "Error: Nothing was changed";
 	}
 } elsif ($choice eq 'Bans') {
-	$choice = present_choices 'View Bans', 'Shadow Ban';
+	$choice = present_choices 'View Bans', 'Shadow Ban', 'Lift a Ban';
 	if ($choice eq 'View Bans') {
 		my $tb = Text::Table->new('Id', 'Type', 'Date');
 		$sth = $dbh->prepare('SELECT `Id`, `Type`, `Date`'
@@ -189,7 +191,30 @@ if ($choice eq 'Metrics') {
 		} else {
 			print $tb;
 		}
-	} elsif ($choice eq 'Enact a Shadow Ban') {
+	} elsif ($choice eq 'Shadow Ban') {
+		print "\nFrom which continuity?\n";
+		$choice = present_choices @continuities;
+		print "Post id: ";
+		my $id = <>; chomp $id;
+		$sth = $dbh->prepare('INSERT INTO `Bans` (`Id`, `Type`)'
+		. ' SELECT `Auth` AS `Id`, (?) AS `Type`  FROM `Posts`'
+		. ' WHERE `Id`=(?) AND `Timeline`=(?)');
+		$sth->execute('SLOW', $id, $choice) or die_error DBI::errstr;
+		if ($sth->rows) {
+			notify_success "Success: The user is shadow banned";
+		} else {
+			notify_warn "Error: No such post $choice/$id";
+		}
+	} elsif ($choice eq 'Lift a Ban') {
+		print "\nAuth: ";
+		my $id = <>; chomp $id;
+		$sth = $dbh->prepare('DELETE FROM `Bans` WHERE `Id`=(?)');
+		$sth->execute($id) or die_error DBI::errstr;
+		if ($sth->rows) {
+			notify_success "Success: The ban was lifted";
+		} else {
+			notify_warn "Error: Nothing was affecting $id";
+		}
 	}
 } elsif ($choice eq 'Post Details') {
 } print "\n"; } while ($choice ne 'Quit');
