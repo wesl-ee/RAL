@@ -258,22 +258,28 @@ function notify_listeners($msgtype, $body = '')
 		print 'Error while acquiring a client list';
 		die;
 	}
-	$succ = 0; $fail = 0;
+	$succ = 0; $fail = 0; $timeout = 0;
 	foreach ($clients as $c_id => $one) {
 		// Get client info
 		$client_info = shm_get_var($shm, $c_id);
 		if ($client_info === False) {
 			$fail++;
 		}
-		elseif (msg_send($queue, $c_id, $msg, True, False))
+		elseif (time() - $client_info['last_seen'] > CONFIG_CLIENT_TIMEOUT) {
+			destroy_listener($c_id);
+			$timeout++;
+		} elseif (msg_send($queue, $c_id, $msg, True, False)) {
+
+			
 			$succ++;
-		else {
+		} else {
 			destroy_listener($c_id);
 			$fail++;
 		}
 	}
 	$log = "Broadcast message to $succ clients";
 	if ($fail > 0) $log .= " ($fail failures)";
+	if ($timeout > 0) $log .= " ($timeout timeouts)";
 	ralog($log);
 	shm_detach($shm);
 }
@@ -329,13 +335,13 @@ function create_listener()
 	shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
 	sem_release($sem);
 
-	// Free resources dedicated to shared memory
-	shm_detach($shm);
+
 
 	return $c_id;
 }
 function destroy_listener($c_id)
 {
+	$queue = msg_get_queue(CONFIG_RAL_QUEUEKEY);
 	$shm = shm_attach(CONFIG_RAL_SHMKEY, 1000000);
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
 
@@ -360,10 +366,29 @@ function destroy_listener($c_id)
 
 	// Free resources dedicated to shared memory
 	shm_detach($shm);
+
+	// Eat up all messages that were intended for the user
+//	while (msg_receive($queue, $c_id, $msgtype, 1000000,
+//	$msg, true, MSG_IPC_NOWAIT) != MSG_ENOMSG);
+}
+function renew_listener($c_id)
+{
+	$shm = shm_attach(CONFIG_RAL_SHMKEY, 1000000);
+	$sem = sem_get(CONFIG_RAL_SEMKEY);
+	$client_info = [
+		'last_seen' => time()
+	];
+	sem_acquire($sem);
+	if (!shm_put_var($shm, $c_id, $client_info)) {
+		purge_timedout($shm);
+	}
+	sem_release($sem);
+
+	// Free resources dedicated to shared memory
+	shm_detach($shm);
 }
 function purge_timedout($shm)
 {
-
 	$sem = sem_get(CONFIG_RAL_SEMKEY);
 	$now = time();
 	$i = 0;
