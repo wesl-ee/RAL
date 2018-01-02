@@ -124,7 +124,7 @@ $timelines = fetch_timelines();
 	<?php
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
-		$title = strtoupper("$timeline No. $topic");
+		$title = strtoupper("$timeline/#$topic");
 		print "<h3>$title</h3>"
 		. "<div class='reader expanded'"
 		. " data-topic='$topic'"
@@ -136,7 +136,7 @@ $timelines = fetch_timelines();
 			$id = $post['id'];
 			print "<article>"
 			. "<time>$time</time>"
-			. "<span class=id>No. $id</span>"
+			. "<span class=id>#$id</span>"
 			. "<span class=content>$content</span>"
 			. "</article>";
 		}
@@ -186,7 +186,7 @@ $timelines = fetch_timelines();
 			$p = http_build_query($q);
 			print "<article>"
 			. "<time>$time</time>"
-			. "<span class=id>No. $id</span>"
+			. "<span class=id>#$id</span>"
 			. "<span class=content data-topic=$id>"
 			. "<a href='?$p'>$content</a>"
 			. "</span>"

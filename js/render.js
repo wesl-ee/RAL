@@ -15,7 +15,7 @@ function newtopic(reader, topic)
 	article.id = topic.id;
 	updated.dateTime = topic.modified;
 
-	num.appendChild(document.createTextNode('No. ' + topic.id));
+	num.appendChild(document.createTextNode('#' + topic.id));
 	num.className = 'id';
 
 	content.className = 'content';
@@ -53,7 +53,7 @@ function newpost(reader, post)
 	article.className = 'post';
 	article.id = post.id;
 	updated.dateTime = post.date;
-	num.innerText = 'No. ' + post.id;
+	num.innerText = '#' + post.id;
 	num.className = 'id';
 
 	// post.content may contain HTML (parsed BBcode)

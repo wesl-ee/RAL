@@ -4,8 +4,8 @@ body {
 	left: 0;
 	margin: 0;
 	width: 100%;
-
 	height: 100%;
+	-webkit-backface-visibility: hidden;
 }
 @media (max-width: 600px) {
 body {
@@ -32,6 +32,7 @@ body {
 }
 #welcome .choicebox {
 	background-color: inherit;
+	border: 0;
 }
 .sidebar {
 	position: absolute;
@@ -221,6 +222,11 @@ footer a {
 	margin-bottom: 5px;
 	overflow-x: hidden;
 }
+@media (max-width: 600px) {
+.reader article {
+	flex-direction: column;
+	border: 1px solid;
+} }
 .reader article time,
 .reader article .id {
 	white-space: nowrap;
@@ -246,8 +252,7 @@ footer a {
 	text-align: justify;
 }
 .reader article .content {
-	border-right-width: 2px;
-	border-right-style: solid;
+	border-right: 2px solid;
 	padding-right: 10px;
 	overflow: hidden;
 	line-height: 1.4em;
@@ -255,6 +260,13 @@ footer a {
 	text-align-last: right;
 	text-decoration: none;
 }
+@media (max-width: 600px) {
+.reader article .content {
+	border-right: 0;
+	padding-top: 10px;
+	padding-left: 10px;
+	border-top: 2px solid;
+} }
 .reader article .content.new {
 	border-right-color: red;
 }
@@ -385,7 +397,4 @@ select {
 	outline: 0;
 	padding-left: 5px;
 	padding-right: 5px;
-}
-select option {
-	background-color: black;
 }
