@@ -12,7 +12,7 @@ function newtopic(reader, topic)
 
 	article.className = 'topic';
 
-	article.id = topic.id;
+	article.setAttribute('data-post', topic.id);
 	updated.dateTime = topic.modified;
 
 	num.appendChild(document.createTextNode('#' + topic.id));
@@ -51,7 +51,7 @@ function newpost(reader, post)
 	updated.innerText = formatdate(time);
 
 	article.className = 'post';
-	article.id = post.id;
+	article.setAttribute('data-post', post.id);
 	updated.dateTime = post.date;
 	num.innerText = '#' + post.id;
 	num.className = 'id';
@@ -119,4 +119,15 @@ function resetdoctitle()
 	if (from < 0 || to < 0) return;
 
 	document.title = title.substr(0, from) + title.substr(to + 1);
+}
+function verifyreader(reader, posts)
+{
+	var children = reader.getElementsByTagName('article');
+	if (posts.length !== children.length)
+		return false;
+	for (var i = 0; i < posts.length; i++) {
+		if (children[i].getAttribute('data-post') != posts[i])
+			return false;
+	}
+	return true;
 }

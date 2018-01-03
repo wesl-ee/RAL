@@ -120,7 +120,7 @@ function create_post($timeline, $topic, $auth, $content)
 			ralog("$err while fetching inserted row information");
 			return false;
 		}
-		$id = mysqli_fetch_assoc($result)['Post Count'];
+		$id = mysqli_fetch_assoc($result)['Post Count'] + 1;
 		// Update postcount
 		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
 		. " WHERE `Name`='$timeline'";
@@ -188,7 +188,7 @@ function create_topic($timeline, $auth, $content)
 			ralog("$err while fetching inserted row information");
 			return false;
 		}
-		$id = mysqli_fetch_assoc($result)['Post Count'];
+		$id = mysqli_fetch_assoc($result)['Post Count'] + 1;
 		// Update postcount
 		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
 		. " WHERE `Name`='$timeline'";
@@ -300,17 +300,13 @@ function create_listener()
 		die;
 	}
 	// Ping all clients who have timed out
-	sem_acquire($sem);
 	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
-	$now = time();
-	$ping = ['type' => 'PING'];
 	foreach ($clients as $c_id => $one) {
 		$client_info = shm_get_var($shm, $c_id);
 		if ($now - $client_info['last_seen'] > CONFIG_CLIENT_TIMEOUT) {
-			msg_send($queue, $c_id, $ping, TRUE, False);
+			destroy_listener($c_id);
 		}
 	}
-	sem_release($sem);
 
 	$client_info = [
 		'last_seen' => time()
@@ -334,8 +330,6 @@ function create_listener()
 	$clients[$c_id] = 1;
 	shm_put_var($shm, CONFIG_RAL_SHMCLIENTLIST, $clients);
 	sem_release($sem);
-
-
 
 	return $c_id;
 }

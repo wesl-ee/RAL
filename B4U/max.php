@@ -134,7 +134,7 @@ $timelines = fetch_timelines();
 			$content = $post['content'];
 			$time = date('M d Y', strtotime($post['date']));
 			$id = $post['id'];
-			print "<article>"
+			print "<article data-post=$id>"
 			. "<time>$time</time>"
 			. "<span class=id>#$id</span>"
 			. "<span class=content>$content</span>"
@@ -184,7 +184,7 @@ $timelines = fetch_timelines();
 			$id = $topic['id'];
 			$q['topic'] = $id;
 			$p = http_build_query($q);
-			print "<article>"
+			print "<article data-post=$id>"
 			. "<time>$time</time>"
 			. "<span class=id>#$id</span>"
 			. "<span class=content data-topic=$id>"
@@ -231,8 +231,6 @@ var topicid = reader.getAttribute('data-topic');
 
 if (topicid !== null)
 	subscribetopic(timelinename, topicid, reader);
-
-updatelatency();
 
 var collection = timelines.getElementsByClassName('collection')[0];
 var leftnav = timelines.getElementsByClassName('leftnav')[0];

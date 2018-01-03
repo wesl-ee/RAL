@@ -20,6 +20,11 @@ function netmessage(msg)
 	var lat = document.getElementById('latency');
 	lat.innerText = msg;
 }
+function oos()
+{
+	netmessage('Out of sync');
+	document.getElementById('latency').className = 'error';
+}
 function fetchtopics(timeline, reader)
 {
 	var xhr = new XMLHttpRequest();
@@ -74,6 +79,8 @@ function fetchposts(timeline, topic, reader)
 }
 function subscribetopic(timeline, topic, reader)
 {
+	// Confirm that we have a valid collection of posts
+	verifyposts(reader, timeline, topic);
 	xhr = new XMLHttpRequest();
 
 	// Long polling set-up
@@ -98,9 +105,47 @@ function subscribetopic(timeline, topic, reader)
 		subscribetopic(timeline, topic, reader);
 	}
 
-	var uri = '?subscribe&timeline=' + timeline + '&topic=' + topic;
+	var uri = '?subscribe&timeline=' + timeline + '&topic=' + topic
+	// Prevent caching or throttling
+	+ '&' + Math.random().toString(36);
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
+}
+function verifyposts(reader, timeline, topic)
+{
+	var xhr = new XMLHttpRequest();
+
+	xhr.timeout = 15000;
+	xhr.ontimeout = function() {
+		oos(); return false;
+	}
+
+	var t1;
+	// Updating latency
+	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
+	if (this.readyState == 2) {
+		var t2 = performance.now();
+		netmessage(Math.round(t2 - t1) + "ms latency");
+	}
+	if (this.readyState == 4)
+	if (this.status == 200)
+	if (this.responseText) {
+		var posts = JSON.parse(this.responseText);
+		if (!verifyreader(reader, posts)) {
+			oos(); return false;
+		}
+	} }
+	var uri = '?verify&timeline=' + timeline
+	// Prevent caching or throttling
+	+ '&' + Math.random().toString(36);
+	if (topic) uri += "&topic=" + topic;
+	xhr.open('GET', '/courier.php' + uri);
+
+	// Synchronous: we care about the result
+	xhr.send(false);
 }
 function subscribetimeline(timeline, reader)
 {

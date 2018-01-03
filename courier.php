@@ -30,7 +30,6 @@ if (isset($_GET['subscribe'])) {
 	$topic = $_GET['topic'];
 
 	$c_id = create_listener();
-
 	do {
 		$msg = fetch_message($c_id);
 		switch($msg['type']) {
@@ -52,6 +51,20 @@ if (isset($_GET['subscribe'])) {
 	} while (!$relevant && !connection_aborted());
 
 	destroy_listener($c_id);
+}
+if (isset($_GET['verify'])) {
+	$timeline = $_GET['timeline'];
+	$topic = $_GET['topic'];
+
+	if (isset($timeline, $topic)) {
+		$posts = fetch_post_nums($timeline, $topic);
+		print json_encode($posts);
+	}
+	// Fetch topics
+	else if (isset($timeline)) {
+		$topics = fetch_topic_nums($timeline);
+		print json_encode($topics);
+	}
 }
 // Posting
 if (isset($_GET['post'])) {
