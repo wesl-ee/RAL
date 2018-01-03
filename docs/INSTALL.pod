@@ -1,0 +1,32 @@
+=head1 RECOMMENDED INSTALLATION
+
+=head2 Introduction
+
+This document provides a detailed guide on the best-practice of configuring
+RAL. Since RAL is written [nearly] entirely in PHP, you may be able to guess
+what sort of tools I will be using:
+
+=over 8
+
+=item Front-facing reverse proxy (Nginx)
+
+=item Back-end webserver (lighttpd)
+
+=item PHP >= 5.1 (PHP provider)
+
+=item fpm-PHP (PHP pool manager)
+
+=back
+
+
+    Internet    ||    +---------------+
+  ------------->||--->|     Nginx     |  Reverse proxy
+                ||    +--------^------+
+                ||           | |
+             Firewall        | |
+                             | |
+                      +------V--------+
+                      |    Lighttpd   |  Back-end
+                      +--+---------+--+
+                         | fpm-PHP |
+                         +---------+
