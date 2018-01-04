@@ -39,6 +39,6 @@ dl, ul, ol {
 .error {
 	color: red;
 }
-.new {
-	color: red;
+.new .content {
+	border-color: #ffb7c5 !important;
 }

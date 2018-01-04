@@ -61,9 +61,6 @@ select option {
 	opacity: 0.9;
 	background-color: black;
 } }
-.id {
-	color: red;
-}
 .reader {
 	border-color: red;
 }
@@ -76,8 +73,8 @@ select option {
 .error {
 	color: red;
 }
-.new {
-	color: red;
+.new .content {
+	border-color: red !important;
 }
 @keyframes glitch-animation {
 0% {

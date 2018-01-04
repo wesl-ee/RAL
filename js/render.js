@@ -30,13 +30,6 @@ function newtopic(reader, topic)
 	article.appendChild(num);
 	article.appendChild(content);
 
-/*	if (!document.hasFocus()) {
-		// Add to window title
-		window.addEventListener('focus', function() {
-			// Reset title
-		});
-	}*/
-
 	reader.insertBefore(article, reader.childNodes[0]);
 }
 function newpost(reader, post)
@@ -50,7 +43,6 @@ function newpost(reader, post)
 	var time = new Date(post.date);
 	updated.innerText = formatdate(time);
 
-	article.className = 'post';
 	article.setAttribute('data-post', post.id);
 	updated.dateTime = post.date;
 	num.innerText = '#' + post.id;
@@ -60,17 +52,22 @@ function newpost(reader, post)
 	content.innerHTML = post.content;
 	content.className = 'content';
 
-	if (post.open) content.classList.add('open');
-
-	num.addEventListener('click', function() {
-		alert('Replies not available yet!');
-	});
-
 	article.appendChild(updated);
 	article.appendChild(num);
 	article.appendChild(content);
-
 	reader.appendChild(article);
+
+	// Scroll into view
+	if (!document.hasFocus()) {
+		reader.scrollTop = (article.offsetTop - article.offsetHeight);
+		article.classList.add('new');
+		document.addEventListener('focus', function x() {
+			document.removeEventListener('focus', x);
+			setTimeout(function() {
+				article.classList.remove('new');
+			}, 1000)
+		});
+	}
 }
 function formatdate(date)
 {
