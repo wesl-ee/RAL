@@ -5,8 +5,7 @@ header("Refresh: 3;max.php?$_SERVER[QUERY_STRING]");
 ?>
 <HTML>
 <head>
-	<?php head($ROOT)?>
-	<title>Post Failure</title>
+	<?php head('Post Failure')?>
 </head>
 <body>
 <div id=welcome>
@@ -14,7 +13,7 @@ header("Refresh: 3;max.php?$_SERVER[QUERY_STRING]");
 </div>
 
 <!-- Scripts -->
-<script src='<?php print $ROOT?>js/esthetic.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <!-- End of scripts -->
 </body>
 </HTML>

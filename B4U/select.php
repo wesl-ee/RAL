@@ -9,8 +9,7 @@ if (!isset($page)) $page = 0;
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php head($ROOT)?>
-	<title>Continuity List</title>
+	<?php head('Continuities')?>
 </head>
 <body>
 <div id=timelines class=frontcenter>
@@ -23,15 +22,18 @@ if (!isset($page)) $page = 0;
 	for ($i = 0; $i < count($timelines); $i++) {
 		$name = $timelines[$i]['name'];
 		$desc = $timelines[$i]['description'];
-		$q = "timeline=$name&p=$page";
+		if (CONFIG_CLEAN_URL)
+			$a = CONFIG_WEBROOT . "max/$name?p=$page";
+		else
+			$a = "max.php?timeline=$name&p=$page";
 		// Put all timelines in the DOM (but only
 		// display some) (for JS)
 		if ($i < $page * $per_page
 		|| $i >= ($page + 1) * $per_page)
-			print "<a href=max.php?$q"
+			print "<a href='$a'"
 			. " style='visibility: hidden; display:none'>$name</a>";
 		else
-			print "<a href=max.php?$q>$name</a>";
+			print "<a href='$a'>$name</a>";
 	}
 	?></div>
 	<?php
@@ -58,12 +60,12 @@ if (!isset($page)) $page = 0;
 		. "</a>";
 	}
 	?>
-	<a class=help href=about.php>About</a>
+	<a class=help href=info>About</a>
 </div>
 
 <!-- Scripts -->
-<script src='<?php print $ROOT?>js/remote.js'></script>
-<script src='<?php print $ROOT?>js/esthetic.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
 var timelines = document.getElementById('timelines');

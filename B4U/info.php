@@ -27,7 +27,7 @@ function nl22br($string)
 		$title = 'Help';
 	else
 		$title = 'About';
-		head($title)
+	head($title)
 	?>
 </head>
 <body>
@@ -35,12 +35,23 @@ function nl22br($string)
 	<h3>RAL</h3>
 	<span>Configure</span>
 	<span class=collection>
-		<a href='?theme'>Theme</a>
-		<a href='?staff'>Staff</a>
-		<a href='?'>About</a>
-		<a href='?help'>Help</a>
+		<?php if (CONFIG_CLEAN_URL) {
+			print '<a href=theme>Theme</a>'
+			. '<a href=staff>Staff</a>'
+			. '<a href=?>About</a>'
+			. '<a href=help>Help</a>';
+		}
+		else
+			print '<a href=?theme>Theme</a>'
+			. '<a href=?staff>Staff</a>'
+			. '<a href=?>About</a>'
+			. '<a href=?help>Help</a>';?>
 	</span>
-	<a href=select.php>Back</a>
+	<?php if (CONFIG_CLEAN_URL)
+		$a = 'select';
+	else
+		$a = 'select.php';
+	print "<a href='$a'>Back</a>";?>
 </div>
 <div id=rightpanel>
 	<?php if (isset($_GET['theme'])) {

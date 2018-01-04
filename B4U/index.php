@@ -6,18 +6,19 @@ include $ROOT.'includes/main.php';
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php head($ROOT)?>
-	<title>Welcome to RAL</title>
+	<?php head('RAL')?>
 </head>
 <body>
 <div id=welcome>
 	<h1>Welcome to<br/><span class=xxx-welcome>RAL</span></h1>
 	<div class=choicebox>
-		<a href='select.php'>Enter</a>
+		<?php if (CONFIG_CLEAN_URL) $a = 'select';
+		else $a = 'select.php';
+		print "<a href='$a'>Enter</a>";?>
 	</div>
 </div>
 <!-- Scripts -->
-<script src='<?php print $ROOT?>js/esthetic.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <script>
 // Zoom out animation
 var welcome = document.getElementById('welcome');

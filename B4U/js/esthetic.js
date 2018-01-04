@@ -22,7 +22,10 @@ function connectnav(collection, leftnav, rightnav)
 		var query = href.slice(href.indexOf('?') + 1);
 		var page = href.slice(0, href.indexOf('?'));
 		query = removequeryparts(query, ['p']);
-		children[i].href = page + '?' + query;
+		if (query.length > 0)
+			children[i].href = page + '?' + query;
+		else
+			children[i].href = page;
 	}
 }
 // Remove a parameter from the GET query string (do not pass
