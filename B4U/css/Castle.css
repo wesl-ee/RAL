@@ -48,21 +48,6 @@ select option {
 	transition: background-color 0.2s,
 	opacity 0.2s;
 }
-.sidebar:hover,
-#timelines:hover,
-#rightpanel:hover {
-	opacity: 0.9;
-}
-@media (max-width: 600px) {
-.sidebar,
-#timelines,
-#rightpanel {
-	opacity: 0.9;
-	background-color: black;
-} }
-.reader {
-	border-color: red;
-}
 /* Hover-over links */
 .content a:hover,
 .content a:hover * {
