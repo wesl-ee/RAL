@@ -1,11 +1,8 @@
 <?php
 $ROOT = '../';
 include $ROOT.'includes/main.php';
-include $ROOT.'includes/fetch.php';
-
-$page = $_GET['p'];
-if (!isset($page)) $page = 0;
 ?>
+
 <!DOCTYPE HTML>
 <HTML>
 <head>
@@ -13,67 +10,39 @@ if (!isset($page)) $page = 0;
 	<title>RAL</title>
 </head>
 <body>
-<div id=timelines class=frontcenter>
-	<h3>RAL</h3>
-	<span id=latency>&nbsp</span>
-	<div class=collection><?php
-	/* Draw the timelines panel (left sidebar) */
-	$per_page = CONFIG_TIMELINES_PER_PAGE;
-	$timelines = fetch_timelines();
-	for ($i = 0; $i < count($timelines); $i++) {
-		$name = $timelines[$i]['name'];
-		$desc = $timelines[$i]['description'];
-		$q = "p=$page&timeline=$name";
-		// Put all timelines in the DOM (but only
-		// display some) (for JS)
-		if ($i < $page * $per_page
-		|| $i >= ($page + 1) * $per_page)
-			print "<a href=max.php?$q"
-			. " style='visibility: hidden; display:none'>$name</a>";
-		else
-			print "<a href=max.php?$q>$name</a>";
-	}
-	?></div>
-	<?php
-	if (!$page) {
-		print "<a class='leftnav' style='visibility:hidden'>"
-		. "◀"
-		. "</a>";
-	} else {
-		$nextpage = $page - 1;
-		$q = "p=$nextpage";
-		print "<a class='leftnav' href='?$q'>"
-		. "◀"
-		. "</a>";
-	}
-	if ($page * $per_page < count($timelines) / $per_page) {
-		$nextpage = $page + 1;
-		$q = "p=$nextpage";
-		print "<a class='rightnav' href='?$q'>"
-		. "▶"
-		. "</a>";
-	} else {
-		print "<a class='rightnav' style='visibility:hidden'>"
-		. "▶"
-		. "</a>";
-	}
-	?>
-	<a class=help href=help.php>About</a>
+<div id=welcome>
+	<h1>Welcome to<br/><span class=xxx-welcome>RAL</span></h1>
+	<div class=choicebox>
+		<a href='select.php'>Enter</a>
+	</div>
 </div>
-
 <!-- Scripts -->
-<script src='<?php print $ROOT?>js/remote.js'></script>
 <script src='<?php print $ROOT?>js/esthetic.js'></script>
 <script>
-/* Make the site pretty if the user has JS */
-var timelines = document.getElementById('timelines');
-updatelatency();
-
-var collection = timelines.getElementsByClassName('collection')[0];
-var leftnav = timelines.getElementsByClassName('leftnav')[0];
-var rightnav = timelines.getElementsByClassName('rightnav')[0];
-
-connectnav(collection, leftnav, rightnav);
+// Zoom out animation
+var welcome = document.getElementById('welcome');
+var choicebox = welcome.getElementsByClassName('choicebox')[0];
+choicebox.addEventListener('click', function(e) {
+	e.preventDefault();
+	var welcome = document.getElementById('welcome');
+	// BUG: choicebox bottom-border is cut off
+	welcome.style.overflow = 'hidden';
+	welcome.style.width = welcome.offsetWidth + "px";
+	welcome.style.height = welcome.offsetHeight + "px";
+	welcome.style.borderRightWidth = '10px';
+	welcome.style.borderLeftWidth = '10px';
+	welcome.addEventListener('transitionend', function(t) {
+	if (t.propertyName == 'border-right-width'
+	|| t.propertyName == 'border-left-width')
+		welcome.style.width = '0';
+	if (t.propertyName == 'width')
+		welcome.style.height = '0';
+	if (t.propertyName == 'height')
+		window.location = e.target.href;
+	});
+});
+// Disable bfCache on firefox (we want JS to execute again!)
+window.onunload= function(){};
 </script>
 <!-- End of scripts -->
 </body>

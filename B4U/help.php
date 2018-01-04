@@ -57,6 +57,11 @@ HTML;
 
 	} else if (isset($_GET['staff'])) {
 		print "<h3>Staff</h3>";
+		print
+<<<HTML
+		<div class=reader>
+
+HTML;
 	} else if (isset($_GET['help'])) {
 		$mail = CONFIG_ADMIN_MAIL; $name = ucfirst(CONFIG_ADMIN_NAME);
 		// Probably read this in from a file

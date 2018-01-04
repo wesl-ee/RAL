@@ -26,17 +26,18 @@ function ralog($m)
 		FILE_APPEND|LOCK_EX
 	);
 }
-function head($ROOT)
+function head()
 {
+	$ROOT = CONFIG_WEBROOT;
 	print "<meta name=viewport content='width=device-width,"
 	. " maximum-scale=1, minimum-scale=1'>"
 	. "<link rel=stylesheet href='$ROOT"."css/base.css'>";
 	$theme = get_theme();
 
 	$path = dirname(__FILE__);
-	if (file_exists("$path/../js/themes/$theme.js"))
+	if (file_exists("$path/../B4U/js/themes/$theme.js"))
 		print "<script src='$ROOT"."js/themes/$theme.js'></script>";
-	if (file_exists("$path/../css/$theme.css"))
+	if (file_exists("$path/../B4U/css/$theme.css"))
 		print "<link rel=stylesheet href='$ROOT"."css/$theme.css'>";
 }
 function get_theme()

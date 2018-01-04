@@ -1,7 +1,7 @@
 <?php
-include 'includes/config.php';
-include 'includes/fetch.php';
-include 'includes/post.php';
+include '../includes/config.php';
+include '../includes/fetch.php';
+include '../includes/post.php';
 
 // Initial fetch for reading
 if (isset($_GET['fetch'])) {
