@@ -15,7 +15,7 @@ function newtopic(reader, topic)
 	article.setAttribute('data-post', topic.id);
 	updated.dateTime = topic.modified;
 
-	num.appendChild(document.createTextNode('#' + topic.id));
+	num.appendChild(document.createTextNode(topic.id));
 	num.className = 'id';
 
 	content.className = 'content';
@@ -45,7 +45,7 @@ function newpost(reader, post)
 
 	article.setAttribute('data-post', post.id);
 	updated.dateTime = post.date;
-	num.innerText = '#' + post.id;
+	num.innerText = post.id;
 	num.className = 'id';
 
 	// post.content may contain HTML (parsed BBcode)
@@ -98,7 +98,7 @@ function incrementdoctitle()
 	console.log(from + ' ' + to);
 	if (from < 0 || to < 0) {
 		n = 1;
-		newtitle = title + " (" + n + ")";
+		newtitle = "(" + n + ") " + title;
 	}
 	else {
 		n = title.substr(from + 1, to - from - 1);

@@ -157,10 +157,10 @@ footer a {
 	top: 0;
 	right: 0;
 	margin: 20px;
-	padding: 10px;
 	border: 1px solid;
 	width: calc(80% - 80px);
 	max-height: calc(100% - 60px);
+	padding: 5px;
 
 	display: flex;
 	flex-direction: column;
@@ -209,10 +209,7 @@ footer a {
 	border-right: 0;
 }
 .reader {
-	width: 100%;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-right: 5px;
+	padding: 5px;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;

@@ -174,7 +174,7 @@ $timelines = fetch_timelines();
 			$id = $post['id'];
 			print "<article data-post=$id>"
 			. "<time>$time</time>"
-			. "<span class=id>#$id</span>"
+			. "<span class=id>$id</span>"
 			. "<span class=content>$content</span>"
 			. "</article>";
 		}
@@ -256,7 +256,7 @@ $timelines = fetch_timelines();
 				$a = "?$p";
 			print "<article data-post=$id>"
 			. "<time>$time</time>"
-			. "<span class=id>#$id</span>"
+			. "<span class=id>$id</span>"
 			. "<span class=content data-topic=$id>"
 			. "<a href='$a'>$content</a>"
 			. "</span>"
@@ -323,5 +323,7 @@ var leftnav = timelines.getElementsByClassName('leftnav')[0];
 var rightnav = timelines.getElementsByClassName('rightnav')[0];
 
 connectnav(collection, leftnav, rightnav);
+
+connectreader(reader);
 </script>
 </HTML>

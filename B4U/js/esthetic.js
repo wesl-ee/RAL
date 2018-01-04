@@ -28,6 +28,49 @@ function connectnav(collection, leftnav, rightnav)
 			children[i].href = page;
 	}
 }
+function connectreader(reader)
+{
+	// TODO: Maybe we are not always on the first child
+	reader.highlighted = reader.firstChild;
+	reader.highlighted.classList.add('selected');
+
+	var scrollbank = 0;
+	reader.addEventListener('wheel', function(e) {
+		e.preventDefault();
+
+		scrollbank += e.deltaY;
+		if (scrollbank > 2) {
+			scrollbank = 0;
+			scrollreaderdown(reader);
+		} else if (scrollbank < -2) {
+			scrollbank = 0;
+			scrollreaderup(reader);
+		}
+
+	});
+}
+function scrollreaderup(reader)
+{
+	var next = reader.highlighted.previousSibling;
+	if (!next) return;
+	reader.highlighted.classList.remove('selected');
+	next.classList.add('selected');
+	reader.highlighted = next;
+
+	var h = window.getComputedStyle(reader).height.slice(0, -2);
+	reader.scrollTop = next.offsetTop - next.offsetHeight - (h / 2);
+}
+function scrollreaderdown(reader)
+{
+	var next = reader.highlighted.nextSibling;
+	if (!next) return;
+	reader.highlighted.classList.remove('selected');
+	next.classList.add('selected');
+	reader.highlighted = next;
+
+	var h = window.getComputedStyle(reader).height.slice(0, -2);
+	reader.scrollTop = next.offsetTop - next.offsetHeight - (h / 2);
+}
 // Remove a parameter from the GET query string (do not pass
 // the ? or location!)
 function removequeryparts(query, params)

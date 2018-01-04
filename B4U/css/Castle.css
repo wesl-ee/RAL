@@ -60,6 +60,9 @@ select option {
 .new .content {
 	border-color: red !important;
 }
+.selected .content {
+	border-color: red !important;
+}
 @keyframes glitch-animation {
 0% {
 clip: rect(42px, 9999px, 44px, 0);
