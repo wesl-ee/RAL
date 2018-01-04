@@ -26,7 +26,8 @@ if (isset($_POST['content']) && isset($topic)) {
 	$content = htmlspecialchars($content);
 	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
 	|| !($post = create_post($timeline, $topic, $auth, $content))) {
-		print 'Failed to create post. . .';
+		header("HTTP/1.1 303 See Other");
+		header("Location: dariram.php?$_SERVER[QUERY_STRING]");
 		die;
 	}
 	else {

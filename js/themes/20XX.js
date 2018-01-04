@@ -45,7 +45,18 @@ window.addEventListener('load', function() {
 		'Entered',
 		'Comunicated',
 	]
-	var nodes = document.getElementsByClassName('xxx-success');
+	nodes = document.getElementsByClassName('xxx-success');
+	for (var i = 0; i < nodes.length; i++) {
+		flashmessages(nodes[i], xxx, 100);
+	}
+	xxx = [
+		'Failed',
+		'Shutdown',
+		'Rejected',
+		'Denied',
+		'No',
+	]
+	nodes = document.getElementsByClassName('xxx-failure');
 	for (var i = 0; i < nodes.length; i++) {
 		flashmessages(nodes[i], xxx, 100);
 	}

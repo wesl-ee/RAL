@@ -31,4 +31,9 @@ window.addEventListener('load', function() {
 		nodes[i].setAttribute('data-text', nodes[i].innerText);
 		nodes[i].classList.add('glitch');
 	}
+	var nodes = document.getElementsByClassName('xxx-failure');
+	for (var i = 0; i < nodes.length; i++) {
+		nodes[i].setAttribute('data-text', nodes[i].innerText);
+		nodes[i].classList.add('glitch');
+	}
 });
