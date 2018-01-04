@@ -1,7 +1,24 @@
 <?php
 $ROOT = '../';
 include $ROOT."includes/main.php";
-header("Refresh: 3;max.php?$_SERVER[QUERY_STRING]");
+
+if (CONFIG_CLEAN_URL) {
+	$timeline = $_GET['timeline'];
+	$topic = $_GET['topic'];
+	unset($_GET['timeline']);
+	unset($_GET['topic']);
+	$q = http_build_query($_GET);
+	$location = CONFIG_WEBROOT . "max";
+	if (isset($timeline)) $location .= "/$timeline";
+	if (isset($topic)) $location .= "/$topic";
+} else {
+	$q = http_build_query($_GET);
+	$location = CONFIG_WEBROOT ."max.php";
+}
+if (empty($q)) $a = $location;
+else $a  = "$location?$q";
+
+header("Refresh: 3;$a");
 ?>
 <HTML>
 <head>

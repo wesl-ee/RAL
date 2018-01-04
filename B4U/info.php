@@ -36,10 +36,11 @@ function nl22br($string)
 	<span>Configure</span>
 	<span class=collection>
 		<?php if (CONFIG_CLEAN_URL) {
-			print '<a href=theme>Theme</a>'
-			. '<a href=staff>Staff</a>'
-			. '<a href=?>About</a>'
-			. '<a href=help>Help</a>';
+			$a = CONFIG_WEBROOT . "info/";
+			print "<a href={$a}theme>Theme</a>"
+			. "<a href={$a}staff>Staff</a>"
+			. "<a href={$a}>About</a>"
+			. "<a href={$a}help>Help</a>";
 		}
 		else
 			print '<a href=?theme>Theme</a>'
@@ -48,9 +49,9 @@ function nl22br($string)
 			. '<a href=?help>Help</a>';?>
 	</span>
 	<?php if (CONFIG_CLEAN_URL)
-		$a = 'select';
+		$a = CONFIG_WEBROOT . 'select';
 	else
-		$a = 'select.php';
+		$a = CONFIG_WEBROOT . 'select.php';
 	print "<a href='$a'>Back</a>";?>
 </div>
 <div id=rightpanel>

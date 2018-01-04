@@ -13,12 +13,6 @@ $topic = $_GET['topic'];
 // Whether we are posting or only reading
 $postmode = $_GET['postmode'];
 
-// These parameters are in our URL, not in the querystring
-if (CONFIG_CLEAN_URL) {
-	unset($_GET['timeline']);
-	unset($_GET['topic']);
-}
-
 // Default to the first page of timelines
 if (!isset($page)) $page = 0;
 
@@ -31,15 +25,24 @@ if (isset($_POST['content']) && isset($topic)) {
 	$content = trim($content);
 	$content = htmlspecialchars($content);
 	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
+	|| !strlen($content)
 	|| !($post = create_post($timeline, $topic, $auth, $content))) {
 		header("HTTP/1.1 303 See Other");
-		header("Location: dariram.php?$_SERVER[QUERY_STRING]");
+		if (CONFIG_CLEAN_URL)
+			$location = CONFIG_WEBROOT . "dariram";
+		else
+			$location = CONFIG_WEBROOT . "dariram.php";
+		header("Location: $location?$_SERVER[QUERY_STRING]");
 		die;
 	}
 	else {
 		notify_listeners('POST', $post);
 		header("HTTP/1.1 303 See Other");
-		header("Location: r3.php?$_SERVER[QUERY_STRING]");
+		if (CONFIG_CLEAN_URL)
+			$location = CONFIG_WEBROOT . "r3";
+		else
+			$location = CONFIG_WEBROOT . "r3.php";
+		header("Location: $location?$_SERVER[QUERY_STRING]");
 		die;
 	}
 }
@@ -53,15 +56,32 @@ else if (isset($_POST['content'])) {
 	$content = stripslashes($content);
 	$content = htmlspecialchars($content);
 	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
+	|| !strlen($content)
 	|| !($topic = create_topic($timeline, $auth, $content))) {
-		print 'Failed to create topic. . .';
+		header("HTTP/1.1 303 See Other");
+		if (CONFIG_CLEAN_URL)
+			$location = CONFIG_WEBROOT . "dariram";
+		else
+			$location = CONFIG_WEBROOT . "dariram.php";
+		header("Location: $location?$_SERVER[QUERY_STRING]");
+		die;
 	}
 	else {
 		notify_listeners('POST', $topic);
 		header("HTTP/1.1 303 See Other");
-		header("Location: r3.php?$_SERVER[QUERY_STRING]");
+		if (CONFIG_CLEAN_URL)
+			$location = CONFIG_WEBROOT . "r3";
+		else
+			$location = CONFIG_WEBROOT . "r3.php";
+		header("Location: $location?$_SERVER[QUERY_STRING]");
 		die;
 	}
+}
+
+// These parameters are in our URL, not in the querystring
+if (CONFIG_CLEAN_URL) {
+	unset($_GET['timeline']);
+	unset($_GET['topic']);
 }
 
 $timelines = fetch_timelines();
@@ -163,14 +183,20 @@ $timelines = fetch_timelines();
 			$q = $_GET;
 			unset($q['postmode']);
 			$q = http_build_query($q);
-			if (empty($q)) $a = "?";
-			else $a = "?$q";
+			if (CONFIG_CLEAN_URL)
+				$target = CONFIG_WEBROOT
+				. "max/$timeline/$topic";
+			else
+				$target = CONFIG_WEBROOT
+				. "max.php";
+			if (empty($q)) $href = "$target";
+			else $href = "$target?$q";
 			print "<form class=reply method=POST action=?$q>"
 			. "<textarea rows=5"
 			. " maxlength=" . CONFIG_RAL_POSTMAXLEN
 			. " name=content></textarea>"
 			. "<div class=buttons>"
-			. "<a href='$a' class='cancel'>Cancel</a>"
+			. "<a href='$href' class='cancel'>Cancel</a>"
 			. "<input value=Post type=submit>"
 			. "</div>"
 			. "</form>";
@@ -223,9 +249,9 @@ $timelines = fetch_timelines();
 			$p = http_build_query($q);
 
 			if (CONFIG_CLEAN_URL && empty($p))
-				$a = "$timeline/$id";
+				$a = CONFIG_WEBROOT . "max/$timeline/$id";
 			else if (CONFIG_CLEAN_URL)
-				$a = "$timeline/$id?$p";
+				$a = CONFIG_WEBROOT . "max/$timeline/$id?$p";
 			else
 				$a = "?$p";
 			print "<article data-post=$id>"
@@ -241,15 +267,21 @@ $timelines = fetch_timelines();
 			$q = $_GET;
 			unset($q['postmode']);
 			$q = http_build_query($q);
-			if (empty($q)) $a = "?";
-			else $a = "?$q";
+			if (CONFIG_CLEAN_URL)
+				$target = CONFIG_WEBROOT
+				. "max/$timeline";
+			else
+				$target = CONFIG_WEBROOT
+				. "max.php";
+			if (empty($q)) $href = "$target";
+			else $href = "$target?$q";
 
 			print "<form class=reply method=POST action=?$q>"
 			. "<textarea rows=5"
 			. " maxlength=" . CONFIG_RAL_POSTMAXLEN
 			. " name=content></textarea>"
 			. "<div class=buttons>"
-			. "<a href='$a' class='cancel'>Cancel</a>"
+			. "<a href='$href' class='cancel'>Cancel</a>"
 			. "<input value=Post type=submit>"
 			. "</div>"
 			. "</form>";
