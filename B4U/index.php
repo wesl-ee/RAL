@@ -7,7 +7,7 @@ include $ROOT.'includes/main.php';
 <HTML>
 <head>
 	<?php head($ROOT)?>
-	<title>RAL</title>
+	<title>Welcome to RAL</title>
 </head>
 <body>
 <div id=welcome>

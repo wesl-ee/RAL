@@ -10,7 +10,7 @@ if (!isset($page)) $page = 0;
 <HTML>
 <head>
 	<?php head($ROOT)?>
-	<title>RAL</title>
+	<title>Continuity List</title>
 </head>
 <body>
 <div id=timelines class=frontcenter>
@@ -58,7 +58,7 @@ if (!isset($page)) $page = 0;
 		. "</a>";
 	}
 	?>
-	<a class=help href=help.php>About</a>
+	<a class=help href=about.php>About</a>
 </div>
 
 <!-- Scripts -->

@@ -119,7 +119,7 @@ $timelines = fetch_timelines();
 		. "</a>";
 	}
 	?>
-	<a class=help href=help.php>About</a>
+	<a class=help href=about.php>About</a>
 </div>
 <div id=rightpanel>
 	<?php

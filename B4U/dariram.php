@@ -6,7 +6,7 @@ header("Refresh: 3;max.php?$_SERVER[QUERY_STRING]");
 <HTML>
 <head>
 	<?php head($ROOT)?>
-	<title>RAL</title>
+	<title>Post Failure</title>
 </head>
 <body>
 <div id=welcome>

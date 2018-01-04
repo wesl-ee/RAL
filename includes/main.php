@@ -26,7 +26,7 @@ function ralog($m)
 		FILE_APPEND|LOCK_EX
 	);
 }
-function head()
+function head($title)
 {
 	$ROOT = CONFIG_WEBROOT;
 	print "<meta name=viewport content='width=device-width,"
@@ -39,6 +39,7 @@ function head()
 		print "<script src='$ROOT"."js/themes/$theme.js'></script>";
 	if (file_exists("$path/../B4U/css/$theme.css"))
 		print "<link rel=stylesheet href='$ROOT"."css/$theme.css'>";
+	print "<title>$title - RAL Neo-forum Textboard</title>";
 }
 function get_theme()
 {

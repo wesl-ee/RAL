@@ -18,8 +18,17 @@ function nl22br($string)
 ?>
 <HTML>
 <head>
-	<?php head($ROOT)?>
-	<title>RAL</title>
+	<?php
+	if (isset($_GET['theme']))
+		$title = 'Theme';
+	elseif (isset($_GET['staff']))
+		$title = 'Staff';
+	elseif (isset($_GET['help']))
+		$title = 'Help';
+	else
+		$title = 'About';
+		head($title)
+	?>
 </head>
 <body>
 <div class=sidebar>
@@ -28,10 +37,10 @@ function nl22br($string)
 	<span class=collection>
 		<a href='?theme'>Theme</a>
 		<a href='?staff'>Staff</a>
-		<a href='?about'>About</a>
+		<a href='?'>About</a>
 		<a href='?help'>Help</a>
 	</span>
-	<a href=.>Back</a>
+	<a href=select.php>Back</a>
 </div>
 <div id=rightpanel>
 	<?php if (isset($_GET['theme'])) {
