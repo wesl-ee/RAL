@@ -60,7 +60,7 @@ select option {
 .new .content {
 	border-color: red !important;
 }
-.selected .content {
+.selected {
 	border-color: red !important;
 }
 @keyframes glitch-animation {

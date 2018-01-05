@@ -42,6 +42,6 @@ dl, ul, ol {
 .new .content {
 	border-color: #ffb7c5 !important;
 }
-.selected .content {
+.selected {
 	border-color: #FF6A87 !important;
 }

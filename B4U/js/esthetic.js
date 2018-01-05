@@ -30,46 +30,60 @@ function connectnav(collection, leftnav, rightnav)
 }
 function connectreader(reader)
 {
+	// Don't bother with the cool stuff if we are on a mobile
+	if (window.matchMedia("(max-width: 600px)").matches) return;
+
+	reader.style.overflow = 'hidden';
 	// TODO: Maybe we are not always on the first child
 	reader.highlighted = reader.firstChild;
 	reader.highlighted.classList.add('selected');
 
-	var scrollbank = 0;
-	reader.addEventListener('wheel', function(e) {
+	var next = reader.highlighted.nextSibling;
+	var previous = reader.highlighted.previousSibling;
+
+	var scrollbank = 0; var currscroll;
+	function handlescroll(e) {
 		e.preventDefault();
+		currscroll = e.deltaY * 8;
 
-		scrollbank += e.deltaY;
-		if (scrollbank > 2) {
+		scrollbank += currscroll;
+
+		var h = reader.clientHeight;
+		if (scrollbank > h / 2)
+			reader.scrollTop = scrollbank - h / 2;
+		else reader.scrollTop = 0;
+
+		if (scrollbank < 0) {
 			scrollbank = 0;
-			scrollreaderdown(reader);
-		} else if (scrollbank < -2) {
-			scrollbank = 0;
-			scrollreaderup(reader);
+			next = reader.highlighted;
+			readerhighlight(reader, reader.firstChild);
+			previous = previous.previousSibling;
 		}
-
+		else if (scrollbank > reader.scrollHeight + reader.lastChild.offsetHeight)
+			scrollbank = reader.scrollHeight + reader.lastChild.offsetHeight;
+		else if (next && scrollbank > next.offsetTop - next.offsetHeight) {
+			previous = reader.highlighted;
+			readerhighlight(reader, next);
+			next = next.nextSibling;
+		}
+		else if (previous && scrollbank < previous.offsetTop) {
+			next = reader.highlighted;
+			readerhighlight(reader, previous);
+			previous = previous.previousSibling;
+		}
+	}
+	window.addEventListener('scroll', handlescroll);
+	window.addEventListener('touchmove', handlescroll);
+	window.addEventListener('wheel', handlescroll);
+	window.addEventListener('keydown', function() {
 	});
 }
-function scrollreaderup(reader)
+function readerhighlight(reader, element)
 {
-	var next = reader.highlighted.previousSibling;
-	if (!next) return;
 	reader.highlighted.classList.remove('selected');
-	next.classList.add('selected');
-	reader.highlighted = next;
+	element.classList.add('selected');
+	reader.highlighted = element;
 
-	var h = window.getComputedStyle(reader).height.slice(0, -2);
-	reader.scrollTop = next.offsetTop - next.offsetHeight - (h / 2);
-}
-function scrollreaderdown(reader)
-{
-	var next = reader.highlighted.nextSibling;
-	if (!next) return;
-	reader.highlighted.classList.remove('selected');
-	next.classList.add('selected');
-	reader.highlighted = next;
-
-	var h = window.getComputedStyle(reader).height.slice(0, -2);
-	reader.scrollTop = next.offsetTop - next.offsetHeight - (h / 2);
 }
 // Remove a parameter from the GET query string (do not pass
 // the ? or location!)

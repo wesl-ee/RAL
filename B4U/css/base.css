@@ -172,7 +172,7 @@ footer a {
 #rightpanel {
 	position: relative;
 	display: block;
-	width: calc(100% - 30px);
+	width: calc(100% - 20px);
 	margin: 0;
 	max-height: initial;
 } }
@@ -209,7 +209,8 @@ footer a {
 	border-right: 0;
 }
 .reader {
-	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;
@@ -220,6 +221,7 @@ footer a {
 	flex-direction: row-reverse;
 	margin-bottom: 5px;
 	overflow-x: hidden;
+	border-right: 2px solid;
 }
 @media (max-width: 600px) {
 .reader article {
@@ -251,8 +253,6 @@ footer a {
 	text-align: justify;
 }
 .reader article .content {
-	border-right: 2px solid;
-	padding-right: 10px;
 	overflow: hidden;
 	line-height: 1.4em;
 	text-align: justify;
