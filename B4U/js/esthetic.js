@@ -33,7 +33,9 @@ function connectreader(reader)
 	// Don't bother with the cool stuff if we are on a mobile
 	if (window.matchMedia("(max-width: 600px)").matches) return;
 
-	reader.style.overflow = 'hidden';
+	var scrollbarw = reader.offsetWidth - reader.clientWidth + 10;
+	reader.style.marginRight = '-' + scrollbarw + 'px';
+	reader.style.paddingRight = scrollbarw + 'px';
 	// TODO: Maybe we are not always on the first child
 	reader.highlighted = reader.firstChild;
 	reader.highlighted.classList.add('selected');
@@ -41,12 +43,12 @@ function connectreader(reader)
 	var next = reader.highlighted.nextSibling;
 	var previous = reader.highlighted.previousSibling;
 
-	var scrollbank = 0; var currscroll;
+	var scrollbank = 0; var currscroll; var speed = 40;
 	function handlescroll(e) {
 		e.preventDefault();
-		currscroll = e.deltaY * 8;
+		var direction = (e.deltaY > 0 ? 1 : -1);
 
-		scrollbank += currscroll;
+		scrollbank += speed * direction;
 
 		var h = reader.clientHeight;
 		if (scrollbank > h / 2)
@@ -55,26 +57,42 @@ function connectreader(reader)
 
 		if (scrollbank < 0) {
 			scrollbank = 0;
-			next = reader.highlighted;
 			readerhighlight(reader, reader.firstChild);
-			previous = previous.previousSibling;
+			previous = null;
+			next = reader.firstChild.nextSibling;
 		}
-		else if (scrollbank > reader.scrollHeight + reader.lastChild.offsetHeight)
-			scrollbank = reader.scrollHeight + reader.lastChild.offsetHeight;
-		else if (next && scrollbank > next.offsetTop - next.offsetHeight) {
-			previous = reader.highlighted;
-			readerhighlight(reader, next);
-			next = next.nextSibling;
+		else if (scrollbank > reader.lastChild.offsetTop + reader.lastChild.offsetHeight) {
+			previous = reader.lastChild.previousSibling;
+			console.log(reader.lastChild.previousSibling);
+			readerhighlight(reader, reader.lastChild);
+			next = null
+			scrollbank = reader.lastChild.offsetTop + reader.lastChild.offsetHeight;
 		}
-		else if (previous && scrollbank < previous.offsetTop) {
-			next = reader.highlighted;
-			readerhighlight(reader, previous);
-			previous = previous.previousSibling;
+		else {
+			if (next && scrollbank > next.offsetTop) {
+				previous = reader.highlighted;
+				readerhighlight(reader, next);
+				next = next.nextSibling;
+				if (next)
+					scrollbank = next.offsetTop;
+			}
+			if (previous && scrollbank < previous.offsetTop + previous.offsetHeight) {
+				next = reader.highlighted;
+				readerhighlight(reader, previous);
+				previous = previous.previousSibling;
+				if (previous)
+					scrollbank = previous.offsetTop + previous.offsetHeight;
+			}
 		}
+		console.log('Previous: ' + previous);
+		console.log('Next: ' + next);
 	}
-	window.addEventListener('scroll', handlescroll);
-	window.addEventListener('touchmove', handlescroll);
-	window.addEventListener('wheel', handlescroll);
+	wheel = "onwheel" in document.createElement("div") ? "wheel" :
+	document.onmousewheel !== undefined ? "mousewheel" :
+	"DOMMouseScroll";
+//	window.addEventListener('scroll', handlescroll);
+//	window.addEventListener('touchmove', handlescroll);
+	reader.addEventListener(wheel, handlescroll);
 	window.addEventListener('keydown', function() {
 	});
 }
