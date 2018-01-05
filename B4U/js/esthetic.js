@@ -33,9 +33,11 @@ function connectreader(reader)
 	// Don't bother with the cool stuff if we are on a mobile
 	if (window.matchMedia("(max-width: 600px)").matches) return;
 
+	// Hide the scrollbar from view
 	var scrollbarw = reader.offsetWidth - reader.clientWidth + 10;
 	reader.style.marginRight = '-' + scrollbarw + 'px';
 	reader.style.paddingRight = scrollbarw + 'px';
+
 	// TODO: Maybe we are not always on the first child
 	reader.highlighted = reader.firstChild;
 	reader.highlighted.classList.add('selected');
@@ -43,7 +45,7 @@ function connectreader(reader)
 	var next = reader.highlighted.nextSibling;
 	var previous = reader.highlighted.previousSibling;
 
-	var scrollbank = 0; var currscroll; var speed = 40;
+	var scrollbank = 0; var speed = 40;
 	function handlescroll(e) {
 		e.preventDefault();
 		var direction = (e.deltaY > 0 ? 1 : -1);
@@ -63,29 +65,22 @@ function connectreader(reader)
 		}
 		else if (scrollbank > reader.lastChild.offsetTop + reader.lastChild.offsetHeight) {
 			previous = reader.lastChild.previousSibling;
-			console.log(reader.lastChild.previousSibling);
 			readerhighlight(reader, reader.lastChild);
 			next = null
 			scrollbank = reader.lastChild.offsetTop + reader.lastChild.offsetHeight;
 		}
-		else {
-			if (next && scrollbank > next.offsetTop) {
+		else if (next && scrollbank > next.offsetTop) {
+				scrollbank = next.offsetTop;
 				previous = reader.highlighted;
 				readerhighlight(reader, next);
 				next = next.nextSibling;
-				if (next)
-					scrollbank = next.offsetTop;
 			}
-			if (previous && scrollbank < previous.offsetTop + previous.offsetHeight) {
+		else if (previous && scrollbank < previous.offsetTop + previous.offsetHeight) {
+				scrollbank = previous.offsetTop + previous.offsetHeight;
 				next = reader.highlighted;
 				readerhighlight(reader, previous);
 				previous = previous.previousSibling;
-				if (previous)
-					scrollbank = previous.offsetTop + previous.offsetHeight;
-			}
 		}
-		console.log('Previous: ' + previous);
-		console.log('Next: ' + next);
 	}
 	wheel = "onwheel" in document.createElement("div") ? "wheel" :
 	document.onmousewheel !== undefined ? "mousewheel" :
