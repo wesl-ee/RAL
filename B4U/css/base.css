@@ -290,6 +290,15 @@ footer a {
 .choicebox:hover {
 	box-shadow: -5px 5px 10px;
 }
+.breadcrumb {
+	list-style-type: none;
+	-webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+}
+.breadcrumb li {
+	display: inline;
+}
 #background {
 	position: fixed;
 	top: 0;

@@ -159,12 +159,32 @@ $timelines = fetch_timelines();
 	?>
 </div>
 <div id=rightpanel>
+	<?php if (isset($topic)) $title = strtoupper("$timeline [$topic]");
+	else $title = $title = strtoupper($timeline);?>
+	<h3><?php print $title?></h3>
+	<ol class=breadcrumb><?php
+		$a = CONFIG_WEBROOT;
+		print "<li><a href='$a'>Home</a></li>";
+		if (isset($timeline)) {
+			if (CONFIG_CLEAN_URL)
+				$a .= "max/$timeline";
+			else
+				$a .= "max.php?timeline=$timeline";
+			print "<li> › <a href='$a'>$timeline</a></li>";
+		}
+		if (isset($topic)) {
+			if (CONFIG_CLEAN_URL)
+				$a .= "/$topic";
+			else
+				$a .= "&topic=$topic";
+			print "<li> › <a href='$a'>$topic</a></li>";
+		}
+	?></ol>
+
 	<?php
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
-		$title = strtoupper("$timeline/#$topic");
-		print "<h3>$title</h3>"
-		. "<div class='reader expanded'"
+		print "<div class='reader expanded'"
 		. " data-topic='$topic'"
 		. " data-timeline='$timeline'>";
 		$posts = fetch_posts($timeline, $topic);
@@ -232,9 +252,7 @@ $timelines = fetch_timelines();
 		}
 	// Browsing a timeline (reader is in 'timeline' view)
 	} else {
-		$title = strtoupper($timeline);
-		print "<h3>$title</h3>"
-		. "<div class='reader timeline'"
+		print "<div class='reader timeline'"
 		. " data-timeline='$timeline'>";
 		$q = $_GET;
 		unset($q['postmode']);
