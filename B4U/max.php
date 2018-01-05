@@ -162,22 +162,35 @@ $timelines = fetch_timelines();
 	<?php if (isset($topic)) $title = strtoupper("$timeline [$topic]");
 	else $title = $title = strtoupper($timeline);?>
 	<h3><?php print $title?></h3>
-	<ol class=breadcrumb><?php
+	<ol vocab='http://schema.org/' typeof=BreadcrumbList
+	class=breadcrumb><?php
 		$a = CONFIG_WEBROOT;
-		print "<li><a href='$a'>Home</a></li>";
+		print "<li property=itemListElement typeof=ListItem>"
+		. "<a href='$a' property=item typeof=WebPage>"
+		. "<span property=name>RAL</span></a>"
+		. "<meta property=position content=1 />"
+		. "</li>";
 		if (isset($timeline)) {
 			if (CONFIG_CLEAN_URL)
 				$a .= "max/$timeline";
 			else
 				$a .= "max.php?timeline=$timeline";
-			print "<li> › <a href='$a'>$timeline</a></li>";
+			print " › <li property=itemListElement typeof=ListItem>"
+			. "<a href='$a' property=item typeof=WebPage>"
+			. "<span property=name>$timeline</span></a>"
+			. "<meta property=position content=2 />"
+			. "</li>";
 		}
 		if (isset($topic)) {
 			if (CONFIG_CLEAN_URL)
 				$a .= "/$topic";
 			else
 				$a .= "&topic=$topic";
-			print "<li> › <a href='$a'>$topic</a></li>";
+			print " › <li property=itemListElement typeof=ListItem>"
+			. "<a href='$a' property=item typeof=WebPage>"
+			. "<span property=name>$topic</span></a>"
+			. "<meta property=position content=3 />"
+			. "</li>";
 		}
 	?></ol>
 
