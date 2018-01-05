@@ -30,7 +30,7 @@ define("CONFIG_DEFAULT_THEME", "20XX");
 
 define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
 
-define("CONFIG_WEBROOT", "/");
+define("CONFIG_WEBROOT", "https:ral.space/");
 
 define("CONFIG_CLEAN_URL", false);
 
