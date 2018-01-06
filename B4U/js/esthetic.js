@@ -30,13 +30,13 @@ function connectnav(collection, leftnav, rightnav)
 }
 function connectreader(reader)
 {
-	// Don't bother with the cool stuff if we are on a mobile
-	if (window.matchMedia("(max-width: 600px)").matches) return;
-
 	// Hide the scrollbar from view
 	var scrollbarw = reader.offsetWidth - reader.clientWidth + 10;
 	reader.style.marginRight = '-' + scrollbarw + 'px';
 	reader.style.paddingRight = scrollbarw + 'px';
+
+	// Don't bother with the cool stuff if we are on a mobile
+	if (window.matchMedia("(max-width: 600px)").matches) return;
 
 	reader.highlighted = reader.firstChild;
 	var next = reader.highlighted.nextSibling;
@@ -92,8 +92,6 @@ function connectreader(reader)
 	wheel = "onwheel" in document.createElement("div") ? "wheel" :
 	document.onmousewheel !== undefined ? "mousewheel" :
 	"DOMMouseScroll";
-//	window.addEventListener('scroll', handlescroll);
-//	window.addEventListener('touchmove', handlescroll);
 	reader.addEventListener(wheel, function(e) {
 		e.preventDefault();
 		handlescroll(e.deltaY);

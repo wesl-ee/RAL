@@ -46,11 +46,7 @@ body {
 }
 @media (max-width: 600px) {
 .sidebar {
-	position: relative;
-	width: initial;
-	max-width: calc(100% - 50px);
-	margin: 0;
-	margin-bottom: 5px;
+	display: none;
 } }
 .sidebar .latency {
 	width: 100%;
@@ -61,20 +57,10 @@ body {
 	flex-direction: column;
 	flex-wrap: no-wrap;
 }
-@media (max-width: 600px) {
-.sidebar .collection {
-	flex-direction: row;
-} }
 .frontcenter .collection a {
 	margin-left: 5px;
 	margin-right: 5px;
 }
-@media (max-width: 600px) {
-.sidebar .collection a {
-	margin-left: 5px;
-	margin-right: 5px;
-} }
-
 #timelines {
 	text-align: center;
 	padding: 20px;
@@ -129,24 +115,12 @@ footer a {
 	user-select: none;
 	text-decoration: none;
 }
-@media (max-width: 600px) {
-.leftnav, .rightnav {
-	font-size: 150%;
-} }
 .leftnav {
 	left: 5px;
 }
-@media (max-width: 600px) {
-.leftnav {
-	left: 20px;
-} }
 .rightnav {
 	right: 5px;
 }
-@media (max-width: 600px) {
-.rightnav {
-	right: 20px
-} }
 #timelines,
 .sidebar {
 	border: 1px solid;
@@ -170,11 +144,12 @@ footer a {
 }
 @media (max-width: 600px) {
 #rightpanel {
-	position: relative;
-	display: block;
 	width: calc(100% - 20px);
 	margin: 0;
-	max-height: initial;
+	padding: 0;
+	max-height: calc(100% - 2px);
+	margin-left: 5px;
+	margin-right: 5px;
 } }
 #rightpanel footer {
 	text-align: right;
@@ -214,6 +189,7 @@ footer a {
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 }
 /* Timeline view */
 .reader article {
@@ -224,11 +200,6 @@ footer a {
 	border-bottom: 1px solid;
 	border-radius: 0 5px 5px 0;
 }
-@media (max-width: 600px) {
-.reader article {
-	flex-direction: column;
-	border: 1px solid;
-} }
 .reader article time,
 .reader article .id {
 	float: left;
@@ -251,20 +222,17 @@ footer a {
 	text-align-last: left;
 }
 .reader p {
-	text-align: justify;
 }
 .reader article .content {
 	display: block;
 	overflow: hidden;
 	line-height: 1.4em;
-	text-align: justify;
-	text-align-last: right;
+	text-align: right;
 	text-decoration: none;
 	padding-bottom: 3px;
 }
 @media (max-width: 600px) {
 .reader article .content {
-	border-right: 0;
 	padding-top: 10px;
 	padding-left: 10px;
 } }
@@ -300,6 +268,12 @@ footer a {
 	padding: 0;
 	margin: 0;
 }
+@media (max-width: 600px) {
+.breadcrumb {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 125%;
+} }
 .breadcrumb li {
 	display: inline;
 }
