@@ -38,17 +38,17 @@ function connectreader(reader)
 	// Don't bother with the cool stuff if we are on a mobile
 	if (window.matchMedia("(max-width: 600px)").matches) return;
 
-	reader.highlighted = reader.firstChild;
-	var next = reader.highlighted.nextSibling;
+	reader.highlighted = reader.firstElementChild;
+	var next = reader.highlighted.nextElementSibling;
 
 	// Preserve scroll position
 /*	var h = reader.clientHeight;
 	if (reader.scrollTop > h / 2)
 	while (next.offsetTop - h / 2 < reader.scrollTop) {
 		reader.highlighted = next;
-		next = reader.highlighted.nextSibling;
+		next = reader.highlighted.nextElementSibling;
 	}*/
-	var previous = reader.highlighted.previousSibling;
+	var previous = reader.highlighted.previousElementSibling;
 /*	var scrollbank = reader.scrollTop + h / 2;*/
 	var scrollbank = 0;
 	reader.highlighted.classList.add('selected');
@@ -66,27 +66,27 @@ function connectreader(reader)
 
 		if (scrollbank < 0) {
 			scrollbank = 0;
-			readerhighlight(reader, reader.firstChild);
+			readerhighlight(reader, reader.firstElementChild);
 			previous = null;
-			next = reader.firstChild.nextSibling;
+			next = reader.firstElementChild.nextElementSibling;
 		}
-		else if (scrollbank > reader.lastChild.offsetTop + reader.lastChild.offsetHeight) {
-			previous = reader.lastChild.previousSibling;
-			readerhighlight(reader, reader.lastChild);
+		else if (scrollbank > reader.lastElementChild.offsetTop + reader.lastElementChild.offsetHeight) {
+			previous = reader.lastElementChild.previousElementSibling;
+			readerhighlight(reader, reader.lastElementChild);
 			next = null
-			scrollbank = reader.lastChild.offsetTop + reader.lastChild.offsetHeight;
+			scrollbank = reader.lastElementChild.offsetTop + reader.lastElementChild.offsetHeight;
 		}
 		else if (next && scrollbank > next.offsetTop) {
 				scrollbank = next.offsetTop;
 				previous = reader.highlighted;
 				readerhighlight(reader, next);
-				next = next.nextSibling;
+				next = next.nextElementSibling;
 			}
 		else if (previous && scrollbank < previous.offsetTop + previous.offsetHeight) {
 				scrollbank = previous.offsetTop + previous.offsetHeight;
 				next = reader.highlighted;
 				readerhighlight(reader, previous);
-				previous = previous.previousSibling;
+				previous = previous.previousElementSibling;
 		}
 	}
 	wheel = "onwheel" in document.createElement("div") ? "wheel" :

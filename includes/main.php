@@ -29,17 +29,33 @@ function ralog($m)
 function head($title)
 {
 	$ROOT = CONFIG_WEBROOT;
-	print "<meta name=viewport content='width=device-width,"
-	. " maximum-scale=1, minimum-scale=1'>"
-	. "<link rel=stylesheet href='$ROOT"."css/base.css'>";
+	print
+<<<HTML
+	<meta name=viewport content="width=device-width,
+	maximum-scale=1, minimum-scale=1">
+	<link rel=stylesheet href="${ROOT}css/base.css">
+
+HTML;
 	$theme = get_theme();
 
 	$path = dirname(__FILE__);
 	if (file_exists("$path/../B4U/js/themes/$theme.js"))
-		print "<script src='$ROOT"."js/themes/$theme.js'></script>";
+		print
+<<<HTML
+	<script src="${ROOT}js/themes/$theme.js"></script>
+
+HTML;
 	if (file_exists("$path/../B4U/css/$theme.css"))
-		print "<link rel=stylesheet href='$ROOT"."css/$theme.css'>";
-	print "<title>$title - RAL Neo-forum Textboard</title>";
+		print
+<<<HTML
+	<link rel=stylesheet href="${ROOT}css/$theme.css">
+
+HTML;
+	print
+<<<HTML
+	<title>$title - RAL Neo-forum Textboard</title>
+
+HTML;
 }
 function get_theme()
 {
