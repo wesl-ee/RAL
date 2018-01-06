@@ -217,11 +217,12 @@ footer a {
 }
 /* Timeline view */
 .reader article {
-	display: flex;
-	flex-direction: row-reverse;
+	padding-right: 5px;
 	margin-bottom: 5px;
 	overflow-x: hidden;
 	border-right: 2px solid;
+	border-bottom: 1px solid;
+	border-radius: 0 5px 5px 0;
 }
 @media (max-width: 600px) {
 .reader article {
@@ -230,12 +231,12 @@ footer a {
 } }
 .reader article time,
 .reader article .id {
-	white-space: nowrap;
+	float: left;
 }
 .reader article time,
 .reader article .id {
-	margin-left: 5px;
-	margin-right: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 .reader.timeline .content {
 	position: relative;
@@ -253,18 +254,19 @@ footer a {
 	text-align: justify;
 }
 .reader article .content {
+	display: block;
 	overflow: hidden;
 	line-height: 1.4em;
 	text-align: justify;
 	text-align-last: right;
 	text-decoration: none;
+	padding-bottom: 3px;
 }
 @media (max-width: 600px) {
 .reader article .content {
 	border-right: 0;
 	padding-top: 10px;
 	padding-left: 10px;
-	border-top: 2px solid;
 } }
 .reader article .content.new {
 	border-right-color: red;
