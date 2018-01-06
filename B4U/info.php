@@ -22,8 +22,8 @@ function nl22br($string)
 <?php
 	if (isset($_GET['theme']))
 		$title = 'Theme';
-	elseif (isset($_GET['staff']))
-		$title = 'Staff';
+	elseif (isset($_GET['announce']))
+		$title = 'Announcements';
 	elseif (isset($_GET['help']))
 		$title = 'Help';
 	else
@@ -40,7 +40,7 @@ function nl22br($string)
 			print
 <<<HTML
 		<a href={$a}theme>Theme</a>
-		<a href={$a}staff>Staff</a>
+		<a href={$a}announce>Notices</a>
 		<a href={$a}>About</a>
 		<a href={$a}help>Help</a>
 
@@ -63,7 +63,7 @@ HTML;
 		$a = CONFIG_WEBROOT . 'select.php';
 	print
 <<<HTML
-	<a href='$a'>Back</a>"
+	<a href="$a">Back</a>
 
 HTML;
 ?>
@@ -92,11 +92,14 @@ HTML;
 
 HTML;
 
-	} else if (isset($_GET['staff'])) {
-		print "<h3>Staff</h3>";
+	} else if (isset($_GET['announce'])) {
+		$txt = nl22br(bbbbbbb(file_get_contents('announce.txt')));
 		print
 <<<HTML
+		<h3>Announcements</h3>
 		<div class=reader>
+		$txt
+		</div>
 
 HTML;
 	} else if (isset($_GET['help'])) {
