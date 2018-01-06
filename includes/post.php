@@ -54,7 +54,7 @@ function bbbbbbb($string)
 				// Assume http: protocol if none other is given
 				if (indexOf($url, ':') < 0)
 					$url = 'http:' . $url;
-				$open = "<a href='$url'>";
+				$open = "<a rel=nofollow href='$url'>";
 				$close = "</a>";
 				break;
 			case 'code':

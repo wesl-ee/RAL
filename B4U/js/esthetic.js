@@ -38,17 +38,24 @@ function connectreader(reader)
 	reader.style.marginRight = '-' + scrollbarw + 'px';
 	reader.style.paddingRight = scrollbarw + 'px';
 
-	// TODO: Maybe we are not always on the first child
 	reader.highlighted = reader.firstChild;
+	var next = reader.highlighted.nextSibling;
+
+	// Preserve scroll position
+/*	var h = reader.clientHeight;
+	if (reader.scrollTop > h / 2)
+	while (next.offsetTop - h / 2 < reader.scrollTop) {
+		reader.highlighted = next;
+		next = reader.highlighted.nextSibling;
+	}*/
+	var previous = reader.highlighted.previousSibling;
+/*	var scrollbank = reader.scrollTop + h / 2;*/
+	var scrollbank = 0;
 	reader.highlighted.classList.add('selected');
 
-	var next = reader.highlighted.nextSibling;
-	var previous = reader.highlighted.previousSibling;
-
-	var scrollbank = 0; var speed = 40;
-	function handlescroll(e) {
-		e.preventDefault();
-		var direction = (e.deltaY > 0 ? 1 : -1);
+	var speed = 40;
+	function handlescroll(dy) {
+		var direction = (dy > 0 ? 1 : -1);
 
 		scrollbank += speed * direction;
 
@@ -87,8 +94,29 @@ function connectreader(reader)
 	"DOMMouseScroll";
 //	window.addEventListener('scroll', handlescroll);
 //	window.addEventListener('touchmove', handlescroll);
-	reader.addEventListener(wheel, handlescroll);
-	window.addEventListener('keydown', function() {
+	reader.addEventListener(wheel, function(e) {
+		e.preventDefault();
+		handlescroll(e.deltaY);
+	});
+	reader.addEventListener('keydown', function(e) {
+		switch(e.keyCode) {
+		case 38:
+			e.preventDefault();
+			handlescroll(-1);
+			break;
+		case 40:
+			e.preventDefault();
+			handlescroll(1);
+			break;
+		case 33:
+			e.preventDefault();
+			handlescroll(-1);
+			break;
+		case 34:
+			e.preventDefault();
+			handlescroll(1);
+			break;
+		}
 	});
 }
 function readerhighlight(reader, element)
