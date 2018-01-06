@@ -30,7 +30,7 @@ function newtopic(reader, topic)
 	article.appendChild(num);
 	article.appendChild(content);
 
-	reader.insertBefore(article, reader.childNodes[0]);
+	reader.insertBefore(article, reader.children[0]);
 }
 function newpost(reader, post)
 {

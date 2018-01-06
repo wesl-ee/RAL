@@ -2,19 +2,23 @@
 $ROOT = '../';
 include $ROOT.'includes/main.php';
 ?>
-
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php head('RAL')?>
+<?php head('RAL')?>
 </head>
 <body>
 <div id=welcome>
 	<h1>Welcome to<br/><span class=xxx-welcome>RAL</span></h1>
-	<div class=choicebox>
-		<?php if (CONFIG_CLEAN_URL) $a = 'select';
+	<div class=choicebox><?php
+		if (CONFIG_CLEAN_URL) $a = 'select';
 		else $a = 'select.php';
-		print "<a href='$a'>Enter</a>";?>
+		print 
+<<<HTML
+		<a href='$a'>Enter</a>
+
+HTML;
+?>
 	</div>
 </div>
 <!-- Scripts -->

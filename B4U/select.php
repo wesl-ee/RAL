@@ -9,14 +9,14 @@ if (!isset($page)) $page = 0;
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php head('Continuities')?>
+<?php head('Continuities')?>
 </head>
 <body>
 <div id=timelines class=frontcenter>
 	<h3>RAL</h3>
-	<span id=latency>&nbsp</span>
-	<div class=collection><?php
-	/* Draw the timelines panel (left sidebar) */
+	<span id=latency>&nbsp;</span>
+	<div class=collection>
+<?php /* Draw the timelines panel (left sidebar) */
 	$per_page = CONFIG_TIMELINES_PER_PAGE;
 	$timelines = fetch_timelines();
 	for ($i = 0; $i < count($timelines); $i++) {
@@ -30,34 +30,50 @@ if (!isset($page)) $page = 0;
 		// display some) (for JS)
 		if ($i < $page * $per_page
 		|| $i >= ($page + 1) * $per_page)
-			print "<a href='$a'"
-			. " style='visibility: hidden; display:none'>$name</a>";
-		else
-			print "<a href='$a'>$name</a>";
-	}
-	?></div>
-	<?php
+			print
+<<<HTML
+			<a href="$a"
+			style="visibility: hidden; display:none">$name</a>
+
+HTML;
+		else print
+<<<HTML
+			<a href="$a">$name</a>
+
+HTML;
+	} ?>
+	</div>
+<?php
 	if (!$page) {
-		print "<a class='leftnav' style='visibility:hidden'>"
-		. "◀"
-		. "</a>";
+		print
+<<<HTML
+	<a class=leftnav style="visibility:hidden">◀</a>
+
+HTML;
+
 	} else {
 		$nextpage = $page - 1;
 		$q = "p=$nextpage";
-		print "<a class='leftnav' href='?$q'>"
-		. "◀"
-		. "</a>";
+		print
+<<<HTML
+	<a class=leftnav href="?$q">◀</a>;
+
+HTML;
 	}
 	if ($page * $per_page < count($timelines) / $per_page) {
 		$nextpage = $page + 1;
 		$q = "p=$nextpage";
-		print "<a class='rightnav' href='?$q'>"
-		. "▶"
-		. "</a>";
+		print
+<<<HTML
+	<a class=rightnav href="?$q">▶</a>
+
+HTML;
 	} else {
-		print "<a class='rightnav' style='visibility:hidden'>"
-		. "▶"
-		. "</a>";
+		print
+<<<HTML
+		<a class=rightnav style="visibility:hidden">▶</a>
+
+HTML;
 	}
 	?>
 	<a class=help href=info>About</a>

@@ -89,17 +89,19 @@ $timelines = fetch_timelines();
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php $title = '';
+<?php
+	$title = '';
 	if (isset($timeline)) $title .= " $timeline";
 	if (isset($topic)) $title .= "/$topic";
 	head($title);
-	?>
+?>
 </head>
 <body>
 <div id=timelines class=sidebar>
 	<h3>RAL</h3>
-	<span id=latency>&nbsp</span>
-	<div class=collection><?php
+	<span id=latency>&nbsp;</span>
+	<div class=collection>
+<?php
 	/* Draw the timelines panel (left sidebar) */
 	$per_page = CONFIG_TIMELINES_PER_PAGE;
 	for ($i = 0; $i < count($timelines); $i++) {
@@ -113,27 +115,40 @@ $timelines = fetch_timelines();
 		// display some) (for JS)
 		if ($i < $page * $per_page
 		|| $i >= ($page + 1) * $per_page)
-			print "<a href='$a'"
-			. " style='visibility: hidden; display:none'>$name</a>";
+			print
+<<<HTML
+		<a href="$a"
+		style='visibility: hidden;
+		display:none'>$name</a>
+
+HTML;
 		else
-			print "<a href='$a'>$name</a>";
-	}
-	?></div>
-	<?php
+			print
+<<<HTML
+		<a href="$a">$name</a>
+
+HTML;
+	} ?>
+	</div>
+<?php
 	// Left navigation arrow
 	if (!$page) {
-		print "<a class='leftnav' style='visibility:hidden'>"
-		. "◀"
-		. "</a>";
+		print
+<<<HTML
+	<a class=leftnav style="visibility:hidden">◀</a>
+
+HTML;
 	} else {
 		$nextpage = $page - 1;
 		// Preserve $_GET across timelines navigation
 		$q = $_GET;
 		$q['p'] = $nextpage;
 		$q = http_build_query($q);
-		print "<a class='leftnav' href='?$q'>"
-		. "◀"
-		. "</a>";
+		print
+<<<HTML
+	<a class=leftnav href="?$q">◀</a>
+
+HTML;
 	}
 	// Right navigation arrow
 	if ($page * $per_page < count($timelines) / $per_page) {
@@ -142,76 +157,108 @@ $timelines = fetch_timelines();
 		$q = $_GET;
 		$q['p'] = $nextpage;
 		$q = http_build_query($q);
-		print "<a class='rightnav' href='?$q'>"
-		. "▶"
-		. "</a>";
+		print
+<<<HTML
+	<a class=rightnav href='?$q'>▶</a>
+
+HTML;
 	} else {
-		print "<a class='rightnav' style='visibility:hidden'>"
-		. "▶"
-		. "</a>";
+		print
+<<<HTML
+	<a class=rightnav style="visibility:hidden">▶</a>;
+
+HTML;
 	}
 
 	if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . "info";
 	else
 		$a = CONFIG_WEBROOT . "info.php";
-	print "<a class=help href='$a'>About</a>";
-	?>
-</div>
+	print
+<<<HTML
+	<a class=help href="$a">About</a>
+
+HTML;
+?></div>
 <div id=rightpanel>
 	<?php if (isset($topic)) $title = strtoupper("$timeline [$topic]");
 	else $title = $title = strtoupper($timeline);?>
 	<h3><?php print $title?></h3>
 	<ol vocab='http://schema.org/' typeof=BreadcrumbList
-	class=breadcrumb><?php
+	class=breadcrumb>
+<?php
 		$a = CONFIG_WEBROOT;
-		print "<li property=itemListElement typeof=ListItem>"
-		. "<a href='$a' property=item typeof=WebPage>"
-		. "<span property=name>RAL</span></a>"
-		. "<meta property=position content=1 />"
-		. "</li>";
+		print
+<<<HTML
+		<li property=itemListElement typeof=ListItem>
+			<a href='$a' property=item typeof=WebPage>
+			<span property=name>RAL</span></a>
+			<meta property=position content=1 />
+		</li>
+
+HTML;
 		if (isset($timeline)) {
 			if (CONFIG_CLEAN_URL)
 				$a .= "max/$timeline";
 			else
 				$a .= "max.php?timeline=$timeline";
-			print " › <li property=itemListElement typeof=ListItem>"
-			. "<a href='$a' property=item typeof=WebPage>"
-			. "<span property=name>$timeline</span></a>"
-			. "<meta property=position content=2 />"
-			. "</li>";
+			print
+<<<HTML
+		›<li property=itemListElement typeof=ListItem>
+			<a href='$a' property=item typeof=WebPage>
+			<span property=name>$timeline</span></a>
+			<meta property=position content=2 />
+		</li>
+
+HTML;
 		}
 		if (isset($topic)) {
 			if (CONFIG_CLEAN_URL)
 				$a .= "/$topic";
 			else
 				$a .= "&topic=$topic";
-			print " › <li property=itemListElement typeof=ListItem>"
-			. "<a href='$a' property=item typeof=WebPage>"
-			. "<span property=name>$topic</span></a>"
-			. "<meta property=position content=3 />"
-			. "</li>";
-		}
-	?></ol>
+			print
+<<<HTML
+		›<li property=itemListElement typeof=ListItem>
+			<a href='$a' property=item typeof=WebPage>
+			<span property=name>$topic</span></a>
+			<meta property=position content=3 />
+		</li>
+
+HTML;
+		} ?>
+	</ol>
 
 	<?php
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
-		print "<div class='reader expanded'"
-		. " data-topic='$topic'"
-		. " data-timeline='$timeline'>";
+		print
+<<<HTML
+	<div class="reader expanded"
+	data-topic="$topic"
+	data-timeline="$timeline">
+
+HTML;
 		$posts = fetch_posts($timeline, $topic);
 		foreach ($posts as $post) {
 			$content = $post['content'];
 			$time = date('M d Y', strtotime($post['date']));
 			$id = $post['id'];
-			print "<article data-post=$id>"
-			. "<time>$time</time>"
-			. "<span class=id>[$id]</span>"
-			. "<span class=content>$content</span>"
-			. "</article>";
+			print
+<<<HTML
+		<article data-post=$id>
+			<span class=id>[$id]</span>
+			<time>$time</time>
+			<span class=content>$content</span>
+		</article>
+
+HTML;
 		}
-		print "</div>";
+		print
+<<<HTML
+	</div>
+
+HTML;
 		if (isset($postmode)) {
 			$q = $_GET;
 			unset($q['postmode']);
@@ -224,15 +271,19 @@ $timelines = fetch_timelines();
 				. "max.php";
 			if (empty($q)) $href = "$target";
 			else $href = "$target?$q";
-			print "<form class=reply method=POST action=?$q>"
-			. "<textarea rows=5"
-			. " maxlength=" . CONFIG_RAL_POSTMAXLEN
-			. " name=content></textarea>"
-			. "<div class=buttons>"
-			. "<a href='$href' class='cancel'>Cancel</a>"
-			. "<input value=Post type=submit>"
-			. "</div>"
-			. "</form>";
+			print
+<<<HTML
+	<form class=reply method=POST action="?$q">
+		<textarea rows=5
+		maxlength=CONFIG_RAL_POSTMAXLEN
+		name=content></textarea>
+		<div class=buttons>
+		<a href="$href" class=cancel>Cancel</a>
+		<input value=Post type=submit>
+		</div>
+	</form>
+
+HTML;
 		} else {
 			$q = $_GET;
 			if (empty($q)) $a = '?postmode';
@@ -241,10 +292,14 @@ $timelines = fetch_timelines();
 				$a = "?$q&postmode";
 			}
 
-			print "<footer>"
-			. "<span class=minorbox>"
-			. "<a href='$a'>Reply to Topic</a>"
-			. "</span>";
+			print
+<<<HTML
+	<footer>
+	<span class=minorbox>
+	<a href='$a'>Reply to Topic</a>
+	</span>
+
+HTML;
 			$q = $_GET;
 			unset($q['topic']);
 			if (CONFIG_CLEAN_URL) {
@@ -258,15 +313,23 @@ $timelines = fetch_timelines();
 				$q = http_build_query($q);
 				$a = "?$q";
 			}
-			print "<span class=minorbox>"
-			. "<a href=$a>Return</a>"
-			. "</span>"
-			. "</footer>";
+			print
+<<<HTML
+	<span class=minorbox>
+		<a href=$a>Return</a>
+	</span>
+	</footer>
+
+HTML;
 		}
 	// Browsing a timeline (reader is in 'timeline' view)
 	} else {
-		print "<div class='reader timeline'"
-		. " data-timeline='$timeline'>";
+		print
+<<<HTML
+	<div class="reader timeline"
+	data-timeline="$timeline">
+
+HTML;
 		$q = $_GET;
 		unset($q['postmode']);
 		$topics = fetch_topics($timeline);
@@ -285,15 +348,23 @@ $timelines = fetch_timelines();
 				$a = CONFIG_WEBROOT . "max/$timeline/$id?$p";
 			else
 				$a = "?$p";
-			print "<article data-post=$id>"
-			. "<time>$time</time>"
-			. "<span class=id>[$id]</span>"
-			. "<span class=content data-topic=$id>"
-			. "<a href='$a'>$content</a>"
-			. "</span>"
-			. "</article>";
+			print
+<<<HTML
+		<article data-post=$id>
+			<span class=id>[$id]</span>
+			<time>$time</time>
+			<span class=content data-topic=$id>
+			<a href='$a'>$content</a>
+			</span>
+		</article>
+
+HTML;
 		}
-		print "</div>";
+		print
+<<<HTML
+		</div>
+
+HTML;
 		if (isset($postmode)) {
 			$q = $_GET;
 			unset($q['postmode']);
@@ -307,15 +378,18 @@ $timelines = fetch_timelines();
 			if (empty($q)) $href = "$target";
 			else $href = "$target?$q";
 
-			print "<form class=reply method=POST action=?$q>"
-			. "<textarea rows=5"
-			. " maxlength=" . CONFIG_RAL_POSTMAXLEN
-			. " name=content></textarea>"
-			. "<div class=buttons>"
-			. "<a href='$href' class='cancel'>Cancel</a>"
-			. "<input value=Post type=submit>"
-			. "</div>"
-			. "</form>";
+			print
+<<<HTML
+	<form class=reply method=POST action=?$q>
+		<textarea rows=5 maxlength=CONFIG_RAL_POSTMAXLEN
+		name=content></textarea>
+		<div class=buttons>
+		<a href='$href' class='cancel'>Cancel</a>
+		<input value=Post type=submit>
+		</div>
+	</form>
+
+HTML;
 		} else {
 			$q = $_GET;
 			if (CONFIG_CLEAN_URL) {
@@ -325,16 +399,19 @@ $timelines = fetch_timelines();
 			if (empty($q)) $a = "?postmode";
 			else $a = "?postmode&$q";
 
-			print "<footer>"
-			. "<span class=minorbox>"
-			. "<a href=$a>Create a Topic</a>"
-			. "</span>"
-			. "</footer>";
+			print
+<<<HTML
+	<footer>
+		<span class=minorbox>
+		<a href=$a>Create a Topic</a>
+		</span>
+	</footer>
+
+HTML;
 		}
 	}
 	?>
 </div>
-</body>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
@@ -357,4 +434,5 @@ connectnav(collection, leftnav, rightnav);
 
 connectreader(reader);
 </script>
+</body>
 </HTML>

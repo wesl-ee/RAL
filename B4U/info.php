@@ -16,9 +16,10 @@ function nl22br($string)
 }
 
 ?>
+<!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php
+<?php
 	if (isset($_GET['theme']))
 		$title = 'Theme';
 	elseif (isset($_GET['staff']))
@@ -27,8 +28,7 @@ function nl22br($string)
 		$title = 'Help';
 	else
 		$title = 'About';
-	head($title)
-	?>
+	head($title) ?>
 </head>
 <body>
 <div class=sidebar>
@@ -37,22 +37,36 @@ function nl22br($string)
 	<span class=collection>
 		<?php if (CONFIG_CLEAN_URL) {
 			$a = CONFIG_WEBROOT . "info/";
-			print "<a href={$a}theme>Theme</a>"
-			. "<a href={$a}staff>Staff</a>"
-			. "<a href={$a}>About</a>"
-			. "<a href={$a}help>Help</a>";
+			print
+<<<HTML
+		<a href={$a}theme>Theme</a>
+		<a href={$a}staff>Staff</a>
+		<a href={$a}>About</a>
+		<a href={$a}help>Help</a>
+
+HTML;
 		}
 		else
-			print '<a href=?theme>Theme</a>'
-			. '<a href=?staff>Staff</a>'
-			. '<a href=?>About</a>'
-			. '<a href=?help>Help</a>';?>
+			print
+<<<HTML
+		<a href=?theme>Theme</a>
+		<a href=?staff>Staff</a>
+		<a href=?>About</a>
+		<a href=?help>Help</a>
+
+HTML;
+?>
 	</span>
 	<?php if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . 'select';
 	else
 		$a = CONFIG_WEBROOT . 'select.php';
-	print "<a href='$a'>Back</a>";?>
+	print
+<<<HTML
+	<a href='$a'>Back</a>"
+
+HTML;
+?>
 </div>
 <div id=rightpanel>
 	<?php if (isset($_GET['theme'])) {
@@ -63,6 +77,7 @@ function nl22br($string)
 		<div class=reader>
 		<form action=?theme method=POST><dl><dt>Theme</dt>
 		<dd><select name=theme>
+
 HTML;
 		foreach (CONFIG_THEMES as $theme) {
 			if ($theme == $currtheme)
@@ -74,6 +89,7 @@ HTML;
 <<<HTML
 		</select></dd>
 		</dl><input type=submit value=Commit></form>
+
 HTML;
 
 	} else if (isset($_GET['staff'])) {
@@ -142,6 +158,7 @@ HTML;
 		of RAL and can be reached via prayer or by mail:
 		<a href=mailto:$mail>$mail</a>
 		</p></div>
+
 HTML;
 	} else {
 		$txt = nl22br(bbbbbbb(file_get_contents('about.txt')));
@@ -151,6 +168,7 @@ HTML;
 		<div class=reader>
 		$txt
 		</div>
+
 HTML;
 
 

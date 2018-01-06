@@ -16,7 +16,7 @@ function connectnav(collection, leftnav, rightnav)
 
 	// Remove the ?p= from the href query string (since JS
 	// keeps track of the current page
-	var children = collection.childNodes;
+	var children = collection.children;
 	for (var i = 0; i < children.length; i++) {
 		var href = children[i].href;
 		var query = href.slice(href.indexOf('?') + 1);
@@ -140,7 +140,7 @@ function timelinescroll(collection, page)
 {
 	var results_per_page = 5;
 
-	var children = collection.childNodes;
+	var children = collection.children;
 	var delay = 0;
 	var i;
 

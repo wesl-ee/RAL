@@ -2,6 +2,7 @@
 $ROOT = '../';
 include $ROOT."includes/main.php";
 
+header("X-Robots-Tag: noindex");
 if (CONFIG_CLEAN_URL) {
 	$timeline = $_GET['timeline'];
 	$topic = $_GET['topic'];
@@ -17,17 +18,18 @@ if (CONFIG_CLEAN_URL) {
 }
 if (empty($q)) $a = $location;
 else $a  = "$location?$q";
+
 header("Refresh: 3;$a");
 ?>
+<!DOCTYPE HTML>
 <HTML>
 <head>
-	<?php head('Post Failure')?>
+<?php head('Post Failure')?>
 </head>
 <body>
 <div id=welcome>
 	<h1 class=xxx-failure>Failure</h1>
 </div>
-
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <!-- End of scripts -->
