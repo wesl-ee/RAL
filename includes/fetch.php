@@ -103,4 +103,27 @@ function fetch_topic_nums($timeline)
 	}
 	return $ret;
 }
+function fetch_recent_posts($n)
+{
+	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
+		CONFIG_RAL_USERNAME,
+		CONFIG_RAL_PASSWORD,
+		CONFIG_RAL_DATABASE);
+	mysqli_set_charset($dbh, 'utf8');
+	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date`, `Topic`, `Timeline` FROM `Posts` ORDER BY `Date` DESC";
+	$res = mysqli_query($dbh, $query);
+	$ret = [];
+	while ($row = mysqli_fetch_assoc($res)) {
+		$ret[] = [
+			'id' => $row['Id'],
+			'timeline' => $row['Timeline'],
+			'topic' => $row['Topic'],
+			'auth' => $row['Auth'],
+			'date' => $row['Date'],
+			'content' => nl2br(bbbbbbb($row['Content'])),
+			'mine' => ($_COOKIE['auth'] == $row['Auth'])
+		];
+	}
+	return $ret;
+}
 ?>
