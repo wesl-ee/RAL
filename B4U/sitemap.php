@@ -17,9 +17,9 @@ XML_HEAD;
 // (Relatively) static pages
 $pages = [
 	[
-	"cleanurl" => CONFIG_WEBROOT . "select",
-	"dirtyurl" => CONFIG_WEBROOT . "select.php",
-	"changefreq" => "Never",
+	"cleanurl" => CONFIG_WEBROOT,
+	"dirtyurl" => CONFIG_WEBROOT,
+	"changefreq" => "Daily",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "info",

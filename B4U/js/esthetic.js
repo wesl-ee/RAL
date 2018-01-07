@@ -30,16 +30,15 @@ function connectnav(collection, leftnav, rightnav)
 }
 function connectreader(reader)
 {
-	// Hide the scrollbar from view
-	var scrollbarw = reader.offsetWidth - reader.clientWidth + 10;
-	reader.style.marginRight = '-' + scrollbarw + 'px';
-	reader.style.paddingRight = scrollbarw + 'px';
-
 	// Don't bother with the cool stuff if we are on a mobile
 	if (window.matchMedia("(max-width: 600px)").matches) return;
 
+	// Hide the scrollbar from view
+	reader.style.overflow = 'hidden';
+
 	reader.highlighted = reader.firstElementChild;
 	var next = reader.highlighted.nextElementSibling;
+
 
 	// Preserve scroll position
 /*	var h = reader.clientHeight;
@@ -95,26 +94,6 @@ function connectreader(reader)
 	reader.addEventListener(wheel, function(e) {
 		e.preventDefault();
 		handlescroll(e.deltaY);
-	});
-	reader.addEventListener('keydown', function(e) {
-		switch(e.keyCode) {
-		case 38:
-			e.preventDefault();
-			handlescroll(-1);
-			break;
-		case 40:
-			e.preventDefault();
-			handlescroll(1);
-			break;
-		case 33:
-			e.preventDefault();
-			handlescroll(-1);
-			break;
-		case 34:
-			e.preventDefault();
-			handlescroll(1);
-			break;
-		}
 	});
 }
 function readerhighlight(reader, element)

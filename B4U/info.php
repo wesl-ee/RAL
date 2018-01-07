@@ -57,13 +57,11 @@ HTML;
 HTML;
 ?>
 	</span>
-	<?php if (CONFIG_CLEAN_URL)
-		$a = CONFIG_WEBROOT . 'select';
-	else
-		$a = CONFIG_WEBROOT . 'select.php';
+	<?php
+	$a = CONFIG_WEBROOT;
 	print
 <<<HTML
-	<a href="$a">Back</a>
+	<a href="$a">Home</a>
 
 HTML;
 ?>

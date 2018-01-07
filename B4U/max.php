@@ -130,6 +130,7 @@ HTML;
 HTML;
 	} ?>
 	</div>
+	<nav class=arrows>
 <?php
 	// Left navigation arrow
 	if (!$page) {
@@ -169,6 +170,11 @@ HTML;
 
 HTML;
 	}
+	print
+<<<HTML
+	</nav>
+
+HTML;
 
 	if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . "info";
