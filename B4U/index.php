@@ -34,14 +34,15 @@ if (!isset($page)) $page = 0;
 		$topic = $post['topic'];
 		$timeline = $post['timeline'];
 		if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$timeline/$topic";
+			$a = CONFIG_WEBROOT . "max/$timeline/$topic#$id";
 		else
-			$a = CONFIG_WEBROOT . "max.php?timeline=$timeline&topic=$id";
+			$a = CONFIG_WEBROOT
+			. "max.php?timeline=$timeline&topic=$topic#$id";
 		print
 <<<HTML
 		<article data-post=$id>
 			<a href="$a" class=info>
-				<span class=id>[$timeline/$id]</span>
+				<span class=id>[$timeline/$topic]</span>
 				<time>$time</time>
 			› </a>
 			<span class=content data-topic=$id>

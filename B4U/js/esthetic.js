@@ -30,25 +30,26 @@ function connectnav(collection, leftnav, rightnav)
 }
 function connectreader(reader)
 {
+/*
 	// Don't bother with the cool stuff if we are on a mobile
-	if (window.matchMedia("(max-width: 600px)").matches) return;
+//	if (window.matchMedia("(max-width: 600px)").matches) return;
 
 	// Hide the scrollbar from view
-	reader.style.overflow = 'hidden';
+//	reader.style.overflow = 'hidden';
 
-	reader.highlighted = reader.firstElementChild;
-	var next = reader.highlighted.nextElementSibling;
+//	reader.highlighted = reader.firstElementChild;
+//	var next = reader.highlighted.nextElementSibling;
 
 
 	// Preserve scroll position
-/*	var h = reader.clientHeight;
+	var h = reader.clientHeight;
 	if (reader.scrollTop > h / 2)
 	while (next.offsetTop - h / 2 < reader.scrollTop) {
 		reader.highlighted = next;
 		next = reader.highlighted.nextElementSibling;
-	}*/
+	}
 	var previous = reader.highlighted.previousElementSibling;
-/*	var scrollbank = reader.scrollTop + h / 2;*/
+	var scrollbank = reader.scrollTop + h / 2;
 	var scrollbank = 0;
 	reader.highlighted.classList.add('selected');
 
@@ -95,6 +96,7 @@ function connectreader(reader)
 		e.preventDefault();
 		handlescroll(e.deltaY);
 	});
+*/
 }
 function readerhighlight(reader, element)
 {

@@ -179,7 +179,7 @@ HTML;
 			$id = $post['id'];
 			print
 <<<HTML
-		<article data-post=$id>
+		<article data-post=$id id=$id>
 			<span class=info>
 				<span class=id>[$id]</span>
 				<time>$time</time>
@@ -285,7 +285,7 @@ HTML;
 				$a = "?$p";
 			print
 <<<HTML
-		<article data-post=$id>
+		<article data-post=$id id=$id>
 			<a href="$a" class=info>
 				<span class=id>[$id]</span>
 				<time>$time</time>
