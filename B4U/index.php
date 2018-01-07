@@ -17,12 +17,11 @@ if (!isset($page)) $page = 0;
 	<h1>RAL</h1>
 	<h4>Neo-Forum Text Board</h4>
 	<div id=timelines>
-
 <?php
-
 	print
 <<<HTML
 	<div class=collection>
+
 HTML;
 
 	/* Draw the timelines panel (left sidebar) */
@@ -96,6 +95,7 @@ HTML;
 	}
 ?>
 	</nav>
+	</div>
 	<h4>Recent Posts</h4>
 	<div class="reader recent">
 <?php
@@ -105,11 +105,12 @@ HTML;
 		// Dress up the content
 		$time = date("M d Y", strtotime($post['date']));
 		$id = $post['id'];
+		$topic = $post['topic'];
 		$timeline = $post['timeline'];
 		if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$timeline/$id";
-		else if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$timeline/$id?$p";
+			$a = CONFIG_WEBROOT . "max/$timeline/$topic";
+		else
+			$a = CONFIG_WEBROOT . "max.php?timeline=$timeline&topic=$id";
 		print
 <<<HTML
 		<article data-post=$id>

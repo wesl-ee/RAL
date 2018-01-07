@@ -110,7 +110,7 @@ function fetch_recent_posts($n)
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date`, `Topic`, `Timeline` FROM `Posts` ORDER BY `Date` DESC";
+	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date`, `Topic`, `Timeline` FROM `Posts` ORDER BY `Date` DESC LIMIT $n";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
