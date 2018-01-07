@@ -134,7 +134,7 @@ footer a {
 	border: 1px solid;
 	width: calc(80% - 80px);
 	max-height: calc(100% - 60px);
-	padding: 5px;
+	padding: 10px;
 
 	display: flex;
 	flex-direction: column;
@@ -153,6 +153,7 @@ footer a {
 } }
 #rightpanel footer {
 	text-align: right;
+	padding-right: 10px;
 }
 #rightpanel footer > span {
 	display: inline-block;
@@ -184,8 +185,7 @@ footer a {
 	border-right: 0;
 }
 .reader {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 5px;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	overflow: auto;
@@ -193,16 +193,19 @@ footer a {
 }
 /* Timeline view */
 .reader article {
-	padding-right: 5px;
+	padding-bottom: 5px;
 	margin-bottom: 5px;
 	overflow-x: hidden;
 	border-right: 2px solid;
-	border-bottom: 1px solid;
 	border-radius: 0 5px 5px 0;
+}
+.reader .info {
+	border-bottom: 1px solid;
+	padding-bottom: 2px;
+	margin-bottom: 5px;
 }
 .reader article time,
 .reader article .id {
-	float: left;
 }
 .reader article time,
 .reader article .id {
@@ -210,7 +213,7 @@ footer a {
 	padding-right: 5px;
 }
 .reader.timeline .content {
-	position: relative;
+	line-height: 1.4em;
 	max-height: 2.8em;
 }
 .reader .content pre {
@@ -221,15 +224,15 @@ footer a {
 	text-align: left;
 	text-align-last: left;
 }
-.reader p {
-}
 .reader article .content {
 	display: block;
 	overflow: hidden;
-	line-height: 1.4em;
-	text-align: right;
+	line-height: 1.6em;
+	text-align: justify;
+	padding-left: 10px;
+	padding-right: 5px;
+	padding-top: 5px;
 	text-decoration: none;
-	padding-bottom: 3px;
 }
 @media (max-width: 600px) {
 .reader article .content {

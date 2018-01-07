@@ -247,8 +247,10 @@ HTML;
 			print
 <<<HTML
 		<article data-post=$id>
-			<span class=id>[$id]</span>
-			<time>$time</time>
+			<span class=info>
+				<span class=id>[$id]</span>
+				<time>$time</time>
+			</span>
 			<span class=content>$content</span>
 		</article>
 
@@ -351,8 +353,10 @@ HTML;
 			print
 <<<HTML
 		<article data-post=$id>
-			<span class=id>[$id]</span>
-			<time>$time</time>
+			<span class=info>
+				<span class=id>[$id]</span>
+				<time>$time</time>
+			</span>
 			<span class=content data-topic=$id>
 			<a href='$a'>$content</a>
 			</span>

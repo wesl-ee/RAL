@@ -1,7 +1,7 @@
 /* Theme colors and fonts */
 body,
 #welcome .choicebox {
-	background-color: white;
+	background-color: #FFEAEE;
 }
 body {
 	color: black;
@@ -28,7 +28,7 @@ dl, ul, ol {
 #timelines,
 #rightpanel {
 	color: black;
-	background: white;
+	background-color: aliceblue;
 }
 /* Hover-over links */
 .content a:hover,
