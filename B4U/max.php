@@ -151,7 +151,7 @@ HTML;
 HTML;
 	}
 	// Right navigation arrow
-	if ($page * $per_page < count($timelines) / $per_page) {
+	if ($page * $per_page < floor(count($timelines) / $per_page)) {
 		$nextpage = $page + 1;
 		// Preserve $_GET across timelines navigation
 		$q = $_GET;
@@ -165,7 +165,7 @@ HTML;
 	} else {
 		print
 <<<HTML
-	<a class=rightnav style="visibility:hidden">▶</a>;
+	<a class=rightnav style="visibility:hidden">▶</a>
 
 HTML;
 	}

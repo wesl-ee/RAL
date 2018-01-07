@@ -16,7 +16,8 @@ if (!isset($page)) $page = 0;
 	<h3>RAL</h3>
 	<span id=latency>&nbsp;</span>
 	<div class=collection>
-<?php /* Draw the timelines panel (left sidebar) */
+<?php
+	/* Draw the timelines panel (left sidebar) */
 	$per_page = CONFIG_TIMELINES_PER_PAGE;
 	$timelines = fetch_timelines();
 	for ($i = 0; $i < count($timelines); $i++) {
@@ -60,7 +61,7 @@ HTML;
 
 HTML;
 	}
-	if ($page * $per_page < count($timelines) / $per_page) {
+	if ($page * $per_page < floor(count($timelines) / $per_page)) {
 		$nextpage = $page + 1;
 		$q = "p=$nextpage";
 		print
