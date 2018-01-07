@@ -190,21 +190,11 @@ footer .minorbox a {
 	border-radius: 0 5px 5px 0;
 	text-align: justify;
 }
-.reader .info {
-	border-bottom: 1px solid;
-	padding-bottom: 2px;
-	margin-bottom: 5px;
-}
-.reader article time,
-.reader article .id {
-	padding-left: 5px;
-	padding-right: 5px;
-}
 .reader.timeline .content {
 	max-height: 3.2em;
 }
 .reader.recent .content {
-	max-height: 1.4em;
+	max-height: 5.6em;
 	line-height: 1.4em;
 }
 .reader.recent .info {
@@ -236,6 +226,7 @@ footer .minorbox a {
 .reader article .content {
 	padding-top: 10px;
 	padding-left: 10px;
+	text-align: left;
 } }
 .reader article .content.new {
 	border-right-color: red;

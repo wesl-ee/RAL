@@ -40,12 +40,12 @@ if (!isset($page)) $page = 0;
 		print
 <<<HTML
 		<article data-post=$id>
-			<span class=info>
+			<a href="$a" class=info>
 				<span class=id>[$timeline/$id]</span>
 				<time>$time</time>
-			</span>
+			› </a>
 			<span class=content data-topic=$id>
-			<a href='$a'>$content</a>
+			$content
 			</span>
 		</article>
 
