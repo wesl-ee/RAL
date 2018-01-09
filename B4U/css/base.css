@@ -1,376 +1,376 @@
-body {
-	position: fixed;
-	top: 0;
-	left: 0;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	-webkit-backface-visibility: hidden;
-}
-@media (max-width: 600px) {
-body {
-	position: initial;
-	height: initial;
-	margin: 5px;
-	width: calc(100% - 5px);
-} }
-#welcome {
-	top: 0;
-	display: block;
-	border: 1px solid;
-	width: calc(80% - 80px);
-	max-height: calc(100% - 60px);
-	padding: 10px;
-
-	display: flex;
-	flex-direction: column;
-	width: 80%;
-	margin: auto;
-	text-align: center;
-	margin-top: 20px;
-}
-.sidebar {
-	position: absolute;
-	margin: 20px;
-	top: 0;
-	left: 0;
-	width: 100px;
-	max-width: calc(20% - 40px);
-	text-align: center;
-	padding: 20px;
-}
-@media (max-width: 600px) {
-.sidebar {
-	display: none;
-} }
-.sidebar .latency {
-	width: 100%;
-	text-wrap: break-word;
-	text-align: justify;
-}
-.sidebar .collection {
-	flex-direction: column;
-	flex-wrap: no-wrap;
-}
-#welcome .collection a {
-	margin-left: 5px;
-	margin-right: 5px;
-}
-.collection {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-}
-
-.hoverbox {
-	display: block;
-	padding-left: 5px;
-	padding-right: 5px;
-	transition: box-shadow 0.5s, color 1s;
-	border: 1px solid;
-	cursor: pointer;
-}
-.hoverbox:hover {
-	box-shadow: -3px 3px 10px;
-}
-.hoverbox a,
-a.hoverbox {
-	text-decoration: none;
-}
-.collection > a {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-.leftnav,
-.rightnav {
-	cursor: pointer;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	text-decoration: none;
-}
-.leftnav {
-	margin-right: 20px;
-}
-.rightnav {
-	margin-left: 20px;
-}
-.sidebar {
-	border: 1px solid;
-}
-#rightpanel,
-.sidebar,
-#welcome {
-	border-radius: 5px 0;
-}
-#rightpanel {
-	position: absolute;
-
-	top: 0;
-	right: 0;
-	margin: 20px;
-	border: 1px solid;
-	width: calc(80% - 80px);
-	max-height: calc(100% - 60px);
-	padding: 10px;
-
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-}
-@media (max-width: 600px) {
-#rightpanel {
-	width: calc(100% - 20px);
-	margin: 0;
-	padding: 0;
-	max-height: calc(100% - 2px);
-	margin-left: 5px;
-	margin-right: 5px;
-} }
-#rightpanel footer {
-	text-align: right;
-	padding-right: 10px;
-}
-#rightpanel footer > span {
-	display: inline-block;
-	border-width: 1px;
-	border-top-width: 0px;
-	border-style: solid;
-	margin-left: 10px;
-}
-.reply {
-	display: flex;
-	flex: 0 0 auto;
-}
-.reply .buttons {
-	float: right;
-}
-.reply .cancel {
-	border-top: 0;
-	display: block;
-	margin: 0;
-	top: 0;
-}
-.reply img {
-	display: block;
-	width: 100%;
-}
-.reply .buttons input[type=submit] {
-	display: block;
-	color: inherit;
-	border-top: 0;
-	width: 100%;
-}
-.reply .buttons a {
-	text-align: center;
-}
-.reply textarea {
-	flex: 0 1 auto;
-	border-top: 0;
-	border-left: 0;
-	border-right: 0;
-}
-.reader {
-	padding: 5px;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-}
-/* Timeline view */
-.reader article {
-	padding-bottom: 5px;
-	margin-bottom: 5px;
-	overflow-x: hidden;
-	border-left: 2px solid;
-	border-radius: 5px;
-	padding-left: 5px;
-	text-align: justify;
-}
-.reader.timeline .content {
-	max-height: 3.2em;
-}
-.reader.recent .content {
-	max-height: 5.6em;
-	line-height: 1.4em;
-}
-.reader.recent .info {
-	float: left;
-	border: none;
-}
-.reader.recent .content {
-	padding-top: 0;
-}
-.reader .content pre {
-	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-left: auto;
-	text-align: left;
-	text-align-last: left;
-}
-.reader article .content {
-	display: block;
-	overflow: hidden;
-	line-height: 1.6em;
-	text-align: justify;
-	padding-left: 10px;
-	padding-right: 5px;
-	padding-top: 5px;
-	text-decoration: none;
-}
-@media (max-width: 600px) {
-.reader article .content {
-	padding-top: 10px;
-	padding-left: 10px;
-	text-align: left;
-} }
-.reader article .content.new {
-	border-right-color: red;
-}
-.reader.expanded article {
-	height: initial;
-}
-.choicebox,
-.minorbox {
-	display: inline;
-	border: 2px solid;
-	padding: 2px;
-	text-align: center;
-	transition: box-shadow 0.5s, color 1s;
-	cursor: pointer;
-}
-.choicebox a {
-	text-decoration: none;
-	margin: 10px;
-	border-width: 1px;
-
-}
-.choicebox:hover {
-	box-shadow: -5px 5px 10px;
-}
-.breadcrumb {
-	list-style-type: none;
-	-webkit-padding-start: 0;
-	-webkit-margin-before: 0;
-	-webkit-margin-after: 0;
-	padding: 0;
-	margin: 0;
-}
-@media (max-width: 600px) {
-.breadcrumb {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-size: 125%;
-} }
-.breadcrumb li {
-	display: inline;
-}
-#background {
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	overflow: hidden;
-	z-index: -100;
-	transition: filter 1s ease-in;
-}
-#background video,
-#background img {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-#background img {
-	display: none;
-}
-@media (min-aspect-ratio: 4/3) {
-	#background video {
-		height: 300%;
-		top: -100%;
+/* Layouts */
+	/* Restrict our body to the page */
+	body {
+		position: fixed;
+		top: 0;
+		left: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		-webkit-backface-visibility: hidden;
 	}
-}
+	/* This holds the introduction / index page content */
+	#welcome {
+		top: 0;
+		border: 1px solid;
+		width: calc(80% - 80px);
+		max-height: calc(100% - 60px);
+		padding: 10px;
 
-@media (max-aspect-ratio: 4/3) {
-	#background video{
-		width: 300%;
-		left: -100%;
+		display: flex;
+		flex-direction: column;
+		width: 80%;
+		margin: auto;
+		text-align: center;
+		margin-top: 20px;
+
+		overflow: hidden;
 	}
-}
-@media (max-width: 600px) {
+	/* The continuity's contents go here */
+	#rightpanel {
+		position: absolute;
+
+		top: 0;
+		right: 0;
+		margin: 20px;
+		border: 1px solid;
+		width: calc(80% - 80px);
+		max-height: calc(100% - 60px);
+		padding: 10px;
+
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+	/* A timeline list is displayed here */
+	.sidebar {
+		position: absolute;
+		margin: 20px;
+		top: 0;
+		left: 0;
+		width: 100px;
+		max-width: calc(20% - 40px);
+		text-align: center;
+		padding: 20px;
+	}
+/* Layout esthetics */
+	#rightpanel,
+	.sidebar,
+	#welcome {
+		border: 1px solid;
+		border-radius: 5px 0;
+	}
+/* Media rules for the layout */
+	@media (max-width: 600px) {
+	.sidebar {
+		display: none;
+	} }
+	@media (max-width: 600px) {
+	body {
+		position: initial;
+		height: initial;
+		margin: 5px;
+		width: calc(100% - 5px);
+	} }
+	@media (max-width: 600px) {
+	#rightpanel {
+		width: calc(100% - 20px);
+		margin: 0;
+		padding: 0;
+		max-height: calc(100% - 2px);
+		margin-left: 5px;
+		margin-right: 5px;
+	} }
+/* Elements on the welcome page */
+	/* Since this is a horizontal layout,
+	apply some empty space */
+	#welcome .collection > * {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+/* Elements on the right panel */
+	/* Footer has reply, return buttons */
+	#rightpanel footer {
+		text-align: right;
+		padding-right: 10px;
+	}
+	#rightpanel footer > span {
+		display: inline-block;
+		border-width: 1px;
+		border-top-width: 0px;
+		border-style: solid;
+		margin-left: 10px;
+	}
+	/* Navigation breadcrumb at the page top */
+	.breadcrumb {
+		list-style-type: none;
+		-webkit-padding-start: 0;
+		-webkit-margin-before: 0;
+		-webkit-margin-after: 0;
+		padding: 0;
+		margin: 0;
+	}
+	@media (max-width: 600px) {
+	.breadcrumb {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-size: 125%;
+	} }
+	.breadcrumb li {
+		display: inline;
+	}
+	/* The reader element */
+	.reader {
+		padding: 5px;
+		border-top: 1px solid;
+		border-bottom: 1px solid;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	/* Every post / topic is wrapped in an <article> */
+	.reader article {
+		padding-bottom: 5px;
+		margin-bottom: 5px;
+		overflow-x: hidden;
+		border-left: 2px solid;
+		border-radius: 5px;
+		padding-left: 5px;
+		text-align: justify;
+	}
+	.reader .content pre {
+		line-height: 1.4em;
+		padding: 10px;
+		text-align: left;
+	}
+	.reader article .content {
+		display: block;
+		overflow: hidden;
+		line-height: 1.6em;
+		text-align: justify;
+		padding-left: 10px;
+		padding-right: 5px;
+		padding-top: 5px;
+		word-wrap: break-word;
+	}
+	.reader .content pre {
+		display: block;
+		margin: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		max-width: calc(100%);
+	}
+	/* Timeline view (browsing all topics) */
+		/* Restrict content to 2 lines max */
+		.reader.timeline .content {
+			max-height: 3.2em;
+		}
+	/* Reader on the welcome page */
+		/* Content on the welcome page
+		can be up to 4 lines tall */
+		#welcome .reader .content {
+			max-height: 5.6em;
+			line-height: 1.4em;
+		}
+		#welcome .reader .info {
+			float: left;
+			border: none;
+		}
+		/* More compact view */
+		#welcome .reader .content {
+			padding-top: 0;
+		}
+
+
+		@media (max-width: 600px) {
+		.reader article .content {
+			padding-top: 10px;
+			padding-left: 10px;
+			text-align: left;
+		}
+		#welcome .reader .info {
+			float: initial;
+		}
+		.reader.expanded article {
+			height: initial;
+		} }
+	/* Reply box */
+	.reply {
+		display: flex;
+		flex: 0 0 auto;
+	}
+	.reply .buttons {
+		text-align: center;
+	}
+	.reply .cancel {
+		display: block;
+		border-top: 0;
+	}
+	.reply img {
+		display: block;
+		width: 100%;
+		height: 70px;
+	}
+	.reply .buttons input[type=submit] {
+		display: block;
+		color: inherit;
+		border-top: 0;
+		width: 100%;
+	}
+	.reply textarea {
+		border-top: 0;
+		border-right: 0;
+	}
+/* Elements in the sidebar */
+	/* Latency displays our current ping to the server */
+	.sidebar .latency {
+		text-wrap: break-word;
+		text-align: justify;
+	}
+	/* Special rules for the continuity container */
+	.sidebar .collection {
+		flex-direction: column;
+		flex-wrap: no-wrap;
+	}
+/* Miscellaneous elements */
+	/* Paginated view of all coninuities */
+	.collection {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.collection > a {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	/* Navigation for the collection */
+	.leftnav,
+	.rightnav {
+		cursor: pointer;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		text-decoration: none;
+	}
+	.leftnav {
+		margin-right: 20px;
+	}
+	.rightnav {
+		margin-left: 20px;
+	}
+	/* An styled button which shadows when hovered over */
+	.hoverbox {
+	       display: block;
+	       padding-left: 5px;
+	       padding-right: 5px;
+	       transition: box-shadow 0.5s, color 1s;
+	       border: 1px solid;
+	       cursor: pointer;
+	}
+	.hoverbox:hover {
+	       box-shadow: -3px 3px 10px;
+	}
+	.hoverbox a,
+	a.hoverbox {
+	       text-decoration: none;
+	}
+/* Modifications on the default styling */
+	input[type=submit] {
+		padding-left: 5px;
+		padding-right: 5px;
+		background: inherit;
+		font: inherit;
+		line-height: normal;
+		color: inherit;
+	}
+	h1, h2, h3, h4, h5, h6 {
+		margin: 0px;
+	}
+	a {
+		color: inherit;
+		cursor: pointer;
+		outline: none;
+	}
+	hr {
+		width: 100%;
+	}
+	textarea {
+		font-family: inherit;
+		width: 100%;
+		outline: none;
+		resize: none;
+		border: 0;
+		height: auto;
+		margin: 0;
+	}
+	/* Scrollbars for the cool kids */
+	::-webkit-scrollbar {
+		width: 2px;
+		height: 0;
+	}
+	input, select, textarea {
+		font-family: inherit;
+		color: inherit;
+		border: 1px solid;
+		margin-bottom: 1px;
+		font-size: 1em;
+		background-color: inherit;
+		margin: 0;
+	}
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		transition: border 0.2s;
+		outline: 0;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+
+/* Uhh just legacy stuff
+ * I might use later */
+	#background {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		overflow: hidden;
+		z-index: -100;
+		transition: filter 1s ease-in;
+	}
+	#background video,
 	#background img {
-		display: initial;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
-	#background video {
+	#background img {
 		display: none;
 	}
-}
-body.preload * {
-	animation-duration: 0s !important;
-	-webkit-animation-duration: 0s !important;
-	transition: background-color 0s,
-	opacity 0s,
-	color 0s,
-	width 0s,
-	height 0s,
-	padding 0s,
-	margin 0s !important;
-}
-input[type=submit] {
-	padding-left: 5px;
-	padding-right: 5px;
-	background: inherit;
-	font: inherit;
-	line-height: normal;
-}
-h1, h2, h3, h4, h5, h6 {
-	margin: 0px;
-}
-a {
-	color: inherit;
-	cursor: pointer;
-	outline: none;
-}
-hr {
-	width: 100%;
-}
-textarea {
-	font-family: inherit;
-	width: 100%;
-	outline: none;
-	resize: none;
-	border: 0;
-	height: auto;
-	margin: 0;
-}
-::-webkit-scrollbar {
-	width: 2px;
-	height: 0;
-}
-input, select, textarea {
-	font-family: inherit;
-	color: inherit;
-        border: 1px solid;
-	margin-bottom: 1px;
-	font-size: 1em;
-	background-color: inherit;
-	margin: 0;
-}
-input[type=submit] {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	transition: border 0.2s;
-	outline: 0;
-	padding-left: 5px;
-	padding-right: 5px;
-}
+	@media (min-aspect-ratio: 4/3) {
+		#background video {
+			height: 300%;
+			top: -100%;
+		}
+	}
+
+	@media (max-aspect-ratio: 4/3) {
+		#background video{
+			width: 300%;
+			left: -100%;
+		}
+	}
+	@media (max-width: 600px) {
+		#background img {
+			display: initial;
+		}
+		#background video {
+			display: none;
+		}
+	}
+

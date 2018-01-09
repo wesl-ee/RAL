@@ -9,7 +9,7 @@ function bbbbbbb($string)
 	while (($a = indexOf($string, "[", $offset)) >= 0
 	&& ($b = indexOf($string, "]", $offset)) > $a) {
 		// Push the parsed contents to an array
-		$contents[] = substr($string, $offset, $a - $offset);
+		$contents[] = trim(substr($string, $offset, $a - $offset));
 		$tag = substr($string, $a, $b + 1 - $a);
 		$contents[] = $tag;
 
@@ -79,7 +79,7 @@ function bbbbbbb($string)
 			];
 		}
 	}
-	$contents[] = substr($string, $offset);
+	$contents[] = trim(substr($string, $offset));
 	return join($contents);
 }
 /*

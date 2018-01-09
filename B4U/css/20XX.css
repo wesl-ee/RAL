@@ -23,7 +23,7 @@ dl, ul, ol {
 #welcome,
 #rightpanel {
 	color: black;
-	background-color: azure;
+	background-color: ghostwhite;
 }
 /* Hover-over links */
 .content a:hover,
@@ -39,4 +39,8 @@ dl, ul, ol {
 }
 .selected {
 	border-color: #FF6A87 !important;
+}
+pre {
+	background: #151515;
+	color: #D7D0C7;
 }
