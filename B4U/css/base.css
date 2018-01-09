@@ -62,30 +62,19 @@ body {
 	justify-content: center;
 }
 
-.collection > a,
-.minorbox,
-.reply .buttons > * {
+.hoverbox {
 	display: block;
-	margin-bottom: 15px;
 	padding-left: 5px;
 	padding-right: 5px;
 	transition: box-shadow 0.5s, color 1s;
 	border: 1px solid;
 	cursor: pointer;
 }
-.collection > a:hover,
-.minorbox:hover,
-.reply .buttons > *:hover {
+.hoverbox:hover {
 	box-shadow: -3px 3px 10px;
 }
-.collection a,
-.minorbox,
-.choicebox a,
-.timeline .content a,
-.reply .buttons > a,
-.leftnav,
-.rightnav,
-footer .minorbox a {
+.hoverbox a,
+a.hoverbox {
 	text-decoration: none;
 }
 .collection > a {
@@ -154,22 +143,32 @@ footer .minorbox a {
 }
 .reply {
 	display: flex;
-	align-content: flex-end;
 	flex: 0 0 auto;
 }
-.reply .buttons .cancel {
+.reply .buttons {
+	float: right;
+}
+.reply .cancel {
 	border-top: 0;
 	display: block;
 	margin: 0;
 	top: 0;
 }
-.reply .buttons input[type=submit] {
-	color: inherit;
-	margin-left: auto;
+.reply img {
 	display: block;
+	width: 100%;
+}
+.reply .buttons input[type=submit] {
+	display: block;
+	color: inherit;
 	border-top: 0;
+	width: 100%;
+}
+.reply .buttons a {
+	text-align: center;
 }
 .reply textarea {
+	flex: 0 1 auto;
 	border-top: 0;
 	border-left: 0;
 	border-right: 0;
@@ -361,6 +360,7 @@ input, select, textarea {
 	margin-bottom: 1px;
 	font-size: 1em;
 	background-color: inherit;
+	margin: 0;
 }
 input[type=submit] {
 	padding-left: 5px;

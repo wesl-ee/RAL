@@ -204,17 +204,24 @@ HTML;
 			else
 				$target = CONFIG_WEBROOT
 				. "max.php";
-			if (empty($q)) $href = "$target";
+			if (empty($q)) $href = $target;
 			else $href = "$target?$q";
+			$robocheck = gen_robocheck($_COOKIE['auth']);
+			$robosrc = $robocheck['src'];
+			$robocode = $robocheck['id'];
 			print
 <<<HTML
 	<form class=reply method=POST action="?$q">
-		<textarea rows=5
-		maxlength=CONFIG_RAL_POSTMAXLEN
-		name=content></textarea>
+			<textarea rows=5
+			maxlength=CONFIG_RAL_POSTMAXLEN
+			name=content></textarea>
 		<div class=buttons>
-		<a href="$href" class=cancel>Cancel</a>
-		<input value=Post type=submit>
+			<img src="$robosrc">
+			<input type=hidden value=$robocode>
+			<input name=answer placeholder="Type the above text">
+			<input value=Post class=hoverbox type=submit>
+			<a href="$href" class="cancel hoverbox">Cancel</a>
+
 		</div>
 	</form>
 
@@ -230,8 +237,8 @@ HTML;
 			print
 <<<HTML
 	<footer>
-	<span class=minorbox>
-	<a href='$a'>Reply to Topic</a>
+	<span class=hoverbox>
+		<a href='$a'>Reply to Topic</a>
 	</span>
 
 HTML;
@@ -250,7 +257,7 @@ HTML;
 			}
 			print
 <<<HTML
-	<span class=minorbox>
+	<span class=hoverbox>
 		<a href=$a>Return</a>
 	</span>
 	</footer>
@@ -317,12 +324,16 @@ HTML;
 
 			print
 <<<HTML
-	<form class=reply method=POST action=?$q>
-		<textarea rows=5 maxlength=CONFIG_RAL_POSTMAXLEN
-		name=content></textarea>
+	<form class=reply method=POST action="?$q">
+			<textarea rows=5
+			maxlength=CONFIG_RAL_POSTMAXLEN
+			name=content></textarea>
 		<div class=buttons>
-		<a href='$href' class='cancel'>Cancel</a>
-		<input value=Post type=submit>
+			<img src="https://ral.howler.space/robocheck/5a4d30565da36/5a54e4e2769bb.jpg">
+			<input name=answer placeholder="Type the above text">
+			<input value=Post class=hoverbox type=submit>
+			<a href="$href" class="cancel hoverbox">Cancel</a>
+
 		</div>
 	</form>
 
@@ -339,8 +350,8 @@ HTML;
 			print
 <<<HTML
 	<footer>
-		<span class=minorbox>
-		<a href=$a>Create a Topic</a>
+		<span class=hoverbox>
+			<a href=$a>Create a Topic</a>
 		</span>
 	</footer>
 

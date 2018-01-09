@@ -39,20 +39,18 @@ function nl22br($string)
 			$a = CONFIG_WEBROOT . "info/";
 			print
 <<<HTML
-		<a href={$a}theme>Theme</a>
-		<a href={$a}announce>Notices</a>
-		<a href={$a}>About</a>
-		<a href={$a}help>Help</a>
+		<a class=hoverbox href={$a}theme>Theme</a>
+		<a class=hoverbox href={$a}>About</a>
+		<a class=hoverbox href={$a}help>Help</a>
 
 HTML;
 		}
 		else
 			print
 <<<HTML
-		<a href=?theme>Theme</a>
-		<a href=?staff>Staff</a>
-		<a href=?>About</a>
-		<a href=?help>Help</a>
+		<a class=hoverbox href=?theme>Theme</a>
+		<a class=hoverbox href=?>About</a>
+		<a class=hoverbox href=?help>Help</a>
 
 HTML;
 ?>
@@ -90,16 +88,6 @@ HTML;
 
 HTML;
 
-	} else if (isset($_GET['announce'])) {
-		$txt = nl22br(bbbbbbb(file_get_contents('announce.txt')));
-		print
-<<<HTML
-		<h3>Announcements</h3>
-		<div class=reader>
-		$txt
-		</div>
-
-HTML;
 	} else if (isset($_GET['help'])) {
 		$mail = CONFIG_ADMIN_MAIL; $name = ucfirst(CONFIG_ADMIN_NAME);
 		// Probably read this in from a file

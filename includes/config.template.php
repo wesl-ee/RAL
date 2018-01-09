@@ -34,6 +34,8 @@ define("CONFIG_WEBROOT", "https:ral.space/");
 
 define("CONFIG_CLEAN_URL", false);
 
+define("CONFIG_WORDLIST", "/usr/share/wordlists/rockyou.txt");
+
 define("CONFIG_THEMES",
 [
 	'20XX',

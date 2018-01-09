@@ -1,1 +1,9 @@
 includes/config.php
+
+B4U/robocheck/*
+!B4U/robocheck/.keep
+
+tmp/*
+!tmp/robocheck-answers
+tmp/robocheck-answers/*
+!tmp/robocheck-answers/.keep

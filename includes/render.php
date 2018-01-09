@@ -24,13 +24,13 @@ HTML;
 		|| $i >= ($page + 1) * $per_page)
 			print
 <<<HTML
-	<a href="$a"
+	<a class=hoverbox href="$a"
 	style="visibility: hidden; display:none">$name</a>
 
 HTML;
 		else print
 <<<HTML
-	<a href="$a">$name</a>
+	<a class=hoverbox href="$a">$name</a>
 
 HTML;
 	}

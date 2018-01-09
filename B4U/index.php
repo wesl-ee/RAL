@@ -11,7 +11,7 @@ if (!isset($page)) $page = 0;
 <!DOCTYPE HTML>
 <HTML>
 <head>
-<?php head('RAL')?>
+<?php head('Home')?>
 </head>
 <body>
 <div id=welcome>
