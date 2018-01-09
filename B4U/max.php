@@ -27,6 +27,7 @@ if (isset($_POST['content']) && isset($topic)) {
 	$content = htmlspecialchars($content);
 	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
 	|| !strlen($content)
+	|| !check_robocheck($_POST['robocheckid'], $_POST['robocheckanswer'])
 	|| !($post = create_post($timeline, $topic, $auth, $content))) {
 		header("HTTP/1.1 303 See Other");
 		if (CONFIG_CLEAN_URL)
@@ -217,8 +218,8 @@ HTML;
 			name=content></textarea>
 		<div class=buttons>
 			<img src="$robosrc">
-			<input type=hidden value=$robocode>
-			<input name=answer placeholder="Type the above text">
+			<input name=robocheckid type=hidden value=$robocode>
+			<input name=robocheckanswer placeholder="Type the above text">
 			<input value=Post class=hoverbox type=submit>
 			<a href="$href" class="cancel hoverbox">Cancel</a>
 
@@ -329,8 +330,9 @@ HTML;
 			maxlength=CONFIG_RAL_POSTMAXLEN
 			name=content></textarea>
 		<div class=buttons>
-			<img src="https://ral.howler.space/robocheck/5a4d30565da36/5a54e4e2769bb.jpg">
-			<input name=answer placeholder="Type the above text">
+			<img src="$robosrc">
+			<input name=robocheckid type=hidden value=$robocode>
+			<input name=robocheckanswer placeholder="Type the above text">
 			<input value=Post class=hoverbox type=submit>
 			<a href="$href" class="cancel hoverbox">Cancel</a>
 

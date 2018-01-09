@@ -32,8 +32,9 @@ function clearban($auth)
 		mysqli_query($dbh, $query);
 	}
 }
-function gen_robocheck($user)
+function gen_robocheck($user = null)
 {
+	if ($user === null) $user = $_COOKIE["auth"];
 	$imgpath = CONFIG_LOCALROOT . "B4U/robocheck/$user/";
 	$keypath = CONFIG_LOCALROOT . "tmp/robocheck-answers/$user/";
 	if (strpos(get_absolute_path($imgpath)
@@ -66,16 +67,22 @@ function gen_robocheck($user)
 		"src" => CONFIG_WEBROOT . "robocheck/$user/$imgfile",
 	];
 }
-function check_robocheck($user, $id, $answer)
+function check_robocheck($id, $answer, $user = null)
 {
+	if ($user === null) $user = $_COOKIE["auth"];
 	$imgfile = CONFIG_LOCALROOT . "B4U/robocheck/$user/$id.jpg";
 	$keyfile = CONFIG_LOCALROOT . "tmp/robocheck-answers/$user/$id.txt";
 
-	if (file_get_contents($keyfile) !== $answer)
+	if (strpos(get_absolute_path($imgfile)
+	, CONFIG_LOCALROOT . "B4U/robocheck") !== 0)
 		return false;
+
+	$a = chop(file_get_contents($keyfile));
+
 	unlink($imgfile);
 	unlink($keyfile);
-	return true;
+
+	return ($a == $answer);
 }
 function rand_line($fname, $maxlen = 4096) {
 	$handle = fopen($fname, "r");
