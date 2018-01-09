@@ -38,7 +38,6 @@ define("CONFIG_WORDLIST", "/usr/share/wordlists/rockyou.txt");
 
 define("CONFIG_THEMES",
 [
-	'20XX',
-	'Castle'
+	'20XX'
 ]);
 ?>
