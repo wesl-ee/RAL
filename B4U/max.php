@@ -146,52 +146,9 @@ HTML;
 HTML;
 ?>
 	</header>
-	<ol vocab='http://schema.org/' typeof=BreadcrumbList
-	class=breadcrumb>
 <?php
-		$a = CONFIG_WEBROOT;
-		print
-<<<HTML
-		<li property=itemListElement typeof=ListItem>
-			<a href='$a' property=item typeof=WebPage>
-			<span property=name>RAL</span></a>
-			<meta property=position content=1 />
-		</li>
+	renderbreadcrumb($timeline, $topic);
 
-HTML;
-		if (isset($timeline)) {
-			if (CONFIG_CLEAN_URL)
-				$a .= "max/$timeline";
-			else
-				$a .= "max.php?timeline=$timeline";
-			print
-<<<HTML
-		›<li property=itemListElement typeof=ListItem>
-			<a href='$a' property=item typeof=WebPage>
-			<span property=name>$timeline</span></a>
-			<meta property=position content=2 />
-		</li>
-
-HTML;
-		}
-		if (isset($topic)) {
-			if (CONFIG_CLEAN_URL)
-				$a .= "/$topic";
-			else
-				$a .= "&topic=$topic";
-			print
-<<<HTML
-		›<li property=itemListElement typeof=ListItem>
-			<a href='$a' property=item typeof=WebPage>
-			<span property=name>$topic</span></a>
-			<meta property=position content=3 />
-		</li>
-
-HTML;
-		} ?>
-	</ol>
-
-	<?php
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
 		print
@@ -201,60 +158,14 @@ HTML;
 	data-timeline="$timeline">
 
 HTML;
-		$posts = fetch_posts($timeline, $topic);
-		foreach ($posts as $post) {
-			$content = $post['content'];
-			$time = date('M d Y', strtotime($post['date']));
-			$id = $post['id'];
-			print
-<<<HTML
-		<article data-post=$id id=$id>
-			<span class=info>
-				<span class=id>[$id]</span>
-				<time>$time</time>
-			</span>
-			<span class=content>$content</span>
-		</article>
-
-HTML;
-		}
+		renderposts($timeline, $topic);
 		print
 <<<HTML
 	</div>
 
 HTML;
 		if (isset($postmode)) {
-			$q = $_GET;
-			unset($q['postmode']);
-			$q = http_build_query($q);
-			if (CONFIG_CLEAN_URL)
-				$target = CONFIG_WEBROOT
-				. "max/$timeline/$topic";
-			else
-				$target = CONFIG_WEBROOT
-				. "max.php";
-			if (empty($q)) $href = $target;
-			else $href = "$target?$q";
-			$robocheck = gen_robocheck($_COOKIE['auth']);
-			$robosrc = $robocheck['src'];
-			$robocode = $robocheck['id'];
-			print
-<<<HTML
-	<form class=reply method=POST action="?$q">
-			<textarea rows=5
-			maxlength=CONFIG_RAL_POSTMAXLEN
-			name=content></textarea>
-		<div class=buttons>
-			<img src="$robosrc">
-			<input name=robocheckid type=hidden value=$robocode>
-			<input name=robocheckanswer placeholder="Type the above text" autocomplete=off>
-			<input value=Post class=hoverbox type=submit>
-			<a href="$href" class="cancel hoverbox">Cancel</a>
-
-		</div>
-	</form>
-
-HTML;
+			renderpostbox($timeline, $topic);
 		} else {
 			$q = $_GET;
 			if (empty($q)) $a = '?postmode';
@@ -301,75 +212,15 @@ HTML;
 	data-timeline="$timeline">
 
 HTML;
-		$q = $_GET;
-		unset($q['postmode']);
 		$topics = fetch_topics($timeline);
-		foreach ($topics as $topic) {
-			$content = $topic['content'];
-			// Dress up the content
-			$time = date("M d Y", strtotime($topic['date']));
-			$id = $topic['id'];
-			if (!CONFIG_CLEAN_URL)
-				$q['topic'] = $id;
-			$p = http_build_query($q);
-
-			if (CONFIG_CLEAN_URL && empty($p))
-				$a = CONFIG_WEBROOT . "max/$timeline/$id";
-			else if (CONFIG_CLEAN_URL)
-				$a = CONFIG_WEBROOT . "max/$timeline/$id?$p";
-			else
-				$a = "?$p";
-			print
-<<<HTML
-		<article data-post=$id id=$id>
-			<a href="$a" class=info>
-				<span class=id>[$id]</span>
-				<time>$time</time>
-			› </a>
-			<span class=content data-topic=$id>
-			$content
-			</span>
-		</article>
-
-HTML;
-		}
+		renderposts($timeline);
 		print
 <<<HTML
-		</div>
+	</div>
 
 HTML;
 		if (isset($postmode)) {
-			$q = $_GET;
-			unset($q['postmode']);
-			$q = http_build_query($q);
-			if (CONFIG_CLEAN_URL)
-				$target = CONFIG_WEBROOT
-				. "max/$timeline";
-			else
-				$target = CONFIG_WEBROOT
-				. "max.php";
-			if (empty($q)) $href = "$target";
-			else $href = "$target?$q";
-			$robocheck = gen_robocheck($_COOKIE['auth']);
-			$robosrc = $robocheck['src'];
-			$robocode = $robocheck['id'];
-			print
-<<<HTML
-	<form class=reply method=POST action="?$q">
-			<textarea rows=5
-			maxlength=CONFIG_RAL_POSTMAXLEN
-			name=content></textarea>
-		<div class=buttons>
-			<img src="$robosrc">
-			<input name=robocheckid type=hidden value=$robocode>
-			<input name=robocheckanswer placeholder="Type the above text" autocomplete=off>
-			<input value=Post class=hoverbox type=submit>
-			<a href="$href" class="cancel hoverbox">Cancel</a>
-
-		</div>
-	</form>
-
-HTML;
+			renderpostbox($timeline, $topic);
 		} else {
 			$q = $_GET;
 			if (CONFIG_CLEAN_URL) {
