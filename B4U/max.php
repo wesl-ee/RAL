@@ -158,53 +158,7 @@ HTML;
 	data-timeline="$timeline">
 
 HTML;
-		renderposts($timeline, $topic);
-		print
-<<<HTML
-	</div>
-
-HTML;
-		if (isset($postmode)) {
-			renderpostbox($timeline, $topic);
-		} else {
-			$q = $_GET;
-			if (empty($q)) $a = '?postmode';
-			else {
-				$q = http_build_query($q);
-				$a = "?$q&postmode";
-			}
-
-			print
-<<<HTML
-	<footer>
-	<span class=hoverbox>
-		<a href='$a'>Reply to Topic</a>
-	</span>
-
-HTML;
-			$q = $_GET;
-			unset($q['topic']);
-			if (CONFIG_CLEAN_URL) {
-				$q = http_build_query($q);
-				if (empty($q)) $a =  CONFIG_WEBROOT
-				. "max/$timeline";
-				else $a = CONFIG_WEBROOT
-				. "max/$timeline?$q";
-			}
-			else {
-				$q = http_build_query($q);
-				$a = "?$q";
-			}
-			print
-<<<HTML
-	<span class=hoverbox>
-		<a href=$a>Return</a>
-	</span>
-	</footer>
-
-HTML;
-		}
-	// Browsing a timeline (reader is in 'timeline' view)
+	// Browsing a continuity (reader is in 'timeline' view)
 	} else {
 		print
 <<<HTML
@@ -212,36 +166,18 @@ HTML;
 	data-timeline="$timeline">
 
 HTML;
-		$topics = fetch_topics($timeline);
-		renderposts($timeline);
-		print
+	}
+	renderposts($timeline, $topic);
+	print
 <<<HTML
 	</div>
 
 HTML;
-		if (isset($postmode)) {
-			renderpostbox($timeline, $topic);
-		} else {
-			$q = $_GET;
-			if (CONFIG_CLEAN_URL) {
-				unset($q['timeline']); unset($q['topic']);
-			}
-			$q = http_build_query($q);
-			if (empty($q)) $a = "?postmode";
-			else $a = "?postmode&$q";
-
-			print
-<<<HTML
-	<footer>
-		<span class=hoverbox>
-			<a href=$a>Create a Topic</a>
-		</span>
-	</footer>
-
-HTML;
-		}
-	}
-	?>
+	if (isset($postmode))
+		renderpostbox($timeline, $topic);
+	else
+		renderfooter($timeline, $topic);
+?>
 </div>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
