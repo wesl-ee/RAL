@@ -117,7 +117,8 @@ $timelinedesc = $timelines[$i]['description'];
 	<h3>RAL</h3>
 	<span id=latency>&nbsp;</span>
 <?php
-	rendercontinuitynav($page);
+	// Requires $timelines and $page
+	include "../static/nav.php";
 	if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . "info";
 	else
@@ -134,20 +135,14 @@ HTML;
 		$title = strtoupper("$timeline [$topic]");
 	}
 	else {
-		$title = $title = strtoupper($timeline);
+		$title = strtoupper($timeline);
 		$subtitle = $timelinedesc;
 	}
-?>
-	<header>
-		<h1><?php print $title?></h1>
-<?php if (isset($subtitle)) print
-<<<HTML
-		<em>$subtitle</em>
-HTML;
-?>
-	</header>
-<?php
-	renderbreadcrumb($timeline, $topic);
+	// Requires $title; $subtitle is optional
+	include "../static/header.php";
+
+	// Requires $timeline; $topic is optional
+	include "../static/breadcrumb.php";
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
@@ -174,9 +169,11 @@ HTML;
 
 HTML;
 	if (isset($postmode))
-		renderpostbox($timeline, $topic);
+		// Requires $timeline; $topic optional
+		include "../static/postbox.php";
 	else
-		renderfooter($timeline, $topic);
+		// Requires $timeline; $topic optional
+		include "../static/footer.php";
 ?>
 </div>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>

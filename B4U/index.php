@@ -15,13 +15,14 @@ if (!isset($page)) $page = 0;
 </head>
 <body>
 <div id=welcome>
-	<header>
-		<h1>RAL</h1>
-		<em>Neo-Forum Text Board</em>
-	</header>
+<?php
+	$title = "RAL";
+	$subtitle = "Neo-Forum Text Board";
+	include "../static/header.php";
+?>
 	<div id=timelines>
 <?php
-		rendercontinuitynav($page)
+	include "../static/nav.php"
 ?>
 	</div>
 	<strong>Recent Posts</strong>
