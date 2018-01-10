@@ -15,14 +15,16 @@ if (!isset($page)) $page = 0;
 </head>
 <body>
 <div id=welcome>
-	<h1>RAL</h1>
-	<h4>Neo-Forum Text Board</h4>
+	<header>
+		<h1>RAL</h1>
+		<em>Neo-Forum Text Board</em>
+	</header>
 	<div id=timelines>
 <?php
 		rendercontinuitynav($page)
 ?>
 	</div>
-	<h4>Recent Posts</h4>
+	<strong>Recent Posts</strong>
 	<div class="reader recent">
 <?php
 	$recent = fetch_recent_posts(10);
@@ -60,7 +62,6 @@ HTML;
 			print
 <<<HTML
 		<a href={$a}theme>Theme</a>
-		<a href={$a}announce>Notices</a>
 		<a href={$a}>About</a>
 		<a href={$a}help>Help</a>
 
@@ -71,7 +72,6 @@ HTML;
 			print
 <<<HTML
 		<a href={$a}?theme>Theme</a>
-		<a href={$a}?staff>Staff</a>
 		<a href={$a}?>About</a>
 		<a href={$a}?help>Help</a>
 
@@ -79,7 +79,8 @@ HTML;
 		}
 ?>
 	<br/>
-	<span>(<?php print date('Y')?>) BSD 3-Clause</span><br/>
+	<a href='https://github.com/yumi-xx/RAL'>Source Code</a><br/>
+	<span>(<?php print date('Y')?>) BSD 3-Clause</span>
 	</footer>
 </div>
 <!-- Scripts -->

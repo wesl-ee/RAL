@@ -12,6 +12,7 @@ h1, h2, h3 {
 	letter-spacing: 0px;
 	transform: scale(1, 1.5);
 	text-transform: Uppercase;
+	margin-bottom: 10px;
 }
 ::-webkit-scrollbar-thumb {
 	background: black;
@@ -23,7 +24,7 @@ dl, ul, ol {
 #welcome,
 #rightpanel {
 	color: black;
-	background-color: ghostwhite;
+	background-color: azure;
 }
 /* Hover-over links */
 .content a:hover,

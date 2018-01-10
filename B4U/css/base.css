@@ -101,6 +101,12 @@
 		border-style: solid;
 		margin-left: 10px;
 	}
+	#rightpanel header h1 {
+		float: left;
+	}
+	#rightpanel header em {
+		float: right;
+	}
 	/* Navigation breadcrumb at the page top */
 	.breadcrumb {
 		list-style-type: none;
@@ -141,6 +147,7 @@
 		line-height: 1.4em;
 		padding: 10px;
 		text-align: left;
+		white-space: pre-wrap;
 	}
 	.reader article .content {
 		display: block;

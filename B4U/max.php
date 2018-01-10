@@ -87,6 +87,12 @@ if (CONFIG_CLEAN_URL) {
 }
 
 $timelines = fetch_timelines();
+
+// Verify
+$i = count($timelines);
+while ($i && $timelines[$i--]['name'] != $timeline);
+$timeline = $timelines[$i]['name'];
+$timelinedesc = $timelines[$i]['description'];
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -115,9 +121,23 @@ $timelines = fetch_timelines();
 HTML;
 ?></div>
 <div id=rightpanel>
-	<?php if (isset($topic)) $title = strtoupper("$timeline [$topic]");
-	else $title = $title = strtoupper($timeline);?>
-	<h3><?php print $title?></h3>
+<?php
+	if (isset($topic)) {
+		$title = strtoupper("$timeline [$topic]");
+	}
+	else {
+		$title = $title = strtoupper($timeline);
+		$subtitle = $timelinedesc;
+	}
+?>
+	<header>
+		<h1><?php print $title?></h1>
+<?php if (isset($subtitle)) print
+<<<HTML
+		<em>$subtitle</em>
+HTML;
+?>
+	</header>
 	<ol vocab='http://schema.org/' typeof=BreadcrumbList
 	class=breadcrumb>
 <?php
@@ -219,7 +239,7 @@ HTML;
 		<div class=buttons>
 			<img src="$robosrc">
 			<input name=robocheckid type=hidden value=$robocode>
-			<input name=robocheckanswer placeholder="Type the above text">
+			<input name=robocheckanswer placeholder="Type the above text" autocomplete=off>
 			<input value=Post class=hoverbox type=submit>
 			<a href="$href" class="cancel hoverbox">Cancel</a>
 
@@ -322,7 +342,9 @@ HTML;
 				. "max.php";
 			if (empty($q)) $href = "$target";
 			else $href = "$target?$q";
-
+			$robocheck = gen_robocheck($_COOKIE['auth']);
+			$robosrc = $robocheck['src'];
+			$robocode = $robocheck['id'];
 			print
 <<<HTML
 	<form class=reply method=POST action="?$q">
@@ -332,7 +354,7 @@ HTML;
 		<div class=buttons>
 			<img src="$robosrc">
 			<input name=robocheckid type=hidden value=$robocode>
-			<input name=robocheckanswer placeholder="Type the above text">
+			<input name=robocheckanswer placeholder="Type the above text" autocomplete=off>
 			<input value=Post class=hoverbox type=submit>
 			<a href="$href" class="cancel hoverbox">Cancel</a>
 
