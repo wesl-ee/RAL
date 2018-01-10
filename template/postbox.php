@@ -15,10 +15,7 @@
 	else
 		$target = CONFIG_WEBROOT
 		. "max.php";
-	if (empty($q)) $href = $target;
-	else $href = "$target?$q";
-
-	$target = $href;
+	if (!empty($q)) $target = "$target?$q";
 
 	$robocheck = gen_robocheck();
 	$robosrc = $robocheck['src'];

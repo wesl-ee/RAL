@@ -1,9 +1,6 @@
-<?php
-	print
-<<<HTML
 <ol vocab='http://schema.org/' typeof=BreadcrumbList
 class=breadcrumb>
-HTML;
+<?php
 	$a = CONFIG_WEBROOT;
 	print
 <<<HTML
@@ -44,9 +41,5 @@ HTML;
 
 HTML;
 	}
-	print
-<<<HTML
-</ol>
-
-HTML;
 ?>
+</ol>

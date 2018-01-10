@@ -1,54 +1,42 @@
 <?php
-		$content = $post['content'];
-		$time = date('M d Y', strtotime($post['date']));
-		$id = $post['id'];
-		print
-<<<HTML
-<article data-post=$id id=$id>
+	if (!isset($post)) {
+		print "Improper template usage!";
+		die;
+	}
 
-HTML;
+	$content = $post['content'];
+	$timeline = $post['timeline'];
+	$time = date('M d Y', strtotime($post['date']));
+	$posttopic = $post['topic'];
+	$id = $post['id'];
+?>
+
+<article data-post=<?php print $id?> id=<?php print $id?>>
+<?php
 	// Allow us to click on topic info to expand the topic
-	if (!isset($topic)) {
+	if ($linkify) {
 		if (!CONFIG_CLEAN_URL)
 			$q['topic'] = $id;
 		$p = http_build_query($q);
 			if (CONFIG_CLEAN_URL && empty($p))
-			$a = CONFIG_WEBROOT . "max/$timeline/$id";
+			$a = CONFIG_WEBROOT . "max/$timeline/$posttopic";
 		else if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$timeline/$id?$p";
+			$a = CONFIG_WEBROOT . "max/$timeline/$posttopic?$p";
 		else
 			$a = "?$p";
-		print
-<<<HTML
-		<a href="$a" class=info>
-
-HTML;
+		$open = "<a href='$a' class=info>";
+		$close = "</a>";
 	} else {
-		print
-<<<HTML
-		<span class=info>
-
-HTML;
+		$open = "<span class=info>";
+		$close = "</span>";
 	}
 	print
 <<<HTML
-		<span class=id>[$id]</span>
-		<time>$time</time>
-HTML;
-	if (!isset($topic))
-		print
-<<<HTML
-	</a>
-HTML;
-	else
-		print
-<<<HTML
-	</span>
-HTML;
-	print
-<<<HTML
+	{$open}
+	<span class=id>[$id]</span>
+	<time>$time</time>
+	{$close}
 	<span class=content>$content</span>
-</article>
-
 HTML;
 ?>
+</article>

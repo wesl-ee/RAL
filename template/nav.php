@@ -1,10 +1,9 @@
-<?php
-	if (!isset($page)) {
+<?php if (!isset($page)) {
 		print "Improper template usage!";
 		die;
-	}
-	if (!isset($timelines))
-		$timelines = fetch_timelines();
+}
+if (!isset($timelines))
+	$timelines = fetch_timelines();
 ?>
 <div class=collection>
 <?php

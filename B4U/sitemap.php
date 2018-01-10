@@ -32,11 +32,6 @@ $pages = [
 	"changefreq" => "Monthly",
 	],
 	[
-	"cleanurl" => CONFIG_WEBROOT . "info/announce",
-	"dirtyurl" => CONFIG_WEBROOT . "info.php?announce",
-	"changefreq" => "Weekly",
-	],
-	[
 	"cleanurl" => CONFIG_WEBROOT . "info/help",
 	"dirtyurl" => CONFIG_WEBROOT . "info.php?help",
 	"changefreq" => "Monthly",

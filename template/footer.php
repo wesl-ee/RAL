@@ -1,12 +1,9 @@
-<?php
-	if (!isset($timeline)) {
+<?php if (!isset($timeline)) {
 		print "Improper template usage!";
 		die;
-	}
-	print
-<<<HTML
-	<footer>
-HTML;
+} ?>
+<footer>
+<?php
 	if (isset($topic)) {
 		$q = $_GET;
 		if (CONFIG_CLEAN_URL) {

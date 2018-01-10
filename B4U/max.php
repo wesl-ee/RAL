@@ -165,7 +165,10 @@ HTML;
 HTML;
 	}
 	foreach ($posts as $post) {
-		// Requires $post
+		if (isset($topic))
+			$linkify = false;
+		else
+			$linkify = true;
 		include "../template/post.php";
 	}
 	print

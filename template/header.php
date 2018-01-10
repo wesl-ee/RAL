@@ -1,9 +1,7 @@
-<?php
-	if (!isset($title)) {
+<?php if (!isset($title)) {
 		print "Improper template usage!";
 		die;
-	}
-?>
+} ?>
 <header>
 	<h1><?php print $title?></h1>
 <?php

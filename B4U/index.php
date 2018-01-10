@@ -1,9 +1,9 @@
 <?php
 $ROOT = '../';
-include $ROOT.'includes/main.php';
-include $ROOT.'includes/fetch.php';
-include $ROOT.'includes/post.php';
-include $ROOT.'includes/render.php';
+include "{$ROOT}includes/main.php";
+include "{$ROOT}includes/fetch.php";
+include "{$ROOT}includes/post.php";
+include "{$ROOT}includes/render.php";
 
 $page = $_GET['p'];
 if (!isset($page)) $page = 0;
@@ -18,42 +18,20 @@ if (!isset($page)) $page = 0;
 <?php
 	$title = "RAL";
 	$subtitle = "Neo-Forum Text Board";
-	include "../template/header.php";
+	include "{$ROOT}template/header.php";
 ?>
 	<div id=timelines>
 <?php
-	include "../template/nav.php"
+	include "{$ROOT}template/nav.php"
 ?>
 	</div>
 	<strong>Recent Posts</strong>
 	<div class="reader recent">
 <?php
 	$recent = fetch_recent_posts(10);
+	$linkify = true;
 	foreach ($recent as $post) {
-		$content = $post['content'];
-		// Dress up the content
-		$time = date("M d Y", strtotime($post['date']));
-		$id = $post['id'];
-		$topic = $post['topic'];
-		$timeline = $post['timeline'];
-		if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$timeline/$topic#$id";
-		else
-			$a = CONFIG_WEBROOT
-			. "max.php?timeline=$timeline&topic=$topic#$id";
-		print
-<<<HTML
-		<article data-post=$id>
-			<a href="$a" class=info>
-				<span class=id>[$timeline/$topic]</span>
-				<time>$time</time>
-			› </a>
-			<span class=content data-topic=$id>
-			$content
-			</span>
-		</article>
-
-HTML;
+		include "{$ROOT}template/post.php";
 	}
 ?>
 	</div>
