@@ -41,7 +41,7 @@ dl, ul, ol {
 .selected {
 	border-color: #FF6A87 !important;
 }
-pre {
+code {
 	background: #151515;
 	color: #D7D0C7;
 }

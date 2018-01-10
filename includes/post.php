@@ -58,8 +58,8 @@ function bbbbbbb($string)
 				$close = "</a>";
 				break;
 			case 'code':
-				$open = "<pre>";
-				$close = "</pre>";
+				$open = "<code>";
+				$close = "</code>";
 				break;
 			default: continue;
 			}

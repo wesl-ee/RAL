@@ -143,12 +143,7 @@
 		padding-left: 5px;
 		text-align: justify;
 	}
-	.reader .content pre {
-		line-height: 1.4em;
-		padding: 10px;
-		text-align: left;
-		white-space: pre-wrap;
-	}
+
 	.reader article .content {
 		display: block;
 		overflow: hidden;
@@ -159,12 +154,14 @@
 		padding-top: 5px;
 		word-wrap: break-word;
 	}
-	.reader .content pre {
+	.reader .content code {
 		display: block;
 		margin: 0;
 		padding-top: 0;
 		padding-bottom: 0;
-		max-width: calc(100%);
+		padding-left: 10px;
+		padding-right: 10px;
+		text-align: left;
 	}
 	/* Timeline view (browsing all topics) */
 		/* Restrict content to 2 lines max */
