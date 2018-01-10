@@ -52,7 +52,7 @@ function gen_robocheck($user = null)
 
 	system("convert -size 165x70 plasma:fractal $tmp/$id-fractal.jpg");
 	system("convert $tmp/$id-fractal.jpg -paint 10 $tmp/$id-background.jpg");
-	system("convert -size 165x -background 'rgba(0,0,0,0)' -fill black -blur 0x1 -blur 0x1 label:'$key' $tmp/$id-text.png");
+	system("convert -size 165x -background 'rgba(0,0,0,0)' -fill black -spread 1 -blur 0x1 -blur 0x1 label:'$key' $tmp/$id-text.png");
 	system("composite -gravity center $tmp/$id-text.png $tmp/$id-background.jpg $tmp/$id-final.jpg");
 
 	unlink("$tmp/$id-background.jpg");

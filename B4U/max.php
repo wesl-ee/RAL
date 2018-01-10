@@ -88,9 +88,17 @@ if (CONFIG_CLEAN_URL) {
 
 $timelines = fetch_timelines();
 
-// Verify
+// Timeline parameter extraction and verification
 $i = count($timelines);
-while ($i && $timelines[$i--]['name'] != $timeline);
+for ($i = count($timelines); $i + 1; $i--) {
+	if ($timelines[$i]['name'] == $timeline) break;
+}
+// 404 timelines which do not exist
+if ($i < 0) {
+	http_response_code(404);
+	include "{$ROOT}static/404.php";
+	die;
+}
 $timeline = $timelines[$i]['name'];
 $timelinedesc = $timelines[$i]['description'];
 ?>
