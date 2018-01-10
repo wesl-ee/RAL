@@ -146,6 +146,7 @@ HTML;
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
+		$posts = fetch_posts($timeline, $topic);
 		print
 <<<HTML
 	<div class="reader expanded"
@@ -155,6 +156,7 @@ HTML;
 HTML;
 	// Browsing a continuity (reader is in 'timeline' view)
 	} else {
+		$posts = fetch_topics($timeline);
 		print
 <<<HTML
 	<div class="reader timeline"
@@ -162,7 +164,10 @@ HTML;
 
 HTML;
 	}
-	renderposts($timeline, $topic);
+	foreach ($posts as $post) {
+		// Requires $post
+		include "../static/post.php";
+	}
 	print
 <<<HTML
 	</div>

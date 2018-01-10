@@ -1,12 +1,4 @@
 <?php
-function renderposts($timeline, $topic)
-{
-	if (!isset($topic))
-		$posts = fetch_topics($timeline);
-	else
-		$posts = fetch_posts($timeline, $topic);
-
-	foreach ($posts as $post) {
 		$content = $post['content'];
 		$time = date('M d Y', strtotime($post['date']));
 		$id = $post['id'];
@@ -59,6 +51,4 @@ HTML;
 </article>
 
 HTML;
-	}
-}
 ?>
