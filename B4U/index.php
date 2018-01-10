@@ -18,11 +18,11 @@ if (!isset($page)) $page = 0;
 <?php
 	$title = "RAL";
 	$subtitle = "Neo-Forum Text Board";
-	include "../static/header.php";
+	include "../template/header.php";
 ?>
 	<div id=timelines>
 <?php
-	include "../static/nav.php"
+	include "../template/nav.php"
 ?>
 	</div>
 	<strong>Recent Posts</strong>

@@ -96,7 +96,7 @@ for ($i = count($timelines); $i + 1; $i--) {
 // 404 timelines which do not exist
 if ($i < 0) {
 	http_response_code(404);
-	include "{$ROOT}static/404.php";
+	include "{$ROOT}template/404.php";
 	die;
 }
 $timeline = $timelines[$i]['name'];
@@ -118,7 +118,7 @@ $timelinedesc = $timelines[$i]['description'];
 	<span id=latency>&nbsp;</span>
 <?php
 	// Requires $timelines and $page
-	include "../static/nav.php";
+	include "../template/nav.php";
 	if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . "info";
 	else
@@ -139,10 +139,10 @@ HTML;
 		$subtitle = $timelinedesc;
 	}
 	// Requires $title; $subtitle is optional
-	include "../static/header.php";
+	include "../template/header.php";
 
 	// Requires $timeline; $topic is optional
-	include "../static/breadcrumb.php";
+	include "../template/breadcrumb.php";
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
@@ -166,7 +166,7 @@ HTML;
 	}
 	foreach ($posts as $post) {
 		// Requires $post
-		include "../static/post.php";
+		include "../template/post.php";
 	}
 	print
 <<<HTML
@@ -175,10 +175,10 @@ HTML;
 HTML;
 	if (isset($postmode))
 		// Requires $timeline; $topic optional
-		include "../static/postbox.php";
+		include "../template/postbox.php";
 	else
 		// Requires $timeline; $topic optional
-		include "../static/footer.php";
+		include "../template/footer.php";
 ?>
 </div>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
