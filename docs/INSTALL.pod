@@ -1,6 +1,6 @@
 =head1 RECOMMENDED INSTALLATION
 
-=head2 Introduction
+=head2 Overview
 
 This document provides a detailed guide on the best-practice of configuring
 RAL. Since RAL is written [nearly] entirely in PHP, you may be able to guess
@@ -8,9 +8,13 @@ what sort of tools I will be using:
 
 =over 8
 
-=item Front-facing reverse proxy (Nginx)
+=item Front-facing reverse proxy
 
-=item Back-end webserver (lighttpd)
+Nginx will be our reverse proxy
+
+=item Back-end webserver
+
+lighttpd will serve client requests when they are passed from nginx
 
 =item PHP >= 5.1 (PHP provider)
 
@@ -18,15 +22,44 @@ what sort of tools I will be using:
 
 =back
 
+      Internet
+      (SSL)
+      (http/2)    ||    +---------------+
+    ------------->||--->|     Nginx     |  Reverse proxy
+                  ||    +--------^------+
+                  ||           | | (plaintext)
+               Firewall        | | (http/1.1)
+                               | |
+                        +------V--------+
+                        |    Lighttpd   |  Back-end
+                        +--+---------+--+
+                           | fpm-PHP |
+                           +---------+
 
-    Internet    ||    +---------------+
-  ------------->||--->|     Nginx     |  Reverse proxy
-                ||    +--------^------+
-                ||           | |
-             Firewall        | |
-                             | |
-                      +------V--------+
-                      |    Lighttpd   |  Back-end
-                      +--+---------+--+
-                         | fpm-PHP |
-                         +---------+
+In our example, Nginx is the first stop for clients once they connect to the
+server. Nginx will pass the client request on to lighttpd and send the client
+lighttpd's response. We call such webservers I<reverse proxies> since it is
+proxying a request on behalf of the client.
+
+=head3 Example configurations
+
+In C<docs/config/> you will find two folders. One of these folders holds
+configurations for the reverse proxy, and the other holds configurations for
+the back-end webserver.
+
+All of these softwares may run on the same computer. In any case, nginx
+B<MUST> be set to listen on either 80 (http:) or 443 (https:) for regular
+web clients to easily connect to your server.
+
+If you plan to deploy using CONFIG_REALTIME_ENABLE (clients receive updates
+from the site in real-time), nginx shoule provide http/2 capability. Without
+this, a client may only receive updates in ~6 tabs at a time. This is a
+quirk in the history of http/1.1 where browsers only allow ~6-8 parallel
+connections to the same domain.
+
+Further, if you decide to deploy using http/2 and CONFIG_REALTIME_ENABLE
+(which is recommended) remember that the modern interpretation of http/2
+L<https://www.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf|Practically
+requires SSL.> In this case, nginx will also act as a SSL termination proxy;
+you will need to obtain an SSL certificate from a trusted CA in order to
+provide adequate transport security.

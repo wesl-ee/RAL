@@ -1,0 +1,21 @@
+=head1 HACKING
+
+Hello friends. If you are interested in contributing to the development of
+RAL, this file will help you to get started.
+
+First and foremost, ensure that you are on the C<develop> branch. This is
+the developer's branch. C<master> is considered production-stable and is
+only merged with develop for stable releases.
+
+=head2 Submitting patches / PRs
+
+Either mail me at L<mailto:yumi@ral.space|yumi@ral.space> or join the IRC at
+L<irc://howler.space:6667|howler.space:6667> #bigtown. A PR is also fine but
+I would prefer that you either send a .patch (for small things), or link me
+the repository with your feature branch (for larger things)
+
+=head2 Style
+
+In general, I follow a K&R style when writing. If you see any mistakes or
+trailing whitespace, you may send a .patch to my e-mail address. or link it
+in the IRC. It's a great way to introduce yourself!
