@@ -6,26 +6,64 @@ This document provides a detailed guide on the best-practice of configuring
 RAL. Since RAL is written [nearly] entirely in PHP, you may be able to guess
 what sort of tools I will be using:
 
+=head3 On Reverse Proxy
+
 =over 8
 
-=item Front-facing reverse proxy
+=item Nginx
 
-Nginx will be our reverse proxy
+For proxying requests and as a SSL termination proxy
 
-=item Back-end webserver
+=back
 
-lighttpd will serve client requests when they are passed from nginx
+=head3 On Back-end Webserver
+
+=over 8
+
+=item lighttpd
+
+Serve client requests when they are passed from nginx
+
+=item MariaDB (or other MySQL provider)
+
+MariaDB stores post and continuity info for RAL so that it is persistent
+across reboots and accessible to any MySQL driver
 
 =item PHP >= 5.1 (PHP provider)
 
+Executes the RAL script. For RAL, PHP must be compiled with at least the
+following components:
+
+=over 8
+
+=item MySQLi
+
+Access to the MySQL database is possible through PHP's MySQLi interface.
+
+=item SysV IPC (Inter-process Communication)
+
+RAL calls C<shm_attach>, C<sem_attach>, and C<msg_get_queue> when
+CONFIG_REALTIME_ENABLE is toggled. If you will not be toggling this, SysV
+IPC is not necessary.
+
+=back
+
 =item fpm-PHP (PHP pool manager)
+
+Provides greater flexibility for controlling the dynamic load and timouts of
+a long-polling load
+
+=item ImageMagick
+
+PHP calls C<convert> and uses CONFIG_WORDLIST to generate random
+I<robocheck> images to combat spam.
 
 =back
 
       Internet
       (SSL)
       (http/2)    ||    +---------------+
-    ------------->||--->|     Nginx     |  Reverse proxy
+    ------------------->|     Nginx     |  Reverse proxy
                   ||    +--------^------+
                   ||           | | (plaintext)
                Firewall        | | (http/1.1)
@@ -59,6 +97,13 @@ connections to the same domain.
 
 Further, if you decide to deploy using http/2 and CONFIG_REALTIME_ENABLE
 (which is recommended) remember that the modern interpretation of http/2
-L<Paractically requires SSL|https://www.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf> In this case, nginx will also act as a SSL termination proxy;
+L<practically requires SSL|https://www.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf>.
+In this case, nginx will also act as a SSL termination proxy;
 you will need to obtain an SSL certificate from a trusted CA in order to
 provide adequate transport security.
+
+=head2 Installation Walkthrough (for Gentoo)
+
+This section will walk you through an installation of RAL on two machines
+running Gentoo. This is only an example; tweak the instructions to fit your
+distribution of choice.

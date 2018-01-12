@@ -61,7 +61,7 @@ function newpost(reader, post)
 	article.appendChild(content);
 	reader.appendChild(article);
 
-	// Scroll into view
+	// Scroll into view and highlight
 	if (!document.hasFocus()) {
 		reader.scrollTop = (article.offsetTop - article.offsetHeight);
 		article.classList.add('new');
@@ -69,7 +69,7 @@ function newpost(reader, post)
 			window.removeEventListener('focus', x);
 			setTimeout(function() {
 				article.classList.remove('new');
-			}, 300);
+			}, 2000);
 		});
 	}
 }

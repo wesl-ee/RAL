@@ -16,32 +16,16 @@ for forum software, this is definitely not for you.
 The purpose of RAL is to create a network where you never confuse
 ALTERNATE REALITY with VIRTUAL SELF
 
-=head2 DEPENDENCIES
+=head2 INSTALLATION / DEPENDENCIES
 
-=over 12
+Refer to C<docs/INSTALL.pod> for the bloody details
 
-=item Web Server w/ PHP enabled
+=head2 CONTRIBUTING
 
-Tested with lighttpd; should work with most web server software which
-provides some way to interpret PHP (either CGI or as a module)
-
-=item PHP
-
-PHP >= 5.1 is recommended
-
-=over 12
-
-=item MySQL Improved Extension
-
-SQL database hooks to access a DB from PHP
-
-=back
-
-=item MariaDB / MySQL
-
-Organization / Storage
-
-=back
+Contributions are welcome! If you are interested in contributing, join
+L<howler.space:6667|irc://howler.space:6667> #bigtown or L<send me an
+e-mail|mailto:yumi@ral.space>. Further reading is available in
+C<docs/HACKING.pod>
 
 =head2 LICENSE
 
