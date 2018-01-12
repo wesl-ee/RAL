@@ -9,8 +9,8 @@ only merged with develop for stable releases.
 
 =head2 Submitting patches / PRs
 
-Either mail me at L<mailto:yumi@ral.space|yumi@ral.space> or join the IRC at
-L<irc://howler.space:6667|howler.space:6667> #bigtown. A PR is also fine but
+Either mail me at L<yumi@ral.space|mailto:yumi@ral.space> or join the IRC at
+L<howler.space:6667|irc://howler.space:6667> #bigtown. A PR is also fine but
 I would prefer that you either send a .patch (for small things), or link me
 the repository with your feature branch (for larger things)
 

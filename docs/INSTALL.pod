@@ -59,7 +59,6 @@ connections to the same domain.
 
 Further, if you decide to deploy using http/2 and CONFIG_REALTIME_ENABLE
 (which is recommended) remember that the modern interpretation of http/2
-L<https://www.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf|Practically
-requires SSL.> In this case, nginx will also act as a SSL termination proxy;
+L<Paractically requires SSL|https://www.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf> In this case, nginx will also act as a SSL termination proxy;
 you will need to obtain an SSL certificate from a trusted CA in order to
 provide adequate transport security.
