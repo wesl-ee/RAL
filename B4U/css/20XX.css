@@ -35,8 +35,11 @@ dl, ul, ol {
 .error {
 	color: red;
 }
-.new .content {
-	border-color: #ffb7c5 !important;
+article {
+	transition: background 0.3s ease-in-out;
+}
+article.new {
+	background: palegoldenrod !important;
 }
 .selected {
 	border-color: #FF6A87 !important;

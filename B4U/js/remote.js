@@ -43,7 +43,6 @@ function fetchtopics(timeline, reader)
 		var topics = JSON.parse(this.responseText);
 		for (var i = 0; i - topics.length; i++) {
 			var topic = topics[i];
-			console.log(JSON.stringify(topic));
 			newtopic(reader, topic);
 		}
 	} }
@@ -69,7 +68,6 @@ function fetchposts(timeline, topic, reader)
 		var posts = JSON.parse(this.responseText);
 		for (var i = 0; i - posts.length; i++) {
 			var post = posts[i];
-			console.log(JSON.stringify(posts));
 			newpost(reader, post)
 		}
 	} }
@@ -94,7 +92,7 @@ function subscribetopic(timeline, topic, reader)
 		var msg = JSON.parse(this.responseText);
 
 		// For sanity
-		console.log(msg);
+		console.log(this.responseText);
 
 		// For Vorkuta
 		if (msg.type == 'POST') {
@@ -164,7 +162,7 @@ function subscribetimeline(timeline, reader)
 		var msg = JSON.parse(this.responseText);
 
 		// For sanity
-		console.log(topic);
+		console.log(this.responseText);
 
 		// For Vorkuta
 		if (msg.type == 'POST') {

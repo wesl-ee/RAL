@@ -35,6 +35,7 @@ function newtopic(reader, topic)
 function newpost(reader, post)
 {
 	var article = document.createElement('article');
+	var info = document.createElement('info');
 	var updated = document.createElement('time');
 	var num = document.createElement('span');
 	var content = document.createElement('span');
@@ -45,15 +46,18 @@ function newpost(reader, post)
 
 	article.setAttribute('data-post', post.id);
 	updated.dateTime = post.date;
-	num.appendChild(document.createTextNode('[' + post.id + ']'));
+	num.appendChild(document.createTextNode(
+		'[' + post.timeline + '/' + post.id + ']'
+	));
 	num.className = 'id';
 
 	// post.content may contain HTML (parsed BBcode)
 	content.innerHTML = post.content;
 	content.className = 'content';
 
-	article.appendChild(updated);
-	article.appendChild(num);
+	info.appendChild(num);
+	info.appendChild(updated);
+	article.appendChild(info);
 	article.appendChild(content);
 	reader.appendChild(article);
 
@@ -61,11 +65,11 @@ function newpost(reader, post)
 	if (!document.hasFocus()) {
 		reader.scrollTop = (article.offsetTop - article.offsetHeight);
 		article.classList.add('new');
-		document.addEventListener('focus', function x() {
-			document.removeEventListener('focus', x);
+		window.addEventListener('focus', function x() {
+			window.removeEventListener('focus', x);
 			setTimeout(function() {
 				article.classList.remove('new');
-			}, 1000)
+			}, 300);
 		});
 	}
 }
@@ -95,14 +99,12 @@ function incrementdoctitle()
 	var to = title.lastIndexOf(')');
 
 	var newtitle;
-	console.log(from + ' ' + to);
 	if (from < 0 || to < 0) {
 		n = 1;
 		newtitle = "(" + n + ") " + title;
 	}
 	else {
 		n = title.substr(from + 1, to - from - 1);
-		console.log(n);
 		newtitle = title.substr(0, from)
 		+ " (" + ++n + ")" + title.substr(to + 1);
 	}
@@ -123,8 +125,10 @@ function verifyreader(reader, posts)
 	if (posts.length !== children.length)
 		return false;
 	for (var i = 0; i < posts.length; i++) {
-		if (children[i].getAttribute('data-post') != posts[i])
+		if (children[i].getAttribute('data-post') != posts[i]) {
+			console.log('Missing post ' + posts[i]);
 			return false;
+		}
 	}
 	return true;
 }

@@ -36,6 +36,8 @@ define("CONFIG_CLEAN_URL", false);
 
 define("CONFIG_WORDLIST", "/usr/share/wordlists/rockyou.txt");
 
+define("CONFIG_REALTIME_ENABLE", false);
+
 define("CONFIG_THEMES",
 [
 	'20XX'

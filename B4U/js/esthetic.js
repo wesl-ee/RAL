@@ -32,13 +32,13 @@ function connectreader(reader)
 {
 /*
 	// Don't bother with the cool stuff if we are on a mobile
-//	if (window.matchMedia("(max-width: 600px)").matches) return;
+	if (window.matchMedia("(max-width: 600px)").matches) return;
 
 	// Hide the scrollbar from view
-//	reader.style.overflow = 'hidden';
+	reader.style.overflow = 'hidden';
 
-//	reader.highlighted = reader.firstElementChild;
-//	var next = reader.highlighted.nextElementSibling;
+	reader.highlighted = reader.firstElementChild;
+	var next = reader.highlighted.nextElementSibling;
 
 
 	// Preserve scroll position
@@ -119,6 +119,7 @@ function removequeryparts(query, params)
 }
 function timelinescroll(collection, page)
 {
+	/* CONFIG_MAX_TIMELINES */
 	var results_per_page = 5;
 
 	var children = collection.children;

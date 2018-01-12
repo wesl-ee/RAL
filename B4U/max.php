@@ -115,8 +115,12 @@ $timelinedesc = $timelines[$i]['description'];
 <body>
 <div id=timelines class=sidebar>
 	<h3>RAL</h3>
-	<span id=latency>&nbsp;</span>
 <?php
+	if (CONFIG_REALTIME_ENABLE) print
+<<<LATENCY
+	<span id=latency>&nbsp;</span>
+LATENCY;
+
 	// Requires $timelines and $page
 	include "../template/nav.php";
 	if (CONFIG_CLEAN_URL)
@@ -131,13 +135,11 @@ HTML;
 ?></div>
 <div id=rightpanel>
 <?php
-	if (isset($topic)) {
+	if (isset($topic))
 		$title = strtoupper("$timeline/$topic");
-	}
-	else {
+	else
 		$title = strtoupper($timeline);
-		$subtitle = $timelinedesc;
-	}
+	$subtitle = $timelinedesc;
 	// Requires $title; $subtitle is optional
 	include "../template/header.php";
 
@@ -195,8 +197,13 @@ var timelines = document.getElementById('timelines');
 var timelinename = reader.getAttribute('data-timeline');
 var topicid = reader.getAttribute('data-topic');
 
+<?php
+	if (CONFIG_REALTIME_ENABLE) print
+<<<REALTIME_JS
 if (topicid !== null)
 	subscribetopic(timelinename, topicid, reader);
+REALTIME_JS;
+?>
 
 var collection = timelines.getElementsByClassName('collection')[0];
 var leftnav = timelines.getElementsByClassName('leftnav')[0];

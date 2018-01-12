@@ -299,7 +299,8 @@ function create_listener()
 		print 'Could not get the semaphore';
 		die;
 	}
-	// Ping all clients who have timed out
+	// Remove all clients who have timed out
+	$now = time();
 	$clients = shm_get_var($shm, CONFIG_RAL_SHMCLIENTLIST);
 	foreach ($clients as $c_id => $one) {
 		$client_info = shm_get_var($shm, $c_id);
@@ -309,7 +310,7 @@ function create_listener()
 	}
 
 	$client_info = [
-		'last_seen' => time()
+		'last_seen' => $now
 	];
 	sem_acquire($sem);
 	// Acquire a unique Client ID
