@@ -61,26 +61,7 @@
 		border-radius: 5px 0;
 	}
 /* Media rules for the layout */
-	@media (max-width: 600px) {
-	.sidebar {
-		display: none;
-	} }
-	@media (max-width: 600px) {
-	body {
-		position: initial;
-		height: initial;
-		margin: 5px;
-		width: calc(100% - 5px);
-	} }
-	@media (max-width: 600px) {
-	#rightpanel {
-		width: calc(100% - 20px);
-		margin: 0;
-		padding: 0;
-		max-height: calc(100% - 2px);
-		margin-left: 5px;
-		margin-right: 5px;
-	} }
+
 /* Elements on the welcome page */
 	/* Since this is a horizontal layout,
 	apply some empty space */
@@ -330,7 +311,50 @@
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-
+/* Media rules for layout */
+	@media (max-width: 600px) {
+	.sidebar {
+		position: relative;
+		width: initial;
+		max-width: initial;
+		border: none;
+		margin: 0;
+	}
+	.sidebar .collection {
+		flex-direction: row;
+	}
+	.collection > * {
+		margin-left: 5px;
+		margin-right: 5px;
+	} }
+	@media (max-width: 600px) {
+	body {
+		position: initial;
+		height: initial;
+		width: 100%;
+	} }
+	@media (max-width: 600px) {
+	#rightpanel {
+		position: relative;
+		border: 0;
+		border-top: 1px solid;
+		width: calc(100% - 20px);
+		padding: 10px;
+		margin: 0;
+		border-radius: 0;
+		padding-bottom: 10px;
+		padding-top: 10px;
+	}
+	#welcome {
+		position: relative;
+		border: 0;
+		width: calc(100% - 20px);
+		padding: 10px;
+		margin: 0;
+		border-radius: 0;
+		padding-bottom: 10px;
+		padding-top: 10px;
+	} }
 
 /* Uhh just legacy stuff
  * I might use later */
