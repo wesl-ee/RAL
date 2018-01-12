@@ -132,7 +132,7 @@ HTML;
 <div id=rightpanel>
 <?php
 	if (isset($topic)) {
-		$title = strtoupper("$timeline [$topic]");
+		$title = strtoupper("$timeline/$topic");
 	}
 	else {
 		$title = strtoupper($timeline);

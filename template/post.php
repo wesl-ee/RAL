@@ -33,7 +33,7 @@
 	print
 <<<HTML
 	{$open}
-	<span class=id>[$id]</span>
+	<span class=id>[$timeline/$id]</span>
 	<time>$time</time>
 	{$close}
 	<span class=content>$content</span>

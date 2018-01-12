@@ -12,12 +12,14 @@ if (!isset($page)) $page = 0;
 <HTML>
 <head>
 <?php head('Home')?>
+	<meta name=description content="The world's first
+	and last Neo-forum / Textboard. Experience the VIRTUAL WORLD today.">
 </head>
 <body>
 <div id=welcome>
 <?php
 	$title = "RAL";
-	$subtitle = "Neo-Forum Text Board";
+	$subtitle = "Neo-Forum Textboard";
 	include "{$ROOT}template/header.php";
 ?>
 	<div id=timelines>
