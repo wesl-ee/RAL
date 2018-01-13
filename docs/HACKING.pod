@@ -96,7 +96,7 @@ a topic", a I<Robocheck> image is generated using C<CONFIG_WORDLIST>. If you
 are able to verify the word engrained in the image, you win! And are allowed
 to post,  given that your post length is somewhere between 0 and
 C<CONFIG_MAX_POSTLEN>. If C<CONFIG_REALTIME_ENABLE> is toggled, all users
-who are "synced" and listening to the conversation are notified in
+who are synced and listening to the conversation are notified in
 real-time.
 
 =head3 Real-time Notifications
@@ -116,7 +116,7 @@ real-time updates using Javascript and the ancient art of I<HTTP
 Long-polling>. RAL will soon support I<HTTP Streaming>, which uses less
 overhead but requires some more configuration.
 
-When you connect to RAL like this, you are considered "synced"; consequently,
+When you connect to RAL like this, you are considered synced; consequently,
 you will receive all updates about the topic you've synced to. This is
 accomplished by using SystemV IPC (inter-process communication) schemas like
 message queues, shared memory, and semaphores.
@@ -139,33 +139,34 @@ list of all client IDs. The second is an array of all client details keyed
 by their ID. The idea is that listeners do not need to lock the full array
 while inserting or removing themselves from the list of clients.
 
-
-        Shared memory location 1
-               (0xC0FFEE)
- +-----------------------------------+
- | c_id 1 | c_id 2 | c_id 3 | c_id 4 |
- +-----------------------------------+
-    ||        ||       ||       ||
-    ||        ||       ||       ||      +-------+    +-----------+  Shared
-    ||        ||       ||       +-----> | C_ID4 | => | last_seen |  memory
-    ||        ||       ||               +-------+    +-----------+ (0xC_ID4)
-    ||        ||       ||
-    ||        ||       ||      +-------+    +-----------+  Shared
-    ||        ||       +-----> | C_ID3 | => | last_seen |  memory
-    ||        ||               +-------+    +-----------+ (0xC_ID3)
-    ||        ||
-    ||        ||      +-------+    +-----------+  Shared
-    ||        +-----> | C_ID2 | => | last_seen |  memory
-    ||                +-------+    +-----------+ (0xC_ID2)
-    ||
-    ||      +-------+    +-----------+  Shared
-    +-----> | C_ID1 | => | last_seen |  memory
-            +-------+    +-----------+ (0xC_ID1)
+ /***************************************************************************\
+ *       Shared memory location 1                                            *
+ *              (0xC0FFEE)                                                   *
+ *  +-------------------------------+                                        *
+ *  | C_ID1 | C_ID2 | C_ID3 | C_ID4 |                                        *
+ *  +-------------------------------+                                        *
+ *     ||       ||      ||      ||                                           *
+ *     ||       ||      ||      ||      +-------+    +-----------+  Shared   *
+ *     ||       ||      ||      +-----> | C_ID4 | => | last_seen |  memory   *
+ *     ||       ||      ||              +-------+    +-----------+ (0xC_ID4) *
+ *     ||       ||      ||                                                   *
+ *     ||       ||      ||      +-------+    +-----------+  Shared           *
+ *     ||       ||      +-----> | C_ID3 | => | last_seen |  memory           *
+ *     ||       ||              +-------+    +-----------+ (0xC_ID3)         *
+ *     ||       ||                                                           *
+ *     ||       ||      +-------+    +-----------+  Shared                   *
+ *     ||       +-----> | C_ID2 | => | last_seen |  memory                   *
+ *     ||               +-------+    +-----------+ (0xC_ID2)                 *
+ *     ||                                                                    *
+ *     ||      +-------+    +-----------+  Shared                            *
+ *     +-----> | C_ID1 | => | last_seen |  memory                            *
+ *             +-------+    +-----------+ (0xC_ID1)e                         *
+ \***************************************************************************/
 
 =item Semaphores
 
 RAL uses exactly one semaphore to control the shared memory keyed by
-0xC0FFEE. This ensures all operations on the array are atomic (semaphore is
+C<0xC0FFEE>. This ensures all operations on the array are atomic (semaphore is
 raised on read / write access and lowered at the end of the full operation)
 and that all clients who want a message are forwarded one when it arrives
 
@@ -173,14 +174,14 @@ and that all clients who want a message are forwarded one when it arrives
 
 =head4 SystemV (Inter-Process Communication)
 
-Because PHP is only run "on-demand", real-time communication between
+Because PHP is only run on-demand, real-time communication between
 posters and listeners invokes the ancient art of inter-process
-communication. There are four stages to this fine dance:
+communication. There are five stages to this fine dance:
 
 1. Client browser connects to server using C<remote_subscribetopic>
 
 2. The PHP process spawned in (1) registers the listener to the shared
-memory keyed by 0xC0FFEE
+memory keyed by C<0xC0FFEE>
 
 3. The same PHP process then listens to the message queue and blocks
 (harmlessly!) until a message is pushed down the queue
@@ -191,23 +192,28 @@ then:
 
 5. The PHP process echoes the JSON encoded message to the user.
 
+6. The client browser receives the message and renders it on the page. Then
+another asynchronous request is initiated and we are looped back to step 1
+
+
 This technique is called HTTP long-polling. After the long poll is
-initialized, the server then places the $c_id (a randomly generated, unique
-ID) into the shared memory location keyed by 0xC0FFEE only after initializing
-the shared memory keyed by $c_id with the last_seen timestamp. This lets us
-know if a client has "timed out" and should be removed from the list
-(presumably the client has recognized the time out and opened another socket
-already, in which case they will be in the queue under a different $c_id).
+initialized, the server then places the C<$c_id> (a randomly generated, unique
+ID) into the shared memory location keyed by C<0xC0FFEE> only after
+initializing the shared memory keyed by C<$c_id> with the last_seen
+timestamp. This lets us know if a client has "timed out" and should be removed
+from the list (presumably the client has recognized the time out and opened
+another socket already, in which case they will be in the queue under a
+different C<$c_id>).
 
 Once in the queue, the user is guaranteed to either receive a message or
 time out. When a post is made, a message with a I<type> and I<body> is sent
-to every client in the array at 0xC0FFEE.
+to every client in the array at C<0xC0FFEE>.
 
 On the receiving end of the message queue, receiving PHP processes interpret
 the message and dispatch it back to the browser if the message is relevant to
 the user. The receiving process blocks all input and puts the PHP worker to
-sleep until a message is received; B<A CLIENT MAY TIME OUT WHILE THE WORKER
-IS ASLEEP>. This makes it necessary to garbage collect these timed out
+sleep until a message is received; B<a client may time out while the worker
+is asleep>. This makes it necessary to garbage collect these timed out
 workers with either with C<request_worker_timeout> in fpm-php or during
 listener initialization to ensure we always have enough workers to service
 other users.

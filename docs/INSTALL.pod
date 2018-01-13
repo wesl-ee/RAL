@@ -60,24 +60,28 @@ I<robocheck> images to combat spam.
 
 =back
 
-
-         Internet
-    _______|_|_______
-    _______|_|_______ Firewall
-           | |
-           | |
-           | |
-    +------v--------+
-    |     Nginx     |  Reverse proxy
-    +--------^------+
-           | | (plaintext)
-           | | (http/1.1)
-           | |
-    +------v--------+
-    |    Lighttpd   |  Back-end
-    +--+---------+--+
-       | fpm-PHP |
-       +---------+
+           Typical Implementation
+ /*****************************************\
+ *                                         *
+ *         Internet                        *
+ *    _______|_|_______                    *
+ *    _______|_|_______ Firewall           *
+ *           | |                           *
+ *           | | (http/2)                  *
+ *           | | (SSL Ciphered)            *
+ *           | |                           *
+ *    +------v--------+                    *
+ *    |     Nginx     |  Reverse proxy     *
+ *    +--------^------+                    *
+ *           | | (plaintext)               *
+ *           | | (http/1.1)                *
+ *           | |                           *
+ *    +------v--------+                    *
+ *    |    Lighttpd   |  Back-end          *
+ *    +--+---------+--+                    *
+ *       | fpm-PHP |                       *
+ *       +---------+                       *
+ \*****************************************/
 
 In our example, Nginx is the first stop for clients once they connect to the
 server. Nginx will pass the client request on to lighttpd and send the client
