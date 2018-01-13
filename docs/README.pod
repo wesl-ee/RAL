@@ -7,13 +7,13 @@ NEO-FORUM; FUTURE SOCIETY
 Forums are natural extensions of the Bulletin Board Systems (BBS) of last
 century; posting on a traditional forum, you maintain an identity which
 is attached to your screen name. RAL has no screen-names, no voting system,
-and no reply counts; being widely-used is not a goal of RAL.
+and no reply counts.
 
 Moreover, the purpose is not to keep you coming back; we're not
 interested in advertising or monetization. If you're a business looking
 for forum software, this is definitely not for you.
 
-The purpose of RAL is to create a network where you never confuse
+Rather, the purpose of RAL is to create a network where you never confuse
 ALTERNATE REALITY with VIRTUAL SELF
 
 =head2 INSTALLATION / DEPENDENCIES
