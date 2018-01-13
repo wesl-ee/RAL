@@ -38,7 +38,8 @@ if (isset($_POST['content']) && isset($topic)) {
 		die;
 	}
 	else {
-		notify_listeners('POST', $post);
+		if (CONFIG_REALTIME_ENABLE)
+			notify_listeners('POST', $post);
 		header("HTTP/1.1 303 See Other");
 		if (CONFIG_CLEAN_URL)
 			$location = CONFIG_WEBROOT . "r3";

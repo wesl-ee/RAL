@@ -1,4 +1,7 @@
 <?php
+/*
+ * Return all timelines by [name, description]
+*/
 function fetch_timelines()
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -18,6 +21,9 @@ function fetch_timelines()
 	}
 	return $ret;
 }
+/*
+ * Return all topics in a $timeline in the standard form
+*/
 function fetch_topics($timeline)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -42,6 +48,9 @@ function fetch_topics($timeline)
 	}
 	return $ret;
 }
+/*
+ * Returns all posts in a ($timeline, $topic) keyed pair in the standard form
+*/
 function fetch_posts($timeline, $topic)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -68,6 +77,11 @@ function fetch_posts($timeline, $topic)
 	}
 	return $ret;
 }
+/*
+ * Return a list of all post numbers in a given ($timeline, $topic) keyed pair
+ * We use the result for error checking and validation when
+ * CONFIG_REALTIME_ENABLE is tripped out
+*/
 function fetch_post_nums($timeline, $topic)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -86,6 +100,11 @@ function fetch_post_nums($timeline, $topic)
 	}
 	return $ret;
 }
+/*
+ * Return a list of all topic numbers in a given $timeline
+ * We use the result for error checking an validation when
+ * CONFIG_REALTIME_ENABLE is tripped out
+*/
 function fetch_topic_nums($timeline)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -103,6 +122,9 @@ function fetch_topic_nums($timeline)
 	}
 	return $ret;
 }
+/*
+ * Grab the first $n posts hot off the press from all timelines
+*/
 function fetch_recent_posts($n)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,

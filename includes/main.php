@@ -26,6 +26,10 @@ function ralog($m)
 		FILE_APPEND|LOCK_EX
 	);
 }
+
+/*
+ * Fill out the <head> for an HTML document (and put the $title in our format)
+*/
 function head($title)
 {
 	$ROOT = CONFIG_WEBROOT;
@@ -57,6 +61,11 @@ HTML;
 
 HTML;
 }
+
+/*
+ * Computes the power factor of the transmission line given its parameters
+ * and further generalizes the result to our three phase transmission sequence
+*/
 function get_theme()
 {
 	if (!isset($_COOKIE['theme']))

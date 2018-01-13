@@ -1,4 +1,7 @@
 <?php
+/*
+ * Act on any outstanding bans a user has incurred
+*/
 function processbans($auth)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -17,6 +20,9 @@ function processbans($auth)
 	}
 }
 
+/*
+ * Reset a user's bans
+*/
 function clearban($auth)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
@@ -25,13 +31,20 @@ function clearban($auth)
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
 	$auth = mysqli_real_escape_string($dbh, $auth);
+
+	// SELECT is much faster than DELETE
 	$query = "SELECT 1 FROM `Bans` WHERE `Id`='$auth'";
 	$result = mysqli_query($dbh, $query);
+
+	// Only DELETE if it was SELECTed
 	if ($row = mysqli_fetch_assoc($result)) {
 		$query = "DELETE FROM `Bans` WHERE `Id`='$auth'";
 		mysqli_query($dbh, $query);
 	}
 }
+/*
+ * Create a robocheck image and its answer
+*/
 function gen_robocheck($user = null)
 {
 	if ($user === null) $user = $_COOKIE["auth"];
@@ -55,11 +68,15 @@ function gen_robocheck($user = null)
 	system("convert -size 165x -background 'rgba(0,0,0,0)' -fill black -spread 1 -blur 0x1 -blur 0x1 label:'$key' $tmp/$id-text.png");
 	system("composite -gravity center $tmp/$id-text.png $tmp/$id-background.jpg $tmp/$id-final.jpg");
 
+	// Clean up temporary files
 	unlink("$tmp/$id-background.jpg");
 	unlink("$tmp/$id-fractal.jpg");
 	unlink("$tmp/$id-text.png");
 
+	// Stash the image in B4U/robocheck/$user/uniqid().jpg
 	rename("$tmp/$id-final.jpg", $imgpath . $imgfile);
+
+	// Stash the answer in tmp/robocheck-answers/$user/uniqid().txt
 	file_put_contents($keypath . $keyfile, $key);
 
 	return [
@@ -67,6 +84,9 @@ function gen_robocheck($user = null)
 		"src" => CONFIG_WEBROOT . "robocheck/$user/$imgfile",
 	];
 }
+/*
+ * Validate a $user's answer to the robocheck
+*/
 function check_robocheck($id, $answer, $user = null)
 {
 	if ($user === null) $user = $_COOKIE["auth"];
@@ -84,6 +104,9 @@ function check_robocheck($id, $answer, $user = null)
 
 	return ($a == $answer);
 }
+/*
+ * T-O-R-O-N-T-O
+*/
 function rand_line($fname, $maxlen = 4096) {
 	$handle = fopen($fname, "r");
 	if (!$handle) return False;
@@ -98,6 +121,9 @@ function rand_line($fname, $maxlen = 4096) {
 	fclose($handle);
 	return $random_line;
 }
+/*
+ * D-R-A-K-E THAT'S M-E
+*/
 function get_absolute_path($path)
 {
 	$parts = explode('/', $path);
