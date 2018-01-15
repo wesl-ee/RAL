@@ -35,7 +35,28 @@ $pages = [
 	"cleanurl" => CONFIG_WEBROOT . "info/help",
 	"dirtyurl" => CONFIG_WEBROOT . "info.php?help",
 	"changefreq" => "Monthly",
+	],
+	[
+	"cleanurl" => CONFIG_WEBROOT . "doc/hacking",
+	"dirtyurl" => CONFIG_WEBROOT . "doc.php?hacking",
+	"changefreq" => "Monthly",
+	],
+	[
+	"cleanurl" => CONFIG_WEBROOT . "doc/readme",
+	"dirtyurl" => CONFIG_WEBROOT . "doc.php?readme",
+	"changefreq" => "Monthly",
+	],
+	[
+	"cleanurl" => CONFIG_WEBROOT . "doc/install",
+	"dirtyurl" => CONFIG_WEBROOT . "doc.php?install",
+	"changefreq" => "Monthly",
+	],
+	[
+	"cleanurl" => CONFIG_WEBROOT . "doc/license",
+	"dirtyurl" => CONFIG_WEBROOT . "doc.php?license",
+	"changefreq" => "Monthly",
 	]
+
 ];
 
 // Map all timelines
