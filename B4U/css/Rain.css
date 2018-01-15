@@ -1,57 +1,54 @@
 /* Theme colors and fonts */
-body {
-	background-color: #65758E;
-	background-image: url('img/rain.jpg');
-}
-body {
-	color: black;
-	font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-}
-h1, h2, h3 {
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	letter-spacing: 0px;
-	transform: scale(1, 1.5);
-	text-transform: Uppercase;
-	margin-bottom: 10px;
-}
-::-webkit-scrollbar-thumb {
-	background: black;
-}
-code::-webkit-scrollbar {
-	height: 8px;
-	width: 0;
-}
-code::-webkit-scrollbar-thumb {
-	background: #65758E;
-}
-dl, ul, ol {
-	list-style-type: square;
-}
-.sidebar,
-#welcome,
-#rightpanel {
-	color: black;
-	background-color: azure;
-}
-/* Hover-over links */
-.content a:hover,
-.content a:hover * {
-	/* Override bbCode */
-	color: #5ABFCF !important;
-}
-.error {
-	color: red;
-}
-article {
-	transition: background 0.3s ease-in-out;
-}
-article.new {
-	background: palegoldenrod !important;
-}
-.selected {
-	border-color: #FF6A87 !important;
-}
-code {
-	background: #151515;
-	color: #D7D0C7;
-}
+	body {
+		background-color: #65758E;
+		background-image: url('img/rain.jpg');
+		color: black;
+		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	}
+	.sidebar,
+	#welcome,
+	#rightpanel {
+		color: black;
+		background-color: azure;
+	}
+/* FF-like headers */
+	h1, h2, h3 {
+		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		letter-spacing: 0px;
+		transform: scale(1, 1.5);
+		text-transform: Uppercase;
+		margin-bottom: 10px;
+	}
+/* Sync errors */
+	.error {
+		color: red;
+	}
+/* New posts */
+	article {
+		transition: background 0.3s ease-in-out;
+	}
+	article.new {
+		background: palegoldenrod !important;
+	}
+/* Scrollbars */
+	::-webkit-scrollbar-thumb {
+		background: black;
+	}
+	code::-webkit-scrollbar {
+		height: 8px;
+		width: 0;
+	}
+	code::-webkit-scrollbar-thumb {
+		background: #65758E;
+	}
+/* Trivial */
+	code {
+		background: #151515;
+		color: #D7D0C7;
+	}
+	a:hover {
+		color: #5ABFCF !important;
+	}
+	dl, ul, ol {
+		list-style-type: square;
+	}
