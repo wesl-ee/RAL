@@ -56,6 +56,7 @@ define("CONFIG_REALTIME_ENABLE", false);
 // Pulls in the CSS and JS files
 define("CONFIG_THEMES",
 [
-	'20XX'
+	'20XX',
+	'Rain'
 ]);
 ?>

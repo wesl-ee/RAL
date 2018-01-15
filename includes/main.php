@@ -68,7 +68,8 @@ HTML;
 */
 function get_theme()
 {
-	if (!isset($_COOKIE['theme']))
+	if (!isset($_COOKIE['theme'])
+	|| !CONFIG_THEMES[$_COOKIE['theme']])
 		return CONFIG_DEFAULT_THEME;
 	return $_COOKIE['theme'];
 }

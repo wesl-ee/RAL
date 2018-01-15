@@ -1,11 +1,11 @@
 /* Theme colors and fonts */
 body {
-	background-color: #FFEAEE;
+	background-color: #65758E;
+	background-image: url('img/rain.jpg');
 }
 body {
 	color: black;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	background-image: url('img/sakura.gif');
+	font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 }
 h1, h2, h3 {
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
@@ -22,7 +22,7 @@ code::-webkit-scrollbar {
 	width: 0;
 }
 code::-webkit-scrollbar-thumb {
-	background: #FFEAEE;
+	background: #65758E;
 }
 dl, ul, ol {
 	list-style-type: square;

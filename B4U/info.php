@@ -75,7 +75,7 @@ HTML;
 		<dd><select name=theme>
 
 HTML;
-		foreach (CONFIG_THEMES as $theme) {
+		foreach (CONFIG_THEMES as $theme => $one) {
 			if ($theme == $currtheme)
 				print "<option selected>$theme</option>";
 			else
