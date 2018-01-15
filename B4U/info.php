@@ -32,16 +32,18 @@ function nl22br($string)
 </head>
 <body>
 <div class=sidebar>
-	<h3>RAL</h3>
+	<h2>RAL</h2>
 	<span>Configure</span>
 	<span class=collection>
 		<?php if (CONFIG_CLEAN_URL) {
 			$a = CONFIG_WEBROOT . "info/";
+			$b = CONFIG_WEBROOT;
 			print
 <<<HTML
 		<a class=hoverbox href={$a}theme>Theme</a>
 		<a class=hoverbox href={$a}>About</a>
 		<a class=hoverbox href={$a}help>Help</a>
+		<a class=hoverbox href={$b}doc>Doc</a>
 
 HTML;
 		}
@@ -51,6 +53,7 @@ HTML;
 		<a class=hoverbox href=?theme>Theme</a>
 		<a class=hoverbox href=?>About</a>
 		<a class=hoverbox href=?help>Help</a>
+		<a class=hoverbox href=doc.php>Doc</a>
 
 HTML;
 ?>
@@ -69,7 +72,7 @@ HTML;
 		$currtheme = get_theme();
 		print
 <<<HTML
-		<h3>Theming</h3>
+		<h1>Theming</h1>
 		<div class=reader>
 		<form action=?theme method=POST><dl><dt>Theme</dt>
 		<dd><select name=theme>
@@ -93,16 +96,16 @@ HTML;
 		// Probably read this in from a file
 		print
 <<<HTML
-		<h3>Help</h3>
+		<h1>Help</h1>
 		<div class=reader>
-		<h4>What is a continuity?</h4><p>
+		<h2>What is a continuity?</h2><p>
 
 		When you enter RAL, you will see several different
 		continuities. A continuity is like a chat-room or a
 		sub-forum. The title of a continuity will often give you a
 		clue as to what its focus of dicsussion is.
 
-		</p><h4>How do I post?</h4><p>
+		</p><h2>How do I post?</h2><p>
 
 		Within each continuity, there is a button labeled "Create a
 		topic" which allows you to create a new discussion topic
@@ -110,20 +113,21 @@ HTML;
 		can create a post within that topic by clicking "Reply to
 		topic" once you have the topic open
 
-		</p><h4>Can I style my posts?</h4><p>
+		</p><h2>Can I style my posts?</h2><p>
 
 		Yes! Posts on RAL can be styled by marking up your post with
 		the following supported BBCode tags:</p>
 		<ul>
 		<li>[b] (Bold)</li>
 		<li>[i] (Emphasis)</li>
+		<li>[j] (Computer jargon)</li>
 		<li>[color=x]
 			<ul><li>
 				x can be any valid HTML color name, hex
 				triplet, rgb() triple, or hsl() color space
 			</li></ul>
 		</li>
-		<li>[code] (Monospace, left-align)</li>
+		<li>[code] (Monospace code block)</li>
 		<li>[url=href]</li>
 			<ul><li>
 				href is a link to a resource on the
@@ -138,11 +142,11 @@ HTML;
 		<pre>Here is a link to my favorite <a
 		href=http:www.msn.com>website</a></pre>
 
-		<h4>What is not allowed?</h4><ul>
+		<h2>What is not allowed?</h2><ul>
 			<li>Spamming</li>
 		</ul>
 
-		<h4>Who can I contact about abuse / questions?</h4><p>
+		<h2>Who can I contact about abuse / questions?</h2><p>
 		$name is the administrator, sole protector and guardian angel
 		of RAL and can be reached via prayer or by mail:
 		<a href=mailto:$mail>$mail</a>
@@ -153,7 +157,7 @@ HTML;
 		$txt = nl22br(bbbbbbb(file_get_contents('about.txt')));
 		print
 <<<HTML
-		<h3>About</h3>
+		<h1>About</h1>
 		<div class=reader>
 		$txt
 		</div>

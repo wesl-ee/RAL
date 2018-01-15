@@ -115,7 +115,7 @@ $timelinedesc = $timelines[$i]['description'];
 </head>
 <body>
 <div id=timelines class=sidebar>
-	<h3>RAL</h3>
+	<h2>RAL</h2>
 <?php
 	if (CONFIG_REALTIME_ENABLE) print
 <<<LATENCY
@@ -128,9 +128,11 @@ LATENCY;
 		$a = CONFIG_WEBROOT . "info";
 	else
 		$a = CONFIG_WEBROOT . "info.php";
+	$b = CONFIG_WEBROOT;
 	print
 <<<HTML
-	<a class=help href="$a">About</a>
+	<a href="$b">Home</a>
+	<a href="$a">About</a>
 
 HTML;
 ?></div>

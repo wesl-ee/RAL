@@ -40,6 +40,10 @@ function bbbbbbb($string)
 				$open = "<em>";
 				$close = "</em>";
 				break;
+			case 'j':
+				$open = "<kbd>";
+				$close = "</kbd>";
+				break;
 			case 'color':
 				$color = htmlspecialchars($param);
 				$open = "<span style='color:$color'>";
@@ -81,6 +85,110 @@ function bbbbbbb($string)
 	}
 	$contents[] = substr($string, $offset);
 	return join($contents);
+}
+/*
+ * Renders a paragraph of Perl's Plain Old Documentation in HTML
+*/
+function ppppppp($string)
+{
+	$hint = $string{0};
+	// Command paragraphs begin with an equals sign
+	if ($hint == "=") {
+		$seperator = indexOf($string, ' ', 1);
+		if ($seperator < 0)
+			$seperator = strlen($string);
+		$identifier = substr($string, 1, $seperator - 1);
+		$text = substr($string, $seperator + 1);
+		switch($identifier) {
+		case "head1":
+			print "<h1>$text</h1>";
+			break;
+		case "head2":
+			print "<h2>$text</h2>";
+			break;
+		case "head3":
+			print "<h3>$text</h3>";
+			break;
+		case "head4":
+			print "<h4>$text</h4>";
+			break;
+		case "over":
+			print "<ol>";
+			break;
+		case "item":
+			print "<li>$text</li>";
+			break;
+		case "back":
+			print "</ol>";
+			break;
+		}
+	}
+	// Verbatim paragraphs begin with a space or tabliture
+	else if ($hint == " " || $hint == "\t") {
+		print "<pre>$string</pre>";
+	}
+	else {
+		print "<p>";
+		$offset = 0;
+		while (($a = indexOf($string, "<", $offset)) >= 0
+		&& ($b = indexOf($string, ">", $offset)) > $a) {
+			print substr($string, $offset, $a - $offset - 1);
+			$tag = $string{$a - 1};
+			$text = substr($string, $a + 1, $b - $a - 1);
+			$offset = $b + 1;
+			switch ($tag) {
+			case "I":
+			case "F":
+				print "<em>$text</em>";
+				break;
+			case "C":
+				print "<kbd>$text</kbd>";
+				break;
+			case "B":
+				print "<strong>$text</strong>";
+				break;
+			case "L":
+				print "<a>$text</a>";
+				break;
+			}
+		}
+		print substr($string, $offset);
+		print "</p>";
+	}
+}
+/*
+ * Renders a file of Perl's Plain Old Documentation in HTML
+*/
+function podprint($file, $maxlen = 4092)
+{
+/*	$fh = fopen($file, 'r');
+	while ($line = fgets($fh, $maxlen)) {
+		$hint = $string{0};
+		if ($hint != "=") continue;
+		$seperator = indexOf($string, ' ', 1);
+		if ($seperator < 0)
+			$seperator = strlen($string);
+		$identifier = substr($string, 1, $seperator - 1);
+		$text = substr($string, $seperator + 1);
+		if ($identifier == "head1"
+		|| $identifier == "head2"
+		|| $identifier == "head3"
+		|| $identifier == "head4")
+			$headings[] = $text;
+	}*/
+	$fh = fopen($file, 'r');
+	while ($line = fgets($fh, $maxlen)) {
+		if ($line == "\n") {
+			ppppppp(rtrim($paragraph));
+			unset($paragraph);
+		} else
+			if ($paragraph)
+				$paragraph .= ' ' . $line;
+			else
+				$paragraph = $line;
+	}
+	ppppppp(rtrim($paragraph));
+	fclose($fh);
 }
 /*
  * Creates the post on a given (timeline, topic)

@@ -38,7 +38,7 @@ will describe is the structure of the data inside our SQL database.
  | Timelines     |
  +---------------+
 
-=head4 C<`Bans`>
+=head4 `Bans`
 
  MariaDB [ral]> DESCRIBE `Bans`;
  +-------+--------------+------+-----+---------------------+-------+
@@ -52,7 +52,7 @@ will describe is the structure of the data inside our SQL database.
 Banned users get their own special row in C<`Bans`>! Only the C<'SLOW'> ban
 type is implemented.
 
-=head4 C<`Posts`>
+=head4 `Posts`
 
  MariaDB [ral]> DESCRIBE `Posts`;
  +----------+--------------+------+-----+---------------------+-------+
@@ -73,7 +73,7 @@ post on other continuities. The C<`Auth`> is a hold-over a time where posts
 could be "kept open" until purposely closed by the author. Now it simply
 confirms which posts you have made.
 
-=head4 C<`Timelines`>
+=head4 `Timelines`
 
  MariaDB [ral]> DESCRIBE `Timelines`;
  +-------------+-------------+------+-----+---------+-------+
