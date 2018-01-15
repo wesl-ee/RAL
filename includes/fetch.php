@@ -122,6 +122,21 @@ function fetch_topic_nums($timeline)
 	}
 	return $ret;
 }
+function fetch_recent_post_nums($n)
+{
+	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
+		CONFIG_RAL_USERNAME,
+		CONFIG_RAL_PASSWORD,
+		CONFIG_RAL_DATABASE);
+	mysqli_set_charset($dbh, 'utf8');
+	$query = "SELECT `Id` FROM `Posts` ORDER BY `Created` DESC LIMIT $n";
+	$res = mysqli_query($dbh, $query);
+	$ret = [];
+	while ($row = mysqli_fetch_assoc($res)) {
+		$ret[] = $row['Id'];
+	}
+	return $ret;
+}
 /*
  * Grab the first $n posts hot off the press from all timelines
 */

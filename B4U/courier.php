@@ -65,6 +65,10 @@ if (isset($_GET['verify'])) {
 		$topics = fetch_topic_nums($timeline);
 		print json_encode($topics);
 	}
+	else {
+		$all = fetch_recent_post_nums(10);
+		print json_encode($all);
+	}
 }
 // Posting
 if (isset($_GET['post'])) {

@@ -109,6 +109,41 @@ function subscribetopic(timeline, topic, reader)
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
 }
+// Prob. just make one subscribe(reader) function w/ optional params
+function subscribeall(reader)
+{
+	// Confirm that we have a valid collection of posts
+	verifyposts(reader);
+	xhr = new XMLHttpRequest();
+
+	// Long polling set-up
+	xhr.timeout = 15000;
+	xhr.ontimeout = function() {
+		subscribeall(reader);
+	}
+
+	xhr.onload = function() {
+		// Read the most recent topic
+		var msg = JSON.parse(this.responseText);
+
+		// For sanity
+		console.log(this.responseText);
+
+		// For Vorkuta
+		if (msg.type == 'POST') {
+			var post = msg.body;
+			doctitlenotify();
+			newfrontpagepost(reader, post);
+		}
+		subscribeall(reader);
+	}
+
+	var uri = '?subscribe'
+	// Prevent caching or throttling
+	+ '&' + Math.random().toString(36);
+	xhr.open('GET', '/courier.php' + uri);
+	xhr.send();
+}
 function verifyposts(reader, timeline, topic)
 {
 	var xhr = new XMLHttpRequest();
@@ -136,10 +171,13 @@ function verifyposts(reader, timeline, topic)
 			oos(); return false;
 		}
 	} }
-	var uri = '?verify&timeline=' + timeline
+	var uri = '?verify';
+	if (timeline)
+		uri += '&timeline=' + timeline;
+	if (topic)
+		uri += "&topic=" + topic;
 	// Prevent caching or throttling
-	+ '&' + Math.random().toString(36);
-	if (topic) uri += "&topic=" + topic;
+	uri += '&' + Math.random().toString(36);
 	xhr.open('GET', '/courier.php' + uri);
 
 	// Synchronous: we care about the result

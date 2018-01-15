@@ -22,6 +22,7 @@ if (!isset($page)) $page = 0;
 	$subtitle = "Neo-Forum Textboard";
 	include "{$ROOT}template/header.php";
 ?>
+	<span id=latency>&nbsp;</span>
 	<div id=timelines>
 <?php
 	include "{$ROOT}template/nav.php"
@@ -67,6 +68,7 @@ HTML;
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
 var reader = document.getElementById(
@@ -81,6 +83,7 @@ var rightnav = timelines.getElementsByClassName('rightnav')[0];
 connectnav(collection, leftnav, rightnav);
 connectreader(reader);
 
+subscribeall(reader);
 </script>
 <!-- End of scripts -->
 </body>

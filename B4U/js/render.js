@@ -1,41 +1,48 @@
 function newtopic(reader, topic)
 {
-	var article = document.createElement('article');
-	var updated = document.createElement('time');
-	var num = document.createElement('span');
-	var content = document.createElement('span');
-	var text = document.createElement('a');
-
-	// Date formatting
-	var time = new Date(topic.date);
-	updated.innerText = formatdate(time);
-
-	article.className = 'topic';
-
-	article.setAttribute('data-post', topic.id);
-	updated.dateTime = topic.modified;
-
-	num.appendChild(document.createTextNode('[' + topic.id + ']'));
-	num.className = 'id';
-
-	content.className = 'content';
-
-	// topic.content may contain HTML (parsed BBcode)
-	text.innerHTML = topic.content;
-	text.href = '?timeline=' + reader.getAttribute('data-timeline')
-	+ '&topic=' + topic.id;
-
-	content.appendChild(text);
-	article.appendChild(updated);
-	article.appendChild(num);
-	article.appendChild(content);
+	var href;
+	var CONFIG_CLEAN_URL = true;
+	var CONFIG_WEBROOT = 'https://ral.space/';
+	if (CONFIG_CLEAN_URL)
+		href = CONFIG_WEBROOT + 'max/' + topic.timeline
+		+ '/' + topic.id;
+	else
+		href = CONFIG_WEBROOT + 'max.php?timeline=' + topic.timeline
+		+ '&topic=' + topic.id;
+	var article = createpostelement(topic, href);
 
 	reader.insertBefore(article, reader.children[0]);
+	highlightnew(article);
+}
+function newfrontpagepost(reader, post)
+{
+	var href;
+	var CONFIG_CLEAN_URL = true;
+	var CONFIG_WEBROOT = 'https://ral.space/';
+	if (CONFIG_CLEAN_URL)
+		href = CONFIG_WEBROOT + 'max/' + post.timeline
+		+ '/' + post.topic;
+	else
+		href = CONFIG_WEBROOT + 'max.php?timeline=' + topic.timeline
+		+ '&topic=' + post.topic;
+	var article = createpostelement(post, href);
+
+	reader.insertBefore(article, reader.children[0]);
+	reader.removeChild(reader.lastElementChild);
+	highlightnew(article);
 }
 function newpost(reader, post)
 {
+	var article = createpostelement(post, true);
+	console.log(article);
+	reader.appendChild(article);
+
+	highlightnew(article);
+}
+function createpostelement(post, href)
+{
 	var article = document.createElement('article');
-	var info = document.createElement('info');
+	var info = document.createElement('a');
 	var updated = document.createElement('time');
 	var num = document.createElement('span');
 	var content = document.createElement('span');
@@ -55,15 +62,20 @@ function newpost(reader, post)
 	content.innerHTML = post.content;
 	content.className = 'content';
 
+	if (href)
+		info.setAttribute('href', href);
+
 	info.appendChild(num);
 	info.appendChild(updated);
 	article.appendChild(info);
 	article.appendChild(content);
-	reader.appendChild(article);
 
-	// Scroll into view and highlight
+	return article;
+}
+function highlightnew(article)
+{
+	// Highlight the new post
 	if (!document.hasFocus()) {
-		reader.scrollTop = (article.offsetTop - article.offsetHeight);
 		article.classList.add('new');
 		window.addEventListener('focus', function x() {
 			window.removeEventListener('focus', x);
@@ -126,9 +138,16 @@ function verifyreader(reader, posts)
 		return false;
 	for (var i = 0; i < posts.length; i++) {
 		if (children[i].getAttribute('data-post') != posts[i]) {
-			console.log('Missing post ' + posts[i]);
+			console.log('Missing post' + posts[i])
 			return false;
 		}
 	}
 	return true;
 }
+
+var testpost = new Object();
+testpost.id = .59;
+testpost.topic = 1;
+testpost.timeline = 'B4U';
+testpost.content = '0 errors, 0 warnings';
+testpost.date = new Date().toISOString();
