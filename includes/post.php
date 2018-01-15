@@ -98,7 +98,7 @@ function ppppppp($string)
 		if ($seperator < 0)
 			$seperator = strlen($string);
 		$identifier = substr($string, 1, $seperator - 1);
-		$text = substr($string, $seperator + 1);
+		$text = decodepod(substr($string, $seperator + 1));
 		switch($identifier) {
 		case "head1":
 			print "<h1>$text</h1>";
@@ -128,33 +128,40 @@ function ppppppp($string)
 		print "<pre>$string</pre>";
 	}
 	else {
-		print "<p>";
-		$offset = 0;
-		while (($a = indexOf($string, "<", $offset)) >= 0
-		&& ($b = indexOf($string, ">", $offset)) > $a) {
-			print substr($string, $offset, $a - $offset - 1);
-			$tag = $string{$a - 1};
-			$text = substr($string, $a + 1, $b - $a - 1);
-			$offset = $b + 1;
-			switch ($tag) {
-			case "I":
-			case "F":
-				print "<em>$text</em>";
-				break;
-			case "C":
-				print "<kbd>$text</kbd>";
-				break;
-			case "B":
-				print "<strong>$text</strong>";
-				break;
-			case "L":
-				print "<a>$text</a>";
-				break;
-			}
-		}
-		print substr($string, $offset);
-		print "</p>";
+		$string = decodepod($string);
+		print "<p>$string</p>";
 	}
+}
+function decodepod($string)
+{
+	$offset = 0; unset($ret);
+	while (($a = indexOf($string, "<", $offset)) >= 0
+	&& ($b = indexOf($string, ">", $offset)) > $a) {
+		$ret .= substr($string, $offset, $a - $offset - 1);
+		$tag = $string{$a - 1};
+		$text = substr($string, $a + 1, $b - $a - 1);
+		$offset = $b + 1;
+		switch ($tag) {
+		case "I":
+		case "F":
+			$ret .= "<em>$text</em>";
+			break;
+		case "C":
+			$ret .= "<kbd>$text</kbd>";
+			break;
+		case "B":
+			$ret .= "<strong>$text</strong>";
+			break;
+		case "L":
+			if (($sep = strpos($text, "|")) >= 0) {
+				$href = substr($text, $sep + 1);
+				$text = substr($text, 0, $sep);
+			} else $href = $text;
+			$ret .= "<a href='$href'>$text</a>";
+			break;
+		}
+	}
+	return $ret . substr($string, $offset);
 }
 /*
  * Renders a file of Perl's Plain Old Documentation in HTML
