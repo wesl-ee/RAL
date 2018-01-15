@@ -114,6 +114,17 @@
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
 	}
+	.reader.docs {
+		text-align: justify;
+	}
+	.reader.docs h1,
+	.reader.docs h2,
+	.reader.docs h3,
+	.reader.docs h4 {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		text-align: center;
+	}
 	/* Every post / topic is wrapped in an <article> */
 	.reader article {
 		padding-bottom: 5px;
@@ -142,6 +153,8 @@
 		padding-left: 10px;
 		padding-right: 10px;
 		text-align: left;
+		overflow-x: auto;
+		white-space: nowrap;
 	}
 	/* Timeline view (browsing all topics) */
 		/* Restrict content to 2 lines max */

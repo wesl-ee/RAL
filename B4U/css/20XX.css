@@ -17,6 +17,15 @@ h1, h2, h3 {
 ::-webkit-scrollbar-thumb {
 	background: black;
 }
+code::-webkit-scrollbar {
+	height: 8px;
+	width: 0;
+}
+code::-webkit-scrollbar-thumb {
+	background: #FFEAEE;
+	border-top: 2px solid #151515;
+	border-bottom: 2px solid #151515;
+}
 dl, ul, ol {
 	list-style-type: square;
 }
