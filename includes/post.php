@@ -261,6 +261,7 @@ function create_post($timeline, $topic, $auth, $content)
 			'content' => nl2br(bbbbbbb($row['Content'])),
 			'date' => $row['Created'],
 			'auth' => $row['Auth'],
+			'location' => resolve($row['Timeline'], $row['Topic'])
 		];
 	mysqli_query("COMMIT");
 	ralog("Created Post");
@@ -329,6 +330,7 @@ function create_topic($timeline, $auth, $content)
 			'content' => nl2br(bbbbbbb($row['Content'])),
 			'date' => $row['Created'],
 			'auth' => $row['Auth'],
+			'location' => resolve($row['Timeline'], $row['Topic'])
 		];
 	mysqli_query("COMMIT");
 	ralog("Created topic");
@@ -523,6 +525,20 @@ function fetch_message($c_id)
 	if (msg_receive($queue, $c_id, $msgtype, 1000000, $msg)) {
 		return $msg;
 	}
+}
+/*
+ * Create a post's href for <a>nchor tags
+*/
+function resolve($timeline, $topic = null)
+{
+	if (CONFIG_CLEAN_URL && $topic)
+		return CONFIG_WEBROOT . "max/$timeline/$topic";
+	if (CONFIG_CLEAN_URL)
+		return CONFIG_WEBROOT . "max/$timeline";
+	if ($topic)
+		return CONFIG_WEBROOT
+		. "?max.php&timeline=$timeline&topic=$topic";
+	return CONFIG_WEBROOT . "?max.php&timeline=$timeline";
 }
 
 // FUNCTIONS WHICH NEED TO BE PUT SOMEWHERE ELSE

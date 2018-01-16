@@ -12,16 +12,12 @@ function fetch_timelines()
 	$query = "SELECT `Name`, `Description`  FROM `Timelines`"
 	. " ORDER BY `Name`";
 	$res = mysqli_query($dbh, $query);
-	if (CONFIG_CLEAN_URL)
-		$hrefprefix = CONFIG_WEBROOT . "max/";
-	else
-		$hrefprefix = CONFIG_WEBROOT . "max.php?timeline=";
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'name' => $row['Name'],
 			'description' => $row['Description'],
-			'location' => $hrefprefix . $row['Name']
+			'location' => resolve($row['Name'])
 		];
 	}
 	return $ret;
@@ -48,7 +44,8 @@ function fetch_topics($timeline)
 			'topic' => $row['Id'],
 			'auth' => $row['Auth'],
 			'date' => $row['Date'],
-			'content' => nl2br(bbbbbbb($row['Content']))
+			'content' => nl2br(bbbbbbb($row['Content'])),
+			'location' => resolve($row['Name'], $row['Id'])
 		];
 	}
 	return $ret;
@@ -77,7 +74,8 @@ function fetch_posts($timeline, $topic)
 			'auth' => $row['Auth'],
 			'date' => $row['Date'],
 			'content' => nl2br(bbbbbbb($row['Content'])),
-			'mine' => ($_COOKIE['auth'] == $row['Auth'])
+			'mine' => ($_COOKIE['auth'] == $row['Auth']),
+			'location' => resolve($row['Name'], $topic)
 		];
 	}
 	return $ret;

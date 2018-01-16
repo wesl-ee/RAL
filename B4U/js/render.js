@@ -1,31 +1,13 @@
 function newtopic(reader, topic)
 {
-	var href;
-	var CONFIG_CLEAN_URL = true;
-	var CONFIG_WEBROOT = 'https://ral.space/';
-	if (CONFIG_CLEAN_URL)
-		href = CONFIG_WEBROOT + 'max/' + topic.timeline
-		+ '/' + topic.id;
-	else
-		href = CONFIG_WEBROOT + 'max.php?timeline=' + topic.timeline
-		+ '&topic=' + topic.id;
-	var article = createpostelement(topic, href);
+	var article = createpostelement(topic, true);
 
 	reader.insertBefore(article, reader.children[0]);
 	highlightnew(article);
 }
 function newfrontpagepost(reader, post)
 {
-	var href;
-	var CONFIG_CLEAN_URL = true;
-	var CONFIG_WEBROOT = 'https://ral.space/';
-	if (CONFIG_CLEAN_URL)
-		href = CONFIG_WEBROOT + 'max/' + post.timeline
-		+ '/' + post.topic;
-	else
-		href = CONFIG_WEBROOT + 'max.php?timeline=' + topic.timeline
-		+ '&topic=' + post.topic;
-	var article = createpostelement(post, href);
+	var article = createpostelement(post, true);
 
 	reader.insertBefore(article, reader.children[0]);
 	reader.removeChild(reader.lastElementChild);
@@ -33,13 +15,12 @@ function newfrontpagepost(reader, post)
 }
 function newpost(reader, post)
 {
-	var article = createpostelement(post, true);
-	console.log(article);
-	reader.appendChild(article);
+	var article = createpostelement(post, false);
 
+	reader.appendChild(article);
 	highlightnew(article);
 }
-function createpostelement(post, href)
+function createpostelement(post, linkify)
 {
 	var article = document.createElement('article');
 	var info = document.createElement('a');
@@ -53,24 +34,46 @@ function createpostelement(post, href)
 
 	article.setAttribute('data-post', post.id);
 	updated.dateTime = post.date;
+
+	num.className = 'id';
 	num.appendChild(document.createTextNode(
 		'[' + post.timeline + '/' + post.id + ']'
 	));
-	num.className = 'id';
+
+	info.className = 'info';
+	if (linkify)
+		info.href = post.location;
 
 	// post.content may contain HTML (parsed BBcode)
 	content.innerHTML = post.content;
 	content.className = 'content';
-
-	if (href)
-		info.setAttribute('href', href);
 
 	info.appendChild(num);
 	info.appendChild(updated);
 	article.appendChild(info);
 	article.appendChild(content);
 
-	return article;
+	return indent(article);
+}
+/*
+ * Fairy-tale perfect and logical indentation
+*/
+function indent(element, level)
+{
+	if (!level) level = 0;
+	var children = element.children;
+	for (var i = 0; i < children.length; i++) {
+		element.insertBefore(
+			document.createTextNode("\n"), children[i]
+		);
+		for (var t = level + 1; t; t--)
+			element.insertBefore(
+				document.createTextNode("\t"), children[i]
+			);
+		if (element.firstElementChild)
+			indent(children[i], level + 1);
+	}
+	return element;
 }
 function highlightnew(article)
 {
