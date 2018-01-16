@@ -1,4 +1,4 @@
-=head1 HACKING
+=head1 TECHNICAL DOCUMENTATION
 
 Hello friends. If you are interested in contributing to the development of
 RAL, this file will help you to get started.

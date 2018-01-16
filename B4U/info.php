@@ -43,29 +43,44 @@ HTML;
 ?>
 	<span class=collection>
 <?php
-	if (CONFIG_CLEAN_URL)
-		$a = CONFIG_WEBROOT . "info";
-	else
-		$a = CONFIG_WEBROOT . "info.php?";
-	$items =
-	[
+	if (CONFIG_CLEAN_URL) {
+		$items = [
 		[
 		"name" => "About",
-		"location" => "$a",
+		"location" => CONFIG_WEBROOT . "info",
 		],
 		[
 		"name" => "Theme",
-		"location" => "$a/theme",
+		"location" => CONFIG_WEBROOT . "info/theme",
 		],
 		[
 		"name" => "Help",
-		"location" => "$a/help",
+		"location" => CONFIG_WEBROOT . "info/help",
 		],
 		[
 		"name" => "Doc",
-		"location" => "$a/doc",
+		"location" => CONFIG_WEBROOT . "doc",
+		] ];
+	}
+	else {
+		$items = [
+		[
+		"name" => "About",
+		"location" => CONFIG_WEBROOT . "info.php",
 		],
-	];
+		[
+		"name" => "Theme",
+		"location" => CONFIG_WEBROOT . "info.php?theme",
+		],
+		[
+		"name" => "Help",
+		"location" => CONFIG_WEBROOT . "info.php?help",
+		],
+		[
+		"name" => "Doc",
+		"location" => CONFIG_WEBROOT . "doc.php",
+		] ];
+	}
 	include "{$ROOT}template/nav.php";
 ?>
 	</span>

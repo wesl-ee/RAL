@@ -29,32 +29,53 @@ include $ROOT."includes/post.php";
 	<a href="$a">Home</a>
 
 HTML;
-?>
-		<?php if (CONFIG_CLEAN_URL) {
-			$a = CONFIG_WEBROOT . "doc/";
-			print
-<<<HTML
-		<a class=hoverbox href={$a}>Readme</a>
-		<a class=hoverbox href={$a}install>Install</a>
-		<a class=hoverbox href={$a}license>License</a>
-		<a class=hoverbox href={$a}hacking>Hacking</a>
-
-HTML;
-		}
-		else
-			print
-<<<HTML
-		<a class=hoverbox href=?>Readme</a>
-		<a class=hoverbox href=?install>Install</a>
-		<a class=hoverbox href=?license>License</a>
-		<a class=hoverbox href=?hacking>Hacking</a>
-
-HTML;
+	if (CONFIG_CLEAN_URL) {
+		$items = [
+		[
+		"name" => "Readme",
+		"location" => CONFIG_WEBROOT . "doc",
+		],
+		[
+		"name" => "Install",
+		"location" => CONFIG_WEBROOT . "doc/install",
+		],
+		[
+		"name" => "License",
+		"location" => CONFIG_WEBROOT . "doc/license",
+		],
+		[
+		"name" => "Hacking",
+		"location" => CONFIG_WEBROOT . "doc/hacking",
+		] ];
+	} else {
+		$items = [
+		[
+		"name" => "Readme",
+		"location" => CONFIG_WEBROOT . "doc.php",
+		],
+		[
+		"name" => "Install",
+		"location" => CONFIG_WEBROOT . "doc.php?install",
+		],
+		[
+		"name" => "License",
+		"location" => CONFIG_WEBROOT . "doc.php?license",
+		],
+		[
+		"name" => "Hacking",
+		"location" => CONFIG_WEBROOT . "doc.php?hacking",
+		] ];
+	}
+	include "{$ROOT}template/nav.php";
 ?>
 	</span>
 
 </div>
 <div id=rightpanel>
+<?php
+	$title .= ".pod";
+	include "{$ROOT}template/header.php";
+?>
 	<div class='reader docs'>
 <?php
 	if (isset($_GET['install'])) {
