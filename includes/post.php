@@ -89,7 +89,7 @@ function bbbbbbb($string)
 /*
  * Renders a paragraph of Perl's Plain Old Documentation in HTML
 */
-function ppppppp($string)
+function podparagraph($string)
 {
 	$hint = $string{0};
 	// Command paragraphs begin with an equals sign
@@ -166,7 +166,7 @@ function decodepod($string)
 /*
  * Renders a file of Perl's Plain Old Documentation in HTML
 */
-function podprint($file, $maxlen = 4092)
+function ppppppp($file, $maxlen = 4092)
 {
 /*	$fh = fopen($file, 'r');
 	while ($line = fgets($fh, $maxlen)) {
@@ -186,7 +186,7 @@ function podprint($file, $maxlen = 4092)
 	$fh = fopen($file, 'r');
 	while ($line = fgets($fh, $maxlen)) {
 		if ($line == "\n") {
-			ppppppp(rtrim($paragraph));
+			podparagraph(rtrim($paragraph));
 			unset($paragraph);
 		} else
 			if ($paragraph)
@@ -194,7 +194,7 @@ function podprint($file, $maxlen = 4092)
 			else
 				$paragraph = $line;
 	}
-	ppppppp(rtrim($paragraph));
+	podparagraph(rtrim($paragraph));
 	fclose($fh);
 }
 /*

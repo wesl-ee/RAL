@@ -80,16 +80,16 @@ HTML;
 <?php
 	if (isset($_GET['install'])) {
 		$file = CONFIG_LOCALROOT . "docs/INSTALL.pod";
-		podprint($file);
+		ppppppp($file);
 	} else if (isset($_GET['hacking'])) {
 		$file = CONFIG_LOCALROOT . "docs/HACKING.pod";
-		podprint($file);
+		ppppppp($file);
 	} else if (isset($_GET['license'])) {
 		$file = CONFIG_LOCALROOT . "docs/LICENSE";
-		podprint($file);
+		ppppppp($file);
 	} else {
 		$file = CONFIG_LOCALROOT . "docs/README.pod";
-		podprint($file);
+		ppppppp($file);
 	}
 ?>
 	</div>
