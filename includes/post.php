@@ -1,4 +1,31 @@
 <?php
+class continuity {
+	public $name;
+	public $descriptio;
+}
+class post {
+	public $id;
+	public $continuity;
+	public $topic;
+	public $content;
+	public $date;
+	public $auth;
+	public $url;
+
+	function encode() {
+		return json_encode(
+		[
+			"id" => $id,
+			"continuity" => $continuity,
+			"topic" => $topic,
+			"content" => $content,
+			"date" => $date,
+			"auth" => $auth,
+			"url" => $url
+		]);
+	}
+}
+
 /*
  * Magical BBcode parser
 */
@@ -198,37 +225,37 @@ function ppppppp($file, $maxlen = 4092)
 	fclose($fh);
 }
 /*
- * Creates the post on a given (timeline, topic)
+ * Creates the post on a given (continuity, topic)
 */
-function create_post($timeline, $topic, $auth, $content)
+function create_post($continuity, $topic, $auth, $content)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$topic = mysqli_real_escape_string($dbh, $topic);
 	$auth = mysqli_real_escape_string($dbh, $auth);
 	$content = mysqli_real_escape_string($dbh, $content);
 
 	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
-		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Auth`, `Content`) SELECT"
+		$query = "INSERT INTO `Posts` (`Id`, `Continuity`, `Topic`, `Auth`, `Content`) SELECT"
 		. " `Post Count`+1 AS `Id`"
-		. ", '$timeline' AS `Timeline`"
+		. ", '$continuity' AS `Continuity`"
 		. ", $topic AS `Topic`"
 		. ", '$auth' AS `Auth`"
 		. ", '$content' AS `Content`"
-		. " FROM `Timelines` WHERE Name='$timeline'";
+		. " FROM `Continuities` WHERE Name='$continuity'";
 		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
 			ralog($err);
 			return false;
 		}
-		$query = "SELECT `Post Count` FROM `Timelines`"
-		. " WHERE `Name`='$timeline'";
+		$query = "SELECT `Post Count` FROM `Continuities`"
+		. " WHERE `Name`='$continuity'";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
@@ -237,15 +264,15 @@ function create_post($timeline, $topic, $auth, $content)
 		}
 		$id = mysqli_fetch_assoc($result)['Post Count'] + 1;
 		// Update postcount
-		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
-		. " WHERE `Name`='$timeline'";
+		$query = "UPDATE `Continuities` SET `Post Count`=`Post Count`+1"
+		. " WHERE `Name`='$continuity'";
 		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			ralog($err);
 			mysqli_query("ROLLBACK");
 			return false;
 		}
-		$query = "SELECT `Id`, `Timeline`, `Topic`, `Content`"
+		$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
 		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
@@ -256,48 +283,48 @@ function create_post($timeline, $topic, $auth, $content)
 		$row = mysqli_fetch_assoc($result);
 		$post = [
 			'id' => $row['Id'],
-			'timeline' => $row['Timeline'],
+			'continuity' => $row['Continuity'],
 			'topic' => $row['Topic'],
 			'content' => nl2br(bbbbbbb($row['Content'])),
 			'date' => $row['Created'],
 			'auth' => $row['Auth'],
-			'location' => resolve($row['Timeline'], $row['Topic'])
+			'location' => resolve($row['Continuity'], $row['Topic'])
 		];
 	mysqli_query("COMMIT");
 	ralog("Created Post");
 	return $post;
 }
 /*
- * Creates the post on a given (timeline, topic)
+ * Creates the post on a given (continuity, topic)
 */
-function create_topic($timeline, $auth, $content)
+function create_topic($continuity, $auth, $content)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$auth = mysqli_real_escape_string($dbh, $auth);
 	$content = mysqli_real_escape_string($dbh, $content);
 
 	mysqli_query("BEGIN TRANSACTION");
 		// Insert post
-		$query = "INSERT INTO `Posts` (`Id`, `Timeline`, `Topic`, `Auth`, `Content`) SELECT"
+		$query = "INSERT INTO `Posts` (`Id`, `Continuity`, `Topic`, `Auth`, `Content`) SELECT"
 		. " `Post Count`+1 AS `Id`"
-		. ", '$timeline' AS `Timeline`"
+		. ", '$continuity' AS `Continuity`"
 		. ", `Post Count`+1 AS `Topic`"
 		. ", '$auth' AS `Auth`"
 		. ", '$content' AS `Content`"
-		. " FROM `Timelines` WHERE Name='$timeline'";
+		. " FROM `Continuities` WHERE Name='$continuity'";
 		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
 			ralog("$err while creating topic");
 			return false;
 		}
-		$query = "SELECT `Post Count` FROM `Timelines`"
-		. " WHERE `Name`='$timeline'";
+		$query = "SELECT `Post Count` FROM `Continuities`"
+		. " WHERE `Name`='$continuity'";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
@@ -306,15 +333,15 @@ function create_topic($timeline, $auth, $content)
 		}
 		$id = mysqli_fetch_assoc($result)['Post Count'] + 1;
 		// Update postcount
-		$query = "UPDATE `Timelines` SET `Post Count`=`Post Count`+1"
-		. " WHERE `Name`='$timeline'";
+		$query = "UPDATE `Continuities` SET `Post Count`=`Post Count`+1"
+		. " WHERE `Name`='$continuity'";
 		if (!mysqli_query($dbh, $query)) {
 			$err = mysqli_error($dbh);
 			ralog("$err while updating post count after creating a topic");
 			mysqli_query("ROLLBACK");
 			return false;
 		}
-		$query = "SELECT `Id`, `Timeline`, `Topic`, `Content`"
+		$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
 		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
@@ -325,12 +352,12 @@ function create_topic($timeline, $auth, $content)
 		$row = mysqli_fetch_assoc($result);
 		$topic = [
 			'id' => $row['Id'],
-			'timeline' => $row['Timeline'],
+			'continuity' => $row['Continuity'],
 			'topic' => $row['Topic'],
 			'content' => nl2br(bbbbbbb($row['Content'])),
 			'date' => $row['Created'],
 			'auth' => $row['Auth'],
-			'location' => resolve($row['Timeline'], $row['Topic'])
+			'location' => resolve($row['Continuity'], $row['Topic'])
 		];
 	mysqli_query("COMMIT");
 	ralog("Created topic");
@@ -529,16 +556,16 @@ function fetch_message($c_id)
 /*
  * Create a post's href for <a>nchor tags
 */
-function resolve($timeline, $topic = null)
+function resolve($continuity, $topic = null)
 {
 	if (CONFIG_CLEAN_URL && $topic)
-		return CONFIG_WEBROOT . "max/$timeline/$topic";
+		return CONFIG_WEBROOT . "max/$continuity/$topic";
 	if (CONFIG_CLEAN_URL)
-		return CONFIG_WEBROOT . "max/$timeline";
+		return CONFIG_WEBROOT . "max/$continuity";
 	if ($topic)
 		return CONFIG_WEBROOT
-		. "?max.php&timeline=$timeline&topic=$topic";
-	return CONFIG_WEBROOT . "?max.php&timeline=$timeline";
+		. "?max.php&continuity=$continuity&topic=$topic";
+	return CONFIG_WEBROOT . "?max.php&continuity=$continuity";
 }
 
 // FUNCTIONS WHICH NEED TO BE PUT SOMEWHERE ELSE

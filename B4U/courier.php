@@ -5,28 +5,28 @@ include '../includes/post.php';
 
 // Initial fetch for reading
 if (isset($_GET['fetch'])) {
-	$timeline = $_GET['timeline'];
+	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
 
 	// Fetch posts
-	if (isset($timeline, $topic)) {
-		$posts = fetch_posts($timeline, $topic);
+	if (isset($continuity, $topic)) {
+		$posts = fetch_posts($continuity, $topic);
 		print json_encode($posts);
 	}
 	// Fetch topics
-	else if (isset($timeline)) {
-		$topics = fetch_topics($timeline);
+	else if (isset($continuity)) {
+		$topics = fetch_topics($continuity);
 		print json_encode($topics);
 	}
-	// Fetch timelines
+	// Fetch continuities
 	else {
-		$timelines = fetch_timelines();
-		print json_encode($timelines);
+		$continuities = fetch_continuities();
+		print json_encode($continuities);
 	}
 }
 // Real-time updates
 if (isset($_GET['subscribe'])) {
-	$timeline = $_GET['timeline'];
+	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
 
 	$c_id = create_listener();
@@ -34,8 +34,8 @@ if (isset($_GET['subscribe'])) {
 		$msg = fetch_message($c_id);
 		switch($msg['type']) {
 		case 'POST':
-			if (isset($timeline)
-			&& $msg['body']['timeline'] != $timeline)
+			if (isset($continuity)
+			&& $msg['body']['continuity'] != $continuity)
 				$relevant = False;
 			elseif (isset($topic)
 			&& $msg['body']['topic'] != $topic)
@@ -53,16 +53,16 @@ if (isset($_GET['subscribe'])) {
 	destroy_listener($c_id);
 }
 if (isset($_GET['verify'])) {
-	$timeline = $_GET['timeline'];
+	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
 
-	if (isset($timeline, $topic)) {
-		$posts = fetch_post_nums($timeline, $topic);
+	if (isset($continuity, $topic)) {
+		$posts = fetch_post_nums($continuity, $topic);
 		print json_encode($posts);
 	}
 	// Fetch topics
-	else if (isset($timeline)) {
-		$topics = fetch_topic_nums($timeline);
+	else if (isset($continuity)) {
+		$topics = fetch_topic_nums($continuity);
 		print json_encode($topics);
 	}
 	else {
@@ -72,17 +72,17 @@ if (isset($_GET['verify'])) {
 }
 // Posting
 if (isset($_GET['post'])) {
-	$timeline = $_GET['timeline'];
+	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
 	$auth = $_COOKIE['auth'];
 	$content = $_POST['content'];
 
 	// Create a topic
 	if (!isset($topic)) {
-		$topic = create_topic($timeline, $auth, $content);
+		$topic = create_topic($continuity, $auth, $content);
 	}
 	else {
-		$post = create_post($timeline, $topic, $auth, $content);
+		$post = create_post($continuity, $topic, $auth, $content);
 	}
 }
 ?>

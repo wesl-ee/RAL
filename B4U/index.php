@@ -23,9 +23,9 @@ if (!isset($page)) $page = 0;
 	include "{$ROOT}template/header.php";
 ?>
 	<span id=latency>&nbsp;</span>
-	<div id=timelines>
+	<div id=continuities>
 <?php
-	$items = fetch_timelines();
+	$items = fetch_continuities();
 	include "{$ROOT}template/nav.php"
 ?>
 	</div>
@@ -75,11 +75,11 @@ HTML;
 var reader = document.getElementById(
 	'welcome'
 ).getElementsByClassName('reader')[0];
-var timelines = document.getElementById('timelines');
+var continuities = document.getElementById('continuities');
 
-var collection = timelines.getElementsByClassName('collection')[0];
-var leftnav = timelines.getElementsByClassName('leftnav')[0];
-var rightnav = timelines.getElementsByClassName('rightnav')[0];
+var collection = continuities.getElementsByClassName('collection')[0];
+var leftnav = continuities.getElementsByClassName('leftnav')[0];
+var rightnav = continuities.getElementsByClassName('rightnav')[0];
 
 connectnav(collection, leftnav, rightnav);
 connectreader(reader);

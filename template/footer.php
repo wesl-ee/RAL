@@ -1,4 +1,4 @@
-<?php if (!isset($timeline)) {
+<?php if (!isset($continuity)) {
 		print "Improper template usage!";
 		die;
 } ?>
@@ -7,7 +7,7 @@
 	if (isset($topic)) {
 		$q = $_GET;
 		if (CONFIG_CLEAN_URL) {
-			unset($q['timeline']); unset($q['topic']);
+			unset($q['continuity']); unset($q['topic']);
 		}
 		$q = http_build_query($q);
 		if (empty($q)) $a = "?postmode";
@@ -24,9 +24,9 @@ HTML;
 		if (CONFIG_CLEAN_URL) {
 			$q = http_build_query($q);
 			if (empty($q)) $a =  CONFIG_WEBROOT
-			. "max/$timeline";
+			. "max/$continuity";
 			else $a = CONFIG_WEBROOT
-			. "max/$timeline?$q";
+			. "max/$continuity?$q";
 		}
 		else {
 			$q = http_build_query($q);
@@ -42,7 +42,7 @@ HTML;
 	} else {
 		$q = $_GET;
 		if (CONFIG_CLEAN_URL) {
-			unset($q['timeline']); unset($q['topic']);
+			unset($q['continuity']); unset($q['topic']);
 		}
 		$q = http_build_query($q);
 		if (empty($q)) $a = "?postmode";

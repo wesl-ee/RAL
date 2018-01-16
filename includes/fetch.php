@@ -1,15 +1,15 @@
 <?php
 /*
- * Return all timelines by [name, description]
+ * Return all continuites by [name, description]
 */
-function fetch_timelines()
+function fetch_continuities()
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Name`, `Description`  FROM `Timelines`"
+	$query = "SELECT `Name`, `Description`  FROM `Continuities`"
 	. " ORDER BY `Name`";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
@@ -23,24 +23,24 @@ function fetch_timelines()
 	return $ret;
 }
 /*
- * Return all topics in a $timeline in the standard form
+ * Return all topics in a $continuity in the standard form
 */
-function fetch_topics($timeline)
+function fetch_topics($continuity)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$query = "SELECT `Id`, `Auth`, `Content`, MAX(`Created`) AS `Date` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
+	. " WHERE `Continuity`='$continuity' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'id' => $row['Id'],
-			'timeline' => $timeline,
+			'continuity' => $continuity,
 			'topic' => $row['Id'],
 			'auth' => $row['Auth'],
 			'date' => $row['Date'],
@@ -51,25 +51,25 @@ function fetch_topics($timeline)
 	return $ret;
 }
 /*
- * Returns all posts in a ($timeline, $topic) keyed pair in the standard form
+ * Returns all posts in a ($continuity, $topic) keyed pair in the standard form
 */
-function fetch_posts($timeline, $topic)
+function fetch_posts($continuity, $topic)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$topic = mysqli_real_escape_string($dbh, $topic);
 	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' AND `Topic`=$topic";
+	. " WHERE `Continuity`='$continuity' AND `Topic`=$topic";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'id' => $row['Id'],
-			'timeline' => $timeline,
+			'continuity' => $continuity,
 			'topic' => $topic,
 			'auth' => $row['Auth'],
 			'date' => $row['Date'],
@@ -81,21 +81,21 @@ function fetch_posts($timeline, $topic)
 	return $ret;
 }
 /*
- * Return a list of all post numbers in a given ($timeline, $topic) keyed pair
+ * Return a list of all post numbers in a given ($continuity, $topic) keyed pair
  * We use the result for error checking and validation when
  * CONFIG_REALTIME_ENABLE is tripped out
 */
-function fetch_post_nums($timeline, $topic)
+function fetch_post_nums($continuity, $topic)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$topic = mysqli_real_escape_string($dbh, $topic);
 	$query = "SELECT `Id` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' AND `Topic`=$topic";
+	. " WHERE `Continuity`='$continuity' AND `Topic`=$topic";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
@@ -104,20 +104,20 @@ function fetch_post_nums($timeline, $topic)
 	return $ret;
 }
 /*
- * Return a list of all topic numbers in a given $timeline
+ * Return a list of all topic numbers in a given $continuity
  * We use the result for error checking an validation when
  * CONFIG_REALTIME_ENABLE is tripped out
 */
-function fetch_topic_nums($timeline)
+function fetch_topic_nums($continuity)
 {
 	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$timeline = mysqli_real_escape_string($dbh, $timeline);
+	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$query = "SELECT `Id` FROM `Posts`"
-	. " WHERE `Timeline`='$timeline' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
+	. " WHERE `Continuity`='$continuity' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
@@ -141,7 +141,7 @@ function fetch_recent_post_nums($n)
 	return $ret;
 }
 /*
- * Grab the first $n posts hot off the press from all timelines
+ * Grab the first $n posts hot off the press from all continuities
 */
 function fetch_recent_posts($n)
 {
@@ -150,13 +150,13 @@ function fetch_recent_posts($n)
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
 	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date`, `Topic`, `Timeline` FROM `Posts` ORDER BY `Date` DESC LIMIT $n";
+	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date`, `Topic`, `Continuity` FROM `Posts` ORDER BY `Date` DESC LIMIT $n";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'id' => $row['Id'],
-			'timeline' => $row['Timeline'],
+			'continuity' => $row['Continuity'],
 			'topic' => $row['Topic'],
 			'auth' => $row['Auth'],
 			'date' => $row['Date'],

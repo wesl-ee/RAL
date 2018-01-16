@@ -1,5 +1,5 @@
 <?php
-	if (!isset($timeline)) {
+	if (!isset($continuity)) {
 		print "Improper template usage!";
 		die;
 	}
@@ -8,10 +8,10 @@
 	$q = http_build_query($q);
 	if (CONFIG_CLEAN_URL && isset($topic))
 		$target = CONFIG_WEBROOT
-		. "max/$timeline/$topic";
+		. "max/$continuity/$topic";
 	else if (CONFIG_CLEAN_URL)
 		$target = CONFIG_WEBROOT
-		. "max/$timeline";
+		. "max/$continuity";
 	else
 		$target = CONFIG_WEBROOT
 		. "max.php";

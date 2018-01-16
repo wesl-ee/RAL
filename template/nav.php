@@ -9,7 +9,7 @@ if (!isset($page)) $page = 0;
 ?>
 <div class=collection>
 <?php
-	$per_page = CONFIG_TIMELINES_PER_PAGE;
+	$per_page = CONFIG_PER_PAGE;
 	for ($i = 0; $i < count($items); $i++) {
 		$name = $items[$i]['name'];
 		$desc = $items[$i]['description'];

@@ -59,19 +59,19 @@ $pages = [
 
 ];
 
-// Map all timelines
-$timelines = fetch_timelines();
-foreach ($timelines as $t) {
+// Map all continuities
+$continuities = fetch_continuities();
+foreach ($continuities as $c) {
 	$pages[] = [
-	"cleanurl" => CONFIG_WEBROOT . "max/$t[name]",
-	"dirtyurl" => CONFIG_WEBROOT . "max.php?timeline=$t[name]",
+	"cleanurl" => CONFIG_WEBROOT . "max/$c[name]",
+	"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c[name]",
 	"changefreq" => "Daily"
 	];
-	$topics = fetch_topic_nums($t["name"]);
-	foreach ($topics as $p) {
+	$copics = fetch_topic_nums($c["name"]);
+	foreach ($copics as $p) {
 		$pages[] = [
-			"cleanurl" => CONFIG_WEBROOT . "max/$t[name]/$p",
-			"dirtyurl" => CONFIG_WEBROOT . "max.php?timeline=$t[name]&topic=$p"
+			"cleanurl" => CONFIG_WEBROOT . "max/$c[name]/$p",
+			"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c[name]&topic=$p"
 		];
 	}
 }

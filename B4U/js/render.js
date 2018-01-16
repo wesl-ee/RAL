@@ -37,7 +37,7 @@ function createpostelement(post, linkify)
 
 	num.className = 'id';
 	num.appendChild(document.createTextNode(
-		'[' + post.timeline + '/' + post.id + ']'
+		'[' + post.continuity + '/' + post.id + ']'
 	));
 
 	info.className = 'info';
@@ -147,10 +147,3 @@ function verifyreader(reader, posts)
 	}
 	return true;
 }
-
-var testpost = new Object();
-testpost.id = .59;
-testpost.topic = 1;
-testpost.timeline = 'B4U';
-testpost.content = '0 errors, 0 warnings';
-testpost.date = new Date().toISOString();

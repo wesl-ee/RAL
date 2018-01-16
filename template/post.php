@@ -5,7 +5,7 @@
 	}
 
 	$content = $post['content'];
-	$timeline = $post['timeline'];
+	$continuity = $post['continuity'];
 	$time = date('M d Y', strtotime($post['date']));
 	$posttopic = $post['topic'];
 	$id = $post['id'];
@@ -19,9 +19,9 @@
 			$q['topic'] = $id;
 		$p = http_build_query($q);
 			if (CONFIG_CLEAN_URL && empty($p))
-			$a = CONFIG_WEBROOT . "max/$timeline/$posttopic";
+			$a = CONFIG_WEBROOT . "max/$continuity/$posttopic";
 		else if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$timeline/$posttopic?$p";
+			$a = CONFIG_WEBROOT . "max/$continuity/$posttopic?$p";
 		else
 			$a = "?$p";
 		$open = "<a href='$a' class=info>";
@@ -33,7 +33,7 @@
 	print
 <<<HTML
 	{$open}
-	<span class=id>[$timeline/$id]</span>
+	<span class=id>[$continuity/$id]</span>
 	<time>$time</time>
 	{$close}
 	<span class=content>$content</span>

@@ -11,16 +11,16 @@ class=breadcrumb>
 	</li>
 
 HTML;
-	if (isset($timeline)) {
+	if (isset($continuity)) {
 		if (CONFIG_CLEAN_URL)
-			$a .= "max/$timeline";
+			$a .= "max/$continuity";
 		else
-			$a .= "max.php?timeline=$timeline";
+			$a .= "max.php?continuity=$continuity";
 		print
 <<<HTML
 	›<li property=itemListElement typeof=ListItem>
 		<a href='$a' property=item typeof=WebPage>
-		<span property=name>$timeline</span></a>
+		<span property=name>$continuity</span></a>
 		<meta property=position content=2 />
 	</li>
 

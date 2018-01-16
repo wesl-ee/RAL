@@ -1,4 +1,4 @@
-// Add JS functionality to timeline navigators and
+// Add JS functionality to continuity navigators and
 // block their HTML hrefs
 function connectnav(collection, leftnav, rightnav)
 {
@@ -6,12 +6,12 @@ function connectnav(collection, leftnav, rightnav)
 
 	rightnav.removeAttribute('href');
 	rightnav.addEventListener('click', function(e) {
-		timelinescroll(collection, collection.currpage + 1);
+		continuityscroll(collection, collection.currpage + 1);
 	});
 	leftnav.removeAttribute('href');
 	leftnav.addEventListener('click', function(e) {
 		e.preventDefault();
-		timelinescroll(collection, collection.currpage - 1);
+		continuityscroll(collection, collection.currpage - 1);
 	});
 
 	// Remove the ?p= from the href query string (since JS
@@ -118,9 +118,9 @@ function removequeryparts(query, params)
 	}
 	return newparts.join('&');
 }
-function timelinescroll(collection, page)
+function continuityscroll(collection, page)
 {
-	/* CONFIG_MAX_TIMELINES */
+	/* CONFIG_PER_PAGE */
 	var results_per_page = 5;
 
 	var children = collection.children;
@@ -158,14 +158,14 @@ function timelinescroll(collection, page)
 	}
 
 	// Should we show the right / left page nav?
-	var timelines = collection.parentNode;
-	var leftnav = timelines.getElementsByClassName('leftnav')[0];
+	var continuities = collection.parentNode;
+	var leftnav = continuities.getElementsByClassName('leftnav')[0];
 
 	if (!page)
 		leftnav.style.visibility = 'hidden';
 	else
 		leftnav.style.visibility = 'visible';
-	var rightnav = timelines.getElementsByClassName('rightnav')[0];
+	var rightnav = continuities.getElementsByClassName('rightnav')[0];
 	if (page + 1 >= children.length / results_per_page)
 		rightnav.style.visibility = 'hidden';
 	else

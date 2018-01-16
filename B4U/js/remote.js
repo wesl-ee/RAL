@@ -25,7 +25,7 @@ function oos()
 	netmessage('Out of sync');
 	document.getElementById('latency').className = 'error';
 }
-function fetchtopics(timeline, reader)
+function fetchtopics(continuity, reader)
 {
 	var xhr = new XMLHttpRequest();
 	var t1;
@@ -46,11 +46,11 @@ function fetchtopics(timeline, reader)
 			newtopic(reader, topic);
 		}
 	} }
-	var uri = '?fetch&timeline=' + timeline;
+	var uri = '?fetch&continuity=' + continuity;
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
 }
-function fetchposts(timeline, topic, reader)
+function fetchposts(continuity, topic, reader)
 {
 	var xhr = new XMLHttpRequest();
 	var t1;
@@ -71,20 +71,20 @@ function fetchposts(timeline, topic, reader)
 			newpost(reader, post)
 		}
 	} }
-	var uri = '?fetch&timeline=' + timeline + "&topic=" + topic;
+	var uri = '?fetch&continuity=' + continuity + "&topic=" + topic;
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
 }
-function subscribetopic(timeline, topic, reader)
+function subscribetopic(continuity, topic, reader)
 {
 	// Confirm that we have a valid collection of posts
-	verifyposts(reader, timeline, topic);
+	verifyposts(reader, continuity, topic);
 	xhr = new XMLHttpRequest();
 
 	// Long polling set-up
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
-		subscribetopic(timeline, topic, reader);
+		subscribetopic(continuity, topic, reader);
 	}
 
 	xhr.onload = function() {
@@ -100,10 +100,10 @@ function subscribetopic(timeline, topic, reader)
 			doctitlenotify();
 			newpost(reader, post);
 		}
-		subscribetopic(timeline, topic, reader);
+		subscribetopic(continuity, topic, reader);
 	}
 
-	var uri = '?subscribe&timeline=' + timeline + '&topic=' + topic
+	var uri = '?subscribe&continuity=' + continuity + '&topic=' + topic
 	// Prevent caching or throttling
 	+ '&' + Math.random().toString(36);
 	xhr.open('GET', '/courier.php' + uri);
@@ -144,7 +144,7 @@ function subscribeall(reader)
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
 }
-function verifyposts(reader, timeline, topic)
+function verifyposts(reader, continuity, topic)
 {
 	var xhr = new XMLHttpRequest();
 
@@ -172,8 +172,8 @@ function verifyposts(reader, timeline, topic)
 		}
 	} }
 	var uri = '?verify';
-	if (timeline)
-		uri += '&timeline=' + timeline;
+	if (continuity)
+		uri += '&continuity=' + continuity;
 	if (topic)
 		uri += "&topic=" + topic;
 	// Prevent caching or throttling
@@ -183,7 +183,7 @@ function verifyposts(reader, timeline, topic)
 	// Synchronous: we care about the result
 	xhr.send(false);
 }
-function subscribetimeline(timeline, reader)
+function subscribecontinuity(continuity, reader)
 {
 	xhr = new XMLHttpRequest();
 	// i holds the length of the last response
@@ -192,7 +192,7 @@ function subscribetimeline(timeline, reader)
 	// Long polling set-up
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
-		subscribetimeline(timeline, reader);
+		subscribecontinuity(continuity, reader);
 	}
 
 	xhr.onload = function() {
@@ -208,10 +208,10 @@ function subscribetimeline(timeline, reader)
 			doctitlenotify();
 			newtopic(reader, topic);
 		}
-		subscribetimeline(timeline, reader);
+		subscribecontinuity(continuity, reader);
 	}
 
-	var uri = '?subscribe&timeline=' + timeline;
+	var uri = '?subscribe&continuity=' + continuity;
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
 }

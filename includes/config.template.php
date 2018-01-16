@@ -20,8 +20,8 @@ define("CONFIG_RAL_SEMKEY", 12648432);
 // Maximum post length in characters
 define("CONFIG_RAL_POSTMAXLEN", 5000);
 
-// Number of timelines displayed per page
-define("CONFIG_TIMELINES_PER_PAGE", 5);
+// Number of continuities displayed per page
+define("CONFIG_PER_PAGE", 5);
 
 // After this time, PHP will consider a listener
 // who has not been updated recently as having timed out
@@ -43,7 +43,7 @@ define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 
 // Only set if you have set up lighttpd like in the example config!
 // true: https:ral.space/max/Anime/1
-// false: https:ral.space/max.php?timeline=Anime&topic=1
+// false: https:ral.space/max.php?continuity=Anime&topic=1
 define("CONFIG_CLEAN_URL", false);
 
 // A line-seperated list of words to use for the robocheck
