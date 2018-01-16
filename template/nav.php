@@ -1,21 +1,23 @@
-<?php if (!isset($page)) {
-		print "Improper template usage!";
-		die;
+<?php if (!isset($items)) {
+	print "Improper template usage!";
+	die;
 }
-if (!isset($timelines))
-	$timelines = fetch_timelines();
+// Track which page of items we are looking at
+$page = $_GET['np'];
+// Default to the first page of items
+if (!isset($page)) $page = 0;
 ?>
 <div class=collection>
 <?php
 	$per_page = CONFIG_TIMELINES_PER_PAGE;
-	for ($i = 0; $i < count($timelines); $i++) {
-		$name = $timelines[$i]['name'];
-		$desc = $timelines[$i]['description'];
+	for ($i = 0; $i < count($items); $i++) {
+		$name = $items[$i]['name'];
+		$desc = $items[$i]['description'];
 		if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$name?p=$page";
+			$a = CONFIG_WEBROOT . "max/$name?np=$page";
 		else
-			$a = "max.php?timeline=$name&p=$page";
-		// Put all timelines in the DOM (but only
+			$a = "max.php?timeline=$name&np=$page";
+		// Put all items in the DOM (but only
 		// display some) (for JS)
 		if ($i < $page * $per_page
 		|| $i >= ($page + 1) * $per_page)
@@ -45,9 +47,9 @@ HTML;
 HTML;
 	} else {
 		$nextpage = $page - 1;
-		// Preserve $_GET across timelines navigation
+		// Preserve $_GET across items navigation
 		$q = $_GET;
-		$q['p'] = $nextpage;
+		$q['np'] = $nextpage;
 		$q = http_build_query($q);
 		print
 <<<HTML
@@ -57,11 +59,11 @@ HTML;
 	}
 
 	// Right navigation arrow
-	if ($page * $per_page < floor(count($timelines) / $per_page)) {
+	if ($page * $per_page < floor(count($items) / $per_page)) {
 		$nextpage = $page + 1;
-		// Preserve $_GET across timelines navigation
+		// Preserve $_GET across items navigation
 		$q = $_GET;
-		$q['p'] = $nextpage;
+		$q['np'] = $nextpage;
 		$q = http_build_query($q);
 		print
 <<<HTML
@@ -80,3 +82,4 @@ HTML;
 </nav>
 
 HTML;
+?>

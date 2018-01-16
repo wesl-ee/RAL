@@ -25,6 +25,7 @@ if (!isset($page)) $page = 0;
 	<span id=latency>&nbsp;</span>
 	<div id=timelines>
 <?php
+	$items = fetch_timelines();
 	include "{$ROOT}template/nav.php"
 ?>
 	</div>

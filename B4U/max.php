@@ -5,8 +5,6 @@ include $ROOT.'includes/fetch.php';
 include $ROOT.'includes/post.php';
 include $ROOT.'includes/render.php';
 
-// Track which page of timelines we are looking at
-$page = $_GET['p'];
 // Which timeline we are reading
 $timeline = $_GET['timeline'];
 // Which topic (if any) we are reading
@@ -115,26 +113,25 @@ $timelinedesc = $timelines[$i]['description'];
 </head>
 <body>
 <div id=timelines class=sidebar>
-	<h2>RAL</h2>
+	<h2><a href="<?php print CONFIG_WEBROOT;?>">RAL</a></h2>
 <?php
-	if (CONFIG_REALTIME_ENABLE) print
-<<<LATENCY
-	<span id=latency>&nbsp;</span>
-LATENCY;
-
-	// Requires $timelines and $page
-	include "../template/nav.php";
 	if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . "info";
 	else
 		$a = CONFIG_WEBROOT . "info.php";
-	$b = CONFIG_WEBROOT;
 	print
 <<<HTML
-	<a href="$b">Home</a>
 	<a href="$a">About</a>
 
 HTML;
+	$items = fetch_timelines();
+	include "../template/nav.php";
+
+
+	if (CONFIG_REALTIME_ENABLE) print
+<<<LATENCY
+	<span id=latency>&nbsp;</span>
+LATENCY;
 ?></div>
 <div id=rightpanel>
 <?php
