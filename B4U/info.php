@@ -33,32 +33,7 @@ function nl22br($string)
 <body>
 <div class=sidebar>
 	<h2>RAL</h2>
-	<span>Configure</span>
-	<span class=collection>
-		<?php if (CONFIG_CLEAN_URL) {
-			$a = CONFIG_WEBROOT . "info/";
-			$b = CONFIG_WEBROOT;
-			print
-<<<HTML
-		<a class=hoverbox href={$a}theme>Theme</a>
-		<a class=hoverbox href={$a}>About</a>
-		<a class=hoverbox href={$a}help>Help</a>
-		<a class=hoverbox href={$b}doc>Doc</a>
-
-HTML;
-		}
-		else
-			print
-<<<HTML
-		<a class=hoverbox href=?theme>Theme</a>
-		<a class=hoverbox href=?>About</a>
-		<a class=hoverbox href=?help>Help</a>
-		<a class=hoverbox href=doc.php>Doc</a>
-
-HTML;
-?>
-	</span>
-	<?php
+<?php
 	$a = CONFIG_WEBROOT;
 	print
 <<<HTML
@@ -66,6 +41,34 @@ HTML;
 
 HTML;
 ?>
+	<span class=collection>
+<?php
+	if (CONFIG_CLEAN_URL)
+		$a = CONFIG_WEBROOT . "info";
+	else
+		$a = CONFIG_WEBROOT . "info.php?";
+	$items =
+	[
+		[
+		"name" => "About",
+		"location" => "$a",
+		],
+		[
+		"name" => "Theme",
+		"location" => "$a/theme",
+		],
+		[
+		"name" => "Help",
+		"location" => "$a/help",
+		],
+		[
+		"name" => "Doc",
+		"location" => "$a/doc",
+		],
+	];
+	include "{$ROOT}template/nav.php";
+?>
+	</span>
 </div>
 <div id=rightpanel>
 	<?php if (isset($_GET['theme'])) {

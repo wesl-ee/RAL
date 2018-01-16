@@ -13,23 +13,20 @@ if (!isset($page)) $page = 0;
 	for ($i = 0; $i < count($items); $i++) {
 		$name = $items[$i]['name'];
 		$desc = $items[$i]['description'];
-		if (CONFIG_CLEAN_URL)
-			$a = CONFIG_WEBROOT . "max/$name?np=$page";
-		else
-			$a = "max.php?timeline=$name&np=$page";
+		$location = $items[$i]['location'];
 		// Put all items in the DOM (but only
 		// display some) (for JS)
 		if ($i < $page * $per_page
 		|| $i >= ($page + 1) * $per_page)
 			print
 <<<HTML
-	<a class=hoverbox href="$a"
+	<a class=hoverbox href="$location"
 	style="visibility: hidden; display:none">$name</a>
 
 HTML;
-		else print
+			else print
 <<<HTML
-	<a class=hoverbox href="$a">$name</a>
+	<a class=hoverbox href="$location">$name</a>
 
 HTML;
 	}

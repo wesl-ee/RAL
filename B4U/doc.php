@@ -21,8 +21,15 @@ include $ROOT."includes/post.php";
 <body>
 <div class=sidebar>
 	<h2>RAL</h2>
-	<span>Doc</span>
 	<span class=collection>
+<?php
+	$a = CONFIG_WEBROOT;
+	print
+<<<HTML
+	<a href="$a">Home</a>
+
+HTML;
+?>
 		<?php if (CONFIG_CLEAN_URL) {
 			$a = CONFIG_WEBROOT . "doc/";
 			print
@@ -45,14 +52,7 @@ HTML;
 HTML;
 ?>
 	</span>
-	<?php
-	$a = CONFIG_WEBROOT;
-	print
-<<<HTML
-	<a href="$a">Home</a>
 
-HTML;
-?>
 </div>
 <div id=rightpanel>
 	<div class='reader docs'>

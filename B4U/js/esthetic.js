@@ -19,6 +19,7 @@ function connectnav(collection, leftnav, rightnav)
 	var children = collection.children;
 	for (var i = 0; i < children.length; i++) {
 		var href = children[i].href;
+		if (href.indexOf('?') < 0) continue;
 		var query = href.slice(href.indexOf('?') + 1);
 		var page = href.slice(0, href.indexOf('?'));
 		query = removequeryparts(query, ['np']);

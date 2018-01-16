@@ -12,11 +12,16 @@ function fetch_timelines()
 	$query = "SELECT `Name`, `Description`  FROM `Timelines`"
 	. " ORDER BY `Name`";
 	$res = mysqli_query($dbh, $query);
+	if (CONFIG_CLEAN_URL)
+		$hrefprefix = CONFIG_WEBROOT . "max/";
+	else
+		$hrefprefix = CONFIG_WEBROOT . "max.php?timeline=";
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$ret[] = [
 			'name' => $row['Name'],
 			'description' => $row['Description'],
+			'location' => $hrefprefix . $row['Name']
 		];
 	}
 	return $ret;
