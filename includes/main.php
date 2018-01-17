@@ -38,6 +38,7 @@ function head($title)
 	<meta name=viewport content="width=device-width,
 	maximum-scale=1, minimum-scale=1">
 	<link rel=stylesheet href="${ROOT}css/base.css">
+	<link rel=icon type="image/x-icon" href="${ROOT}favicon.ico">
 
 HTML;
 	$theme = get_theme();

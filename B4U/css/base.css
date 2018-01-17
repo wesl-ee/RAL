@@ -264,11 +264,6 @@
 	a.hoverbox {
 		text-decoration: none;
 	}
-	/* No :hover colors for buttons and nav things */
-	a.hoverbox:hover,
-	.leftnav:hover, .rightnav:hover {
-		color: inherit !important;
-	}
 /* Modifications on the default styling */
 	input[type=submit] {
 		padding-left: 5px;

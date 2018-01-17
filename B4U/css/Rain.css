@@ -47,6 +47,11 @@
 	a:hover {
 		color: #5ABFCF;
 	}
+	/* No :hover colors for buttons and nav things */
+	.hoverbox:hover,
+	.leftnav:hover, .rightnav:hover {
+		color: inherit !important;
+	}
 	article a:hover {
 		/* Override BBCode styling */
 		color: #5ABFCF !important;

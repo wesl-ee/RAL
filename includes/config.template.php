@@ -57,6 +57,7 @@ define("CONFIG_REALTIME_ENABLE", false);
 define("CONFIG_THEMES",
 [
 	'20XX',
-	'Rain'
+	'Rain',
+	'Kinoko'
 ]);
 ?>

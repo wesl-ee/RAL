@@ -105,7 +105,7 @@ HTML;
 		print
 <<<HTML
 		</select></dd>
-		</dl><input type=submit value=Commit></form>
+		</dl><input type=submit class=hoverbox value=Commit></form>
 
 HTML;
 
