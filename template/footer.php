@@ -14,9 +14,7 @@
 		else $a = "?postmode&$q";
 		print
 <<<HTML
-	<span class=hoverbox>
-		<a href='$a'>Reply to Topic</a>
-	</span>
+	<a href='$a' class=hoverbox>Reply to Topic</a>
 
 HTML;
 		$q = $_GET;
@@ -35,9 +33,7 @@ HTML;
 
 		print
 <<<HTML
-	<span class=hoverbox>
-		<a href=$a>Return</a>
-	</span>
+	<a href='$a' class=hoverbox>Return</a>
 HTML;
 	} else {
 		$q = $_GET;
@@ -49,9 +45,7 @@ HTML;
 		else $a = "?postmode&$q";
 		print
 <<<HTML
-		<span class=hoverbox>
-			<a href=$a>Create a Topic</a>
-		</span>
+		<a href='$a' class=hoverbox>Create a Topic</a>
 
 HTML;
 	}

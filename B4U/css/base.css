@@ -252,7 +252,6 @@
 	}
 	/* An styled button which shadows when hovered over */
 	.hoverbox {
-	       display: block;
 	       padding-left: 5px;
 	       padding-right: 5px;
 	       transition: box-shadow 0.2s;
@@ -262,9 +261,13 @@
 	.hoverbox:hover {
 	       box-shadow: -1px 1px 2px;
 	}
-	.hoverbox a,
 	a.hoverbox {
-	       text-decoration: none;
+		text-decoration: none;
+	}
+	/* No :hover colors for buttons and nav things */
+	a.hoverbox:hover,
+	.leftnav:hover, .rightnav:hover {
+		color: inherit !important;
 	}
 /* Modifications on the default styling */
 	input[type=submit] {

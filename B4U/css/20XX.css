@@ -38,13 +38,17 @@
 	dl, ul, ol {
 		list-style-type: square;
 	}
-	article a:hover {
-		color: #5ABFCF !important;
-	}
 	kbd {
 		padding: 2px;
 	}
 	code {
 		background: #151515;
 		color: #D7D0C7;
+	}
+	a:hover {
+		color: #5ABFCF;
+	}
+	article a:hover {
+		/* Override BBCode styling */
+		color: #5ABFCF !important;
 	}

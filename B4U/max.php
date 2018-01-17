@@ -106,7 +106,6 @@ $continuitydesc = $continuities[$i]['description'];
 <head>
 <?php
 	$title = "$continuity";
-//	if (isset($continuity)) $title .= " $continuity";
 	if (isset($topic)) $title .= "/$topic";
 	head($title);
 ?>
