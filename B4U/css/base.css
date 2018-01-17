@@ -42,7 +42,7 @@
 		flex-direction: column;
 		overflow: hidden;
 	}
-	/* A timeline list is displayed here */
+	/* A continuity list is displayed here */
 	.sidebar {
 		position: absolute;
 		margin: 20px;
@@ -127,12 +127,11 @@
 	}
 	/* Every post / topic is wrapped in an <article> */
 	.reader article {
-		padding-bottom: 5px;
 		margin-bottom: 5px;
 		overflow-x: hidden;
-		border-left: 2px solid;
 		border-radius: 5px;
-		padding-left: 5px;
+		padding: 5px;
+		border: 3px double;
 		text-align: justify;
 	}
 	.reader article .content {
@@ -158,19 +157,21 @@
 	}
 	/* Timeline view (browsing all topics) */
 		/* Restrict content to 2 lines max */
-		.reader.timeline .content {
+		.reader.continuity .content {
 			max-height: 3.2em;
 		}
 	/* Reader on the welcome page */
+		#welcome .reader article,
+		.reader.continuity article {
+
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
 		/* Content on the welcome page
 		can be up to 4 lines tall */
 		#welcome .reader .content {
 			max-height: 5.6em;
 			line-height: 1.4em;
-		}
-		#welcome .reader .info {
-			float: left;
-			border: none;
 		}
 		/* More compact view */
 		#welcome .reader .content {
@@ -262,12 +263,12 @@
 	       display: block;
 	       padding-left: 5px;
 	       padding-right: 5px;
-	       transition: box-shadow 0.5s;
+	       transition: box-shadow 0.2s;
 	       border: 1px solid;
 	       cursor: pointer;
 	}
 	.hoverbox:hover {
-	       box-shadow: -3px 3px 10px;
+	       box-shadow: -1px 1px 2px;
 	}
 	.hoverbox a,
 	a.hoverbox {
