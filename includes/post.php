@@ -281,15 +281,14 @@ function create_post($continuity, $topic, $auth, $content)
 			return false;
 		}
 		$row = mysqli_fetch_assoc($result);
-		$post = [
-			'id' => $row['Id'],
-			'continuity' => $row['Continuity'],
-			'topic' => $row['Topic'],
-			'content' => nl2br(bbbbbbb($row['Content'])),
-			'date' => $row['Created'],
-			'auth' => $row['Auth'],
-			'location' => resolve($row['Continuity'], $row['Topic'])
-		];
+		$post = new post();
+		$post->id = $row['Id'];
+		$post->continuity = $row['Continuity'];
+		$post->topic = $row['Topic'];
+		$post->content = nl2br(bbbbbbb($row['Content']));
+		$post->date = $row['Created'];
+		$post->auth = $row['Auth'];
+		$post->url = resolve($row['Continuity'], $row['Topic']);
 	mysqli_query("COMMIT");
 	ralog("Created Post");
 	return $post;
@@ -350,15 +349,14 @@ function create_topic($continuity, $auth, $content)
 			return false;
 		}
 		$row = mysqli_fetch_assoc($result);
-		$topic = [
-			'id' => $row['Id'],
-			'continuity' => $row['Continuity'],
-			'topic' => $row['Topic'],
-			'content' => nl2br(bbbbbbb($row['Content'])),
-			'date' => $row['Created'],
-			'auth' => $row['Auth'],
-			'location' => resolve($row['Continuity'], $row['Topic'])
-		];
+		$topic = new post();
+		$topic->id = $row['Id'];
+		$topic->continuity = $row['Continuity'];
+		$topic->topic = $row['Topic'];
+		$topic->content = nl2br(bbbbbbb($row['Content']));
+		$topic->date = $row['Created'];
+		$topic->auth = $row['Auth'];
+		$topic->url = resolve($row['Continuity'], $row['Topic']);
 	mysqli_query("COMMIT");
 	ralog("Created topic");
 	return $topic;

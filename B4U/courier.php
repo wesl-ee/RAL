@@ -34,11 +34,12 @@ if (isset($_GET['subscribe'])) {
 		$msg = fetch_message($c_id);
 		switch($msg['type']) {
 		case 'POST':
+			$post = $msg['body'];
 			if (isset($continuity)
-			&& $msg['body']['continuity'] != $continuity)
+			&& $post->continuity != $continuity)
 				$relevant = False;
 			elseif (isset($topic)
-			&& $msg['body']['topic'] != $topic)
+			&& $post->topic != $topic)
 				$relevant = False;
 			else
 				$relevant = True;

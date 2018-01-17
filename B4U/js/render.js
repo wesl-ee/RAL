@@ -42,7 +42,7 @@ function createpostelement(post, linkify)
 
 	info.className = 'info';
 	if (linkify)
-		info.href = post.location;
+		info.href = post.url;
 
 	// post.content may contain HTML (parsed BBcode)
 	content.innerHTML = post.content;
