@@ -29,7 +29,7 @@ if (!isset($page)) $page = 0;
 	include "{$ROOT}template/nav.php"
 ?>
 	</div>
-	<strong>Recent Posts</strong>
+	<header>Recent Posts</header>
 	<div class="reader recent">
 <?php
 	$recent = fetch_recent_posts(10);

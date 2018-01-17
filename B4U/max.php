@@ -93,7 +93,7 @@ for ($i = count($continuities); $i + 1; $i--) {
 	if ($continuities[$i]['name'] == $continuity) break;
 }
 // 404 continuities which do not exist
-if ($i < 0) {
+if ($i < 0 || !isset($continuity)) {
 	http_response_code(404);
 	include "{$ROOT}template/404.php";
 	die;
@@ -105,8 +105,8 @@ $continuitydesc = $continuities[$i]['description'];
 <HTML>
 <head>
 <?php
-	$title = '';
-	if (isset($continuity)) $title .= " $continuity";
+	$title = "$continuity";
+//	if (isset($continuity)) $title .= " $continuity";
 	if (isset($topic)) $title .= "/$topic";
 	head($title);
 ?>

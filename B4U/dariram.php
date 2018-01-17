@@ -19,6 +19,7 @@ if (CONFIG_CLEAN_URL) {
 if (empty($q)) $a = $location;
 else $a  = "$location?$q";
 
+header("X-Robots-Tag: noindex");
 header("Refresh: 3;$a");
 ?>
 <!DOCTYPE HTML>
@@ -28,10 +29,11 @@ header("Refresh: 3;$a");
 </head>
 <body>
 <div id=welcome>
+	<header>RAL says</header>
 	<h1 class=xxx-failure>Failure</h1>
 </div>
 <!-- Scripts -->
-<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/xxx.js'></script>
 <!-- End of scripts -->
 </body>
 </HTML>
