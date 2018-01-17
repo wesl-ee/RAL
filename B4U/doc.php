@@ -73,7 +73,6 @@ HTML;
 </div>
 <div id=rightpanel>
 <?php
-	$title .= ".pod";
 	include "{$ROOT}template/header.php";
 ?>
 	<div class='reader docs'>

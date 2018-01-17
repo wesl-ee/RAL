@@ -1,8 +1,8 @@
 =head1 RAL
 
-NEO-FORUM; FUTURE SOCIETY
+Neo-forum; Future society
 
-=head2 EXECUTIVE SUMMARY
+=head2 Executive Summary
 
 Forums are natural extensions of the Bulletin Board Systems (BBS) of last
 century; posting on a traditional forum, you maintain an identity which
@@ -16,17 +16,17 @@ for forum software, this is definitely not for you.
 Rather, the purpose of RAL is to create a network where you never confuse
 ALTERNATE REALITY with VIRTUAL SELF
 
-=head2 INSTALLATION / DEPENDENCIES
+=head2 Installation / Dependencies
 
 Refer to C<docs/INSTALL.pod> for the bloody details
 
-=head2 CONTRIBUTING
+=head2 Contributing
 
 Contributions are welcome! If you are interested in contributing, join
 L<howler.space:6667|irc://howler.space:6667> #bigtown or L<send me an
 e-mail|mailto:yumi@ral.space>. Further reading is available in
 C<docs/HACKING.pod>
 
-=head2 LICENSE
+=head2 License
 
 Modified BSD License (see C<docs/LICENSE>)

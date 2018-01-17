@@ -117,14 +117,6 @@
 	.reader.docs {
 		text-align: left;
 	}
-	.reader.docs h1,
-	.reader.docs h2,
-	.reader.docs h3,
-	.reader.docs h4 {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		text-align: left;
-	}
 	/* Every post / topic is wrapped in an <article> */
 	.reader article {
 		margin-bottom: 5px;
@@ -284,7 +276,10 @@
 		color: inherit;
 	}
 	h1, h2, h3, h4, h5, h6 {
-		margin: 0px;
+		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		letter-spacing: 0px;
+		font-weight: lighter;
+		margin: 0;
 	}
 	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 		text-decoration: none;
@@ -420,4 +415,3 @@
 			display: none;
 		}
 	}
-

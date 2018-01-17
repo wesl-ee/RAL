@@ -1,4 +1,4 @@
-=head1 RECOMMENDED INSTALLATION
+=head1 Recommended Installation
 
 =head2 Overview
 
