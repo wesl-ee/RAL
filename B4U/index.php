@@ -5,7 +5,7 @@ include "{$ROOT}includes/fetch.php";
 include "{$ROOT}includes/post.php";
 include "{$ROOT}includes/render.php";
 
-$page = $_GET['p'];
+$page = $_GET['np'];
 if (!isset($page)) $page = 0;
 ?>
 <!DOCTYPE HTML>
