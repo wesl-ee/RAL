@@ -25,14 +25,7 @@
 	}
 /* Webkit scrollbars */
 	::-webkit-scrollbar-thumb {
-		background: black;
-	}
-	code::-webkit-scrollbar {
-		height: 8px;
-		width: 0;
-	}
-	code::-webkit-scrollbar-thumb {
-		background: #FFEAEE;
+		background: pink;
 	}
 /* Trivial */
 	dl, ul, ol {

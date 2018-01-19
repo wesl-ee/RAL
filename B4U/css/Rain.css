@@ -24,11 +24,7 @@
 	}
 /* Scrollbars */
 	::-webkit-scrollbar-thumb {
-		background: black;
-	}
-	code::-webkit-scrollbar {
-		height: 8px;
-		width: 0;
+		background: white;
 	}
 	code::-webkit-scrollbar-thumb {
 		background: #65758E;

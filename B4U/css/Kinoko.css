@@ -25,10 +25,6 @@
 	::-webkit-scrollbar-thumb {
 		background: #c7254e;
 	}
-	code::-webkit-scrollbar {
-		height: 8px;
-		width: 0;
-	}
 	code::-webkit-scrollbar-thumb {
 		background: #65758E;
 	}

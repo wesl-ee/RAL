@@ -1,30 +1,18 @@
 /* Layouts */
-	/* Restrict our body to the page */
 	body {
-		position: fixed;
-		top: 0;
-		left: 0;
 		margin: 0;
-		width: 100%;
-		height: 100%;
-		-webkit-backface-visibility: hidden;
 	}
 	/* This holds the introduction / index page content */
 	#welcome {
 		top: 0;
 		border: 1px solid;
 		width: calc(80% - 80px);
-		max-height: calc(100% - 60px);
 		padding: 10px;
 
-		display: flex;
-		flex-direction: column;
 		width: 80%;
 		margin: auto;
 		text-align: center;
 		margin-top: 20px;
-
-		overflow: hidden;
 	}
 	/* The continuity's contents go here */
 	#rightpanel {
@@ -35,12 +23,7 @@
 		margin: 20px;
 		border: 1px solid;
 		width: calc(80% - 80px);
-		max-height: calc(100% - 60px);
 		padding: 10px;
-
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
 	}
 	/* A continuity list is displayed here */
 	.sidebar {
@@ -83,7 +66,7 @@
 		margin-left: 10px;
 	}
 	#rightpanel header h1 {
-		float: left;
+		display: inline;
 	}
 	#rightpanel header em {
 		float: right;
@@ -111,8 +94,6 @@
 		padding: 5px;
 		border-top: 1px solid;
 		border-bottom: 1px solid;
-		overflow: auto;
-		-webkit-overflow-scrolling: touch;
 	}
 	.reader.docs {
 		text-align: left;
@@ -299,10 +280,9 @@
 		height: auto;
 		margin: 0;
 	}
-	/* Scrollbars for the cool kids */
 	::-webkit-scrollbar {
-		width: 2px;
-		height: 0;
+		width: 10px;
+		height: 8px;
 	}
 	input, select, textarea {
 		font-family: inherit;
