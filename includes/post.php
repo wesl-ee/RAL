@@ -273,7 +273,8 @@ function create_post($continuity, $topic, $auth, $content)
 			return false;
 		}
 		$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id";
+		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id"
+		. " AND `Continuity`='$continuity'";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
@@ -341,7 +342,8 @@ function create_topic($continuity, $auth, $content)
 			return false;
 		}
 		$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id";
+		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id"
+		. " AND `Continuity`='$continuity'";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
 			mysqli_query("ROLLBACK");
