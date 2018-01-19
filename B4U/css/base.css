@@ -7,6 +7,7 @@
 		top: 0;
 		border: 1px solid;
 		width: calc(80% - 80px);
+		max-width: 34em;
 		padding: 10px;
 
 		width: 80%;
@@ -282,11 +283,9 @@
 	}
 	input, select, textarea {
 		font-family: inherit;
-		color: inherit;
 		border: 1px solid;
 		margin-bottom: 1px;
 		font-size: 1em;
-		background-color: inherit;
 		margin: 0;
 	}
 	select {

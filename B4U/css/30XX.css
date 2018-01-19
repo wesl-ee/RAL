@@ -1,0 +1,68 @@
+/* Theme colors and fonts */
+	body {
+		color: #EEE;
+		background-color: slategray;
+		font-size: 1.1em;
+		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+		background-image: url('img/rei.png');
+		background-repeat: no-repeat;
+		background-size: 20%;
+		background-attachment: fixed;
+		background-position: bottom left;
+	}
+	.sidebar,
+	#welcome,
+	#rightpanel {
+		background-color: #181818;
+	}
+	article, .hoverbox {
+		background-color: white;
+		color: #181818;
+	}
+/* Sync errors */
+	.error {
+		color: red;
+	}
+/* New posts */
+	article {
+		transition: background 0.3s ease-in-out;
+	}
+	article.new {
+		background: palegoldenrod !important;
+	}
+/* Hoverbox tweaks */
+	.hoverbox {
+		background: white;
+		border: 0;
+	}
+	.hoverbox:hover {
+		box-shadow: 0 0 10px white;
+	}
+/* Webkit scrollbars */
+	::-webkit-scrollbar-thumb {
+		background: #FAF8FB;
+	}
+	code::-webkit-scrollbar-thumb {
+		background: orange;
+	}
+/* Trivial */
+	dl, ul, ol {
+		list-style-type: square;
+	}
+	kbd {
+		padding: 2px;
+	}
+	code {
+		background: slategray;
+		color: #EEE;
+	}
+	a:hover {
+		color: orange;
+	}
+	.leftnav:hover, .rightnav:hover {
+		color: inherit;
+	}
+	article a:hover {
+		/* Override BBCode styling */
+		color: orange !important;
+	}
