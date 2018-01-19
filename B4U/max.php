@@ -132,6 +132,7 @@ HTML;
 	<span id=latency>&nbsp;</span>
 LATENCY;
 ?></div>
+<?php include "{$ROOT}/template/extrapanels.php"?>
 <div id=rightpanel>
 <?php
 	if (isset($topic))
