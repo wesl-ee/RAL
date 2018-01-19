@@ -13,9 +13,10 @@ class=breadcrumb>
 HTML;
 	if (isset($continuity)) {
 		if (CONFIG_CLEAN_URL)
-			$a .= "max/$continuity";
+			$a .= "max/" . urlencode($continuity);
 		else
-			$a .= "max.php?continuity=$continuity";
+			$a .= "max.php?continuity="
+			. rawurlencode($continuity);
 		print
 <<<HTML
 	›<li property=itemListElement typeof=ListItem>
@@ -28,9 +29,9 @@ HTML;
 	}
 	if (isset($topic)) {
 		if (CONFIG_CLEAN_URL)
-			$a .= "/$topic";
+			$a .= "/" . urlencode($topic);
 		else
-			$a .= "&topic=$topic";
+			$a .= "&topic=" . rawurlencode($topic);
 		print
 <<<HTML
 	›<li property=itemListElement typeof=ListItem>

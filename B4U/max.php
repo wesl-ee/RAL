@@ -6,7 +6,7 @@ include $ROOT.'includes/post.php';
 include $ROOT.'includes/render.php';
 
 // Which continuity we are reading
-$continuity = $_GET['continuity'];
+$continuity = urldecode($_GET['continuity']);
 // Which topic (if any) we are reading
 $topic = $_GET['topic'];
 // Whether we are posting or only reading

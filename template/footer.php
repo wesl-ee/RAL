@@ -22,9 +22,9 @@ HTML;
 		if (CONFIG_CLEAN_URL) {
 			$q = http_build_query($q);
 			if (empty($q)) $a =  CONFIG_WEBROOT
-			. "max/$continuity";
+			. "max/" . urlencode($continuity);
 			else $a = CONFIG_WEBROOT
-			. "max/$continuity?$q";
+			. "max/" . urlencode($continuity) . "?$q";
 		}
 		else {
 			$q = http_build_query($q);

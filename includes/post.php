@@ -557,13 +557,18 @@ function fetch_message($c_id)
 function resolve($continuity, $topic = null)
 {
 	if (CONFIG_CLEAN_URL && $topic)
-		return CONFIG_WEBROOT . "max/$continuity/$topic";
+		return CONFIG_WEBROOT . "max/"
+		. urlencode($continuity) . "/"
+		. urlencode($topic);
 	if (CONFIG_CLEAN_URL)
-		return CONFIG_WEBROOT . "max/$continuity";
+		return CONFIG_WEBROOT . "max/"
+		. urlencode($continuity);
 	if ($topic)
 		return CONFIG_WEBROOT
-		. "?max.php&continuity=$continuity&topic=$topic";
-	return CONFIG_WEBROOT . "?max.php&continuity=$continuity";
+		. "?max.php&continuity=" . rawurlencode($continuity)
+		. "&topic=" . rawurlencode($topic);
+	return CONFIG_WEBROOT . "?max.php&continuity="
+	. rawurlencode($continuity);
 }
 
 // FUNCTIONS WHICH NEED TO BE PUT SOMEWHERE ELSE
