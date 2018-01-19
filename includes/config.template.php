@@ -58,6 +58,7 @@ define("CONFIG_THEMES",
 [
 	'20XX',
 	'Rain',
-	'Kinoko'
+	'Kinoko',
+	'30XX'
 ]);
 ?>

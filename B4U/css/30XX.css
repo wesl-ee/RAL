@@ -15,7 +15,7 @@
 	#rightpanel {
 		background-color: #181818;
 	}
-	article, .hoverbox {
+	article, .hoverbox, input[type=submit] {
 		background-color: white;
 		color: #181818;
 	}
