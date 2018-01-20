@@ -123,7 +123,7 @@ my $sth; my $row;
 
 # Pre-fetch a list of all continuities
 my @continuities;
-$sth = $dbh->prepare('SELECT `Name` FROM `Timelines`');
+$sth = $dbh->prepare('SELECT `Name` FROM `Continuities`');
 $sth->execute or die_error DBI::errstr;
 while ($row = $sth->fetchrow_hashref) {
 	push @continuities, $row->{'Name'};
@@ -144,7 +144,7 @@ $choice = present_choices(
 );
 if ($choice eq 'Metrics') {
 	my $tb = Text::Table->new("Name", "Post Count");
-	$sth = $dbh->prepare('SELECT `Name`, `Post Count` FROM `Timelines`');
+	$sth = $dbh->prepare('SELECT `Name`, `Post Count` FROM `Continuities`');
 	$sth->execute or die_error DBI::errstr;
 	while ($row = $sth->fetchrow_hashref) {
 		$tb->add($row->{'Name'}, $row->{'Post Count'});
