@@ -179,7 +179,6 @@
 	}
 	.reply .buttons input[type=submit] {
 		display: block;
-		color: inherit;
 		border-top: 0;
 		width: 100%;
 	}
