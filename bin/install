@@ -1,0 +1,154 @@
+#!/usr/bin/perl
+use strict;
+use File::Basename;
+use DBI;
+
+use constant VERSION => '1.0 "Lightning"';
+use constant {
+	FOREGROND_BLACK => '[0;30m',
+	FOREGROUND_RED => '[0;31m',
+	FOREGROUND_GREEN => '[0;32m',
+	FOREGROUND_YELLOW => '[0;33m',
+	FOREGROUND_BLUE => '[0;34m',
+	FOREGROUND_MAGENTA => '[0;35m',
+	FOREGROUND_CYAN => '[0;36m',
+	FOREGROUND_WHITE => '[0;37m',
+	FOREGROUND_DEFAULT => '[0;39m',
+
+	BACKGROUND_BLACK => '[0;40m',
+	BACKGROUND_RED => '[0;41m',
+	BACKGROUND_GREEN => '[0;42m',
+	BACKGROUND_YELLOW => '[0;43m',
+	BACKGROUND_BLUE => '[0;44m',
+	BACKGROUND_MAGENTA => '[0;45m',
+	BACKGROUND_CYAN => '[0;46m',
+	BACKGROUND_WHITE => '[0;47m',
+	BACKGROUND_DEFAULT => '[0;49m',
+
+	TEXT_RESET => '[0;0m',
+	TEXT_BOLD => '[0;1m',
+	TEXT_STANDOUT => '[0;3m',
+	TEXT_BLINK => '[0;5m',
+	TEXT_REVERSE => '[0;7m',
+};
+sub die_error
+{
+	die FOREGROUND_RED . @_[0] . FOREGROUND_DEFAULT . "\n";
+}
+sub notify_success
+{
+	print FOREGROUND_GREEN . @_[0] . FOREGROUND_DEFAULT . "\n";
+}
+sub notify_warn
+{
+	print FOREGROUND_YELLOW . @_[0] . FOREGROUND_DEFAULT . "\n";
+}
+
+print FOREGROUND_GREEN
+	. "RAL v" . VERSION
+	. " installation wizard\n"
+. FOREGROUND_DEFAULT;
+
+print TEXT_BOLD
+	. "Please ensure you have installed all the necessary"
+	. " components first!\n\n"
+. TEXT_RESET;
+
+# Read SQL settings from the config file
+my ($CONFIG_RAL_SERVER,
+$CONFIG_RAL_USERNAME,
+$CONFIG_RAL_PASSWORD,
+$CONFIG_RAL_DATABASE);
+
+# Grab the PHP config file for accessing SQL
+my $config =  dirname($0) . "/../includes/config.php";
+open(FILE, $config);
+while (<FILE>) {
+	$CONFIG_RAL_SERVER = $1 if (/["']CONFIG_RAL_SERVER["'], ["'](.+)["']/);
+	$CONFIG_RAL_USERNAME = $1 if (/"CONFIG_RAL_USERNAME", ["'](.+)["']/);
+	$CONFIG_RAL_PASSWORD = $1 if (/["']CONFIG_RAL_PASSWORD["'], ["'](.+)["']/);
+	$CONFIG_RAL_DATABASE = $1 if (/["']CONFIG_RAL_DATABASE["'], ["'](.+)["']/);
+}
+close(FILE);
+
+print <<EOF;
+Your databse options in includes/config.php are:
+Server: $CONFIG_RAL_SERVER
+User: $CONFIG_RAL_USERNAME
+Pasword: (ommitted)
+Databse: $CONFIG_RAL_DATABASE
+
+If trouble arises, ensure these settings are correct
+EOF
+# Jack in
+# SQL
+my $dsn = "DBI:mysql:;host=" . $CONFIG_RAL_SERVER;
+
+my $dbh = DBI->connect(
+	$dsn,
+	$CONFIG_RAL_USERNAME,
+	$CONFIG_RAL_PASSWORD,
+	{'PrintError' => 0}
+);
+if (!defined $dbh) {
+	die_error DBI::errstr;
+}
+my $sth;
+
+# Database creation
+$sth = $dbh->prepare(
+	"CREATE DATABASE `$CONFIG_RAL_DATABASE`"
+);
+if ($sth->execute) {
+	notify_success "Created the `$CONFIG_RAL_DATABASE` database";
+}
+else {
+	die_error DBI::errstr;
+}
+$sth = $dbh->prepare(
+	"USE `$CONFIG_RAL_DATABASE;"
+);
+if (!$sth->execute) {
+	die_error DBI::errstr;
+}
+
+# Table creation
+$sth = $dbh->prepare(
+	"CREATE TABLE `Continuities` ("
+	. "`Name` VARCHAR(16) NOT NULL,"
+	. "`Post Count` INT(11) DEFAULT 0,"
+	. "`Description` VARCHAR(32) DEFAULT NULL,"
+	. "PRIMARY KEY (`Name`)"
+	. ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+);
+if (!$sth->execute) {
+	die_error DBI::errstr;
+}
+$sth = $dbh->prepare(
+	"CREATE TABLE `Posts` ("
+	. "`Id` INT(11) NOT NULL,"
+	. "`Created` DATETIME DEFAULT CURRENT_TIMESTAMP,"
+	. "`Continuity` VARCHAR(16) NOT NULL,"
+	. "`Topic` INT(11) NOT NULL,"
+	. "`Content` TEXT NOT NULL DEFAULT '',"
+	. "`Auth` VARCHAR(512) NOT NULL,"
+	. "PRIMARY KEY (`Id`, `Continuity`)"
+	. ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+);
+if (!$sth->execute) {
+	die_error DBI::errstr;
+}
+$sth = $dbh->prepare(
+	"CREATE TABLE `Bans` ("
+	. "`Id` VARCHAR(256) NOT NULL,"
+	. "`Type` VARCHAR(64) NOT NULL,"
+	. "`Date` DATETIME DEFAULT CURRENT_TIMESTAMP,"
+	. "PRIMARY KEY (`Id`)"
+	. ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+);
+if (!$sth->execute) {
+	die_error DBI::errstr;
+}
+
+notify_success "Created the SQL structure";
+print "Now run bin/admin_panel to create your first continuity!\n";

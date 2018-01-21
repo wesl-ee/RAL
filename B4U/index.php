@@ -26,7 +26,13 @@ if (!isset($page)) $page = 0;
 	<div id=continuities>
 <?php
 	$items = fetch_continuities();
-	include "{$ROOT}template/nav.php"
+	if ($items)
+		include "{$ROOT}template/nav.php";
+	else print
+<<<HTML
+		<span class=error>No continuities have been created!</span>
+
+HTML;
 ?>
 	</div>
 	<header>Recent Posts</header>
@@ -34,9 +40,9 @@ if (!isset($page)) $page = 0;
 <?php
 	$recent = fetch_recent_posts(10);
 	$linkify = true;
-	foreach ($recent as $post) {
+	foreach ($recent as $post)
 		include "{$ROOT}template/post.php";
-	}
+
 ?>
 	</div>
 	<footer>
@@ -81,10 +87,12 @@ var collection = continuities.getElementsByClassName('collection')[0];
 var leftnav = continuities.getElementsByClassName('leftnav')[0];
 var rightnav = continuities.getElementsByClassName('rightnav')[0];
 
-connectnav(collection, leftnav, rightnav);
-connectreader(reader);
-
-subscribeall(reader);
+if (collection)
+	connectnav(collection, leftnav, rightnav);
+if (reader) {
+	connectreader(reader);
+	subscribeall(reader);
+}
 </script>
 <!-- End of scripts -->
 </body>

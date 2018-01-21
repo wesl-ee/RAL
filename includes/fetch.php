@@ -8,6 +8,7 @@ function fetch_continuities()
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$query = "SELECT `Name`, `Description`  FROM `Continuities`"
 	. " ORDER BY `Name`";
@@ -31,6 +32,7 @@ function fetch_topics($continuity)
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$query = "SELECT `Id`, `Auth`, `Content`, MAX(`Created`) AS `Date` FROM `Posts`"
@@ -59,6 +61,7 @@ function fetch_posts($continuity, $topic)
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$topic = mysqli_real_escape_string($dbh, $topic);
@@ -90,6 +93,7 @@ function fetch_post_nums($continuity, $topic)
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$topic = mysqli_real_escape_string($dbh, $topic);
@@ -113,6 +117,7 @@ function fetch_topic_nums($continuity)
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$continuity = mysqli_real_escape_string($dbh, $continuity);
 	$query = "SELECT `Id` FROM `Posts`"
@@ -130,6 +135,7 @@ function fetch_recent_post_nums($n)
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$query = "SELECT `Id` FROM `Posts` ORDER BY `Created` DESC LIMIT $n";
 	$res = mysqli_query($dbh, $query);
@@ -148,6 +154,7 @@ function fetch_recent_posts($n)
 		CONFIG_RAL_USERNAME,
 		CONFIG_RAL_PASSWORD,
 		CONFIG_RAL_DATABASE);
+	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
 	$query = "SELECT `Id`, `Auth`, `Content`, `Created` AS `Date`, `Topic`, `Continuity` FROM `Posts` ORDER BY `Date` DESC LIMIT $n";
 	$res = mysqli_query($dbh, $query);

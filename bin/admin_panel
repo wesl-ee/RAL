@@ -135,21 +135,51 @@ print FG_CYAN
 
 my $choice;
 do {
+print "Main Menu\n";
 $choice = present_choices(
-	'Metrics',
+	'Continuities',
 	'Encrypt a post',
 	'Bans',
 	'Post Details',
 	'Quit'
 );
-if ($choice eq 'Metrics') {
-	my $tb = Text::Table->new("Name", "Post Count");
-	$sth = $dbh->prepare('SELECT `Name`, `Post Count` FROM `Continuities`');
-	$sth->execute or die_error DBI::errstr;
-	while ($row = $sth->fetchrow_hashref) {
-		$tb->add($row->{'Name'}, $row->{'Post Count'});
+if ($choice eq 'Continuities') {
+	$choice = present_choices(
+		'Metrics',
+		'Create a Continuity',
+		'Delete a Continuity'
+	);
+	if ($choice eq 'Metrics') {
+		$sth = $dbh->prepare('SELECT `Name`, `Post Count` FROM `Continuities`');
+		$sth->execute or die_error DBI::errstr;
+		while ($row = $sth->fetchrow_hashref) {
+			print "$row->{'Name'}\n\t$row->{'Post Count'} post";
+			print "s" if ($row->{'Post Count'} > 1);
+			print "\n";
+		}
+		if (!$sth->rows) {
+			notify_warn "There are no continuities!";
+		}
+	} elsif ($choice eq 'Create a Continuity') {
+		print "\nNew Continuity Name: ";
+		my $name = <>; chomp $name;
+		print "Description: ";
+		my $desc = <>; chomp $desc;
+		$sth = $dbh->prepare('INSERT INTO `Continuities` '
+		. '(`Name`, `Description`) VALUES ((?), (?))');
+		$sth->execute($name, $desc) or die_error DBI::errstr;
+		notify_success "Successfully created $name";
+	} elsif ($choice eq 'Delete a Continuity') {
+		print "\nDelete which continuity?\n";
+		$choice = present_choices @continuities;
+		$sth = $dbh->prepare('DELETE FROM `Continuities` WHERE'
+		. ' `Name`=(?)');
+		$sth->execute($choice) or die_error DBI::errstr;
+		$sth = $dbh->prepare('DELETE FROM `Posts` WHERE'
+		. ' `Continuity`=(?)');
+		$sth->execute($choice) or die_error DBI::errstr;
+		notify_success "Deleted $choice and all its posts";
 	}
-	print $tb;
 } elsif ($choice eq 'Encrypt a post') {
 	print "\nFrom which continuity?\n";
 	$choice = present_choices @continuities;

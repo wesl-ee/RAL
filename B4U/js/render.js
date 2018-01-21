@@ -10,7 +10,8 @@ function newfrontpagepost(reader, post)
 	var article = createpostelement(post, true);
 
 	reader.insertBefore(article, reader.children[0]);
-	reader.removeChild(reader.lastElementChild);
+	if (reader.children.length > 10)
+		reader.removeChild(reader.lastElementChild);
 	highlightnew(article);
 }
 function newpost(reader, post)
