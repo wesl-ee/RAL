@@ -1,22 +1,13 @@
-<?php
-	if (!isset($post)) {
-		print "Improper template usage!";
-		die;
-	}
+<?php if (!isset($post)) {
+	print "Improper template usage!";
+	die;
+} ?>
 
-	$content = $post->content;
-	$continuity = $post->continuity;
-	$time = date('M d Y', strtotime($post->date));
-	$posttopic = $post->topic;
-	$id = $post->id;
-	$url = $post->url;
-?>
-
-<article data-post=<?php print $id?> id=<?php print $id?>>
+<article data-post=<?php print $post->id;?> id=<?php print $post->id;?>>
 <?php
 	// Allow us to click on topic info to expand the topic
 	if ($linkify) {
-		$open = "<a href='$url' class=info>";
+		$open = "<a href='$post->url' class=info>";
 		$close = "</a>";
 	} else {
 		$open = "<span class=info>";
@@ -25,10 +16,10 @@
 	print
 <<<HTML
 	{$open}
-	<span class=id>[$continuity/$id]</span>
-	<time>$time</time>
+	<span class=id>[$post->continuity/$post->id]</span>
+	<time datetime="$post->date">$post->shortdate</time>
 	{$close}
-	<span class=content>$content</span>
+	<span class=content>$post->content</span>
 HTML;
 ?>
 </article>

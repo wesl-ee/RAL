@@ -9,30 +9,21 @@ class post {
 	public $topic;
 	public $content;
 	public $date;
+	public $shortdate;
 	public $auth;
 	public $url;
 
-	// Fills in a post's information from a SQL row
+	// Fills in a post's information from a SQL row from `Posts`
 	public function __construct($row) {
+		$time = strtotime($row['Date']);
 		$this->id = $row['Id'];
 		$this->continuity = $row['Continuity'];
-		$this->topic = $row['topic'];
+		$this->topic = $row['Topic'];
 		$this->content = nl2br(bbbbbbb($row['Content']));
-		$this->date = $row['Date'];
+		$this->date = gmdate(DATE_RFC822, $time);
+		$this->shortdate = gmdate('M d Y T', $time);
 		$this->auth = $row['Auth'];
-		$this->url = resolve($row['Continuity'], $row['Id']);
-	}
-	public function encode() {
-		return json_encode(
-		[
-			"id" => $id,
-			"continuity" => $continuity,
-			"topic" => $topic,
-			"content" => $content,
-			"date" => $date,
-			"auth" => $auth,
-			"url" => $url
-		]);
+		$this->url = resolve($row['Continuity'], $row['Topic']);
 	}
 }
 

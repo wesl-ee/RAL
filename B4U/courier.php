@@ -1,5 +1,5 @@
 <?php
-include '../includes/config.php';
+include '../includes/main.php';
 include '../includes/fetch.php';
 include '../includes/post.php';
 
