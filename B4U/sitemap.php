@@ -24,37 +24,30 @@ $pages = [
 	[
 	"cleanurl" => CONFIG_WEBROOT . "info",
 	"dirtyurl" => CONFIG_WEBROOT . "info.php",
-	"changefreq" => "Monthly",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "info/theme",
 	"dirtyurl" => CONFIG_WEBROOT . "info.php?theme",
-	"changefreq" => "Monthly",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "info/help",
 	"dirtyurl" => CONFIG_WEBROOT . "info.php?help",
-	"changefreq" => "Monthly",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "doc/hacking",
 	"dirtyurl" => CONFIG_WEBROOT . "doc.php?hacking",
-	"changefreq" => "Monthly",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "doc/readme",
 	"dirtyurl" => CONFIG_WEBROOT . "doc.php?readme",
-	"changefreq" => "Monthly",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "doc/install",
 	"dirtyurl" => CONFIG_WEBROOT . "doc.php?install",
-	"changefreq" => "Monthly",
 	],
 	[
 	"cleanurl" => CONFIG_WEBROOT . "doc/license",
 	"dirtyurl" => CONFIG_WEBROOT . "doc.php?license",
-	"changefreq" => "Monthly",
 	]
 
 ];
@@ -67,8 +60,8 @@ foreach ($continuities as $c) {
 	"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c[name]",
 	"changefreq" => "Daily"
 	];
-	$copics = fetch_topic_nums($c["name"]);
-	foreach ($copics as $p) {
+	$topics = fetch_topic_nums($c["name"]);
+	foreach ($topics as $p) {
 		$pages[] = [
 			"cleanurl" => CONFIG_WEBROOT . "max/$c[name]/$p",
 			"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c[name]&topic=$p"

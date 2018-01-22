@@ -26,6 +26,25 @@ function ralog($m)
 		FILE_APPEND|LOCK_EX
 	);
 }
+/*
+ * Create a post's href for <a>nchor tags
+*/
+function resolve($continuity, $topic = null)
+{
+	if (CONFIG_CLEAN_URL && $topic)
+		return CONFIG_WEBROOT . "max/"
+		. urlencode($continuity) . "/"
+		. urlencode($topic);
+	if (CONFIG_CLEAN_URL)
+		return CONFIG_WEBROOT . "max/"
+		. urlencode($continuity);
+	if ($topic)
+		return CONFIG_WEBROOT
+		. "?max.php&continuity=" . rawurlencode($continuity)
+		. "&topic=" . rawurlencode($topic);
+	return CONFIG_WEBROOT . "?max.php&continuity="
+	. rawurlencode($continuity);
+}
 
 /*
  * Fill out the <head> for an HTML document (and put the $title in our format)
