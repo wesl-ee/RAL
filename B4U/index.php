@@ -13,7 +13,18 @@ if (!isset($page)) $page = 0;
 <head>
 <?php head('Home')?>
 	<meta name=description content="The world's first
-	and last Neo-forum / Textboard. Experience the VIRTUAL WORLD today.">
+	and last Neo-Forum / Textboard. Experience the VIRTUAL WORLD today.">
+	<link rel=alternate type="application/rss+xml" title=RSS
+<?php
+	if (CONFIG_CLEAN_URL)
+		$href = CONFIG_WEBROOT . "rss";
+	else
+		$href = CONFIG_WEBROOT . "rss.php";
+	print
+<<<HREF
+	href="$href"
+HREF;
+?>>
 </head>
 <body>
 <div id=welcome>
@@ -69,6 +80,18 @@ HTML;
 ?>
 	<br/>
 	<a href='https://github.com/yumi-xx/RAL'>Source Code</a><br/>
+<?php
+	$icon = CONFIG_WEBROOT . "res/feed-icon-14x14.png";
+	if (CONFIG_CLEAN_URL)
+		$href = CONFIG_WEBROOT . "rss";
+	else
+		$href = CONFIG_WEBROOT . "rss.php";
+	print
+<<<RSS
+	<img src=$icon>
+	<a href="$href">RSS</a><br/>
+RSS;
+?>
 	<span>(<?php print date('Y')?>) BSD 3-Clause</span>
 	</footer>
 </div>

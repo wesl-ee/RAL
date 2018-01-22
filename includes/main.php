@@ -77,7 +77,7 @@ HTML;
 HTML;
 	print
 <<<HTML
-	<title>$title - RAL Neo-forum Textboard</title>
+	<title>$title - RAL Neo-Forum Textboard</title>
 
 HTML;
 }
