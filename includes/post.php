@@ -12,7 +12,17 @@ class post {
 	public $auth;
 	public $url;
 
-	function encode() {
+	// Fills in a post's information from a SQL row
+	public function __construct($row) {
+		$this->id = $row['Id'];
+		$this->continuity = $row['Continuity'];
+		$this->topic = $row['topic'];
+		$this->content = nl2br(bbbbbbb($row['Content']));
+		$this->date = $row['Date'];
+		$this->auth = $row['Auth'];
+		$this->url = resolve($row['Continuity'], $row['Id']);
+	}
+	public function encode() {
 		return json_encode(
 		[
 			"id" => $id,
@@ -273,7 +283,7 @@ function create_post($continuity, $topic, $auth, $content)
 			return false;
 		}
 		$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id"
+		. ", `Created` AS `Date`, `Auth` FROM `Posts` WHERE `Id`=$id"
 		. " AND `Continuity`='$continuity'";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
@@ -282,14 +292,7 @@ function create_post($continuity, $topic, $auth, $content)
 			return false;
 		}
 		$row = mysqli_fetch_assoc($result);
-		$post = new post();
-		$post->id = $row['Id'];
-		$post->continuity = $row['Continuity'];
-		$post->topic = $row['Topic'];
-		$post->content = nl2br(bbbbbbb($row['Content']));
-		$post->date = $row['Created'];
-		$post->auth = $row['Auth'];
-		$post->url = resolve($row['Continuity'], $row['Topic']);
+		$post = new post($row);
 	mysqli_query("COMMIT");
 	ralog("Created Post");
 	return $post;
@@ -342,7 +345,7 @@ function create_topic($continuity, $auth, $content)
 			return false;
 		}
 		$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-		. ", `Created`, `Auth` FROM `Posts` WHERE `Id`=$id"
+		. ", `Created` AS `Date`, `Auth` FROM `Posts` WHERE `Id`=$id"
 		. " AND `Continuity`='$continuity'";
 		if (!($result = mysqli_query($dbh, $query))) {
 			$err = mysqli_error($dbh);
@@ -351,14 +354,7 @@ function create_topic($continuity, $auth, $content)
 			return false;
 		}
 		$row = mysqli_fetch_assoc($result);
-		$topic = new post();
-		$topic->id = $row['Id'];
-		$topic->continuity = $row['Continuity'];
-		$topic->topic = $row['Topic'];
-		$topic->content = nl2br(bbbbbbb($row['Content']));
-		$topic->date = $row['Created'];
-		$topic->auth = $row['Auth'];
-		$topic->url = resolve($row['Continuity'], $row['Topic']);
+		$topic = new post($row);
 	mysqli_query("COMMIT");
 	ralog("Created topic");
 	return $topic;
