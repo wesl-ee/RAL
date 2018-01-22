@@ -23,7 +23,19 @@ class post {
 		$this->date = gmdate(DATE_RFC822, $time);
 		$this->shortdate = gmdate('M d Y T', $time);
 		$this->auth = $row['Auth'];
-		$this->url = resolve($row['Continuity'], $row['Topic']);
+		$this->url = $this->resolve();
+	}
+	function resolve() {
+		if (CONFIG_CLEAN_URL)
+			$ret = CONFIG_WEBROOT . "max/"
+			. urlencode($this->continuity) . "/"
+			. urlencode($this->topic);
+		else
+			$ret =  CONFIG_WEBROOT
+			. "max.php?continuity=" . rawurlencode($this->continuity)
+			. "&topic=" . rawurlencode($this->topic);
+		if ($this->topic != $this->id) $ret .= "#" . $this->id;
+		return $ret;
 	}
 }
 

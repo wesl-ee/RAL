@@ -31,6 +31,7 @@ foreach ($posts as $post) {
 		<item>
 			<title>$post->continuity/$post->id</title>
 			<link>$post->url</link>
+			<guid isPermaLink="true">$post->url</guid>
 			<description>$post->content</description>
 			<pubDate>$post->date</pubDate>
 		</item>

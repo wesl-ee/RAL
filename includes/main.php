@@ -29,21 +29,15 @@ function ralog($m)
 /*
  * Create a post's href for <a>nchor tags
 */
-function resolve($continuity, $topic = null)
+function resolve($continuity)
 {
-	if (CONFIG_CLEAN_URL && $topic)
-		return CONFIG_WEBROOT . "max/"
-		. urlencode($continuity) . "/"
-		. urlencode($topic);
 	if (CONFIG_CLEAN_URL)
-		return CONFIG_WEBROOT . "max/"
+		$ret =  CONFIG_WEBROOT . "max/"
 		. urlencode($continuity);
-	if ($topic)
-		return CONFIG_WEBROOT
-		. "?max.php&continuity=" . rawurlencode($continuity)
-		. "&topic=" . rawurlencode($topic);
-	return CONFIG_WEBROOT . "?max.php&continuity="
-	. rawurlencode($continuity);
+	else
+		$ret = CONFIG_WEBROOT . "max.php&continuity="
+		. rawurlencode($continuity);
+	return $ret;
 }
 
 /*

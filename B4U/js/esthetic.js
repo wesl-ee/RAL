@@ -31,73 +31,20 @@ function connectnav(collection, leftnav, rightnav)
 }
 function connectreader(reader)
 {
-/*
-	// Don't bother with the cool stuff if we are on a mobile
-	if (window.matchMedia("(max-width: 600px)").matches) return;
-
-	// Hide the scrollbar from view
-	reader.style.overflow = 'hidden';
-
-	reader.highlighted = reader.firstElementChild;
-	var next = reader.highlighted.nextElementSibling;
-
-
-	// Preserve scroll position
-	var h = reader.clientHeight;
-	if (reader.scrollTop > h / 2)
-	while (next.offsetTop - h / 2 < reader.scrollTop) {
-		reader.highlighted = next;
-		next = reader.highlighted.nextElementSibling;
-	}
-	var previous = reader.highlighted.previousElementSibling;
-	var scrollbank = reader.scrollTop + h / 2;
-	var scrollbank = 0;
-	reader.highlighted.classList.add('selected');
-
-	var speed = 40;
-	function handlescroll(dy) {
-		var direction = (dy > 0 ? 1 : -1);
-
-		scrollbank += speed * direction;
-
-		var h = reader.clientHeight;
-		if (scrollbank > h / 2)
-			reader.scrollTop = scrollbank - h / 2;
-		else reader.scrollTop = 0;
-
-		if (scrollbank < 0) {
-			scrollbank = 0;
-			readerhighlight(reader, reader.firstElementChild);
-			previous = null;
-			next = reader.firstElementChild.nextElementSibling;
-		}
-		else if (scrollbank > reader.lastElementChild.offsetTop + reader.lastElementChild.offsetHeight) {
-			previous = reader.lastElementChild.previousElementSibling;
-			readerhighlight(reader, reader.lastElementChild);
-			next = null
-			scrollbank = reader.lastElementChild.offsetTop + reader.lastElementChild.offsetHeight;
-		}
-		else if (next && scrollbank > next.offsetTop) {
-				scrollbank = next.offsetTop;
-				previous = reader.highlighted;
-				readerhighlight(reader, next);
-				next = next.nextElementSibling;
-			}
-		else if (previous && scrollbank < previous.offsetTop + previous.offsetHeight) {
-				scrollbank = previous.offsetTop + previous.offsetHeight;
-				next = reader.highlighted;
-				readerhighlight(reader, previous);
-				previous = previous.previousElementSibling;
-		}
-	}
-	wheel = "onwheel" in document.createElement("div") ? "wheel" :
-	document.onmousewheel !== undefined ? "mousewheel" :
-	"DOMMouseScroll";
-	reader.addEventListener(wheel, function(e) {
-		e.preventDefault();
-		handlescroll(e.deltaY);
-	});
-*/
+/*	// Adjust times to be in user's locale
+	var dates = reader.getElementsByTagName('time');
+	for (var i = 0; i < dates.length; i++) {
+		var datetime = dates[i].dateTime;
+		var d = new Date(datetime).toLocaleDateString('en-US', {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric',
+			timeZoneName: 'short'
+		} );
+		// Remove the nast commas
+		d = d.split(',').join('');
+		dates[i].innerText = d;
+	}*/
 }
 function readerhighlight(reader, element)
 {
