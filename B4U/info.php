@@ -21,14 +21,14 @@ function nl22br($string)
 <head>
 <?php
 	if (isset($_GET['theme']))
-		$title = 'Theme';
+		$pagetitle = 'Theme';
 	elseif (isset($_GET['announce']))
-		$title = 'Announcements';
+		$pagetitle = 'Announcements';
 	elseif (isset($_GET['help']))
-		$title = 'Help';
+		$pagetitle = 'Help';
 	else
-		$title = 'About';
-	head($title) ?>
+		$pagetitle = 'About';
+	include "{$ROOT}template/head.php"; ?>
 </head>
 <body>
 <div class=sidebar>

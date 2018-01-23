@@ -72,6 +72,7 @@ HTML;
 	print
 <<<HTML
 	<title>$title - RAL Neo-Forum Textboard</title>
+	<meta name=description content="$pagedesc"/>
 
 HTML;
 }

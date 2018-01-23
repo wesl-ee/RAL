@@ -9,14 +9,14 @@ include $ROOT."includes/post.php";
 <head>
 <?php
 	if (isset($_GET['hacking']))
-		$title = 'HACKING';
+		$pagetitle = 'HACKING';
 	elseif (isset($_GET['install']))
-		$title = 'INSTALL';
+		$pagetitle = 'INSTALL';
 	elseif (isset($_GET['license']))
-		$title = 'LICENSE';
+		$pagetitle = 'LICENSE';
 	else
-		$title = 'README';
-	head($title) ?>
+		$pagetitle = 'README';
+	include "{$ROOT}template/head.php" ?>
 </head>
 <body>
 <div class=sidebar>
@@ -73,6 +73,7 @@ HTML;
 </div>
 <div id=rightpanel>
 <?php
+	$title = $pagetitle;
 	include "{$ROOT}template/header.php";
 ?>
 	<div class='reader docs'>

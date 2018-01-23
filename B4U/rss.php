@@ -20,17 +20,17 @@ print
 		Experience the VIRTUAL WORLD today</description>
 		<link>$CONFIG_WEBROOT</link>
 		<lastBuildDate>{$posts[0]->date}</lastBuildDate>
-		<webmaster>$CONFIG_ADMIN_MAIL</webmaster>
 		<generator>RAL</generator>
 
 XML_HEAD;
 
 foreach ($posts as $post) {
 	$post->content = toHtml($post->content);
+	$title = "New Post on [$post->continuity]";
 	print
 <<<ITEM
 		<item>
-			<title>$post->continuity/$post->id</title>
+			<title><![CDATA[$title]]></title>
 			<link>$post->url</link>
 			<guid isPermaLink="true">$post->url</guid>
 			<description><![CDATA[$post->content]]></description>

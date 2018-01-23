@@ -38,7 +38,7 @@ class post {
 		$this->continuity = $row['Continuity'];
 		$this->topic = $row['Topic'];
 		$this->content = $row['Content'];
-		$this->date = gmdate(DATE_RFC822, $time);
+		$this->date = gmdate(DATE_RSS, $time);
 		$this->shortdate = gmdate('M d Y T', $time);
 		$this->auth = $row['Auth'];
 		$this->url = $this->resolve();
@@ -148,6 +148,64 @@ function bbbbbbb($string)
 	return join($contents);
 }
 /*
+ * Magical BBCode stripping function
+*/
+function bbbbbbbstrip($string)
+{
+	$opened = []; $contents = [];
+	$offset = 0;
+	while (($a = indexOf($string, "[", $offset)) >= 0
+	&& ($b = indexOf($string, "]", $offset)) > $a) {
+		// Push the parsed contents to an array
+		$contents[] = substr($string, $offset, $a - $offset);
+		$tag = substr($string, $a, $b + 1 - $a);
+		$contents[] = $tag;
+
+		// Since we finished scanning the part of the string
+		// that is behind the last seen bracket, advance
+		// the scanning offset
+		$offset = $b + 1;
+
+		// Strip brackets
+		$inside = substr($tag, 1, strlen($tag) - 2);
+
+		// Is this a closing or opening tag?
+		if ($inside{0} == "/") {
+			$tag = substr($inside, 1);
+			if (!count($opened[$tag]))
+				continue;
+			$opening_tag = array_pop($opened[$tag]);
+			$from = $opening_tag["index"];
+			$to = count($contents) - 1;
+
+			switch($tag) {
+			case  'b':
+			case 'i':
+			case 'j':
+			case 'color':
+			case 'quote':
+			case 'url':
+			case 'code':
+				break;
+			default: continue;
+			}
+			unset($contents[$from]);
+			unset($contents[$to]);
+		} else {
+			if (($c = indexOf($inside, "=")) > 0) {
+				$tag = substr($inside, 0, $c);
+			} else {
+				$tag = $inside;
+			}
+			$opened[$tag][] = [
+				"index" => count($contents) - 1,
+			];
+		}
+	}
+	$contents[] = substr($string, $offset);
+	return join($contents);
+}
+/*
  * Standard routine for interpreting post content for the web
 */
 function toHtml($content)
@@ -236,21 +294,25 @@ function decodepod($string)
 */
 function ppppppp($file, $maxlen = 4092)
 {
-/*	$fh = fopen($file, 'r');
+	$fh = fopen($file, 'r');
 	while ($line = fgets($fh, $maxlen)) {
-		$hint = $string{0};
+		$hint = $line{0};
 		if ($hint != "=") continue;
-		$seperator = indexOf($string, ' ', 1);
+		$seperator = indexOf($line, ' ', 1);
 		if ($seperator < 0)
-			$seperator = strlen($string);
-		$identifier = substr($string, 1, $seperator - 1);
-		$text = substr($string, $seperator + 1);
+			$seperator = strlen($line);
+		$identifier = substr($line, 1, $seperator - 1);
+		$text = substr($line, $seperator + 1);
 		if ($identifier == "head1"
 		|| $identifier == "head2"
 		|| $identifier == "head3"
 		|| $identifier == "head4")
-			$headings[] = $text;
-	}*/
+			$headings[] = [
+				'text' => $text,
+				'level' => substr($identifier,
+				strlen($identifier) - 1)
+			];
+	}
 	$fh = fopen($file, 'r');
 	while ($line = fgets($fh, $maxlen)) {
 		if ($line == "\n") {
@@ -264,6 +326,22 @@ function ppppppp($file, $maxlen = 4092)
 	}
 	podparagraph(rtrim($paragraph));
 	fclose($fh);
+}
+/*
+ * Generate an interesting title for a piece of text
+*/
+function titleize($text, $maxlen = 40)
+{
+	$text = bbbbbbbstrip($text);
+	if (strlen($text) < $maxlen) return $text;
+	$snippet = substr($text, 0, $maxlen);
+	// LOOK TO THE SKY
+	$bestbreak = lastIndexOf($snippet, " ");
+	if (($b = lastIndexOf($snippet, ",")) > $bestbreak)
+		$bestbreak = $b;
+	if (($b = lastIndexOf($snippet, "\n")) > $bestbreak)
+		$bestbreak = $b;
+	return substr($snippet, 0, $bestbreak);
 }
 /*
  * Creates the post on a given (continuity, topic)

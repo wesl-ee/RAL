@@ -25,7 +25,7 @@ header("Refresh: 3;$a");
 <!DOCTYPE HTML>
 <HTML>
 <head>
-<?php head('Post Success')?>
+<?php $pagetitle = 'Post Success'; include "{$ROOT}template/head.php" ?>
 </head>
 <body>
 <div id=welcome>

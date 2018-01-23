@@ -100,14 +100,24 @@ if ($i < 0 || !isset($continuity)) {
 }
 $continuity = $continuities[$i]->name;
 $continuitydesc = $continuities[$i]->description;
+
+if (isset($topic))
+	$posts = fetch_posts($continuity, $topic);
+else
+	$posts = fetch_topics($continuity);
 ?>
 <!DOCTYPE HTML>
 <HTML>
 <head>
 <?php
-	$title = "$continuity";
-	if (isset($topic)) $title .= "/$topic";
-	head($title);
+	if (isset($topic)) {
+		$pagetitle = titleize($posts[0]->content);
+		$pagedesc = titleize($posts[0]->content, 320);
+	}
+	else {
+		$pagetitle = "$continuity - $continuitydesc";
+	}
+	include "{$ROOT}template/head.php";
 ?>
 </head>
 <body>
@@ -130,15 +140,16 @@ HTML;
 	if (CONFIG_REALTIME_ENABLE) print
 <<<LATENCY
 	<span id=latency>&nbsp;</span>
+
 LATENCY;
 ?></div>
 <?php include "{$ROOT}/template/extrapanels.php"?>
 <div id=rightpanel>
 <?php
 	if (isset($topic))
-		$title = strtoupper("$continuity/$topic");
+		$title = "[$continuity / $topic]";
 	else
-		$title = strtoupper($continuity);
+		$title = "[$continuity]";
 	$subtitle = $continuitydesc;
 	// Requires $title; $subtitle is optional
 	include "../template/header.php";
@@ -148,7 +159,6 @@ LATENCY;
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
-		$posts = fetch_posts($continuity, $topic);
 		print
 <<<HTML
 	<div class="reader expanded"
@@ -158,7 +168,7 @@ LATENCY;
 HTML;
 	// Browsing a continuity (reader is in 'continuity' view)
 	} else {
-		$posts = fetch_topics($continuity);
+
 		print
 <<<HTML
 	<div class="reader continuity"
