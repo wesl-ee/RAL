@@ -1,7 +1,7 @@
 <?php
 $CONFIG_WEBROOT = CONFIG_WEBROOT;
-$pagetitle = htmlspecialchars($pagetitle, ENT_QUOTES);
-$pagedesc = htmlspecialchars($pagedesc, ENT_QUOTES);
+$pagetitle = str_replace('"', '', $pagetitle);
+$pagedesc = str_replace('"', '', $pagedesc);
 print
 <<<HTML
 	<meta name=viewport content="width=device-width,

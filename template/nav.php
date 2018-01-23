@@ -34,9 +34,11 @@ HTML;
 	}
 ?>
 </div>
+<?php if (count($items) > $per_page) {
+	print
+<<<HTML
 <nav class=arrows>
-
-<?php
+HTML;
 	// Left navigation arrow
 	if (!$page) {
 		print
@@ -81,4 +83,4 @@ HTML;
 </nav>
 
 HTML;
-?>
+} ?>

@@ -219,9 +219,10 @@ var collection = continuities.getElementsByClassName('collection')[0];
 var leftnav = continuities.getElementsByClassName('leftnav')[0];
 var rightnav = continuities.getElementsByClassName('rightnav')[0];
 
-connectnav(collection, leftnav, rightnav);
-
-connectreader(reader);
+if (leftnav && rightnav)
+	connectnav(collection, leftnav, rightnav);
+if (reader)
+	connectreader(reader);
 </script>
 </body>
 </HTML>

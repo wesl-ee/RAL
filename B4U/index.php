@@ -123,7 +123,7 @@ var collection = continuities.getElementsByClassName('collection')[0];
 var leftnav = continuities.getElementsByClassName('leftnav')[0];
 var rightnav = continuities.getElementsByClassName('rightnav')[0];
 
-if (collection)
+if (leftnav && rightnav)
 	connectnav(collection, leftnav, rightnav);
 if (reader) {
 	connectreader(reader);
