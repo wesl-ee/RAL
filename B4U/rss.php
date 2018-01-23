@@ -20,13 +20,22 @@ print
 		Experience the VIRTUAL WORLD today</description>
 		<link>$CONFIG_WEBROOT</link>
 		<lastBuildDate>{$posts[0]->date}</lastBuildDate>
+		<webMaster>$CONFIG_ADMIN_MAIL</webMaster>
+		<image>
+			<url>{$CONFIG_WEBROOT}favicon.ico</url>
+			<title>RAL Favicon</title>
+			<link>$CONFIG_WEBROOT</link>
+		</image>
 		<generator>RAL</generator>
 
 XML_HEAD;
 
 foreach ($posts as $post) {
 	$post->content = toHtml($post->content);
-	$title = "New Post on [$post->continuity]";
+	if (!($post->topic - $post->id))
+		$title = "User Created New Topic on [$post->continuity]";
+	else
+		$title = "New Post in [$post->continuity / $post->topic]";
 	print
 <<<ITEM
 		<item>
