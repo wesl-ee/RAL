@@ -15,11 +15,7 @@ function fetch_continuities()
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {
-		$ret[] = [
-			'name' => $row['Name'],
-			'description' => $row['Description'],
-			'location' => resolve($row['Name'])
-		];
+		$ret[] = new continuity($row);
 	}
 	return $ret;
 }

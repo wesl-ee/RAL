@@ -90,7 +90,7 @@ $continuities = fetch_continuities();
 // Timeline parameter extraction and verification
 $i = count($continuities);
 for ($i = count($continuities); $i + 1; $i--) {
-	if ($continuities[$i]['name'] == $continuity) break;
+	if ($continuities[$i]->name == $continuity) break;
 }
 // 404 continuities which do not exist
 if ($i < 0 || !isset($continuity)) {
@@ -98,8 +98,8 @@ if ($i < 0 || !isset($continuity)) {
 	include "{$ROOT}template/404.php";
 	die;
 }
-$continuity = $continuities[$i]['name'];
-$continuitydesc = $continuities[$i]['description'];
+$continuity = $continuities[$i]->name;
+$continuitydesc = $continuities[$i]->description;
 ?>
 <!DOCTYPE HTML>
 <HTML>

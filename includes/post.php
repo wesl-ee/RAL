@@ -1,7 +1,25 @@
 <?php
 class continuity {
 	public $name;
-	public $descriptio;
+	public $description;
+	public $url;
+
+	// Fills in a post's information from a SQL row from `Continuities`
+	public function __construct($row) {
+		$this->name = $row['Name'];
+		$this->description = $row['Description'];
+		$this->url = $this->resolve();
+	}
+	/* Resolve the continuity to a URL */
+	function resolve() {
+		if (CONFIG_CLEAN_URL)
+			$ret =  CONFIG_WEBROOT . "max/"
+			. urlencode($this->name);
+		else
+			$ret = CONFIG_WEBROOT . "max.php&continuity="
+			. rawurlencode($this->name);
+		return $ret;
+	}
 }
 class post {
 	public $id;
@@ -25,6 +43,7 @@ class post {
 		$this->auth = $row['Auth'];
 		$this->url = $this->resolve();
 	}
+	/* Resolve the post to a URL */
 	function resolve() {
 		if (CONFIG_CLEAN_URL)
 			$ret = CONFIG_WEBROOT . "max/"
@@ -32,8 +51,10 @@ class post {
 			. urlencode($this->topic);
 		else
 			$ret =  CONFIG_WEBROOT
-			. "max.php?continuity=" . rawurlencode($this->continuity)
+			. "max.php?continuity="
+			. rawurlencode($this->continuity)
 			. "&topic=" . rawurlencode($this->topic);
+		// Hash only for non-topic posts
 		if ($this->topic != $this->id) $ret .= "#" . $this->id;
 		return $ret;
 	}

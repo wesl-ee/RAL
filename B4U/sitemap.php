@@ -1,6 +1,7 @@
 <?php
 $ROOT="../";
 include "{$ROOT}includes/main.php";
+include "{$ROOT}includes/post.php";
 include "{$ROOT}includes/fetch.php";
 
 
@@ -56,15 +57,15 @@ $pages = [
 $continuities = fetch_continuities();
 foreach ($continuities as $c) {
 	$pages[] = [
-	"cleanurl" => CONFIG_WEBROOT . "max/$c[name]",
-	"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c[name]",
+	"cleanurl" => CONFIG_WEBROOT . "max/$c->name",
+	"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c->name",
 	"changefreq" => "Daily"
 	];
-	$topics = fetch_topic_nums($c["name"]);
+	$topics = fetch_topic_nums($c->name);
 	foreach ($topics as $p) {
 		$pages[] = [
-			"cleanurl" => CONFIG_WEBROOT . "max/$c[name]/$p",
-			"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c[name]&topic=$p"
+			"cleanurl" => CONFIG_WEBROOT . "max/$c->name/$p",
+			"dirtyurl" => CONFIG_WEBROOT . "max.php?continuity=$c->name&topic=$p"
 		];
 	}
 }
