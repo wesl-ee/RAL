@@ -11,9 +11,11 @@ if (!isset($page)) $page = 0;
 <?php
 	$per_page = CONFIG_PER_PAGE;
 	for ($i = 0; $i < count($items); $i++) {
-		$name = $items[$i]->name;
-		$desc = $items[$i]->description;
-		$location = $items[$i]->url;
+		// Convert objects into their arrays
+		$items[$i] = (array)$items[$i];
+		$name = $items[$i]['name'];
+		$desc = $items[$i]['description'];
+		$location = $items[$i]['url'];
 		// Put all items in the DOM (but only
 		// display some) (for JS)
 		if ($i < $page * $per_page

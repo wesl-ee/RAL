@@ -37,7 +37,7 @@ class post {
 		$this->id = $row['Id'];
 		$this->continuity = $row['Continuity'];
 		$this->topic = $row['Topic'];
-		$this->content = nl2br(bbbbbbb($row['Content']));
+		$this->content = $row['Content'];
 		$this->date = gmdate(DATE_RFC822, $time);
 		$this->shortdate = gmdate('M d Y T', $time);
 		$this->auth = $row['Auth'];
@@ -146,6 +146,13 @@ function bbbbbbb($string)
 	}
 	$contents[] = substr($string, $offset);
 	return join($contents);
+}
+/*
+ * Standard routine for interpreting post content for the web
+*/
+function toHtml($content)
+{
+	return nl2br(bbbbbbb($content));
 }
 /*
  * Renders a paragraph of Perl's Plain Old Documentation in HTML

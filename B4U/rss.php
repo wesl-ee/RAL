@@ -26,13 +26,14 @@ print
 XML_HEAD;
 
 foreach ($posts as $post) {
+	$post->content = toHtml($post->content);
 	print
 <<<ITEM
 		<item>
 			<title>$post->continuity/$post->id</title>
 			<link>$post->url</link>
 			<guid isPermaLink="true">$post->url</guid>
-			<description>$post->content</description>
+			<description><![CDATA[$post->content]]></description>
 			<pubDate>$post->date</pubDate>
 		</item>
 

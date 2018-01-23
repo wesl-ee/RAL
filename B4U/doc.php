@@ -33,37 +33,37 @@ HTML;
 		$items = [
 		[
 		"name" => "Readme",
-		"location" => CONFIG_WEBROOT . "doc",
+		"url" => CONFIG_WEBROOT . "doc",
 		],
 		[
 		"name" => "Install",
-		"location" => CONFIG_WEBROOT . "doc/install",
+		"url" => CONFIG_WEBROOT . "doc/install",
 		],
 		[
 		"name" => "License",
-		"location" => CONFIG_WEBROOT . "doc/license",
+		"url" => CONFIG_WEBROOT . "doc/license",
 		],
 		[
 		"name" => "Hacking",
-		"location" => CONFIG_WEBROOT . "doc/hacking",
+		"url" => CONFIG_WEBROOT . "doc/hacking",
 		] ];
 	} else {
 		$items = [
 		[
 		"name" => "Readme",
-		"location" => CONFIG_WEBROOT . "doc.php",
+		"url" => CONFIG_WEBROOT . "doc.php",
 		],
 		[
 		"name" => "Install",
-		"location" => CONFIG_WEBROOT . "doc.php?install",
+		"url" => CONFIG_WEBROOT . "doc.php?install",
 		],
 		[
 		"name" => "License",
-		"location" => CONFIG_WEBROOT . "doc.php?license",
+		"url" => CONFIG_WEBROOT . "doc.php?license",
 		],
 		[
 		"name" => "Hacking",
-		"location" => CONFIG_WEBROOT . "doc.php?hacking",
+		"url" => CONFIG_WEBROOT . "doc.php?hacking",
 		] ];
 	}
 	include "{$ROOT}template/nav.php";

@@ -5,6 +5,7 @@
 
 <article data-post=<?php print $post->id;?> id=<?php print $post->id;?>>
 <?php
+	$post->content = toHtml($post->content);
 	// Allow us to click on topic info to expand the topic
 	if ($linkify) {
 		$open = "<a href='$post->url' class=info>";

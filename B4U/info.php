@@ -47,38 +47,38 @@ HTML;
 		$items = [
 		[
 		"name" => "About",
-		"location" => CONFIG_WEBROOT . "info",
+		"url" => CONFIG_WEBROOT . "info",
 		],
 		[
 		"name" => "Theme",
-		"location" => CONFIG_WEBROOT . "info/theme",
+		"url" => CONFIG_WEBROOT . "info/theme",
 		],
 		[
 		"name" => "Help",
-		"location" => CONFIG_WEBROOT . "info/help",
+		"url" => CONFIG_WEBROOT . "info/help",
 		],
 		[
 		"name" => "Doc",
-		"location" => CONFIG_WEBROOT . "doc",
+		"url" => CONFIG_WEBROOT . "doc",
 		] ];
 	}
 	else {
 		$items = [
 		[
 		"name" => "About",
-		"location" => CONFIG_WEBROOT . "info.php",
+		"url" => CONFIG_WEBROOT . "info.php",
 		],
 		[
 		"name" => "Theme",
-		"location" => CONFIG_WEBROOT . "info.php?theme",
+		"url" => CONFIG_WEBROOT . "info.php?theme",
 		],
 		[
 		"name" => "Help",
-		"location" => CONFIG_WEBROOT . "info.php?help",
+		"url" => CONFIG_WEBROOT . "info.php?help",
 		],
 		[
 		"name" => "Doc",
-		"location" => CONFIG_WEBROOT . "doc.php",
+		"url" => CONFIG_WEBROOT . "doc.php",
 		] ];
 	}
 	include "{$ROOT}template/nav.php";
