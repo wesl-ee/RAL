@@ -115,7 +115,11 @@ function bbbbbbb($string)
 				$close = "</blockquote>";
 				break;
 			case 'url':
-				$url = htmlspecialchars($param);
+				if ($param)
+					$url = htmlspecialchars($param);
+				else $url = join(array_slice(
+					$contents, $from + 1, $to - $from - 1), ''
+				);
 				// Assume http: protocol if none other is given
 				if (indexOf($url, ':') < 0)
 					$url = 'http:' . $url;
