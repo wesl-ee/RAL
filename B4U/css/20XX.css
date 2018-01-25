@@ -8,7 +8,9 @@
 	}
 	.sidebar,
 	#welcome,
-	#rightpanel {
+	#rightpanel,
+	select,
+	textarea {
 		color: black;
 		background-color: azure;
 	}

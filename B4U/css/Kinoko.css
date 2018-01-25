@@ -7,7 +7,9 @@
 	}
 	.sidebar,
 	#welcome,
-	#rightpanel {
+	#rightpanel,
+	select,
+	textarea {
 		background-color: azure;
 	}
 /* Sync errors */

@@ -15,7 +15,7 @@
 	#rightpanel {
 		background-color: #181818;
 	}
-	article, .hoverbox, input[type=submit] {
+	article, .hoverbox, input[type=submit], select, textarea {
 		background-color: white;
 		color: #181818;
 	}
@@ -35,7 +35,10 @@
 		background: white;
 	}
 	.hoverbox:hover {
-		box-shadow: 0 0 10px white;
+		box-shadow: initial;
+	}
+	.hoverbox {
+		transition: color 0.08s;
 	}
 /* Webkit scrollbars */
 	::-webkit-scrollbar-thumb {
