@@ -40,15 +40,3 @@
 		background: #151515;
 		color: #D7D0C7;
 	}
-	a:hover {
-		color: #5ABFCF;
-	}
-	/* No :hover colors for buttons and nav things */
-	.hoverbox:hover,
-	.leftnav:hover, .rightnav:hover {
-		color: inherit;
-	}
-	article a:hover {
-		/* Override BBCode styling */
-		color: #5ABFCF !important;
-	}

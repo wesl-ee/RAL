@@ -14,6 +14,7 @@
 		margin: auto;
 		text-align: center;
 		margin-top: 20px;
+		margin-bottom: 20px;
 	}
 	/* The continuity's contents go here */
 	#rightpanel {
@@ -262,7 +263,9 @@
 	a {
 		color: inherit;
 		cursor: pointer;
-		outline: none;
+	}
+	a:hover {
+		text-decoration: none;
 	}
 	hr {
 		width: 100%;
@@ -348,12 +351,13 @@
 	#background {
 		position: fixed;
 		top: 0;
+		min-height: 100%;
+		min-width: 100%;
 		right: 0;
 		bottom: 0;
 		left: 0;
 		overflow: hidden;
 		z-index: -100;
-		transition: filter 1s ease-in;
 	}
 	#background video,
 	#background img {
