@@ -58,9 +58,9 @@ define("CONFIG_THEMES",
 [
 	// Display name => File name
 	'20XX' => '20XX',
-	'Rain' => 'Rain',
-	'Kinoko' => 'Kinoko',
 	'30XX' => '30XX',
+	'Kinoko' => 'Kinoko',
+	'Rain' => 'Rain',
 	'PR' => '【=◈︿◈=】'
 ]);
 ?>
