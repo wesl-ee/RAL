@@ -28,6 +28,7 @@ if (!isset($page)) $page = 0;
 	href="$href"
 HREF;
 ?>>
+	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
 <body>
 <div id=welcome>
@@ -110,7 +111,7 @@ RSS;
 </div>
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
-<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
+
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
@@ -119,12 +120,6 @@ var reader = document.getElementById(
 ).getElementsByClassName('reader')[0];
 var continuities = document.getElementById('continuities');
 
-var collection = continuities.getElementsByClassName('collection')[0];
-var leftnav = continuities.getElementsByClassName('leftnav')[0];
-var rightnav = continuities.getElementsByClassName('rightnav')[0];
-
-if (leftnav && rightnav)
-	connectnav(collection, leftnav, rightnav);
 if (reader) {
 	connectreader(reader);
 	subscribeall(reader);

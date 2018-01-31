@@ -119,6 +119,7 @@ else
 	}
 	include "{$ROOT}template/head.php";
 ?>
+	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
 <body>
 <div id=continuities class=sidebar>
@@ -197,7 +198,6 @@ HTML;
 ?>
 </div>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
-<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 <script>
 var reader = document.getElementById(
@@ -212,6 +212,7 @@ var topicid = reader.getAttribute('data-topic');
 <<<REALTIME_JS
 if (topicid !== null)
 	subscribetopic(continuityname, topicid, reader);
+
 REALTIME_JS;
 ?>
 
@@ -219,8 +220,6 @@ var collection = continuities.getElementsByClassName('collection')[0];
 var leftnav = continuities.getElementsByClassName('leftnav')[0];
 var rightnav = continuities.getElementsByClassName('rightnav')[0];
 
-if (leftnav && rightnav)
-	connectnav(collection, leftnav, rightnav);
 if (reader)
 	connectreader(reader);
 </script>

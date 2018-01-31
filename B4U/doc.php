@@ -17,6 +17,7 @@ include $ROOT."includes/post.php";
 	else
 		$pagetitle = 'README';
 	include "{$ROOT}template/head.php" ?>
+	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
 <body>
 <div class=sidebar>

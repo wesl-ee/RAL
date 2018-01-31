@@ -78,9 +78,28 @@ HTML;
 
 HTML;
 	}
-	print
+print
 <<<HTML
 </nav>
 
 HTML;
+
+// Connect the navigation arrows using JS (if available)
+print
+<<<JS
+<script>
+	// Select <nav> arrows we just rendered
+	var arrows = document.getElementsByClassName('arrows');
+	arrows = arrows[arrows.length - 1];
+
+	// Select the collection of items we just rendered
+	var collection = document.getElementsByClassName('collection');
+	collection = collection[collection.length - 1];
+
+	var leftnav = arrows.getElementsByClassName('leftnav')[0];
+	var rightnav = arrows.getElementsByClassName('rightnav')[0];
+	connectnav(collection, leftnav, rightnav);
+</script>
+
+JS;
 } ?>

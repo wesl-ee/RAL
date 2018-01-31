@@ -29,6 +29,7 @@ function nl22br($string)
 	else
 		$pagetitle = 'About';
 	include "{$ROOT}template/head.php"; ?>
+	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
 <body>
 <div class=sidebar>
