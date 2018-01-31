@@ -19,6 +19,7 @@ if (CONFIG_CLEAN_URL) {
 if (empty($q)) $a = $location;
 else $a  = "$location?$q";
 
+header("$_SERVER[SERVER_PROTOCOL] 400 Bad Request", true, 400);
 header("X-Robots-Tag: noindex");
 header("Refresh: 3;$a");
 ?>
