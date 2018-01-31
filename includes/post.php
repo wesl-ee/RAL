@@ -231,35 +231,35 @@ function podparagraph($string)
 		$text = decodepod(substr($string, $seperator + 1));
 		switch($identifier) {
 		case "head1":
-			print "<h1>$text</h1>";
+			print "<h1>$text</h1>\n";
 			break;
 		case "head2":
-			print "<h2>$text</h2>";
+			print "<h2>$text</h2>\n";
 			break;
 		case "head3":
-			print "<h3>$text</h3>";
+			print "<h3>$text</h3>\n";
 			break;
 		case "head4":
-			print "<h4>$text</h4>";
+			print "<h4>$text</h4>\n";
 			break;
 		case "over":
-			print "<ol>";
+			print "<ol>\n";
 			break;
 		case "item":
-			print "<li>$text</li>";
+			print "<li>$text</li>\n";
 			break;
 		case "back":
-			print "</ol>";
+			print "</ol>\n";
 			break;
 		}
 	}
 	// Verbatim paragraphs begin with a space or tabliture
 	else if ($hint == " " || $hint == "\t") {
-		print "<pre>$string</pre>";
+		print "<pre>$string</pre>\n";
 	}
 	else {
 		$string = decodepod($string);
-		print "<p>$string</p>";
+		print "<p>$string</p>\n";
 	}
 }
 function decodepod($string)
