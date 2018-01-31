@@ -96,11 +96,11 @@ HTML;
 		<dd><select name=theme>
 
 HTML;
-		foreach (CONFIG_THEMES as $theme => $one) {
+		foreach (CONFIG_THEMES as $theme => $displayname) {
 			if ($theme == $currtheme)
-				print "<option selected>$theme</option>";
+				print "<option value=$theme selected>$displayname</option>";
 			else
-				print "<option>$theme</option>";
+				print "<option value=$theme>$displayname</option>";
 		}
 		print
 <<<HTML
@@ -110,74 +110,26 @@ HTML;
 HTML;
 
 	} else if (isset($_GET['help'])) {
-		$mail = CONFIG_ADMIN_MAIL; $name = ucfirst(CONFIG_ADMIN_NAME);
-		// Probably read this in from a file
 		print
 <<<HTML
 		<h1>Help</h1>
 		<div class=reader>
-		<h2>What is a continuity?</h2><p>
-
-		When you enter RAL, you will see several different
-		continuities. A continuity is like a chat-room or a
-		sub-forum. The title of a continuity will often give you a
-		clue as to what its focus of dicsussion is.
-
-		</p><h2>How do I post?</h2><p>
-
-		Within each continuity, there is a button labeled "Create a
-		topic" which allows you to create a new discussion topic
-		within a continuity. If you find an interesting topic, you
-		can create a post within that topic by clicking "Reply to
-		topic" once you have the topic open
-
-		</p><h2>Can I style my posts?</h2><p>
-
-		Yes! Posts on RAL can be styled by marking up your post with
-		the following supported BBCode tags:</p>
-		<ul>
-		<li>[b] (Bold)</li>
-		<li>[i] (Emphasis)</li>
-		<li>[j] (Computer jargon)</li>
-		<li>[color=x]
-			<ul><li>
-				x can be any valid HTML color name, hex
-				triplet, rgb() triple, or hsl() color space
-			</li></ul>
-		</li>
-		<li>[code] (Monospace code block)</li>
-		<li>[url=href]</li>
-			<ul><li>
-				href is a link to a resource on the
-				internet. Protocols other than http(s): are
-				allowed as well (e.g. ftp)
-			</li></ul>
-		</ul><p>
-
-		For example, the following text:</p>
-		<pre>Here is a link to my favorite [url=www.msn.com]website[/url]</pre><p>
-		Will be parsed and the resulting post will look like:</p>
-		<pre>Here is a link to my favorite <a
-		href=http:www.msn.com>website</a></pre>
-
-		<h2>What is not allowed?</h2><ul>
-			<li>Spamming</li>
-		</ul>
-
-		<h2>Who can I contact about abuse / questions?</h2><p>
-		$name is the administrator, sole protector and guardian angel
-		of RAL and can be reached via prayer or by mail:
-		<a href=mailto:$mail>$mail</a>
-		</p></div>
+HTML;
+		ppppppp("{$ROOT}info/HELP.pod");
+print
+<<<HTML
+		</div>
 
 HTML;
 	} else {
-		$txt = nl22br(bbbbbbb(file_get_contents('about.txt')));
 		print
 <<<HTML
 		<h1>About</h1>
 		<div class=reader>
-		$txt
+HTML;
+		ppppppp("{$ROOT}info/ABOUT.pod");
+print
+<<<HTML
 		</div>
 
 HTML;
