@@ -1,20 +1,16 @@
-=head1 RAL
+=head1 RAL Neo-Forum
 
-Neo-forum; Future society
+Textboard from a future society
 
 =head2 Executive Summary
 
-Forums are natural extensions of the Bulletin Board Systems (BBS) of last
-century; posting on a traditional forum, you maintain an identity which
-is attached to your screen name. RAL has no screen-names, no voting system,
-and no reply counts.
+RAL is a text-only message board / forum. It provides a totally anonymous
+discussion space on the internet; RAL is often called a neo-forum because it
+takes inspiration from the classic forum model.
 
-Moreover, the purpose is not to keep you coming back; we're not
-interested in advertising or monetization. If you're a business looking
-for forum software, this is definitely not for you.
-
-Rather, the purpose of RAL is to create a network where you never confuse
-ALTERNATE REALITY with VIRTUAL SELF
+If you are curious what RAL feels like L<check out the
+site|https://ral.space> (or access via
+L<https://f22glwrndpxkacwp.onion|.onion>)
 
 =head2 Installation / Dependencies
 
