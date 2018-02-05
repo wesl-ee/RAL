@@ -104,6 +104,16 @@ SOURCE;
 	<img src=$icon>
 	<a href="$href">RSS</a><br/>
 RSS;
+	$icon = CONFIG_WEBROOT . "res/tor-14px.png";
+	if (CONFIG_ONION_URL) {
+		$href = CONFIG_ONION_URL;
+		print
+<<<ONION
+	<img src=$icon>
+	<a href="$href">TOR Onion</a><br/>
+ONION;
+	}
+
 
 ?>
 	<span>(<?php print date('Y')?>) BSD 3-Clause</span>

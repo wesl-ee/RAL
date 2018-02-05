@@ -38,7 +38,9 @@ define("CONFIG_DEFAULT_THEME", "20XX");
 define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
 
 // Your website! (trailing slash is important)
-define("CONFIG_WEBROOT", "https:ral.space/");
+define("CONFIG_WEBROOT", "/");
+define("CONFIG_CANON_URL", "https:ral.space/");
+define("CONFIG_ONION_URL", "https:f22glwrndpxkacwp.onion/");
 define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 
 // Only set if you have set up lighttpd like in the example config!
