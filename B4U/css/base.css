@@ -279,10 +279,6 @@
 		height: auto;
 		margin: 0;
 	}
-	::-webkit-scrollbar {
-		width: 10px;
-		height: 8px;
-	}
 	input, select, textarea {
 		font-family: inherit;
 		border: 1px solid;

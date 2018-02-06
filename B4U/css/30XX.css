@@ -40,13 +40,6 @@
 	.hoverbox {
 		transition: color 0.08s;
 	}
-/* Webkit scrollbars */
-	::-webkit-scrollbar-thumb {
-		background: #FAF8FB;
-	}
-	code::-webkit-scrollbar-thumb {
-		background: orange;
-	}
 /* Trivial */
 	dl, ul, ol {
 		list-style-type: square;
