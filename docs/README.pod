@@ -10,7 +10,7 @@ takes inspiration from the classic forum model.
 
 If you are curious what RAL feels like L<check out the
 site|https://ral.space> (or access via
-L<https://f22glwrndpxkacwp.onion|.onion>)
+L<.onion|https://f22glwrndpxkacwp.onion>)
 
 =head2 Installation / Dependencies
 
@@ -19,7 +19,7 @@ Refer to C<docs/INSTALL.pod> for the bloody details
 =head2 Contributing
 
 Contributions are welcome! If you are interested in contributing, join
-L<howler.space:6667|irc://howler.space:6667> #bigtown or L<send me an
+L<howler.space:6667|https://irc.ral.space> #bigtown or L<send me an
 e-mail|mailto:yumi@ral.space>. Further reading is available in
 C<docs/HACKING.pod>
 
