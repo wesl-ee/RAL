@@ -20,12 +20,8 @@ function nl22br($string)
 <HTML>
 <head>
 <?php
-	if (isset($_GET['theme']))
-		$pagetitle = 'Theme';
-	elseif (isset($_GET['announce']))
-		$pagetitle = 'Announcements';
-	elseif (isset($_GET['help']))
-		$pagetitle = 'Help';
+	if (isset($_GET['page']))
+		$pagetitle = ucfirst($_GET['page']);
 	else
 		$pagetitle = 'About';
 	include "{$ROOT}template/head.php"; ?>
@@ -59,8 +55,20 @@ HTML;
 		"url" => CONFIG_WEBROOT . "info/help",
 		],
 		[
-		"name" => "Doc",
-		"url" => CONFIG_WEBROOT . "doc",
+		"name" => "Readme",
+		"url" => CONFIG_WEBROOT . "info/readme",
+		],
+		[
+		"name" => "Install",
+		"url" => CONFIG_WEBROOT . "info/install",
+		],
+		[
+		"name" => "License",
+		"url" => CONFIG_WEBROOT . "info/license",
+		],
+		[
+		"name" => "Hacking",
+		"url" => CONFIG_WEBROOT . "info/hacking",
 		] ];
 	}
 	else {
@@ -71,15 +79,27 @@ HTML;
 		],
 		[
 		"name" => "Theme",
-		"url" => CONFIG_WEBROOT . "info.php?theme",
+		"url" => CONFIG_WEBROOT . "info.php?page=theme",
 		],
 		[
 		"name" => "Help",
-		"url" => CONFIG_WEBROOT . "info.php?help",
+		"url" => CONFIG_WEBROOT . "info.php?page=help",
 		],
 		[
-		"name" => "Doc",
-		"url" => CONFIG_WEBROOT . "doc.php",
+		"name" => "Readme",
+		"url" => CONFIG_WEBROOT . "info.php?page=readme",
+		],
+		[
+		"name" => "Install",
+		"url" => CONFIG_WEBROOT . "info.php?page=install",
+		],
+		[
+		"name" => "License",
+		"url" => CONFIG_WEBROOT . "info.php?page=license",
+		],
+		[
+		"name" => "Hacking",
+		"url" => CONFIG_WEBROOT . "info.php?page=hacking",
 		] ];
 	}
 	include "{$ROOT}template/nav.php";
@@ -87,7 +107,7 @@ HTML;
 	</span>
 </div>
 <div id=rightpanel>
-	<?php if (isset($_GET['theme'])) {
+	<?php if ($_GET['page'] == 'theme') {
 		$currtheme = get_theme();
 		print
 <<<HTML
@@ -110,33 +130,25 @@ HTML;
 
 HTML;
 
-	} else if (isset($_GET['help'])) {
-		print
-<<<HTML
-		<h1>Help</h1>
-		<div class=reader>
-HTML;
-		ppppppp("{$ROOT}info/HELP.pod");
-print
-<<<HTML
-		</div>
-
-HTML;
 	} else {
+		switch ($_GET['page']) {
+		case 'help': $docpage = "{$ROOT}info/HELP.pod"; break;
+		case 'readme': $docpage = "{$ROOT}docs/README.pod"; break;
+		case 'install': $docpage = "{$ROOT}docs/INSTALL.pod"; break;
+		case 'license': $docpage = "{$ROOT}docs/LICENSE"; break;
+		case 'hacking': $docpage = "{$ROOT}docs/HACKING.pod"; break;
+		default: $docpage = "{$ROOT}info/ABOUT.pod"; }
 		print
 <<<HTML
-		<h1>About</h1>
+		<h1>$pagetitle</h1>
 		<div class=reader>
 HTML;
-		ppppppp("{$ROOT}info/ABOUT.pod");
+		ppppppp($docpage);
 print
 <<<HTML
 		</div>
 
 HTML;
-
-
-
 	} ?>
 </div>
 </body>

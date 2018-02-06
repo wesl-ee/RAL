@@ -121,7 +121,6 @@ ONION;
 </div>
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
-
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
