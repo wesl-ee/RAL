@@ -126,21 +126,28 @@
 		white-space: nowrap;
 	}
 	/* Timeline view (browsing all topics) */
-		/* Restrict content to 2 lines max */
+		.reader.continuity {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-evenly;
+		}
+		.reader.continuity article {
+			margin: 5px;
+		}
+		/* Restrict content to 6 lines max */
 		.reader.continuity .content {
-			max-height: 3.2em;
+			max-height: 9.6em;
 		}
 	/* Reader on the welcome page */
 		#welcome .reader article,
 		.reader.continuity article {
-
 			padding-top: 5px;
 			padding-bottom: 5px;
 		}
 		/* Content on the welcome page
-		can be up to 4 lines tall */
+		can be up to 6 lines tall */
 		#welcome .reader .content {
-			max-height: 5.6em;
+			max-height: 8.4em;
 			line-height: 1.4em;
 		}
 		/* More compact view */
