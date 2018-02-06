@@ -20,7 +20,7 @@ function nl22br($string)
 <HTML>
 <head>
 <?php
-	if (isset($_GET['page']))
+	if (!empty($_GET['page']))
 		$pagetitle = ucfirst($_GET['page']);
 	else
 		$pagetitle = 'About';
@@ -29,12 +29,11 @@ function nl22br($string)
 </head>
 <body>
 <div class=sidebar>
-	<h2>RAL</h2>
 <?php
 	$a = CONFIG_WEBROOT;
 	print
 <<<HTML
-	<a href="$a">Home</a>
+	<h2><a href="$a">RAL</a></h2>
 
 HTML;
 ?>

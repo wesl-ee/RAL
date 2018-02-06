@@ -129,7 +129,7 @@
 		.reader.continuity {
 			display: flex;
 			flex-flow: row wrap;
-			justify-content: space-evenly;
+			justify-content: space-around;
 		}
 		.reader.continuity article {
 			margin: 5px;
@@ -216,24 +216,6 @@
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
-	/* Navigation for the collection */
-	.leftnav,
-	.rightnav {
-		cursor: pointer;
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		text-decoration: none;
-	}
-	.leftnav {
-		margin-right: 20px;
-	}
-	.rightnav {
-		margin-left: 20px;
-	}
 	/* An styled button which shadows when hovered over */
 	.hoverbox {
 		display: inline-block;
@@ -253,10 +235,16 @@
 	input[type=submit] {
 		padding-left: 5px;
 		padding-right: 5px;
-		background: inherit;
+		background-color: inherit;
 		font: inherit;
 		line-height: normal;
 		color: inherit;
+	}
+	button {
+		background-color: inherit;
+		font: inherit;
+		color: inherit;
+		line-height: normal;
 	}
 	h1, h2, h3, h4, h5, h6 {
 		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
@@ -310,8 +298,6 @@
 		position: relative;
 		width: initial;
 		max-width: initial;
-		border: none;
-		margin: 0;
 	}
 	.sidebar .collection {
 		flex-direction: row;

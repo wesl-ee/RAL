@@ -122,9 +122,19 @@ else
 	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
 <body>
-<div id=continuities class=sidebar>
+<div class=sidebar>
 	<h2><a href="<?php print CONFIG_WEBROOT;?>">RAL</a></h2>
 <?php
+
+	$items = fetch_continuities();
+	include "../template/nav.php";
+
+
+	if (CONFIG_REALTIME_ENABLE && isset($topic)) print
+<<<LATENCY
+	<span id=latency>&nbsp;</span><br />
+
+LATENCY;
 	if (CONFIG_CLEAN_URL)
 		$a = CONFIG_WEBROOT . "info";
 	else
@@ -134,15 +144,6 @@ else
 	<a href="$a">About</a>
 
 HTML;
-	$items = fetch_continuities();
-	include "../template/nav.php";
-
-
-	if (CONFIG_REALTIME_ENABLE) print
-<<<LATENCY
-	<span id=latency>&nbsp;</span>
-
-LATENCY;
 ?></div>
 <?php include "{$ROOT}/template/extrapanels.php"?>
 <div id=rightpanel>
@@ -203,7 +204,6 @@ HTML;
 var reader = document.getElementById(
 	'rightpanel'
 ).getElementsByClassName('reader')[0];
-var continuities = document.getElementById('continuities');
 var continuityname = reader.getAttribute('data-continuity');
 var topicid = reader.getAttribute('data-topic');
 
@@ -215,13 +215,6 @@ if (topicid !== null)
 
 REALTIME_JS;
 ?>
-
-var collection = continuities.getElementsByClassName('collection')[0];
-var leftnav = continuities.getElementsByClassName('leftnav')[0];
-var rightnav = continuities.getElementsByClassName('rightnav')[0];
-
-if (reader)
-	connectreader(reader);
 </script>
 </body>
 </HTML>

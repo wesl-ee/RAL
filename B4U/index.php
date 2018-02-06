@@ -4,9 +4,6 @@ include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/fetch.php";
 include "{$ROOT}includes/post.php";
 include "{$ROOT}includes/render.php";
-
-$page = $_GET['np'];
-if (!isset($page)) $page = 0;
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -37,9 +34,9 @@ HREF;
 	$subtitle = "Neo-Forum Textboard";
 	include "{$ROOT}template/header.php";
 ?>
-	<span id=latency>&nbsp;</span>
-	<div id=continuities>
+	<div id=latency>&nbsp;</div>
 <?php
+	$navtitle = 'Continuities';
 	$items = fetch_continuities();
 	if ($items)
 		include "{$ROOT}template/nav.php";
@@ -49,7 +46,6 @@ HREF;
 
 HTML;
 ?>
-	</div>
 	<header>Recent Posts</header>
 	<div class="reader recent">
 <?php
@@ -127,10 +123,8 @@ ONION;
 var reader = document.getElementById(
 	'welcome'
 ).getElementsByClassName('reader')[0];
-var continuities = document.getElementById('continuities');
 
 if (reader) {
-	connectreader(reader);
 	subscribeall(reader);
 }
 </script>
