@@ -56,6 +56,7 @@ if (isset($_GET['subscribe'])) {
 if (isset($_GET['verify'])) {
 	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
+	$mostpost = $_GET['mostpost'];
 
 	if (isset($continuity, $topic)) {
 		$posts = fetch_post_nums($continuity, $topic);
@@ -67,7 +68,7 @@ if (isset($_GET['verify'])) {
 		print json_encode($topics);
 	}
 	else {
-		$all = fetch_recent_post_nums(10);
+		$all = fetch_recent_post_nums($mostpost);
 		print json_encode($all);
 	}
 }

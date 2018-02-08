@@ -6,11 +6,10 @@
 	#welcome {
 		top: 0;
 		border: 1px solid;
-		width: calc(80% - 80px);
-		max-width: 34em;
+		width: calc(60% - 80px);
+		min-width: calc(600px - 80px);
 		padding: 10px;
 
-		width: 80%;
 		margin: auto;
 		text-align: center;
 		margin-top: 20px;
@@ -127,13 +126,15 @@
 	}
 	/* Special rules for masonry layout */
 		.reader.continuity,
-		.reader.expanded {
+		.reader.expanded,
+		.reader.recent {
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-around;
 		}
 		.reader.continuity article,
-		.reader.expanded article {
+		.reader.expanded article,
+		.reader.recent article {
 			margin: 5px;
 			flex: 1 1 auto;
 		}
@@ -210,15 +211,17 @@
 		flex-wrap: no-wrap;
 	}
 /* Miscellaneous elements */
-	/* Paginated view of all coninuities */
+	/* Collection of items */
 	.collection {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 	}
 	.collection > a {
+		flex: 1 1 auto;
 		margin-top: 5px;
 		margin-bottom: 5px;
+		max-width: 5em;
 	}
 	/* An styled button which shadows when hovered over */
 	.hoverbox {
@@ -331,6 +334,7 @@
 	#welcome {
 		position: relative;
 		border: 0;
+		min-width: initial;
 		width: calc(100% - 20px);
 		padding: 10px;
 		margin: 0;

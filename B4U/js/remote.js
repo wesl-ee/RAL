@@ -147,6 +147,7 @@ function subscribeall(reader)
 function verifyposts(reader, continuity, topic)
 {
 	var xhr = new XMLHttpRequest();
+	var mostpost = reader.getAttribute('data-mostpost');
 
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
@@ -178,6 +179,8 @@ function verifyposts(reader, continuity, topic)
 		uri += "&topic=" + topic;
 	// Prevent caching or throttling
 	uri += '&' + Math.random().toString(36);
+	if (mostpost)
+		uri += '&mostpost=' + mostpost;
 	xhr.open('GET', '/courier.php' + uri);
 
 	// Synchronous: we care about the result

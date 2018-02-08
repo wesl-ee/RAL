@@ -8,9 +8,10 @@ function newtopic(reader, topic)
 function newfrontpagepost(reader, post)
 {
 	var article = createpostelement(post, true);
+	var mostpost = reader.getAttribute('data-mostpost');
 
 	reader.insertBefore(article, reader.children[0]);
-	if (reader.children.length > 10)
+	if (reader.children.length > mostpost)
 		reader.removeChild(reader.lastElementChild);
 	highlightnew(article);
 }

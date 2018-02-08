@@ -47,9 +47,9 @@ HREF;
 HTML;
 ?>
 	<header>Recent Posts</header>
-	<div class="reader recent">
+	<div class="reader recent" data-mostpost=30>
 <?php
-	$recent = fetch_recent_posts(10);
+	$recent = fetch_recent_posts(30);
 	$linkify = true;
 	foreach ($recent as $post)
 		include "{$ROOT}template/post.php";
