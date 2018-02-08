@@ -34,7 +34,6 @@ HREF;
 	$subtitle = "Neo-Forum Textboard";
 	include "{$ROOT}template/header.php";
 ?>
-	<div id=latency>&nbsp;</div>
 <?php
 	$navtitle = 'Continuities';
 	$items = fetch_continuities();
@@ -47,6 +46,7 @@ HREF;
 HTML;
 ?>
 	<header>Recent Posts</header>
+	<div id=latency>&nbsp;</div>
 	<div class="reader recent" data-mostpost=30>
 <?php
 	$recent = fetch_recent_posts(30);

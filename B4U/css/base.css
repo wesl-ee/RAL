@@ -88,7 +88,6 @@
 	/* The reader element */
 	.reader {
 		padding: 5px;
-		border-top: 1px solid;
 		border-bottom: 1px solid;
 	}
 	.reader.docs {
@@ -214,14 +213,12 @@
 	/* Collection of items */
 	.collection {
 		display: flex;
-		flex-wrap: wrap;
+		flex-flow: row wrap;
 		justify-content: center;
 	}
 	.collection > a {
-		flex: 1 1 auto;
 		margin-top: 5px;
 		margin-bottom: 5px;
-		max-width: 5em;
 	}
 	/* An styled button which shadows when hovered over */
 	.hoverbox {
