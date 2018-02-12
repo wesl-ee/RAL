@@ -23,12 +23,10 @@
 	article.new {
 		background: #FFE87C !important;
 	}
-/* Scrollbars */
-	::-webkit-scrollbar-thumb {
-		background: #c7254e;
-	}
-	code::-webkit-scrollbar-thumb {
-		background: #65758E;
+/* Notifications */
+	#notifications li {
+		background-color: palegoldenrod;
+		color: black;
 	}
 /* Trivial */
 	dl, ul, ol {

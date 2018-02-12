@@ -40,6 +40,11 @@
 	.hoverbox {
 		transition: color 0.08s;
 	}
+/* Notifications */
+	#notifications li {
+		background-color: palegoldenrod;
+		color: black;
+	}
 /* Trivial */
 	dl, ul, ol {
 		list-style-type: square;

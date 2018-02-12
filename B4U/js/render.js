@@ -3,7 +3,7 @@ function newtopic(reader, topic)
 	var article = createpostelement(topic, true);
 
 	reader.insertBefore(article, reader.children[0]);
-	highlightnew(article);
+	highlightnew(article); notifyuser(topic);
 }
 function newfrontpagepost(reader, post)
 {
@@ -13,14 +13,14 @@ function newfrontpagepost(reader, post)
 	reader.insertBefore(article, reader.children[0]);
 	if (reader.children.length > mostpost)
 		reader.removeChild(reader.lastElementChild);
-	highlightnew(article);
+	highlightnew(article); notifyuser(post);
 }
 function newpost(reader, post)
 {
 	var article = createpostelement(post, false);
 
 	reader.appendChild(article);
-	highlightnew(article);
+	highlightnew(article); notifyuser(post);
 }
 function createpostelement(post, linkify)
 {
@@ -32,7 +32,7 @@ function createpostelement(post, linkify)
 
 	// Date formatting
 	var time = new Date(post.date);
-	updated.innerText = formatdate(time);
+	updated.innerText = post.shortdate;
 
 	article.setAttribute('data-post', post.id);
 	updated.dateTime = post.date;
@@ -56,6 +56,65 @@ function createpostelement(post, linkify)
 	article.appendChild(content);
 
 	return indent(article);
+}
+/*
+ * Spawn a notification for a new post
+*/
+function notifyuser(post)
+{
+	var notifycontent = document.createElement('a');
+	notifycontent.href = post.url;
+	if (post.id == post.topic)
+		notifycontent.innerText = 'New topic in ['
+		+ post.continuity + ']';
+	else
+		notifycontent.innerText = 'New post in ['
+		+ post.continuity + '/' + post.topic + ']';
+
+	var time = new Date(post.date);
+	time = formatrecentdate(time);
+
+	var priority = 'lowpriority';
+
+	pushnotification(notifycontent, time, priority);
+}
+/*
+ * Generates a notification given the content and priority level
+*/
+function pushnotification(contentElement, timeText, priority)
+{
+	var notifications = document.getElementById('notifications');
+	if (!notifications) {
+		notifications = document.createElement('ul');
+		notifications.id = 'notifications'
+		document.body.appendChild(notifications);
+	}
+	var notification = document.createElement('li');
+	var colorblock = document.createElement('span');
+	var time = document.createElement('time');
+	time.innerText = timeText;
+
+	if (!priority) priority = 'lowpriority';
+	notification.className = priority;
+	colorblock.innerHTML = '&nbsp;';
+	colorblock.className = 'priority';
+
+	notification.appendChild(colorblock);
+	notification.appendChild(time);
+	notification.appendChild(contentElement);
+
+	notifications.appendChild(indent(notification));
+
+	window.addEventListener('focus', function x() {
+		window.removeEventListener('focus', x);
+		setTimeout(function() {
+			notifications.removeChild(notification);
+			if (!notifications.lastChild)
+				notifications.parentNode.removeChild(
+					notifications
+				);
+		}, 5000);
+	});
 }
 /*
  * Fairy-tale perfect and logical indentation
@@ -90,15 +149,14 @@ function highlightnew(article)
 		});
 	}
 }
-function formatdate(date)
+function formatrecentdate(date)
 {
-	var monthNames = ["January", "February", "March", "April", "May",
-	"June",	"July", "August", "September", "October", "November",
-	"December"];
-	function pad(n){return n<10 ? '0'+n : n}
-	return monthNames[date.getMonth()].substr(0, 3)
-	+ ' ' + pad(date.getDate())
-	+ ' ' + pad(date.getFullYear());
+	var options = {
+		timeZoneName: 'short',
+		hour: '2-digit',
+		minute: '2-digit',
+	};
+	return date.toLocaleTimeString([], options);
 }
 function doctitlenotify()
 { if (!document.hasFocus()) {
