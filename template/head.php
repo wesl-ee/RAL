@@ -7,7 +7,7 @@ print
 	<meta name=viewport content="width=device-width,
 	maximum-scale=1, minimum-scale=1">
 	<link rel=stylesheet href="${CONFIG_WEBROOT}css/base.css">
-	<link rel=icon type="image/x-icon" href="${CONFIG_WEBROOT}favicon.ico">
+
 
 HTML;
 $theme = get_theme();
@@ -25,8 +25,14 @@ if (file_exists("$path/../B4U/css/$theme.css"))
 	<link rel=stylesheet href="${CONFIG_WEBROOT}css/$theme.css">
 
 HTML;
+if (file_exists("$path/../B4U/css/favicons/favicon-$theme.ico"))
+	$favicon = "${CONFIG_WEBROOT}css/favicons/"
+	. "favicon-$theme.ico";
+else
+	$favicon = "${CONFIG_WEBROOT}css/favicons/favicon.ico";
 print
 <<<HTML
+	<link rel=icon type="image/x-icon" href="$favicon">
 	<title>$pagetitle - RAL Neo-Forum Textboard</title>
 	<meta name=description content="$pagedesc"/>
 
