@@ -331,17 +331,15 @@
 	body {
 		position: initial;
 		height: initial;
-		width: 100%;
+		width: calc(100% - 40px);
+		padding: 20px;
 	} }
 	@media (max-width: 600px) {
 	#rightpanel {
 		position: relative;
-		border: 0;
-		border-top: 1px solid;
 		width: calc(100% - 20px);
 		padding: 10px;
 		margin: 0;
-		border-radius: 0;
 		padding-bottom: 10px;
 		padding-top: 10px;
 	}
