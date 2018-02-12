@@ -4,7 +4,15 @@ include $ROOT."includes/main.php";
 include $ROOT."includes/post.php";
 
 if (isset($_POST['theme'])) {
-	setcookie('theme', $_POST['theme'], CONFIG_COOKIE_TIMEOUT+time(), '/');
+	setcookie('theme', $_POST['theme'],
+	CONFIG_COOKIE_TIMEOUT+time(), '/');
+}
+if (count($_POST)) {
+	if (isset($_POST['dnotify']))
+		setcookie('dnotify', 'XXX',
+		CONFIG_COOKIE_TIMEOUT+time(), '/');
+	else
+		setcookie('dnotify', '', 1, '/');
 }
 if (count($_POST)) {
 	header("Location: ?$_SERVER[QUERY_STRING]");
@@ -106,10 +114,9 @@ HTML;
 	</span>
 </div>
 <div id=rightpanel>
-	<?php if ($_GET['page'] == 'theme') {
+<?php if ($_GET['page'] == 'theme') {
 		$currtheme = get_theme();
-		print
-<<<HTML
+		print <<<HTML
 		<h1>Theming</h1>
 		<div class=reader>
 		<form action=?theme method=POST><dl><dt>Theme</dt>
@@ -118,17 +125,36 @@ HTML;
 HTML;
 		foreach (CONFIG_THEMES as $theme => $displayname) {
 			if ($theme == $currtheme)
-				print "<option value=$theme selected>$displayname</option>";
-			else
-				print "<option value=$theme>$displayname</option>";
-		}
-		print
-<<<HTML
-		</select></dd>
-		</dl><input type=submit class=hoverbox value=Commit></form>
+				print <<<HTML
+			<option value=$theme selected>$displayname</option>
 
 HTML;
+			else
+				print <<<HTML
+			<option value=$theme>$displayname</option>
 
+HTML;
+		}
+		print <<<HTML
+		</select></dd>
+		</dl>
+		<dl><dt>Desktop Notifications</dt>
+		<dd>
+HTML;
+		if (isset($_COOKIE['dnotify']))
+			print <<<HTML
+		<input type=checkbox checked name=dnotify>
+HTML;
+		else print <<<HTML
+		<input type=checkbox name=dnotify>
+HTML;
+		print <<<HTML
+		</dd></dl>
+		<input type=submit class=hoverbox value=Commit></form>
+		</div>
+
+HTML;
+	/* Documentation & help pages */
 	} else {
 		switch ($_GET['page']) {
 		case 'help': $docpage = "{$ROOT}info/HELP.pod"; break;
@@ -137,14 +163,12 @@ HTML;
 		case 'license': $docpage = "{$ROOT}docs/LICENSE"; break;
 		case 'hacking': $docpage = "{$ROOT}docs/HACKING.pod"; break;
 		default: $docpage = "{$ROOT}info/ABOUT.pod"; }
-		print
-<<<HTML
+		print <<<HTML
 		<h1>$pagetitle</h1>
 		<div class=reader>
 HTML;
 		ppppppp($docpage);
-print
-<<<HTML
+print <<<HTML
 		</div>
 
 HTML;

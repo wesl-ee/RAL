@@ -345,12 +345,10 @@
 	}
 	#welcome {
 		position: relative;
-		border: 0;
 		min-width: initial;
 		width: calc(100% - 20px);
 		padding: 10px;
 		margin: 0;
-		border-radius: 0;
 		padding-bottom: 10px;
 		padding-top: 10px;
 	} }

@@ -1,3 +1,8 @@
+/* We need permission to create notifications if it's been requested */
+if (getCookie('dnotify') && Notification.permission !== 'granted'
+&& Notification.permission !== 'denied')
+	Notification.requestPermission();
+
 function newtopic(reader, topic)
 {
 	var article = createpostelement(topic, true);
@@ -105,6 +110,15 @@ function pushnotification(contentElement, timeText, priority)
 
 	notifications.appendChild(indent(notification));
 
+	/* Create a desktop notification */
+	if (getCookie('dnotify')) {
+		var options = {
+			body: contentElement.innerText,
+		}
+		new Notification('RAL', options);
+	}
+
+	/* Remove the HTML notification after some time */
 	window.addEventListener('focus', function x() {
 		window.removeEventListener('focus', x);
 		setTimeout(function() {
@@ -206,4 +220,16 @@ function verifyreader(reader, posts)
 		}
 	}
 	return true;
+}
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ')
+			c = c.substring(1);
+		if (!c.indexOf(name))
+			return c.substring(name.length, c.length);
+	} return false;
 }
