@@ -145,7 +145,7 @@ function highlightnew(article)
 			window.removeEventListener('focus', x);
 			setTimeout(function() {
 				article.classList.remove('new');
-			}, 2000);
+			}, 5000);
 		});
 	}
 }
