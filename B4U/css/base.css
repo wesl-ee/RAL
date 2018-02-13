@@ -151,7 +151,7 @@
 		/* Content on the welcome page
 		can be up to 6 lines tall */
 		#welcome .reader .content {
-			max-height: 8.2em;
+			max-height: 8.4em;
 			line-height: 1.4em;
 		}
 		/* More compact view */
