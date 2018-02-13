@@ -4,6 +4,7 @@ include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/fetch.php";
 include "{$ROOT}includes/post.php";
 include "{$ROOT}includes/render.php";
+include "{$ROOT}includes/git.php";
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -112,7 +113,16 @@ ONION;
 
 
 ?>
-	<span>(<?php print date('Y')?>) BSD 3-Clause</span>
+	<span>(<?php print date('Y')?>) BSD 3-Clause</span><br />
+<?php
+	if ($head = git_head(CONFIG_LOCALROOT))
+		print <<<HTML
+	<span>RAL $head[tag] "$head[cutename]" (<a
+	href='https://github.com/yumi-xx/RAL/tree/$head[checksum]'
+	>$head[checksum]</a>)</span>
+
+HTML;
+?>
 	</footer>
 </div>
 <!-- Scripts -->

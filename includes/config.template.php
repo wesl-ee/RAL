@@ -1,4 +1,28 @@
 <?php
+/*
+ X X X X X X X X X X X X X X X X X X X X X X X
+ X                  R A L                    X
+ X                 Y U M I                   X
+ X               ( 2 0 X X )                 X
+ X                                           X
+ X          A U T H O R I Z I N G            X
+ X         SHIBARAKU O-MACHI KUDASAI         X
+ X                  . . .                    X
+ X                                           X
+ X                                           X
+ X A U T H O R I Z A T I O N C O M P L E T E X
+ X                                           X
+ X W E L C O M E V I R T U A L R E A L I T Y X
+ X                                           X
+ X U N L O C K R ( E ) A L E X I S T E N C E X
+ X                                           X
+ X C O N F I G U R A T I O N O P T I O N S   X
+ X A L L O W T H E M A N I P U L A T I O N   X
+ X        O F Y O U R R E A L I T Y          X
+ X                                           X
+ XX X X X X X X X X X X X X X X X X X X X X XX
+*/
+
 // MySQL server config options
 define("CONFIG_RAL_SERVER", "MY_SERVER");
 define("CONFIG_RAL_USERNAME", "MY_USERNAME");
