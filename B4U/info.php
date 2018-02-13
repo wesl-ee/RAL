@@ -28,6 +28,7 @@ function nl22br($string)
 <HTML>
 <head>
 <?php
+
 	if (!empty($_GET['page']))
 		$pagetitle = ucfirst($_GET['page']);
 	else
@@ -114,6 +115,9 @@ HTML;
 	</span>
 </div>
 <div id=rightpanel>
+<?php
+	include "{$ROOT}template/toolbar.php";
+?>
 <?php if ($_GET['page'] == 'theme') {
 		$currtheme = get_theme();
 		print <<<HTML

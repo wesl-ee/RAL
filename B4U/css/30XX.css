@@ -23,6 +23,15 @@
 	.error {
 		color: red;
 	}
+	.excellent, .good {
+		background-color: #D0F0C0;
+	}
+	.bad {
+		background-color: #A8C0D8;
+	}
+	.disconnected {
+		border-style: dashed !important;
+	}
 /* New posts */
 	article {
 		transition: background 0.3s ease-in-out;
@@ -45,6 +54,12 @@
 		background-color: palegoldenrod;
 		color: black;
 	}
+/* Toolbars */
+	.toolbar {
+		color: black;
+		background-color: white;
+	}
+
 /* Trivial */
 	dl, ul, ol {
 		list-style-type: square;

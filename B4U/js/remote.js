@@ -1,6 +1,8 @@
 function updatelatency()
 {
 	var xhr = new XMLHttpRequest();
+
+
 	var t1;
 	xhr.onreadystatechange = function() {
 	if (this.readyState == 1) {
@@ -9,20 +11,40 @@ function updatelatency()
 	// HEADERS_RECEIVED
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		netmessage(Math.round(t2 - t1) + "ms latency");
-	}
-	}
+		var latency = Math.round(t2 - t1);
+		movelatbar(latency);
+	} }
 	xhr.open('GET', '/');
 	xhr.send();
 }
-function netmessage(msg)
+function movelatbar(latency)
 {
 	var lat = document.getElementById('latency');
-	lat.innerText = msg;
+	var excellent_interval = 50;
+	var good_interval = 200;
+	var bad_interval = 500;
+
+	var text = lat.getElementsByClassName('text')[0];
+	var bar = lat.getElementsByClassName('bar')[0];
+
+	if (!latency) {
+		bar.className = 'bar disconnected';
+	}
+	else if (latency < excellent_interval) {
+		text.innerText = latency + ' ms';
+		bar.className = 'bar excellent';
+	}
+	else if (latency < good_interval) {
+		text.innerText = latency + ' ms';
+		bar.className = 'bar good';
+	}
+	else if (latency < bad_interval) {
+		text.innerText = latency + ' ms';
+		bar.className = 'bar bad';
+	}
 }
 function oos()
 {
-	netmessage('Out of sync');
 	document.getElementById('latency').className = 'error';
 }
 function fetchtopics(continuity, reader)
@@ -35,7 +57,7 @@ function fetchtopics(continuity, reader)
 	}
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		netmessage(Math.round(t2 - t1) + "ms latency");
+		movelatbar(Math.round(t2 - t1));
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
@@ -60,7 +82,7 @@ function fetchposts(continuity, topic, reader)
 	}
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		netmessage(Math.round(t2 - t1) + "ms latency");
+		movelatbar(Math.round(t2 - t1));
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
@@ -151,7 +173,7 @@ function verifyposts(reader, continuity, topic)
 
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
-		oos(); return false;
+		movelatbar(false); return false;
 	}
 
 	var t1;
@@ -162,14 +184,14 @@ function verifyposts(reader, continuity, topic)
 	}
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		netmessage(Math.round(t2 - t1) + "ms latency");
+		movelatbar(Math.round(t2 - t1));
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
 	if (this.responseText) {
 		var posts = JSON.parse(this.responseText);
 		if (!verifyreader(reader, posts)) {
-			oos(); return false;
+			movelatbar(false); return false;
 		}
 	} }
 	var uri = '?verify';

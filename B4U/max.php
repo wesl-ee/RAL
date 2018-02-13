@@ -128,26 +128,11 @@ else
 
 	$items = fetch_continuities();
 	include "../template/nav.php";
-
-
-	if (CONFIG_REALTIME_ENABLE && isset($topic)) print
-<<<LATENCY
-	<span id=latency>&nbsp;</span><br />
-
-LATENCY;
-	if (CONFIG_CLEAN_URL)
-		$a = CONFIG_WEBROOT . "info";
-	else
-		$a = CONFIG_WEBROOT . "info.php";
-	print
-<<<HTML
-	<a href="$a">About</a>
-
-HTML;
 ?></div>
 <?php include "{$ROOT}/template/extrapanels.php"?>
 <div id=rightpanel>
 <?php
+	include "../template/toolbar.php";
 	if (isset($topic))
 		$title = "[$continuity / $topic]";
 	else

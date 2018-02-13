@@ -41,8 +41,6 @@
 		border: 1px solid;
 		border-radius: 5px 0;
 	}
-/* Media rules for the layout */
-
 /* Elements on the welcome page */
 	/* Since this is a horizontal layout,
 	apply some empty space */
@@ -87,8 +85,8 @@
 	}
 	/* The reader element */
 	.reader {
-		padding: 5px;
 		border-bottom: 1px solid;
+		padding-bottom: 2px;
 	}
 	.reader.docs {
 		text-align: left;
@@ -199,11 +197,7 @@
 		border-right: 0;
 	}
 /* Elements in the sidebar */
-	/* Latency displays our current ping to the server */
-	.sidebar .latency {
-		text-wrap: break-word;
-		text-align: justify;
-	}
+
 	/* Special rules for the continuity container */
 	.sidebar .collection {
 		flex-direction: column;
@@ -251,6 +245,39 @@
 	}
 	a.hoverbox {
 		text-decoration: none;
+	}
+	.toolbar {
+		display: flex;
+		flex: 1 1 auto;
+		flex-flow: row;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 5px 0 5px 0;
+		border: 1px solid;
+		padding: 5px;
+	}
+	.toolbar > * {
+		margin: 2px;
+	}
+	.toolbar > a {
+		display: inline-block;
+		background-color: white;
+		color: inherit;
+		border: 3px ridge;
+
+		line-height: 0;
+	}
+	.toolbar > a:hover { color: inherit; }
+	.toolbar img { height: 36px; width: 36px; }
+	/* Latency displays connection quality to the server */
+	#latency {
+		text-align: left;
+		flex: 1 1 auto;
+	}
+	#latency .bar {
+		white-space: pre;
+		width: 5px;
+		border: 1px solid;
 	}
 /* Modifications on the default styling */
 	input[type=submit] {

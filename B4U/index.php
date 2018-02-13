@@ -31,6 +31,7 @@ HREF;
 <body>
 <div id=welcome>
 <?php
+	include "{$ROOT}template/toolbar.php";
 	$title = "RAL";
 	$subtitle = "Neo-Forum Textboard";
 	include "{$ROOT}template/header.php";
@@ -45,9 +46,9 @@ HREF;
 		<span class=error>No continuities have been created!</span>
 
 HTML;
+
 ?>
 	<header>Recent Posts</header>
-	<div id=latency>&nbsp;</div>
 	<div class="reader recent" data-mostpost=30>
 <?php
 	$recent = fetch_recent_posts(30);
@@ -117,9 +118,7 @@ ONION;
 <?php
 	if ($head = git_head(CONFIG_LOCALROOT))
 		print <<<HTML
-	<span>RAL $head[tag] "$head[cutename]" (<a
-	href='https://github.com/yumi-xx/RAL/tree/$head[checksum]'
-	>$head[checksum]</a>)</span>
+	<span>RAL $head[tag] "$head[cutename]" ($head[checksum])</span>
 
 HTML;
 ?>
