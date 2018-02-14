@@ -54,12 +54,6 @@
 		background-color: palegoldenrod;
 		color: black;
 	}
-/* Toolbars */
-	.toolbar {
-		color: black;
-		background-color: white;
-	}
-
 /* Trivial */
 	dl, ul, ol {
 		list-style-type: square;

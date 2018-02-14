@@ -233,10 +233,8 @@
 	.toolbar > * { margin: 2px; }
 	.toolbar > a {
 		display: inline-block;
-		color: inherit;
 		line-height: 0;
 	}
-	.toolbar > a:hover { color: inherit; }
 	.toolbar img { height: 36px; width: 36px; }
 	/* Latency displays connection quality to the server */
 	#latency {
