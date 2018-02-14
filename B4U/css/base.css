@@ -96,12 +96,12 @@
 	.reader article .content {
 		display: block;
 		overflow: hidden;
-		line-height: 1.6em;
 		text-align: justify;
 		padding-left: 10px;
 		padding-right: 5px;
 		padding-top: 5px;
 		word-wrap: break-word;
+		line-height: 1.8em;
 	}
 	.reader .content code {
 		display: block;
@@ -131,7 +131,7 @@
 	/* Timeline view (browsing all topics) */
 		/* Restrict content to 6 lines max */
 		.reader.continuity .content {
-			max-height: 9.6em;
+			max-height: 10.8em;
 		}
 	/* Reader on the welcome page */
 		#welcome .reader article,
@@ -142,8 +142,7 @@
 		/* Content on the welcome page
 		can be up to 6 lines tall */
 		#welcome .reader .content {
-			max-height: 8.4em;
-			line-height: 1.4em;
+			max-height: 10.8em;
 		}
 		/* More compact view */
 		#welcome .reader .content {
@@ -247,10 +246,16 @@
 		border: 1px solid;
 	}
 	a.flair { display: inline-block; }
-	.flair { animation: hover 2s ease-in-out infinite; }
+	.flair { animation: hover 2s ease-out infinite; }
 /* Animations */
 	@keyframes hover {
 		50% { transform: translateY(10px); }
+	}
+	@keyframes spin {
+		5% { transform: rotateY(360deg); }
+		20% { transform: rotateY(0deg); }
+		50% { transform: rotateY(360deg); }
+		100% { transform: rotateY(0deg); }
 	}
 /* Modifications on the default styling */
 	input[type=submit] {

@@ -18,7 +18,7 @@
 <<<LATENCY
 	<span id=latency>
 		<span class="bar disconnected"> </span>
-		<span class=text>Not synced</span>
+		<span class=text></span>
 	</span>
 
 LATENCY;
