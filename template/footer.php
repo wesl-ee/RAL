@@ -6,18 +6,6 @@
 <?php
 	if (isset($topic)) {
 		$q = $_GET;
-		if (CONFIG_CLEAN_URL) {
-			unset($q['continuity']); unset($q['topic']);
-		}
-		$q = http_build_query($q);
-		if (empty($q)) $a = "?postmode";
-		else $a = "?postmode&$q";
-		print
-<<<HTML
-	<a href='$a' class=hoverbox>Reply to Topic</a>
-
-HTML;
-		$q = $_GET;
 		unset($q['topic']);
 		if (CONFIG_CLEAN_URL) {
 			$q = http_build_query($q);
@@ -35,6 +23,20 @@ HTML;
 <<<HTML
 	<a href='$a' class=hoverbox>Return</a>
 HTML;
+
+		$q = $_GET;
+		if (CONFIG_CLEAN_URL) {
+			unset($q['continuity']); unset($q['topic']);
+		}
+		$q = http_build_query($q);
+		if (empty($q)) $a = "?postmode";
+		else $a = "?postmode&$q";
+		print
+<<<HTML
+	<a href='$a' class=hoverbox>Reply to Topic</a>
+
+HTML;
+
 	} else {
 		$q = $_GET;
 		if (CONFIG_CLEAN_URL) {

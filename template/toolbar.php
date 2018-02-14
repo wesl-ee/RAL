@@ -9,7 +9,7 @@
 	}
 ?>
 <nav class=toolbar>
-	<a href="<?php print CONFIG_WEBROOT?>">
+	<a class=hoverbox href="<?php print CONFIG_WEBROOT?>">
 		<img src="<?php print CONFIG_WEBROOT?>res/home.gif"
 		title=Home>
 	</a>
@@ -23,11 +23,11 @@
 
 LATENCY;
 ?>
-	<a href=<?php print $theming?>>
+	<a class=hoverbox href=<?php print $theming?>>
 		<img src="<?php print CONFIG_WEBROOT?>res/theme.gif"
 		title=Theming>
 	</a>
-	<a href=<?php print $help?>>
+	<a class=hoverbox href=<?php print $help?>>
 		<img src="<?php print CONFIG_WEBROOT?>res/help.gif"
 		title=Help>
 	</a>
@@ -36,3 +36,4 @@ LATENCY;
 		title=Feedback>
 	</a>-->
 </nav>
+<hr />

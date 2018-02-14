@@ -50,13 +50,7 @@
 	}
 /* Elements on the right panel */
 	/* Footer has reply, return buttons */
-	#rightpanel footer {
-		text-align: right;
-		padding-right: 10px;
-	}
 	#rightpanel footer .hoverbox {
-		border-width: 1px;
-		border-top: 0px;
 		margin-left: 10px;
 	}
 	#rightpanel header h1 {
@@ -85,7 +79,6 @@
 	}
 	/* The reader element */
 	.reader {
-		border-bottom: 1px solid;
 		padding-bottom: 2px;
 	}
 	.reader.docs {
@@ -171,30 +164,16 @@
 			height: initial;
 		} }
 	/* Reply box */
-	.reply {
-		display: flex;
-		flex: 0 0 auto;
+	.robocheck input,
+	.robocheck img {
+		display: block;
+		margin: auto;
+		width: 165px;
+		box-sizing: border-box;
 	}
-	.reply .buttons {
+	.buttons {
+		padding-top: 5px;
 		text-align: center;
-	}
-	.reply .cancel {
-		display: block;
-		border-top: 0;
-	}
-	.reply img {
-		display: block;
-		width: 100%;
-		height: 70px;
-	}
-	.reply .buttons input[type=submit] {
-		display: block;
-		border-top: 0;
-		width: 100%;
-	}
-	.reply textarea {
-		border-top: 0;
-		border-right: 0;
 	}
 /* Elements in the sidebar */
 
@@ -248,23 +227,13 @@
 	}
 	.toolbar {
 		display: flex;
-		flex: 1 1 auto;
-		flex-flow: row;
 		justify-content: space-between;
 		align-items: center;
-		border-radius: 5px 0 5px 0;
-		border: 1px solid;
-		padding: 5px;
 	}
-	.toolbar > * {
-		margin: 2px;
-	}
+	.toolbar > * { margin: 2px; }
 	.toolbar > a {
 		display: inline-block;
-		background-color: white;
 		color: inherit;
-		border: 3px ridge;
-
 		line-height: 0;
 	}
 	.toolbar > a:hover { color: inherit; }
@@ -289,10 +258,10 @@
 	input[type=submit] {
 		padding-left: 5px;
 		padding-right: 5px;
-		background-color: inherit;
 		font: inherit;
 		line-height: normal;
 		color: inherit;
+		background-color: unset;
 	}
 	button {
 		background-color: inherit;

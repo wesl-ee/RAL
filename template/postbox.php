@@ -20,19 +20,23 @@
 	$robocheck = gen_robocheck();
 	$robosrc = $robocheck['src'];
 	$robocode = $robocheck['id'];
+
+	$posticon = CONFIG_WEBROOT . "res/post.gif";
+	$cancelicon = CONFIG_WEBROOT . "res/stop.gif";
 	print
 <<<HTML
 <form class=reply method=POST action="$target">
 		<textarea rows=5
 		maxlength=CONFIG_RAL_POSTMAXLEN
 		name=content></textarea>
-	<div class=buttons>
+	<div class=robocheck>
 		<img src="$robosrc">
 		<input name=robocheckid type=hidden value=$robocode>
 		<input name=robocheckanswer placeholder="Type the above text" autocomplete=off>
-		<input value=Post class=hoverbox type=submit>
+	</div><div class=buttons>
 		<a href="$target" class="cancel hoverbox">Cancel</a>
-		</div>
+		<input value=Post class=hoverbox type=submit>
+	</div>
 </form>
 
 HTML;

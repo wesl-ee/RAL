@@ -13,6 +13,10 @@
 		color: black;
 		background-color: azure;
 	}
+/* Hoverbox */
+	.hoverbox {
+		background-color: white;
+	}
 /* Sync errors */
 	.error {
 		color: red;
