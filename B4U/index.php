@@ -32,9 +32,17 @@ HREF;
 <div id=welcome>
 <?php
 	include "{$ROOT}template/toolbar.php";
+
 	$title = "RAL";
 	$subtitle = "Neo-Forum Textboard";
 	include "{$ROOT}template/header.php";
+
+	$flair = CONFIG_WEBROOT . "res/strawberry.gif";
+	$url = CONFIG_WEBROOT;
+	print <<<HTML
+	<a href="$url" class=flair><img src="$flair"></a>
+
+HTML;
 ?>
 <?php
 	$navtitle = 'Continuities';
@@ -47,8 +55,20 @@ HREF;
 
 HTML;
 
+	$motd = "{$ROOT}info/MOTD.pod";
+	if (is_file($motd) && filesize($motd)) {
+		print <<<HTML
+		<h2>Announcements</h2>
+		<article>
+
+HTML;
+		ppppppp("{$ROOT}info/MOTD.pod");
+		print <<<HTML
+		</article><hr />
+HTML;
+	}
 ?>
-	<header>Recent Posts</header>
+	<h2>Recent Posts</h2>
 	<div class="reader recent" data-mostpost=30>
 <?php
 	$recent = fetch_recent_posts(30);

@@ -7,3 +7,5 @@ tmp/*
 !tmp/robocheck-answers
 tmp/robocheck-answers/*
 !tmp/robocheck-answers/.keep
+
+info/MOTD.pod

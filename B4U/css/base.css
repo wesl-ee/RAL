@@ -92,7 +92,7 @@
 		text-align: left;
 	}
 	/* Every post / topic is wrapped in an <article> */
-	.reader article {
+	article {
 		margin-bottom: 5px;
 		overflow-x: hidden;
 		border-radius: 5px;
@@ -278,6 +278,12 @@
 		white-space: pre;
 		width: 5px;
 		border: 1px solid;
+	}
+	a.flair { display: inline-block; }
+	.flair { animation: hover 2s ease-in-out infinite; }
+/* Animations */
+	@keyframes hover {
+		50% { transform: translateY(10px); }
 	}
 /* Modifications on the default styling */
 	input[type=submit] {
