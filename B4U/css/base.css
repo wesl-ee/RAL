@@ -163,6 +163,16 @@
 			height: initial;
 		} }
 	/* Reply box */
+	.reply > * {
+		margin-bottom: 5px;
+	}
+	.reply textarea {
+		width: calc(100% - 10px);
+		max-width: 32em;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
 	.robocheck input,
 	.robocheck img {
 		display: block;
@@ -170,10 +180,8 @@
 		width: 165px;
 		box-sizing: border-box;
 	}
-	.buttons {
-		padding-top: 5px;
-		text-align: center;
-	}
+	.robocheck input { text-align: center; }
+	.buttons { text-align: center; }
 /* Elements in the sidebar */
 
 	/* Special rules for the continuity container */
@@ -263,8 +271,6 @@
 		padding-right: 5px;
 		font: inherit;
 		line-height: normal;
-		color: inherit;
-		background-color: unset;
 	}
 	button {
 		background-color: inherit;
@@ -292,21 +298,25 @@
 		width: 100%;
 	}
 	textarea {
+		border-radius: 5px;
+		padding: 5px;
+		border: 3px double;
+		text-align: justify;
 		font-family: inherit;
-		width: 100%;
+		width: calc(100% - 10px);
+		max-width: 32em;
 		outline: none;
 		resize: none;
-		border: 0;
 		height: auto;
 		margin: 0;
 	}
 	input, select, textarea {
 		font-family: inherit;
-		border: 1px solid;
 		margin-bottom: 1px;
 		font-size: 1em;
 		margin: 0;
 	}
+	input, select { border: 1px solid; }
 	select {
 		-webkit-appearance: none;
 		-moz-appearance: none;
