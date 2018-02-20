@@ -13,8 +13,11 @@
 		$location = $items[$i]['url'];
 		// Put all items in the DOM (but only
 		// display some) (for JS)
-		print
-<<<HTML
+		if (isset($desc)) print <<<HTML
+	<a class=hoverbox title="$desc" href="$location">$name</a>
+
+HTML;
+		else print <<<HTML
 	<a class=hoverbox href="$location">$name</a>
 
 HTML;
