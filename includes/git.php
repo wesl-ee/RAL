@@ -9,8 +9,10 @@ define("RELEASES", [
 */
 function git_head($dir)
 {
-	$checksum = exec("git -C $dir rev-parse --short HEAD");
-	$tag = exec("git -C $dir describe --tags --abbrev=0");
+	$checksum = exec("git -C $dir rev-parse --short HEAD", $exit);
+	if (!$exit) return false;
+	$tag = exec("git -C $dir describe --tags --abbrev=0", $exit);
+	if (!$exit) return false;
 	$name = RELEASES[$tag];
 	return [
 		'checksum' => $checksum,
