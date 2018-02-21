@@ -22,7 +22,6 @@ if (isset($_POST['content']) && isset($topic)) {
 
 	// Strip down the content ; )
 	$content = trim($content);
-	$content = htmlspecialchars($content);
 	if (strlen($content) > CONFIG_RAL_POSTMAXLEN
 	|| !strlen($content)
 	|| !check_robocheck($_POST['robocheckid'], $_POST['robocheckanswer'])

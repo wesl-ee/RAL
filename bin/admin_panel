@@ -141,6 +141,7 @@ $choice = present_choices(
 	'Encrypt a post',
 	'Bans',
 	'Post Details',
+	'Miscellany',
 	'Quit'
 );
 if ($choice eq 'Continuities') {
@@ -185,7 +186,7 @@ if ($choice eq 'Continuities') {
 	$choice = present_choices @continuities;
 	print "Post id: ";
 	my $id = <>; chomp $id;
-	$sth = $dbh->prepare('SELECT `Content` FROM `Posts` WHERE `Timeline`=(?)'
+	$sth = $dbh->prepare('SELECT `Content` FROM `Posts` WHERE `Continuity`=(?)'
 	. ' AND `Id`=(?)');
 	$sth->execute($choice, $id) or die_error DBI::errstr;
 	if (!$sth->rows) {
@@ -198,7 +199,7 @@ if ($choice eq 'Continuities') {
 
 	print "Cipher: Rail-fence ($rails rails)\n";
 	$sth = $dbh->prepare('UPDATE `Posts` SET `Content`=(?) WHERE'
-	. ' `Timeline`=(?) AND `Id`=(?)');
+	. ' `Continuity`=(?) AND `Id`=(?)');
 	$sth->execute($ciphertext, $choice, $id) or die_error ;
 	if ($sth->rows) {
 		notify_success "Success: Encrypted $choice/$id";
@@ -228,7 +229,7 @@ if ($choice eq 'Continuities') {
 		my $id = <>; chomp $id;
 		$sth = $dbh->prepare('INSERT INTO `Bans` (`Id`, `Type`)'
 		. ' SELECT `Auth` AS `Id`, (?) AS `Type`  FROM `Posts`'
-		. ' WHERE `Id`=(?) AND `Timeline`=(?)');
+		. ' WHERE `Id`=(?) AND `Continuity`=(?)');
 		$sth->execute('SLOW', $id, $choice) or die_error DBI::errstr;
 		if ($sth->rows) {
 			notify_success "Success: The user is shadow banned";
@@ -247,4 +248,33 @@ if ($choice eq 'Continuities') {
 		}
 	}
 } elsif ($choice eq 'Post Details') {
+} elsif ($choice eq 'Miscellany') {
+	$choice = present_choices 'Convert HTML Entities';
+	if ($choice eq 'Convert HTML Entities') {
+		$sth = $dbh->prepare('SELECT `Id`, `Continuity`,'
+		. ' `Content` FROM `Posts`');
+		print <<PROMPT;
+This option searches for HTML entities in all posts and replaces them with
+the appropriate plain-text character. This is only useful if you are
+upgrading from v1.0 -> v1.1.
+
+PROMPT
+		print "Convert entities? (Y/n) ";
+		my $answer = <>; chomp $answer;
+		if ($answer eq 'Y') { $sth->execute() or die DBI::errstr;
+		while ($row = $sth->fetchrow_hashref) {
+			my $newcontent = $row->{'Content'};
+			$newcontent =~ s/&lt;/</g;
+			$newcontent =~ s/&gt;/>/g;
+			$newcontent =~ s/&amp;/&/g;
+			if ($row->{'Content'} ne $newcontent) {
+				print "[$row->{Continuity} / $row->{Id}]\n";
+				my $sth2 = $dbh->prepare('UPDATE `Posts` Set'
+				. ' `Content`=(?) WHERE `Id`=(?) AND'
+				. ' `Continuity`=(?)');
+				$sth2->execute($newcontent, $row->{'Id'},
+				$row->{'Continuity'});
+			}
+		} }
+	}
 } print "\n"; } while ($choice ne 'Quit');

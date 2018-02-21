@@ -28,6 +28,7 @@ if (isset($_GET['fetch'])) {
 if (isset($_GET['subscribe'])) {
 	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
+	$raw = $_GET['raw'];
 
 	$c_id = create_listener();
 	do {
@@ -35,6 +36,8 @@ if (isset($_GET['subscribe'])) {
 		switch($msg['type']) {
 		case 'POST':
 			$post = $msg['body'];
+			if (!$raw)
+				$post->content = $post->toHtml();
 			if (isset($continuity)
 			&& $post->continuity != $continuity)
 				$relevant = False;
@@ -86,5 +89,12 @@ if (isset($_GET['post'])) {
 	else {
 		$post = create_post($continuity, $topic, $auth, $content);
 	}
+}
+// Preview BBCode
+if (isset($_GET['bbpreview'])) {
+	$text = $_POST['text'];
+	$post = new Post();
+	$post->$content = $text;
+	return $post->toHtml();
 }
 ?>

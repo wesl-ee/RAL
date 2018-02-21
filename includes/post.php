@@ -10,6 +10,7 @@ class continuity {
 		$this->description = $row['Description'];
 		$this->url = $this->resolve();
 	}
+
 	/* Resolve the continuity to a URL */
 	function resolve() {
 		if (CONFIG_CLEAN_URL)
@@ -32,7 +33,8 @@ class post {
 	public $url;
 
 	// Fills in a post's information from a SQL row from `Posts`
-	public function __construct($row) {
+	public function __construct($row = null) {
+		if (!$row) return;
 		$time = strtotime($row['Date']);
 		$this->id = $row['Id'];
 		$this->continuity = $row['Continuity'];
@@ -57,6 +59,13 @@ class post {
 		// Hash only for non-topic posts
 		if ($this->topic != $this->id) $ret .= "#" . $this->id;
 		return $ret;
+	}
+	/* Prepare a post for HTML output */
+	public function toHtml() {
+		return nl2br(
+		bbbbbbb(
+		htmlspecialchars(
+		$this->content)));
 	}
 }
 
@@ -208,13 +217,6 @@ function bbbbbbbstrip($string)
 	}
 	$contents[] = substr($string, $offset);
 	return join($contents);
-}
-/*
- * Standard routine for interpreting post content for the web
-*/
-function toHtml($content)
-{
-	return nl2br(bbbbbbb($content));
 }
 /*
  * Renders a paragraph of Perl's Plain Old Documentation in HTML

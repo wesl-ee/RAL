@@ -31,7 +31,6 @@ print
 XML_HEAD;
 
 foreach ($posts as $post) {
-	$post->content = toHtml($post->content);
 	if (!($post->topic - $post->id))
 		$title = "User Created New Topic on [$post->continuity]";
 	else
@@ -42,7 +41,7 @@ foreach ($posts as $post) {
 			<title><![CDATA[$title]]></title>
 			<link>$post->url</link>
 			<guid isPermaLink="true">$post->url</guid>
-			<description><![CDATA[$post->content]]></description>
+			<description><![CDATA[{$post->toHtml()}]]></description>
 			<pubDate>$post->date</pubDate>
 		</item>
 
