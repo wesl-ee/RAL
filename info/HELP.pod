@@ -34,8 +34,6 @@ to writing HTML:
 C<x> can be any valid HTML color name, hex triplet, rgb() triple, or hsl()
 color space
 
-=item [code] (Monospace code block)
-
 =item [url=C<href>]
 
 C<href> is a URL to a resource on the internet. Protocols other than

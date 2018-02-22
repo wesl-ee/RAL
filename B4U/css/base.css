@@ -139,9 +139,9 @@
 			padding-top: 5px;
 			padding-bottom: 5px;
 		}
-		/* Content on the welcome page is only 1 line */
+		/* Content on the welcome page is only 5 line */
 		#welcome .reader .content {
-			max-height: 1.8em;
+			max-height: 9em;
 		}
 		/* More compact view */
 		#welcome .reader .content {

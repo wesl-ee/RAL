@@ -111,6 +111,7 @@ function bbbbbbb($string)
 				$close = "</em>";
 				break;
 			case 'j':
+			case 'code':
 				$open = "<kbd>";
 				$close = "</kbd>";
 				break;
@@ -134,10 +135,6 @@ function bbbbbbb($string)
 					$url = 'http:' . $url;
 				$open = "<a rel=nofollow href='$url'>";
 				$close = "</a>";
-				break;
-			case 'code':
-				$open = "<code>";
-				$close = "</code>";
 				break;
 			default: continue;
 			}
