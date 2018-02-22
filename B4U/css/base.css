@@ -139,10 +139,9 @@
 			padding-top: 5px;
 			padding-bottom: 5px;
 		}
-		/* Content on the welcome page
-		can be up to 6 lines tall */
+		/* Content on the welcome page is only 1 line */
 		#welcome .reader .content {
-			max-height: 10.8em;
+			max-height: 1.8em;
 		}
 		/* More compact view */
 		#welcome .reader .content {
@@ -163,8 +162,13 @@
 			height: initial;
 		} }
 	/* Reply box */
-	.reply > * { margin-bottom: 5px; }
-	.reply { text-align: right; }
+	.reply > * {
+		margin-bottom: 5px;
+		margin-left: auto; margin-right: auto;
+		max-width: 32em;
+		text-align: center;
+	}
+	.reply .textarea { text-align: right; }
 
 	.reply .textarea {
 		width: calc(100% - 10px);

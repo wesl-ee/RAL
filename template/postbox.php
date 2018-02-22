@@ -18,10 +18,12 @@
 	if (isset($topic)) {
 		$submittext = 'Post';
 		$placeholder = 'Enter your text';
+		$heading = "Reply<br/>[ $continuity / $topic ]";
 	}
 	else {
 		$submittext = 'Create Topic';
 		$placeholder = 'Create your topic';
+		$heading = "New Topic<br/>[ $continuity ]";
 	}
 
 	if (!empty($q)) $target = "$target?$q";
@@ -33,10 +35,12 @@
 	$maxlen = CONFIG_RAL_POSTMAXLEN;
 	$posticon = CONFIG_WEBROOT . "res/post.gif";
 	$cancelicon = CONFIG_WEBROOT . "res/stop.gif";
+
 	print
 <<<HTML
 
 <form class=reply method=POST action="$target">
+	<header>$heading</header>
 	<div class=textarea>
 		[ <a class=toggle-preview>
 		Preview Formatting
