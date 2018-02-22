@@ -20,6 +20,26 @@ function newfrontpagepost(reader, post)
 		reader.removeChild(reader.lastElementChild);
 	highlightnew(article); notifyuser(post);
 }
+function handletogglepreview(e) { togglepreview(e.target.parentNode); }
+function togglepreview(replybox)
+{
+	var preview = replybox.getElementsByClassName('preview')[0];
+	var ta = replybox.getElementsByTagName('textarea')[0];
+	var toggle = replybox.getElementsByClassName('toggle-preview')[0];
+
+	if (!replybox.classList.contains('previewing')) {
+		preview.innerText = ta.value;
+		replybox.classList.add('previewing');
+		toggle.innerText = 'Continue Writing';
+	}
+	else {
+		replybox.classList.remove('previewing');
+		toggle.innerText = 'Preview Formatting';
+		ta.focus();
+	}
+
+	previewPost(ta.value, preview);
+}
 function newpost(reader, post)
 {
 	var article = createpostelement(post, false);

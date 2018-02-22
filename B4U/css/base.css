@@ -163,10 +163,10 @@
 			height: initial;
 		} }
 	/* Reply box */
-	.reply > * {
-		margin-bottom: 5px;
-	}
-	.reply textarea {
+	.reply > * { margin-bottom: 5px; }
+	.reply { text-align: right; }
+
+	.reply .textarea {
 		width: calc(100% - 10px);
 		max-width: 32em;
 		display: block;
@@ -182,6 +182,14 @@
 	}
 	.robocheck input { text-align: center; }
 	.buttons { text-align: center; }
+
+	.toggle-preview { display: none; }
+	.preview {
+		display: none;
+		border: 0; border-left: 1px solid; border-radius: 0;
+	}
+	.previewing .preview { display: block; }
+	.previewing textarea { display: none; }
 /* Elements in the sidebar */
 
 	/* Special rules for the continuity container */
@@ -290,6 +298,7 @@
 	a {
 		color: inherit;
 		cursor: pointer;
+		text-decoration: underline;
 	}
 	a:hover {
 		text-decoration: none;

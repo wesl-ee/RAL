@@ -119,6 +119,7 @@ else
 	include "{$ROOT}template/head.php";
 ?>
 	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
+	<script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 </head>
 <body>
 <div class=sidebar>
@@ -183,7 +184,7 @@ HTML;
 ?>
 </div>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
-<script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
+
 <script>
 var reader = document.getElementById(
 	'rightpanel'

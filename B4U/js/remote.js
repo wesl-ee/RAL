@@ -95,7 +95,7 @@ function fetchposts(continuity, topic, reader)
 	} }
 	var uri = '?fetch&continuity=' + continuity + "&topic=" + topic;
 	xhr.open('GET', '/courier.php' + uri);
-	xhr.send();
+	xhr.send(uri);
 }
 function subscribetopic(continuity, topic, reader)
 {
@@ -239,4 +239,27 @@ function subscribecontinuity(continuity, reader)
 	var uri = '?subscribe&continuity=' + continuity;
 	xhr.open('GET', '/courier.php' + uri);
 	xhr.send();
+}
+function previewPost(text, container)
+{
+	var xhr = new XMLHttpRequest();
+	var t1;
+	xhr.onreadystatechange = function() {
+	if (this.readyState == 1) {
+		t1 = performance.now();
+	}
+	if (this.readyState == 2) {
+		var t2 = performance.now();
+		movelatbar(Math.round(t2 - t1));
+	}
+	if (this.readyState == 4)
+	if (this.status == 200) {
+		var markup = this.responseText;
+		container.innerHTML = markup;
+	} }
+	var uri = 'text=' + encodeURI(text);
+	xhr.open('POST', '/courier.php?preview');
+	xhr.setRequestHeader("Content-type",
+	"application/x-www-form-urlencoded");
+	xhr.send(uri);
 }

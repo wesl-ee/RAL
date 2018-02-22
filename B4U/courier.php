@@ -91,10 +91,10 @@ if (isset($_GET['post'])) {
 	}
 }
 // Preview BBCode
-if (isset($_GET['bbpreview'])) {
+if (isset($_GET['preview'])) {
 	$text = $_POST['text'];
 	$post = new Post();
-	$post->$content = $text;
-	return $post->toHtml();
+	$post->content = $text;
+	print $post->toHtml();
 }
 ?>

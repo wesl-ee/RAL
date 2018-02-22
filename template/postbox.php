@@ -35,11 +35,18 @@
 	$cancelicon = CONFIG_WEBROOT . "res/stop.gif";
 	print
 <<<HTML
+
 <form class=reply method=POST action="$target">
+	<div class=textarea>
+		[ <a class=toggle-preview>
+		Preview Formatting
+		</a> ]
 		<textarea autofocus rows=5
 		maxlength=$maxlen
 		placeholder="$placeholder"
 		name=content></textarea>
+		<article class=preview></article>
+	</div>
 	<div class=robocheck>
 		<img src="$robosrc">
 		<input name=robocheckid type=hidden value=$robocode>
@@ -52,5 +59,14 @@
 	</div>
 </form>
 
+<!-- Hook up the "Preview" button -->
+<script>
+	var replies = document.getElementsByClassName('reply');
+	var reply = replies[replies.length - 1];
+	var p = reply.getElementsByClassName('toggle-preview')[0];
+
+	p.style.display = 'inline';
+	p.addEventListener('click', handletogglepreview);
+</script>
+
 HTML;
-?>
