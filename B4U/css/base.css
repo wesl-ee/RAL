@@ -103,6 +103,9 @@
 		word-wrap: break-word;
 		line-height: 1.8em;
 	}
+	.reader article .content p {
+		margin: 0;
+	}
 	.reader .content code {
 		display: block;
 		margin: 0;

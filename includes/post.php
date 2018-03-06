@@ -62,13 +62,29 @@ class post {
 	}
 	/* Prepare a post for HTML output */
 	public function toHtml() {
-		return nl2br(
+		return paragraphize(
 		bbbbbbb(
 		htmlspecialchars(
 		$this->content)));
 	}
 }
-
+function paragraphize($string)
+{
+	$contents[] = "<p>";
+	$offset = 0; $a = 0;
+	while (($a = indexOf($string, "\n", $offset)) >= 0) {
+		if (substr($string, $offset, $a - $offset - 1) == "") {
+			$offset = $a + 1;
+			continue;
+		}
+		$contents[] = substr($string, $offset, $a - $offset - 1);
+		$contents[] = "</p><p>";
+		$offset = $a + 1;
+	} while ($a >= 0);
+	$contents[] = substr($string, $offset);
+	$contents[] = "</p>";
+	return join($contents);
+}
 /*
  * Magical BBcode parser
 */
