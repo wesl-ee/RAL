@@ -266,6 +266,7 @@ PROMPT
 			my $newcontent = $row->{'Content'};
 			$newcontent =~ s/&lt;/</g;
 			$newcontent =~ s/&gt;/>/g;
+			$newcontent =~ s/&quot;/>/g;
 			$newcontent =~ s/&amp;/&/g;
 			if ($row->{'Content'} ne $newcontent) {
 				print "[$row->{Continuity} / $row->{Id}]\n";
