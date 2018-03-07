@@ -3,7 +3,7 @@
 		color: black;
 		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 		font-size: 1.1em;
-		background-image: url('img/sakura.gif');
+		background-image: url('img/sakura.png');
 		background-color: white;
 	}
 	.sidebar,
@@ -12,7 +12,7 @@
 	select,
 	textarea {
 		color: black;
-		background-color: azure;
+		background-color: white;
 	}
 /* Sync errors */
 	.error {
