@@ -69,9 +69,10 @@ HTML;
 	}
 ?>
 	<h2>Recent Posts</h2>
-	<div class="reader recent" data-mostpost=30>
+	<div class="reader recent" data-mostpost=<?php
+	print CONFIG_FRONTPAGE_POSTS ?>>
 <?php
-	$recent = fetch_recent_posts(30);
+	$recent = fetch_recent_posts(CONFIG_FRONTPAGE_POSTS);
 	$linkify = true;
 	foreach ($recent as $post)
 		include "{$ROOT}template/post.php";

@@ -56,7 +56,10 @@ define("CONFIG_ADMIN_MAIL", "webmaster@domain.tld");
 define("CONFIG_ADMIN_NAME", "Admininstrator");
 
 // The theme that everyone starts with
-define("CONFIG_DEFAULT_THEME", "20XX");
+define("CONFIG_DEFAULT_THEME", "Rain");
+
+// Number of posts to put on the frontpage
+define("CONFIG_FRONTPAGE_POSTS", 5);
 
 // Expiry date of the auth cookie we hand out
 define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
