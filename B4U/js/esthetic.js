@@ -5,6 +5,16 @@ function readerhighlight(reader, element)
 	reader.highlighted = element;
 
 }
+function animateOnce(item, classname)
+{
+	item.classList.add(classname);
+	item.addEventListener("animationend", function x(e) {
+		if (e.animationName == classname) {
+			item.removeEventListener("animationend", x);
+			item.classList.remove(classname);
+		}
+	});
+}
 function continuityscroll(collection, page)
 {
 	/* CONFIG_PER_PAGE */

@@ -40,7 +40,7 @@ HREF;
 	$flair = CONFIG_WEBROOT . "res/strawberry.gif";
 	$url = CONFIG_WEBROOT;
 	print <<<HTML
-	<a href="$url" class=flair><img src="$flair"></a>
+	<a class=flair onClick="animateOnce(this, 'spin')"><img src="$flair"></a>
 
 HTML;
 ?>

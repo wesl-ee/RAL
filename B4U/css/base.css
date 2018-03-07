@@ -270,6 +270,7 @@
 	}
 	a.flair { display: inline-block; }
 	.flair { animation: hover 2s ease-out infinite; }
+	.flair.spin { animation: spin 2s ease-out 1 }
 /* Animations */
 	@keyframes hover {
 		50% { transform: translateY(10px); }
