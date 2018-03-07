@@ -7,6 +7,9 @@ function readerhighlight(reader, element)
 }
 function animateOnce(item, classname)
 {
+	var newitem = item.cloneNode(true);
+	item.parentNode.replaceChild(newitem, item);
+	item = newitem;
 	item.classList.add(classname);
 	item.addEventListener("animationend", function x(e) {
 		if (e.animationName == classname) {

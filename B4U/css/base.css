@@ -240,6 +240,11 @@
 		transition: box-shadow 0.2s;
 		border: 1px solid;
 		cursor: pointer;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
 	.hoverbox:hover {
 	       box-shadow: -1px 1px 2px;
@@ -268,9 +273,19 @@
 		width: 5px;
 		border: 1px solid;
 	}
-	a.flair { display: inline-block; }
-	.flair { animation: hover 2s ease-out infinite; }
-	.flair.spin { animation: spin 2s ease-out 1 }
+	.flair {
+		animation: hover 2s ease-out infinite;
+		margin: 5px;
+		cursor: crosshair;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	.spin {
+		animation: spin 2s ease-out 1;
+	}
 /* Animations */
 	@keyframes hover {
 		50% { transform: translateY(10px); }
@@ -286,6 +301,7 @@
 		padding-left: 5px;
 		padding-right: 5px;
 		font: inherit;
+		background-color: inherit;
 		line-height: normal;
 	}
 	button {

@@ -1,6 +1,6 @@
 /* Theme colors and fonts */
 	body {
-		color: #EEE;
+		color: black;
 		background-color: slategray;
 		font-size: 1.2em;
 		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
@@ -13,7 +13,7 @@
 	.sidebar,
 	#welcome,
 	#rightpanel {
-		background-color: #181818;
+		background-color: white;
 	}
 	article, .hoverbox, input[type=submit], select, textarea {
 		background-color: white;
