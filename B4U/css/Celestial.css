@@ -1,19 +1,21 @@
 /* Theme colors and fonts */
 	body {
-		background-color: azure;
-		background-image: url('img/PR.gif');
-		background-repeat: repeat-y;
-		color: black;
-		font-size: 20px;
-		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+		color: white;
+		background-color: #37394A;
+		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		background-image: url('img/stars.png');
 	}
 	.sidebar,
 	#welcome,
-	#rightpanel,
-	select,
-	textarea {
-		color: black;
-		background-color: azure;
+	#rightpanel {
+		background-color: #57596A;
+	}
+	article, .hoverbox, input[type=submit], select, textarea {
+		background-color: #2D2E37;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #AAA;
+		color: #EEE;
 	}
 /* Sync errors */
 	.error {
@@ -34,6 +36,12 @@
 	}
 	article.new {
 		background: palegoldenrod !important;
+		color: black;
+	}
+/* Hoverbox tweaks */
+	.hoverbox, input[type=submit], select, textarea {
+		background: white;
+		color: black;
 	}
 /* Notifications */
 	#notifications li {
@@ -48,9 +56,6 @@
 		padding: 2px;
 	}
 	code {
-		background: #151515;
-		color: #D7D0C7;
-	}
-	a:hover {
-		text-decoration: none;
+		background: slategray;
+		color: #EEE;
 	}

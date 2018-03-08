@@ -3,14 +3,13 @@
 		background-image: url('img/kinoko.png');
 		color: #c7254e;
 		font-family: Arial, Helvetica, sans-serif;
-		font-size: 1.1em;
 	}
 	.sidebar,
 	#welcome,
 	#rightpanel,
 	select,
 	textarea {
-		background-color: azure;
+		background-color: white;
 	}
 /* Sync errors */
 	.error {
