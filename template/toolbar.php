@@ -8,6 +8,7 @@
 		$help = CONFIG_WEBROOT . "info.php?page=help";
 	}
 ?>
+
 <nav class=toolbar>
 	<a class=hoverbox href="<?php print CONFIG_WEBROOT?>">
 		<img src="<?php print CONFIG_WEBROOT?>res/home.gif"
@@ -36,4 +37,23 @@ LATENCY;
 		title=Feedback>
 	</a>-->
 </nav>
-<hr />
+<nav class=collection>
+<?php
+	for ($i = 0; $i < count($items); $i++) {
+		// Convert objects into their arrays
+		$items[$i] = (array)$items[$i];
+		$name = $items[$i]['name'];
+		$desc = $items[$i]['description'];
+		$location = $items[$i]['url'];
+		// Put all items in the DOM (but only
+		// display some) (for JS)
+		if (isset($desc)) print <<<HTML
+	<a class=hoverbox title="$desc" href="$location">$name</a>
+
+HTML;
+		else print <<<HTML
+	<a class=hoverbox href="$location">$name</a>
+
+HTML;
+	}
+?></nav><hr />

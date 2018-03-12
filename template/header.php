@@ -2,7 +2,7 @@
 		print "Improper template usage!";
 		die;
 } ?>
-<header>
+<header class=floathead>
 	<h1><?php print $title?></h1>
 <?php
 	if (isset($subtitle)) print

@@ -12,9 +12,6 @@ $topic = $_GET['topic'];
 // Whether we are posting or only reading
 $postmode = $_GET['postmode'];
 
-// Default to the first page of continuities
-if (!isset($page)) $page = 0;
-
 // Posting in a topic
 if (isset($_POST['content']) && isset($topic)) {
 	$auth = $_COOKIE['auth'];
@@ -78,12 +75,6 @@ else if (isset($_POST['content'])) {
 	}
 }
 
-// These parameters are in our URL, not in the querystring
-if (CONFIG_CLEAN_URL) {
-	unset($_GET['continuity']);
-	unset($_GET['topic']);
-}
-
 $continuities = fetch_continuities();
 
 // Timeline parameter extraction and verification
@@ -121,18 +112,14 @@ else
 	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 	<script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 </head>
-<body>
-<div class=sidebar>
-	<h2><a href="<?php print CONFIG_WEBROOT;?>">RAL</a></h2>
+<body><main id=main>
 <?php
-
-	$items = fetch_continuities();
-	include "../template/nav.php";
-?></div>
-<?php include "{$ROOT}/template/extrapanels.php"?>
-<div id=rightpanel>
-<?php
+	$items = $continuities;
 	include "../template/toolbar.php";
+
+	// Requires $continuity; $topic is optional
+	include "../template/breadcrumb.php";
+
 	if (isset($topic))
 		$title = "[$continuity / $topic]";
 	else
@@ -141,14 +128,13 @@ else
 	// Requires $title; $subtitle is optional
 	include "../template/header.php";
 
-	// Requires $continuity; $topic is optional
-	include "../template/breadcrumb.php";
+
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
 		print
 <<<HTML
-	<div class="reader expanded"
+	<div id=reader class=expanded
 	data-topic="$topic"
 	data-continuity="$continuity">
 
@@ -158,7 +144,7 @@ HTML;
 
 		print
 <<<HTML
-	<div class="reader continuity"
+	<div class=continuity id=reader
 	data-continuity="$continuity">
 
 HTML;
@@ -169,8 +155,7 @@ HTML;
 		else
 			$linkify = true;
 		include "../template/post.php";
-	}
-	print
+	} print
 <<<HTML
 	</div>
 
@@ -182,13 +167,11 @@ HTML;
 		// Requires $continuity; $topic optional
 		include "../template/footer.php";
 ?>
-</div>
+</main>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 
 <script>
-var reader = document.getElementById(
-	'rightpanel'
-).getElementsByClassName('reader')[0];
+var reader = document.getElementById('reader');
 var continuityname = reader.getAttribute('data-continuity');
 var topicid = reader.getAttribute('data-topic');
 

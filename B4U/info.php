@@ -36,17 +36,7 @@ function nl22br($string)
 	include "{$ROOT}template/head.php"; ?>
 	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
-<body>
-<div class=sidebar>
-<?php
-	$a = CONFIG_WEBROOT;
-	print
-<<<HTML
-	<h2><a href="$a">RAL</a></h2>
-
-HTML;
-?>
-	<span class=collection>
+<body><main>
 <?php
 	if (CONFIG_CLEAN_URL) {
 		$items = [
@@ -110,19 +100,13 @@ HTML;
 		"url" => CONFIG_WEBROOT . "info.php?page=hacking",
 		] ];
 	}
-	include "{$ROOT}template/nav.php";
-?>
-	</span>
-</div>
-<div id=rightpanel>
-<?php
 	include "{$ROOT}template/toolbar.php";
 ?>
 <?php if ($_GET['page'] == 'theme') {
 		$currtheme = get_theme();
 		print <<<HTML
 		<h1>Theming</h1>
-		<div class=reader>
+		<div id=reader>
 		<form action=?theme method=POST><dl><dt>Theme</dt>
 		<dd><select name=theme>
 
@@ -177,6 +161,6 @@ print <<<HTML
 
 HTML;
 	} ?>
-</div>
+</main>
 </body>
 </HTML>

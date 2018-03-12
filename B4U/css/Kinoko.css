@@ -4,11 +4,10 @@
 		color: #c7254e;
 		font-family: Arial, Helvetica, sans-serif;
 	}
-	.sidebar,
-	#welcome,
-	#rightpanel,
+	main,
 	select,
-	textarea {
+	textarea,
+	article {
 		background-color: white;
 	}
 /* Sync errors */
@@ -52,7 +51,7 @@
 	}
 	/* Don't style the navigation / hoverboxes */
 	a.hoverbox,
-	a.leftnav, a.rightnav,
+	a.sideclickbox,
 	h1 a, h2 a {
 		color: inherit;
 	}
@@ -61,7 +60,7 @@
 	}
 	/* Don't style the navigation / hoverboxes */
 	a.hoverbox:hover,
-	a.leftnav:hover, a.rightnav:hover {
+	a.sideclickbox {
 		color: inherit;
 	}
 	article a:hover {

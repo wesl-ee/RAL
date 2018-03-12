@@ -5,11 +5,10 @@
 		background-image: url('img/sakura.png');
 		background-color: white;
 	}
-	.sidebar,
-	#welcome,
-	#rightpanel,
+	main
 	select,
-	textarea {
+	textarea,
+	article {
 		color: black;
 		background-color: white;
 	}

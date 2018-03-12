@@ -3,11 +3,13 @@ class continuity {
 	public $name;
 	public $description;
 	public $url;
+	public $postcount;
 
 	// Fills in a post's information from a SQL row from `Continuities`
 	public function __construct($row) {
 		$this->name = $row['Name'];
 		$this->description = $row['Description'];
+		$this->postcount = $row['Post Count'];
 		$this->url = $this->resolve();
 	}
 

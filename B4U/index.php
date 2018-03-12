@@ -14,6 +14,7 @@ include "{$ROOT}includes/git.php";
 	$pagedesc = "The world's first and last Neo-Forum / Textboard."
 	. " Experience the VIRTUAL WORLD today.";
 	include "{$ROOT}template/head.php";
+	$continuities = fetch_continuities();
 ?>
 	<link rel=alternate type="application/rss+xml" title=RSS
 <?php
@@ -29,32 +30,20 @@ HREF;
 	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 </head>
 <body>
-<div id=welcome>
+<main id=main class=welcome>
 <?php
+
+	$items = $continuities;
 	include "{$ROOT}template/toolbar.php";
-
-	$title = "RAL";
-	$subtitle = "Neo-Forum Textboard";
-	include "{$ROOT}template/header.php";
-
-	$flair = CONFIG_WEBROOT . "res/strawberry.gif";
-	$url = CONFIG_WEBROOT;
-	print <<<HTML
-	<img class=flair onClick="animateOnce(this, 'spin')" src="$flair">
-
-HTML;
 ?>
+
+<header>
+	<h1>RAL</h1>
+	<em>Neo-Forum Textboard</em>
+</header>
+<img class=flair onClick="animateOnce(this, 'spin')" src="res/strawberry.gif">
+
 <?php
-	$navtitle = 'Continuities';
-	$items = fetch_continuities();
-	if ($items)
-		include "{$ROOT}template/nav.php";
-	else print
-<<<HTML
-		<span class=error>No continuities have been created!</span>
-
-HTML;
-
 	$motd = "{$ROOT}info/MOTD.pod";
 	if (is_file($motd) && filesize($motd)) {
 		print <<<HTML
@@ -65,11 +54,28 @@ HTML;
 		ppppppp("{$ROOT}info/MOTD.pod");
 		print <<<HTML
 		</article><hr />
+
 HTML;
 	}
-?>
-	<h2>Recent Posts</h2>
-	<div class="reader recent" data-mostpost=<?php
+?><table>
+<thead><tr>
+	<th>Topic</th>
+</tr></thead>
+<tbody>
+<?php
+	foreach ($continuities as $c) {
+		print <<<HTML
+	<tr>
+	<td><a href="$c->url">$c->name</a></td>
+	<td>$c->postcount</td>
+	<td><a href="$c->url">$c->description</a></td>
+	</tr>
+
+HTML;
+	}
+?></tbody></table>
+	<h2>Fresh Posts</h2>
+	<div class=recent id=reader data-mostpost=<?php
 	print CONFIG_FRONTPAGE_POSTS ?>>
 <?php
 	$recent = fetch_recent_posts(CONFIG_FRONTPAGE_POSTS);
@@ -144,15 +150,13 @@ ONION;
 HTML;
 ?>
 	</footer>
-</div>
+</main>
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
-var reader = document.getElementById(
-	'welcome'
-).getElementsByClassName('reader')[0];
+var reader = document.getElementById('reader');
 
 if (reader) {
 	subscribeall(reader);

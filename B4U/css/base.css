@@ -1,63 +1,35 @@
 /* Layouts */
 	body {
-		font-size: 18px;
-		margin: 0;
+		font-size: 16px;
 	}
-	/* This holds the introduction / index page content */
-	#welcome {
-		top: 0;
-		border: 1px solid;
-		width: calc(60% - 80px);
-		min-width: calc(600px - 80px);
-		padding: 10px;
-
-		margin: auto;
-		text-align: center;
+	main {
+		max-width: 40em;
+		margin-left: auto;
+		margin-right: auto;
 		margin-top: 20px;
 		margin-bottom: 20px;
-	}
-	/* The continuity's contents go here */
-	#rightpanel {
-		position: absolute;
-
-		top: 0;
-		right: 0;
-		margin: 20px;
 		border: 1px solid;
-		width: calc(80% - 80px);
 		padding: 10px;
 	}
-	/* A continuity list is displayed here */
-	.sidebar {
-		margin: 20px;
-		width: 100px;
-		max-width: calc(20% - 40px);
+	/* This holds the introduction / index page content */
+	.welcome {
 		text-align: center;
-		padding: 20px;
-	}
-/* Layout esthetics */
-	#rightpanel,
-	.sidebar,
-	#welcome {
-		border: 1px solid;
-		border-radius: 5px 0;
 	}
 /* Elements on the welcome page */
 	/* Since this is a horizontal layout,
 	apply some empty space */
-	#welcome .collection > * {
-		margin-left: 5px;
-		margin-right: 5px;
+	.collection > * {
+		margin: 5px;
 	}
 /* Elements on the right panel */
 	/* Footer has reply, return buttons */
-	#rightpanel footer .hoverbox {
+	main footer .hoverbox {
 		margin-left: 10px;
 	}
-	#rightpanel header h1 {
+	.floathead h1 {
 		display: inline;
 	}
-	#rightpanel header em {
+	.floathead em {
 		float: right;
 	}
 	/* Navigation breadcrumb at the page top */
@@ -69,6 +41,7 @@
 		padding: 0;
 		margin: 0;
 	}
+	/* Scale the breadcrumb to be easily clickable on mobile */
 	@media (max-width: 600px) {
 	.breadcrumb {
 		margin-top: 5px;
@@ -78,15 +51,9 @@
 	.breadcrumb li {
 		display: inline;
 	}
-	/* The reader element */
-	.reader {
-		padding-bottom: 2px;
-	}
-	.reader.docs {
-		text-align: left;
-	}
 	/* Every post / topic is wrapped in an <article> */
 	article {
+		position: relative;
 		margin-bottom: 5px;
 		overflow-x: hidden;
 		border-radius: 5px;
@@ -94,13 +61,8 @@
 		border: 3px double;
 		text-align: justify;
 	}
-	.reader article .content {
-		display: block;
-		overflow: hidden;
-		text-align: justify;
+	#reader article .content {
 		padding-left: 10px;
-		padding-right: 5px;
-		padding-top: 5px;
 		word-wrap: break-word;
 		line-height: 1.8em;
 	}
@@ -132,34 +94,11 @@
 			margin: 5px;
 			flex: 1 1 auto;
 		}
-	/* Timeline view (browsing all topics) */
-		/* Restrict content to 6 lines max */
-		.reader.continuity .content {
-			max-height: 10.8em;
-		}
-	/* Reader on the welcome page */
-		#welcome .reader article,
-		.reader.continuity article {
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
-		/* Content on the welcome page is only 5 line */
-		#welcome .reader .content {
-			max-height: 9em;
-		}
-		/* More compact view */
-		#welcome .reader .content {
-			padding-top: 0;
-		}
-
-
-		@media (max-width: 600px) {
-		.reader article .content {
-			padding-top: 10px;
-			padding-left: 10px;
+		@media (max-width: 400px) {
+		article .content {
 			text-align: left;
 		}
-		#welcome .reader .info {
+		.welcome .reader .info {
 			float: initial;
 		}
 		.reader.expanded article {
@@ -198,13 +137,6 @@
 	}
 	.previewing .preview { display: block; }
 	.previewing textarea { display: none; }
-/* Elements in the sidebar */
-
-	/* Special rules for the continuity container */
-	.sidebar .collection {
-		flex-direction: column;
-		flex-wrap: no-wrap;
-	}
 /* Notifications */
 	#notifications {
 		position: fixed;
@@ -225,13 +157,7 @@
 /* Miscellaneous elements */
 	/* Collection of items */
 	.collection {
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: center;
-	}
-	.collection > a {
-		margin-top: 5px;
-		margin-bottom: 5px;
+		text-align: center;
 	}
 	/* An styled button which shadows when hovered over */
 	.hoverbox {
@@ -252,6 +178,34 @@
 	}
 	a.hoverbox {
 		text-decoration: none;
+	}
+	.sideclickbox {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 50px;
+		height: 100%;
+		background-color: inherit;
+		transition: box-shadow 0.2s;
+		border-left: 1px solid;
+		text-align: center;
+		text-decoration: none;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	.sideclickbox img {
+		display: block;
+		margin: auto;
+	}
+	.sideclickbox:hover {
+		box-shadow: -1px 1px 2px;
+	}
+	/* Make room for the .sideclickbox */
+	article.linkify section {
+		margin-right: 50px;
 	}
 	.toolbar {
 		display: flex;
@@ -277,7 +231,7 @@
 	.flair {
 		animation: hover 2s ease-out infinite;
 		margin: 5px;
-		cursor: crosshair;
+		cursor: pointer;
 		-moz-user-select: none;
 		-khtml-user-select: none;
 		-webkit-user-select: none;
@@ -319,6 +273,15 @@
 	}
 	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 		text-decoration: none;
+	}
+	table {
+		margin: auto;
+		border-collapse: collapse;
+		overflow-x: auto;
+	}
+	td, th {
+		padding: 3px;
+		border: 1px solid;
 	}
 	a {
 		color: inherit;
@@ -362,46 +325,9 @@
 	code, kbd {
 		font-family: Monospace;
 	}
-/* Media rules for layout */
-	@media (max-width: 600px) {
-	.sidebar {
-		position: relative;
-		width: initial;
-		max-width: initial;
+	pre {
+		overflow: scroll;
 	}
-	.sidebar .collection {
-		flex-direction: row;
-	}
-	.collection > * {
-		margin-left: 5px;
-		margin-right: 5px;
-	} }
-	@media (max-width: 600px) {
-	body {
-		position: initial;
-		height: initial;
-		width: calc(100% - 40px);
-		padding: 20px;
-	} }
-	@media (max-width: 600px) {
-	#rightpanel {
-		position: relative;
-		width: calc(100% - 20px);
-		padding: 10px;
-		margin: 0;
-		padding-bottom: 10px;
-		padding-top: 10px;
-	}
-	#welcome {
-		position: relative;
-		min-width: initial;
-		width: calc(100% - 20px);
-		padding: 10px;
-		margin: 0;
-		padding-bottom: 10px;
-		padding-top: 10px;
-	} }
-
 /* Uhh just legacy stuff
  * I might use later */
 	#background {

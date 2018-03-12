@@ -10,8 +10,8 @@ function fetch_continuities()
 		CONFIG_RAL_DATABASE);
 	if (!$dbh) return false;
 	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Name`, `Description`  FROM `Continuities`"
-	. " ORDER BY `Name`";
+	$query = "SELECT `Name`, `Description`, `Post Count`"
+	. " FROM `Continuities` ORDER BY `Name`";
 	$res = mysqli_query($dbh, $query);
 	$ret = [];
 	while ($row = mysqli_fetch_assoc($res)) {

@@ -3,23 +3,42 @@
 	die;
 } ?>
 
-<article data-post=<?php print $post->id;?> id=<?php print $post->id;?>>
+<article <?php if ($linkify) print "class=linkify "?>
+data-post=<?php print $post->id;?> id=<?php print $post->id;?>>
 <?php
-	// Allow us to click on topic info to expand the topic
-	if ($linkify) {
-		$open = "<a href='$post->url' class=info>";
-		$close = "</a>";
-	} else {
-		$open = "<span class=info>";
-		$close = "</span>";
-	}
 	print
 <<<HTML
-	{$open}
+	<section class=info>
+HTML;
+	// Allow us to click on topic info to expand the topic
+	if ($linkify) print
+<<<HTML
+	<a href="$post->url">
+
+HTML;
+	print
+<<<HTML
 	<span class=id>[$post->continuity/$post->id]</span>
 	<time datetime="$post->date">$post->shortdate</time>
-	{$close}
-	<span class=content>{$post->toHtml()}</span>
+
+HTML;
+	if ($linkify) print
+<<<HTML
+	</a>
+
+HTML;
+	print
+<<<HTML
+	</section><hr />
+	<section class=content>{$post->toHtml()}</section>
+
+HTML;
+	if ($linkify) print <<<HTML
+	<a class=sideclickbox href=$post->url>
+		<img src="/res/point.gif">
+		Reply
+	</a>
+
 HTML;
 ?>
 </article>

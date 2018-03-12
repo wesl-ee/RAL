@@ -2,7 +2,7 @@
 	body {
 		color: black;
 		background-color: slategray;
-		font-size: 20px;
+		font-size: 18px;
 		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 		background-image: url('img/rei.png');
 		background-repeat: no-repeat;
@@ -10,9 +10,8 @@
 		background-attachment: fixed;
 		background-position: bottom left;
 	}
-	.sidebar,
-	#welcome,
-	#rightpanel {
+	main,
+	table {
 		background-color: white;
 	}
 	article, .hoverbox, input[type=submit], select, textarea {
@@ -40,13 +39,13 @@
 		background: palegoldenrod !important;
 	}
 /* Hoverbox tweaks */
-	.hoverbox {
+	.hoverbox, .sideclickbox {
 		background: white;
 	}
-	.hoverbox:hover {
+	.hoverbox:hover, .sideclickbox:hover {
 		box-shadow: initial;
 	}
-	.hoverbox {
+	.hoverbox, .sideclickbox:hover {
 		transition: color 0.08s;
 	}
 /* Notifications */
