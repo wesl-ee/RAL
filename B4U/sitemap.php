@@ -35,20 +35,20 @@ $pages = [
 	"dirtyurl" => CONFIG_CANON_URL . "info.php?help",
 	],
 	[
-	"cleanurl" => CONFIG_CANON_URL . "doc/hacking",
-	"dirtyurl" => CONFIG_CANON_URL . "doc.php?hacking",
+	"cleanurl" => CONFIG_CANON_URL . "info/hacking",
+	"dirtyurl" => CONFIG_CANON_URL . "info.php?hacking",
 	],
 	[
-	"cleanurl" => CONFIG_CANON_URL . "doc/readme",
-	"dirtyurl" => CONFIG_CANON_URL . "doc.php?readme",
+	"cleanurl" => CONFIG_CANON_URL . "info/readme",
+	"dirtyurl" => CONFIG_CANON_URL . "info.php?readme",
 	],
 	[
-	"cleanurl" => CONFIG_CANON_URL . "doc/install",
-	"dirtyurl" => CONFIG_CANON_URL . "doc.php?install",
+	"cleanurl" => CONFIG_CANON_URL . "info/install",
+	"dirtyurl" => CONFIG_CANON_URL . "info.php?install",
 	],
 	[
-	"cleanurl" => CONFIG_CANON_URL . "doc/license",
-	"dirtyurl" => CONFIG_CANON_URL . "doc.php?license",
+	"cleanurl" => CONFIG_CANON_URL . "info/license",
+	"dirtyurl" => CONFIG_CANON_URL . "info.php?license",
 	]
 
 ];
