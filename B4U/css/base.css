@@ -197,10 +197,6 @@
 		-ms-user-select: none;
 		user-select: none;
 	}
-	.sideclickbox img {
-		display: block;
-		margin: auto;
-	}
 	.sideclickbox:hover {
 		box-shadow: -1px 1px 2px;
 	}

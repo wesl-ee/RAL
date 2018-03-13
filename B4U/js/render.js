@@ -3,22 +3,21 @@ if (getCookie('dnotify') && Notification.permission !== 'granted'
 && Notification.permission !== 'denied')
 	Notification.requestPermission();
 
-function newtopic(reader, topic)
+function appendToReader(reader, posthtml)
 {
-	var article = createpostelement(topic, true);
-
-	reader.insertBefore(article, reader.children[0]);
-	highlightnew(article); notifyuser(topic);
-}
-function newfrontpagepost(reader, post)
-{
-	var article = createpostelement(post, true);
-	var mostpost = reader.getAttribute('data-mostpost');
-
-	reader.insertBefore(article, reader.children[0]);
-	if (reader.children.length > mostpost)
-		reader.removeChild(reader.lastElementChild);
-	highlightnew(article); notifyuser(post);
+	var range = document.createRange(); range.selectNode(reader);
+	var post = range.createContextualFragment(
+		posthtml
+	);
+	var direction = reader.getAttribute('data-append');
+	if (direction == 'top') {
+		reader.insertBefore(post, reader.children[0]);
+		return reader.children[0];
+	} else {
+		reader.appendChild(post);
+		var children = reader.children;
+		return children[children.length-1];
+	}
 }
 function handletogglepreview(e) { togglepreview(e.target.parentNode); }
 function togglepreview(replybox)
@@ -40,115 +39,18 @@ function togglepreview(replybox)
 
 	previewPost(ta.value, preview);
 }
-function newpost(reader, post)
-{
-	var article = createpostelement(post, false);
-
-	reader.appendChild(article);
-	highlightnew(article); notifyuser(post);
-}
-function createpostelement(post, linkify)
-{
-	var article = document.createElement('article');
-	var info = document.createElement('a');
-	var updated = document.createElement('time');
-	var num = document.createElement('span');
-	var content = document.createElement('span');
-
-	// Date formatting
-	var time = new Date(post.date);
-	updated.innerText = post.shortdate;
-
-	article.setAttribute('data-post', post.id);
-	updated.dateTime = post.date;
-
-	num.className = 'id';
-	num.appendChild(document.createTextNode(
-		'[' + post.continuity + '/' + post.id + ']'
-	));
-
-	info.className = 'info';
-	if (linkify)
-		info.href = post.url;
-
-	// post.content may contain HTML (parsed BBcode)
-	content.innerHTML = post.content;
-	content.className = 'content';
-
-	info.appendChild(num);
-	info.appendChild(updated);
-	article.appendChild(info);
-	article.appendChild(content);
-
-	return indent(article);
-}
 /*
  * Spawn a notification for a new post
 */
 function notifyuser(post)
 {
-	var notifycontent = document.createElement('a');
-	notifycontent.href = post.url;
-	if (post.id == post.topic)
-		notifycontent.innerText = 'New topic in ['
-		+ post.continuity + ']';
-	else
-		notifycontent.innerText = 'New post in ['
-		+ post.continuity + '/' + post.topic + ']';
-
-	var time = new Date(post.date);
-	time = formatrecentdate(time);
-
-	var priority = 'lowpriority';
-
-	pushnotification(notifycontent, time, priority);
-}
-/*
- * Generates a notification given the content and priority level
-*/
-function pushnotification(contentElement, timeText, priority)
-{
-	var notifications = document.getElementById('notifications');
-	if (!notifications) {
-		notifications = document.createElement('ul');
-		notifications.id = 'notifications'
-		document.body.appendChild(notifications);
-	}
-	var notification = document.createElement('li');
-	var colorblock = document.createElement('span');
-	var time = document.createElement('time');
-	time.innerText = timeText;
-
-	if (!priority) priority = 'lowpriority';
-	notification.className = priority;
-	colorblock.innerHTML = '&nbsp;';
-	colorblock.className = 'priority';
-
-	notification.appendChild(colorblock);
-	notification.appendChild(time);
-	notification.appendChild(contentElement);
-
-	notifications.appendChild(indent(notification));
-
 	/* Create a desktop notification */
 	if (getCookie('dnotify')) {
 		var options = {
-			body: contentElement.innerText,
+			body: post.innerText,
 		}
 		new Notification('RAL', options);
 	}
-
-	/* Remove the HTML notification after some time */
-	window.addEventListener('focus', function x() {
-		window.removeEventListener('focus', x);
-		setTimeout(function() {
-			notifications.removeChild(notification);
-			if (!notifications.lastChild)
-				notifications.parentNode.removeChild(
-					notifications
-				);
-		}, 5000);
-	});
 }
 /*
  * Fairy-tale perfect and logical indentation

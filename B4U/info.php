@@ -44,6 +44,7 @@ function nl22br($string)
 		"name" => "About",
 		"url" => CONFIG_WEBROOT . "info",
 		],
+
 		[
 		"name" => "Theme",
 		"url" => CONFIG_WEBROOT . "info/theme",
@@ -67,6 +68,10 @@ function nl22br($string)
 		[
 		"name" => "Hacking",
 		"url" => CONFIG_WEBROOT . "info/hacking",
+		],
+		[
+		"name" => "API",
+		"url" => CONFIG_WEBROOT . "info/api",
 		] ];
 	}
 	else {
@@ -98,6 +103,10 @@ function nl22br($string)
 		[
 		"name" => "Hacking",
 		"url" => CONFIG_WEBROOT . "info.php?page=hacking",
+		],
+		[
+		"name" => "API",
+		"url" => CONFIG_WEBROOT . "info.php?page=api",
 		] ];
 	}
 	include "{$ROOT}template/toolbar.php";
@@ -150,10 +159,10 @@ HTML;
 		case 'install': $docpage = "{$ROOT}docs/INSTALL.pod"; break;
 		case 'license': $docpage = "{$ROOT}docs/LICENSE"; break;
 		case 'hacking': $docpage = "{$ROOT}docs/HACKING.pod"; break;
+		case 'api': $docpage = "{$ROOT}docs/API.pod"; break;
 		default: $docpage = "{$ROOT}info/ABOUT.pod"; }
 		print <<<HTML
-		<h1>$pagetitle</h1>
-		<div class=reader>
+		<div id=reader>
 HTML;
 		ppppppp($docpage);
 print <<<HTML

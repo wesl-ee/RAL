@@ -4,11 +4,12 @@
 } ?>
 
 <article <?php if ($linkify) print "class=linkify "?>
-data-post=<?php print $post->id;?> id=<?php print $post->id;?>>
+data-post=<?php print $post->id;?>>
 <?php
 	print
 <<<HTML
 	<section class=info>
+
 HTML;
 	// Allow us to click on topic info to expand the topic
 	if ($linkify) print
@@ -33,10 +34,11 @@ HTML;
 	<section class=content>{$post->toHtml()}</section>
 
 HTML;
+	$root = CONFIG_WEBROOT;
 	if ($linkify) print <<<HTML
 	<a class=sideclickbox href=$post->url>
-		<img src="/res/point.gif">
-		Reply
+		<img src="{$root}res/point.gif"><br />
+		Open
 	</a>
 
 HTML;

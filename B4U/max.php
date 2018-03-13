@@ -132,19 +132,28 @@ else
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
+		$realtimeurl = CONFIG_WEBROOT
+		. "api.php?subscribe&continuity=$continuity"
+		. "&topic=$topic&format=html";
 		print
 <<<HTML
 	<div id=reader class=expanded
 	data-topic="$topic"
-	data-continuity="$continuity">
+	data-continuity="$continuity"
+	data-realtimeurl="$realtimeurl"
+	data-append=bottom>
 
 HTML;
 	// Browsing a continuity (reader is in 'continuity' view)
 	} else {
-
+		$realtimeurl = CONFIG_WEBROOT
+		. "api.php?subscribe&continuity=$continuity&format=html&linkify";
 		print
+
 <<<HTML
 	<div class=continuity id=reader
+	data-realtimeurl="$realtimeurl"
+	data-append=top
 	data-continuity="$continuity">
 
 HTML;
@@ -172,14 +181,14 @@ HTML;
 
 <script>
 var reader = document.getElementById('reader');
-var continuityname = reader.getAttribute('data-continuity');
-var topicid = reader.getAttribute('data-topic');
+var continuity = reader.getAttribute('data-continuity');
+var topic = reader.getAttribute('data-topic');
 
 <?php
 	if (CONFIG_REALTIME_ENABLE) print
 <<<REALTIME_JS
-if (topicid !== null)
-	subscribetopic(continuityname, topicid, reader);
+
+subscribe(reader, continuity, topic);
 
 REALTIME_JS;
 ?>

@@ -75,14 +75,22 @@ HTML;
 	}
 ?></tbody></table>
 	<h2>Fresh Posts</h2>
-	<div class=recent id=reader data-mostpost=<?php
-	print CONFIG_FRONTPAGE_POSTS ?>>
 <?php
+	$mostpost = CONFIG_FRONTPAGE_POSTS;
+	$realtimeurl = CONFIG_WEBROOT
+	. "api.php?subscribe&linkify&format=HTML";
+
+	print <<<HTML
+	<div class=recent id=reader
+	data-mostpost="$mostpost"
+	data-realtimeurl="$realtimeurl"
+	data-append=top>
+
+HTML;
 	$recent = fetch_recent_posts(CONFIG_FRONTPAGE_POSTS);
 	$linkify = true;
 	foreach ($recent as $post)
 		include "{$ROOT}template/post.php";
-
 ?>
 	</div>
 	<footer>
@@ -159,7 +167,7 @@ HTML;
 var reader = document.getElementById('reader');
 
 if (reader) {
-	subscribeall(reader);
+	subscribe(reader);
 }
 </script>
 <!-- End of scripts -->

@@ -29,10 +29,12 @@ header("Refresh: 3;$a");
 <?php $pagetitle = 'Post Failure'; include "{$ROOT}template/head.php" ?>
 </head>
 <body>
-<div id=welcome>
-	<header>RAL says</header>
-	<h1 class=xxx-failure>Failure</h1>
-</div>
+<main>
+	<header>
+		<em>RAL says</em>
+		<h1 class=xxx-failure>Failure</h1>
+	</header>
+</main>
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/xxx.js'></script>
 <!-- End of scripts -->

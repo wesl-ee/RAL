@@ -7,16 +7,34 @@ include '../includes/post.php';
 if (isset($_GET['fetch'])) {
 	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
+	$format = $_GET['format'];
+	$linkify = isset($_GET['linkify']);
 
 	// Fetch posts
 	if (isset($continuity, $topic)) {
 		$posts = fetch_posts($continuity, $topic);
-		print json_encode($posts);
+		switch(strtoupper($format)) {
+			case 'HTML':
+				foreach ($posts as $post)
+					include '../template/post.php';
+				break;
+			default:
+				print json_encode($posts);
+				break;
+		}
 	}
 	// Fetch topics
 	else if (isset($continuity)) {
 		$topics = fetch_topics($continuity);
-		print json_encode($topics);
+		switch(strtoupper($format)) {
+			case 'HTML':
+				foreach ($topics as $post)
+					include '../template/post.php';
+				break;
+			default:
+				print json_encode($topics);
+				break;
+		}
 	}
 	// Fetch continuities
 	else {
@@ -28,7 +46,8 @@ if (isset($_GET['fetch'])) {
 if (isset($_GET['subscribe'])) {
 	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
-	$raw = $_GET['raw'];
+	$format = $_GET['format'];
+	$linkify = isset($_GET['linkify']);
 
 	$c_id = create_listener();
 	do {
@@ -36,8 +55,6 @@ if (isset($_GET['subscribe'])) {
 		switch($msg['type']) {
 		case 'POST':
 			$post = $msg['body'];
-			if (!$raw)
-				$post->content = $post->toHtml();
 			if (isset($continuity)
 			&& $post->continuity != $continuity)
 				$relevant = False;
@@ -50,8 +67,15 @@ if (isset($_GET['subscribe'])) {
 		case 'PING':
 			$relevant = True;
 		}
-		if ($relevant)
-			print json_encode($msg);
+		if ($relevant) { switch(strtoupper($format)) {
+		case 'HTML':
+			ob_start();
+			include '../template/post.php';
+			$post->content = ob_get_clean();
+			break;
+		}
+		print json_encode($msg);
+		}
 	} while (!$relevant && !connection_aborted());
 
 	destroy_listener($c_id);
