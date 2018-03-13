@@ -5,7 +5,7 @@
 		background-image: url('img/sakura.png');
 		background-color: white;
 	}
-	main
+	main,
 	select,
 	textarea,
 	article {

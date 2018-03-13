@@ -13,7 +13,9 @@
 		background-color: azure;
 	}
 /* Hoverbox */
-	.hoverbox {
+	.hoverbox,
+	input[type=submit],
+	select {
 		background-color: white;
 	}
 /* Sync errors */

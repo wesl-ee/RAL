@@ -38,7 +38,8 @@ RAL is written with both users and sysops in mind!
 
 =back
 
-RAL is written by guardian angel L<pretty boy yumi|mailto:yumi@ral.space>
+RAL is written by guardian angel
+L<Prettyboy-Yumi|mailto:yumi@prettyboytellem.com>
 and he would love to hear if you enjoy using the site! The source code is
 available on L<Github|https://github.com/yumi-xx/RAL> as well as
 on L<his homepage|https://prettyboytellem.com/>

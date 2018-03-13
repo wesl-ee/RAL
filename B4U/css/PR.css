@@ -14,6 +14,12 @@
 		color: black;
 		background-color: azure;
 	}
+/* Boxes */
+	.hoverbox,
+	input[type=submit],
+	select {
+		background-color: white;
+	}
 /* Sync errors */
 	.error {
 		color: red;

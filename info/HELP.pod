@@ -55,6 +55,6 @@ No spam. That's it.
 
 =head2 Who can I contact about abuse / questions?
 
-L<Pretty Boy Yumi|https://prettyboytellem.com> is the sysop, sole protector
+L<Prettyboy-Yumi|https://prettyboytellem.com> is the sysop, sole protector
 and guardian angel of RAL and can be reached via prayer or by mail:
-L<yumi@ral.space|mailto:yumi@ral.space>
+L<yumi@prettyboytellem.com|mailto:yumi@prettyboytellem.com>

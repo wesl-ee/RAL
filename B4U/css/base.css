@@ -1,6 +1,7 @@
 /* Layouts */
 	body {
 		font-size: 16px;
+		min-height: 100%;
 	}
 	main {
 		max-width: 40em;
