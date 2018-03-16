@@ -319,10 +319,6 @@
 		outline: 0;
 	}
 	input, select { border: 1px solid; }
-	/* Too small */
-	input[type=checkbox] {
-		transform: scale(1.5);
-	}
 	code, kbd {
 		font-family: Monospace;
 	}

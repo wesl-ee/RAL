@@ -14,22 +14,17 @@ HTML;
 	// Allow us to click on topic info to expand the topic
 	if ($linkify) print
 <<<HTML
-	<a href="$post->url">
+	<a class=id href="$post->url">[$post->continuity/$post->id]</a>
 
 HTML;
-	print
+	else print
 <<<HTML
 	<span class=id>[$post->continuity/$post->id]</span>
-	<time datetime="$post->date">$post->shortdate</time>
-
-HTML;
-	if ($linkify) print
-<<<HTML
-	</a>
 
 HTML;
 	print
 <<<HTML
+	<time datetime="$post->date">$post->shortdate</time>
 	</section><hr />
 	<section class=content>{$post->toHtml()}</section>
 

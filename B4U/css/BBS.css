@@ -2,19 +2,18 @@
 	body {
 		background-color: black;
 		color: black;
-		font-family: "IBM ISO";
+		font-family: "IBM ISO",
+		Monospace;
 	}
 	h1, h2, h3, h4, h5, h6 {
-		font-family: Systemspace;
+		font-family: Systemspace,
+		Monospace;
 	}
-	main,
-	select,
-	textarea,
-	article {
+	main {
 		color: white;
 		background-color: Navy;
 	}
-	article, td, .hoverbox {
+	article, td, .hoverbox, textarea, input {
 		background-color: #DCDCDC;
 		color: black;
 	}
@@ -52,3 +51,6 @@
 		font-family: "IBM ISO";
 		src: url('font/IBM_ISO8.ttf');
 	}
+article .content a {
+	color: red;
+}
