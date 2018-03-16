@@ -115,7 +115,7 @@ function nl22br($string)
 		$currtheme = get_theme();
 		print <<<HTML
 		<h1>Theming</h1>
-		<div id=reader>
+		<div>
 		<form action=?theme method=POST><dl><dt>Theme</dt>
 		<dd><select name=theme>
 
@@ -163,7 +163,7 @@ HTML;
 		case 'api': $docpage = "{$ROOT}docs/API.pod"; break;
 		default: $docpage = "{$ROOT}info/ABOUT.pod"; }
 		print <<<HTML
-		<div id=reader>
+		<div>
 HTML;
 		ppppppp($docpage);
 print <<<HTML

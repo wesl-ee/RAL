@@ -2,13 +2,12 @@
 	body {
 		font-size: 16px;
 		min-height: 100%;
+		font-family: Verdana,
+		serif;
 	}
 	main {
 		max-width: 40em;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: 20px;
-		margin-bottom: 20px;
+		margin: 20px auto;
 		border: 1px solid;
 		padding: 10px;
 	}
@@ -23,15 +22,15 @@
 		margin: 5px;
 	}
 /* Elements on the right panel */
-	/* Footer has reply, return buttons */
-	main footer .hoverbox {
-		margin-left: 10px;
+	.floathead {
+		overflow: hidden;
 	}
 	.floathead h1 {
 		display: inline;
+		white-space: nowrap;
 	}
 	.floathead em {
-		float: right;
+		float:right;
 	}
 	/* Navigation breadcrumb at the page top */
 	.breadcrumb {
@@ -61,49 +60,25 @@
 		padding: 5px;
 		border: 3px double;
 		text-align: justify;
+		transition: background 0.3s ease-in-out;
 	}
-	#reader article .content {
+	article .content {
 		padding-left: 10px;
 		word-wrap: break-word;
 		line-height: 1.8em;
 	}
-	.reader article .content p {
-		margin: 0;
-	}
-	.reader .content code {
-		display: block;
-		margin: 0;
-		padding-top: 0;
-		padding-bottom: 0;
-		padding-left: 10px;
-		padding-right: 10px;
-		text-align: left;
-		overflow-x: auto;
-		white-space: nowrap;
-	}
 	/* Special rules for masonry layout */
-		.reader.continuity,
-		.reader.expanded,
-		.reader.recent {
+		#reader {
 			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-around;
 		}
-		.reader.continuity article,
-		.reader.expanded article,
-		.reader.recent article {
-			margin: 5px;
+		#reader article {
 			flex: 1 1 auto;
 		}
 		@media (max-width: 400px) {
 		article .content {
 			text-align: left;
-		}
-		.welcome .reader .info {
-			float: initial;
-		}
-		.reader.expanded article {
-			height: initial;
 		} }
 	/* Reply box */
 	.reply > * {
@@ -160,59 +135,82 @@
 	.collection {
 		text-align: center;
 	}
-	/* An styled button which shadows when hovered over */
-	.hoverbox {
-		display: inline-block;
-		position: relative;
-		padding-left: 5px;
-		padding-right: 5px;
-		transition: box-shadow 0.2s;
-		border: 1px solid;
-		cursor: pointer;
-	}
-	.hoverbox::after {
-		position: absolute;
-		display: inline-block;
-		width: 100%;
-		height: 100%;
-		left: 0;
-		content: '';
-		box-shadow: -2px 2px 3px;
-		opacity: 0;
-		transition: opacity 0.2s;
-	}
-	.hoverbox:hover::after { opacity: 1; }
-	a.hoverbox {
-		text-decoration: none;
-	}
-	.sideclickbox {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 50px;
-		height: 100%;
-		background-color: inherit;
-		border-left: 1px solid;
-		text-align: center;
-		text-decoration: none;
-	}
-	/* Make room for the .sideclickbox */
-	article.linkify section {
-		margin-right: 50px;
-	}
-	/* Pre-rendered box-shadow */
-	.sideclickbox::after {
-		position: absolute;
-		display: inline-block;
-		width: 50px;
-		height: 100%;
-		right: 0;
-		content: '';
-		box-shadow: -2px 2px 3px;
-		opacity: 0;
-		transition: opacity 0.2s;
-	}
-	.sideclickbox:hover::after { opacity: 1; }
+	/*
+	* Hoverbox
+	* (Button)
+	*/
+		.hoverbox {
+			display: inline-block;
+			position: relative;
+			padding-left: 5px;
+			padding-right: 5px;
+			transition: box-shadow 0.2s;
+			border: 1px solid;
+			cursor: pointer;
+		}
+		.hoverbox::after {
+			position: absolute;
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			content: '';
+			box-shadow: -2px 2px 3px;
+			opacity: 0;
+			transition: opacity 0.2s;
+		}
+		.hoverbox:hover::after { opacity: 1; }
+		a.hoverbox {
+			text-decoration: none;
+		}
+	/*
+	* Sideclick box
+	* (Expand a topic)
+	*/
+		.sideclickbox {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 50px;
+			height: 100%;
+			background-color: inherit;
+			border-left: 1px solid;
+			text-align: center;
+			text-decoration: none;
+		}
+		/* Make room for the .sideclickbox */
+		article.linkify section {
+			margin-right: 50px;
+		}
+		/* Pre-rendered box-shadow */
+		.sideclickbox::after {
+			position: absolute;
+			display: inline-block;
+			width: 50px;
+			height: 100%;
+			right: 0;
+			content: '';
+			box-shadow: -2px 2px 3px;
+			opacity: 0;
+			transition: opacity 0.2s;
+		}
+		.sideclickbox:hover::after { opacity: 1; }
+	/*
+	* Toolbar
+	* (Header)
+	*/
+		.toolbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.toolbar > * { margin: 2px; }
+		.toolbar > a {
+			display: inline-block;
+			line-height: 0;
+		}
+		.toolbar img { height: 36px; width: 36px; }
+	/* Stop highlight of the buttons */
 	.hoverbox, .hoverbox::after,
 	.sideclickbox, .sideclickbox::after {
 		-moz-user-select: none;
@@ -222,26 +220,27 @@
 		user-select: none;
 		outline: none;
 	}
-	.toolbar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	.toolbar > * { margin: 2px; }
-	.toolbar > a {
-		display: inline-block;
-		line-height: 0;
-	}
-	.toolbar img { height: 36px; width: 36px; }
+
 	/* Latency displays connection quality to the server */
 	#latency {
 		text-align: left;
 		flex: 1 1 auto;
 	}
 	#latency .bar {
-		white-space: pre;
+		display: inline-block;
+		vertical-align: middle;
 		width: 5px;
+		height: 20px;
 		border: 1px solid;
+	}
+	.bar.error {
+		background-color: red;
+	}
+	.bar.connected {
+		background-color: #D0F0C0;
+	}
+	.disconnected {
+		border-style: dashed !important;
 	}
 	.flair {
 		animation: hover 2s ease-out infinite;
@@ -269,20 +268,19 @@
 /* Modifications on the default styling */
 	button {
 		background-color: inherit;
-		font: inherit;
 		color: inherit;
-		line-height: normal;
 	}
 	h1, h2, h3, h4, h5, h6 {
-		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+		font-family: "Palatino Linotype",
+		"Book Antiqua",
+		Palatino,
+		serif;
 		letter-spacing: 0px;
 		font-weight: lighter;
 		margin: 0;
 	}
-	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-		text-decoration: none;
-	}
 	table {
+		text-align: center;
 		margin: auto;
 		border-collapse: collapse;
 		overflow-x: auto;
@@ -311,26 +309,19 @@
 		font-family: inherit;
 		width: calc(100% - 10px);
 		max-width: 32em;
-		outline: none;
 		resize: none;
-		height: auto;
-		margin: 0;
 	}
 	input, select, textarea, button {
 		font-family: inherit;
-		margin-bottom: 1px;
-		font-size: 1em;
-		margin: 0;
+		background-color: inherit;
+		color: inherit;
+		font-size: inherit;
 		outline: 0;
 	}
 	input, select { border: 1px solid; }
-	select {
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		transition: border 0.2s;
-		outline: 0;
-		padding-left: 5px;
-		padding-right: 5px;
+	/* Too small */
+	input[type=checkbox] {
+		transform: scale(1.5);
 	}
 	code, kbd {
 		font-family: Monospace;

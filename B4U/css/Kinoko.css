@@ -1,7 +1,9 @@
 /* Theme colors and fonts */
 	body {
 		background-image: url('img/kinoko.png');
-		font-family: Arial, Helvetica, sans-serif;
+		font-family: Arial,
+		Helvetica,
+		sans-serif;
 	}
 	body, hr {
 		color: #c7254e;
@@ -12,38 +14,12 @@
 	article {
 		background-color: white;
 	}
-/* Sync errors */
-	.error {
-		color: red;
-	}
-	.excellent, .good {
-		background-color: #D0F0C0;
-	}
-	.bad {
-		background-color: #A8C0D8;
-	}
-	.disconnected {
-		border-style: dashed !important;
-	}
-/* New posts */
-	article {
-		transition: background 0.3s ease-in-out;
-	}
-	article.new {
-		background: #FFE87C !important;
-	}
 /* Notifications */
 	#notifications li {
 		background-color: palegoldenrod;
 		color: black;
 	}
 /* Trivial */
-	dl, ul, ol {
-		list-style-type: square;
-	}
-	kbd {
-		padding: 2px;
-	}
 	code {
 		background: #151515;
 		color: #D7D0C7;

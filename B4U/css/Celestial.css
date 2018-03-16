@@ -8,36 +8,15 @@
 	main {
 		background-color: #57596A;
 	}
-	article, .hoverbox, textarea, td, th {
+	article, select, tbody, th {
 		background-color: #2D2E37;
 		border-style: solid;
 		border-width: 1px;
 		border-color: #AAA;
 		color: #EEE;
 	}
-/* Sync errors */
-	.error {
-		color: red;
-	}
-	.excellent, .good {
-		background-color: #D0F0C0;
-	}
-	.bad {
-		background-color: #A8C0D8;
-	}
-	.disconnected {
-		border-style: dashed !important;
-	}
-/* New posts */
-	article {
-		transition: background 0.3s ease-in-out;
-	}
-	article.new {
-		background: palegoldenrod !important;
-		color: black;
-	}
 /* Hoverbox tweaks */
-	.hoverbox, input[type=submit], select, textarea {
+	.hoverbox, textarea, input {
 		background: white;
 		color: black;
 	}
@@ -47,12 +26,6 @@
 		color: black;
 	}
 /* Trivial */
-	dl, ul, ol {
-		list-style-type: square;
-	}
-	kbd {
-		padding: 2px;
-	}
 	code {
 		background: slategray;
 		color: #EEE;

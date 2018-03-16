@@ -1,7 +1,6 @@
 /* Theme colors and fonts */
 	body {
 		color: black;
-		font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 		background-image: url('img/sakura.png');
 		background-color: white;
 	}
@@ -11,19 +10,6 @@
 	article {
 		color: black;
 		background-color: white;
-	}
-/* Sync errors */
-	.error {
-		color: red;
-	}
-	.excellent, .good {
-		background-color: #D0F0C0;
-	}
-	.bad {
-		background-color: #A8C0D8;
-	}
-	.disconnected {
-		border-style: dashed !important;
 	}
 /* New posts */
 	article {
@@ -38,12 +24,6 @@
 		color: black;
 	}
 /* Trivial */
-	dl, ul, ol {
-		list-style-type: square;
-	}
-	kbd {
-		padding: 2px;
-	}
 	code {
 		background: #151515;
 		color: #D7D0C7;

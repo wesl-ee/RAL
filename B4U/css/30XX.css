@@ -2,41 +2,23 @@
 	body {
 		color: black;
 		background-color: slategray;
-		font-size: 18px;
-		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+		font-family: "ヒラギノ角ゴ Pro W3",
+		"Hiragino Kaku Gothic Pro",
+		Osaka,
+		"メイリオ",
+		Meiryo,
+		"ＭＳ Ｐゴシック",
+		"MS PGothic",
+		sans-serif;
 		background-image: url('img/rei.png');
 		background-repeat: no-repeat;
 		background-size: 20%;
 		background-attachment: fixed;
 		background-position: bottom left;
 	}
-	main,
-	table {
-		background-color: white;
-	}
-	article, .hoverbox, input[type=submit], select, textarea {
+	main, table, article, .hoverbox, .sideclickbox {
 		background-color: white;
 		color: #181818;
-	}
-/* Sync errors */
-	.error {
-		color: red;
-	}
-	.excellent, .good {
-		background-color: #D0F0C0;
-	}
-	.bad {
-		background-color: #A8C0D8;
-	}
-	.disconnected {
-		border-style: dashed !important;
-	}
-/* New posts */
-	article {
-		transition: background 0.3s ease-in-out;
-	}
-	article.new {
-		background: palegoldenrod !important;
 	}
 /* Hoverbox tweaks */
 	.hoverbox, .sideclickbox {
@@ -45,7 +27,7 @@
 	.hoverbox::after, .sideclickbox::after {
 		box-shadow: initial;
 	}
-	.hoverbox, .sideclickbox:hover {
+	.hoverbox, .sideclickbox {
 		transition: color 0.08s;
 	}
 /* Notifications */
@@ -54,9 +36,6 @@
 		color: black;
 	}
 /* Trivial */
-	dl, ul, ol {
-		list-style-type: square;
-	}
 	kbd {
 		padding: 2px;
 	}
@@ -66,9 +45,6 @@
 	}
 	a:hover, .hoverbox:hover {
 		color: orange;
-	}
-	.leftnav:hover, .rightnav:hover {
-		color: inherit;
 	}
 	article a:hover {
 		/* Override BBCode styling */

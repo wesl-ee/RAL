@@ -42,9 +42,9 @@
 <form class=reply method=POST action="$target">
 	<header>$heading</header>
 	<div class=textarea>
-		[ <a class=toggle-preview>
-		Preview Formatting
-		</a> ]
+		<a class=toggle-preview>
+		[ Preview Formatting ]
+		</a>
 		<textarea autofocus rows=5
 		maxlength=$maxlen
 		placeholder="$placeholder"

@@ -3,7 +3,14 @@
 		background-color: #65758E;
 		background-image: url('img/rain.jpg');
 		color: black;
-		font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+		font-family:"ヒラギノ角ゴ Pro W3",
+		"Hiragino Kaku Gothic Pro",
+		Osaka,
+		"メイリオ",
+		Meiryo,
+		"ＭＳ Ｐゴシック",
+		"MS PGothic",
+		sans-serif;
 	}
 	main,
 	select,
@@ -18,38 +25,12 @@
 	select {
 		background-color: white;
 	}
-/* Sync errors */
-	.error {
-		color: red;
-	}
-	.excellent, .good {
-		background-color: #D0F0C0;
-	}
-	.bad {
-		background-color: #A8C0D8;
-	}
-	.disconnected {
-		border-style: dashed !important;
-	}
-/* New posts */
-	article {
-		transition: background 0.3s ease-in-out;
-	}
-	article.new {
-		background: palegoldenrod !important;
-	}
 /* Notifications */
 	#notifications li {
 		background-color: palegoldenrod;
 		color: black;
 	}
 /* Trivial */
-	dl, ul, ol {
-		list-style-type: square;
-	}
-	kbd {
-		padding: 2px;
-	}
 	code {
 		background: #151515;
 		color: #D7D0C7;
