@@ -1,0 +1,54 @@
+/* Theme colors and fonts */
+	body {
+		background-color: black;
+		color: black;
+		font-family: "IBM ISO";
+	}
+	h1, h2, h3, h4, h5, h6 {
+		font-family: Systemspace;
+	}
+	main,
+	select,
+	textarea,
+	article {
+		color: white;
+		background-color: Navy;
+	}
+	article, td, .hoverbox {
+		background-color: #DCDCDC;
+		color: black;
+	}
+	article .info, th {
+		background-color: blue;
+		color: white;
+	}
+/* BBS Blocky changes */
+	th, td {
+		border: 1px solid black;
+	}
+	article {
+		border-radius: 0;
+	}
+/* Hoverbox */
+	input[type=submit],
+	select {
+		background-color: white;
+		color: black;
+	}
+/* Notifications */
+	#notifications li {
+		background-color: palegoldenrod;
+		color: black;
+	}
+	pre {
+		font-family: inherit;
+	}
+/* Fonts */
+	@font-face {
+		font-family: "Systemspace";
+		src: url('font/systemspace.woff');
+	}
+	@font-face {
+		font-family: "IBM ISO";
+		src: url('font/IBM_ISO8.ttf');
+	}
