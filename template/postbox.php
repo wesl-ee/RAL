@@ -59,7 +59,7 @@
 		autocomplete=off>
 	</div><div class=buttons>
 		<a href="$target" class="cancel hoverbox">Cancel</a>
-		<input value="$submittext" class=hoverbox type=submit>
+		<button class=hoverbox type=submit>$submittext</button>
 	</div>
 </form>
 

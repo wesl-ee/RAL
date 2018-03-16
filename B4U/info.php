@@ -147,7 +147,8 @@ HTML;
 HTML;
 		print <<<HTML
 		</dd></dl>
-		<input type=submit class=hoverbox value=Commit></form>
+		<button class=hoverbox type=submit>Commit</button>
+		</form>
 		</div>
 
 HTML;

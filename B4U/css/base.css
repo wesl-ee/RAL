@@ -182,11 +182,6 @@
 		transition: opacity 0.2s;
 	}
 	.hoverbox:hover::after { opacity: 1; }
-	/* Hack for input elements since <input> elements
-	* cannot contain the pseudo ::after element */
-	.hoverbox input {
-		border: 0;
-	}
 	a.hoverbox {
 		text-decoration: none;
 	}
@@ -213,7 +208,7 @@
 		height: 100%;
 		right: 0;
 		content: '';
-		box-shadow: -1px 1px 2px;
+		box-shadow: -2px 2px 3px;
 		opacity: 0;
 		transition: opacity 0.2s;
 	}
@@ -272,13 +267,6 @@
 		100% { transform: rotateY(0deg); }
 	}
 /* Modifications on the default styling */
-	input[type=submit] {
-		padding-left: 5px;
-		padding-right: 5px;
-		font: inherit;
-		background-color: inherit;
-		line-height: normal;
-	}
 	button {
 		background-color: inherit;
 		font: inherit;
@@ -307,6 +295,7 @@
 		color: inherit;
 		cursor: pointer;
 		text-decoration: underline;
+		outline: 0;
 	}
 	a:hover {
 		text-decoration: none;
@@ -327,11 +316,12 @@
 		height: auto;
 		margin: 0;
 	}
-	input, select, textarea {
+	input, select, textarea, button {
 		font-family: inherit;
 		margin-bottom: 1px;
 		font-size: 1em;
 		margin: 0;
+		outline: 0;
 	}
 	input, select { border: 1px solid; }
 	select {

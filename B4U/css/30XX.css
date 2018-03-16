@@ -42,7 +42,7 @@
 	.hoverbox, .sideclickbox {
 		background: white;
 	}
-	.hoverbox:hover, .sideclickbox:hover {
+	.hoverbox::after, .sideclickbox::after {
 		box-shadow: initial;
 	}
 	.hoverbox, .sideclickbox:hover {

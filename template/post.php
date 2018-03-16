@@ -37,8 +37,7 @@ HTML;
 	$root = CONFIG_WEBROOT;
 	if ($linkify) print <<<HTML
 	<a class=sideclickbox href=$post->url>
-		<img src="{$root}res/point.gif"><br />
-		Open
+		<img src="{$root}res/post.gif">
 	</a>
 
 HTML;
