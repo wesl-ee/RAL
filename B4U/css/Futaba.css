@@ -1,0 +1,34 @@
+/* Theme colors and fonts */
+	body {
+		color: #800000;
+		background-image: url('img/ba.gif');
+	}
+	main,
+	select,
+	textarea {
+		color: #800000;
+		background-color: #FFFFEE;
+	}
+	article, th, td {
+		background-color: #F0E0D6
+	}
+	article .info .id {
+		color: #117743;
+	}
+/* New posts */
+	article {
+		transition: background 0.3s ease-in-out;
+	}
+	article.new {
+		background: palegoldenrod !important;
+	}
+/* Notififications */
+	#notifications li {
+		background-color: palegoldenrod;
+		color: black;
+	}
+/* Trivial */
+	code {
+		background: #151515;
+		color: #D7D0C7;
+	}

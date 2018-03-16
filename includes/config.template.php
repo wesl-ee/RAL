@@ -89,9 +89,10 @@ define("CONFIG_THEMES",
 	'20XX' => '20XX',
 	'30XX' => '30XX',
 	'BBS' => 'BBS',
+	'Futaba' => 'Futaba',
 	'Celestial' => 'Celestial',
 	'Kinoko' => 'Kinoko',
-	'Rain' => 'Rain',
 	'PR' => '【=◈︿◈=】'
+	'Rain' => 'Rain',
 ]);
 ?>
