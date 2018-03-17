@@ -268,13 +268,13 @@ function podparagraph($string)
 			print "<h4>$text</h4>\n";
 			break;
 		case "over":
-			print "<ol>\n";
+			print "<ul>\n";
 			break;
 		case "item":
 			print "<li>$text</li>\n";
 			break;
 		case "back":
-			print "</ol>\n";
+			print "</ul>\n";
 			break;
 		}
 	}

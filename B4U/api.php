@@ -100,7 +100,7 @@ if (isset($_GET['verify'])) {
 	}
 }
 // Posting
-if (isset($_GET['post'])) {
+/*if (isset($_GET['post'])) {
 	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];
 	$auth = $_COOKIE['auth'];
@@ -113,7 +113,7 @@ if (isset($_GET['post'])) {
 	else {
 		$post = create_post($continuity, $topic, $auth, $content);
 	}
-}
+}*/
 // Preview BBCode
 if (isset($_GET['preview'])) {
 	$text = $_POST['text'];

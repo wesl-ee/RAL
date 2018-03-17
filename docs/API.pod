@@ -1,0 +1,142 @@
+=head1 Advanced Programmer's Interface
+
+Only advanced programmers are allowed to use the Advanced Programmer's
+Interface! B<YOU HAVE BEEN WARNED>. If you still think you have the
+necessary skill (and courage), continue reading.
+
+=head2 Overview of the API
+
+The RAL API is available within the source tree at C<B4U/api.php>. This is
+exposed to the public for everyone to use! By exposing this interface, I
+hope to extend the RAL community. Some use cases may be:
+
+=over 8
+
+=item BBS / Telnet
+
+=item Desktop Application
+
+=item SSH
+
+=item Smartphone Application
+
+=item Braile Reader
+
+=back
+
+Here are all of the functions which the API responds to:
+
+=head2 Fetch
+
+Fetches things (i.e. continuities, topics, posts). Pass the relevant
+parameters.
+
+=head3 Parameters
+
+All parameters are optional.
+
+=over 8
+
+=item continuity
+
+=item topic
+
+=item format
+
+=item linkify
+
+=back
+
+=head3 Response
+
+Returns the queried material in a format matching the passed C<format>
+(currently only HTML may be specified). If no format is passed, the
+response will be in JSON form.
+
+=head3 Examples
+
+C<https://ral.space/api?fetch>
+
+Fetches all continuities in the JSON format
+
+C<https://ral.space/api?fetch&continuity=Chat>
+
+Fetches all topics in the [Chat] continuity
+
+C<https://ral.space/api?fetch&continuity=Chat&topic=1&format=html>
+
+Fetches all posts in the [Chat/1] topic and displays them in a basic HTML format
+
+=head2 Subscribe
+
+Submitting a subscription request will open a real-time socket to the server.
+Text will be piped to you when something relevant happens (revelance is
+determined by the paramters you pass to the subscription).
+
+Currently there is no C<PING> text to keep the socket connection
+alive. Unfortunately, this means you will need to re-submit the subscribe
+request every ~15 seconds. This does not cause much overhead, but be
+aware this is not intended behavior and will be fixed in a future release.
+
+=head3 Parameters
+
+All parameters are optional.
+
+=over 8
+
+=item continuity
+
+=item topic
+
+=item format
+
+=item linkify
+
+=back
+
+=head3 Response
+
+Returns a JSON object describing the message. You probably want to parse
+the C<body> property after checking the message C<type>.
+
+=head2 Verify
+
+Meant for realtime interaction. You can query this instead of doing a
+full fetch to just get the relevant post numbers that should be on your
+page. If the response differs from your page, you know that your content
+is not up-to-date and must be refreshed.
+
+=head3 Parameters
+
+All parameters are optional
+
+=over 8
+
+=item continuity
+
+=item topic
+
+=item mostpost
+
+=back
+
+=head3 Response
+
+Expect a JSON array of numbers which represents the posts in the topic
+or continuity you queried.
+
+=head2 Preview
+
+A simple way to format BBCode text into HTML using RAL's specification.
+
+=head3 Parameters
+
+=over 8
+
+=item text
+
+=back
+
+=head3 Response
+
+Expect a fragment of HTML which represents the BBCode text
