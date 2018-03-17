@@ -39,6 +39,11 @@ color space
 C<href> is a URL to a resource on the internet. Protocols other than
 http(s): are allowed as well (e.g. ftp)
 
+=item [quote=C<author>]
+
+C<author> is the cited author. This will be appended to the bottom of the
+blockquote as if the author said the quote.
+
 =back
 
 =head3 Valid BBCode Markdown Examples
@@ -48,6 +53,7 @@ http(s): are allowed as well (e.g. ftp)
 	My favorite website is [url=https://aol.com]AOL[/url]
 	Have you seen my pictures at [url]ftp://ftp.example.com[/url]
 	I didn't know this forum supports [color=red]color-coded text![/color]
+	[quote=OP]I don't know left from right[/quote]
 
 =head2 What is not allowed?
 

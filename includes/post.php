@@ -139,8 +139,16 @@ function bbbbbbb($string)
 				$close = "</span>";
 				break;
 			case 'quote':
-				$open = "<blockquote>";
-				$close = "</blockquote>";
+				if ($param) {
+					$open = "<blockquote>";
+					$close = "<footer>— "
+					. htmlspecialchars($param)
+					. "</footer><blockquote>";
+				}
+				else {
+					$open = "<blockquote>";
+					$close = "</blockquote>";
+				}
 				break;
 			case 'url':
 				if ($param)
