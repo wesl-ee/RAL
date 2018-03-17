@@ -132,32 +132,54 @@ else
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
-		$realtimeurl = CONFIG_WEBROOT
-		. "api.php?subscribe&continuity=$continuity"
-		. "&topic=$topic&format=html";
-		print
-<<<HTML
+		// Special attributes for telling the client
+		// where to fetch realtime updates and verification
+		if (CONFIG_REALTIME_ENABLE) {
+			$realtimeurl = CONFIG_WEBROOT
+			. "api.php?subscribe&continuity=$continuity"
+			. "&topic=$topic&format=html";
+			$verifyurl = CONFIG_WEBROOT
+			. "api.php?verify&continuity=$continuity"
+			. "&topic=$topic";
+			print <<<HTML
 	<div id=reader class=expanded
 	data-topic="$topic"
 	data-continuity="$continuity"
 	data-realtimeurl="$realtimeurl"
+	data-verifyurl="$verifyurl"
 	data-append=bottom>
 
 HTML;
-	// Browsing a continuity (reader is in 'continuity' view)
-	} else {
-		$realtimeurl = CONFIG_WEBROOT
-		. "api.php?subscribe&continuity=$continuity&format=html&linkify";
-		print
+		} else {
+			print <<<HTML
+	<div id=reader class=expanded
+	data-topic="$topic"
+	data-continuity="$continuity"
 
-<<<HTML
+HTML;
+	// Browsing a continuity (reader is in 'continuity' view)
+	} } else {
+		if (CONFIG_REALTIME_ENABLE) {
+			$realtimeurl = CONFIG_WEBROOT
+			. "api.php?subscribe&continuity=$continuity"
+			. "&format=html";
+			$verifyurl = CONFIG_WEBROOT
+			. "api.php?verify&continuity=$continuity";
+			print <<<HTML
 	<div class=continuity id=reader
 	data-realtimeurl="$realtimeurl"
+	data-verifyurl="$verifyurl"
 	data-append=top
 	data-continuity="$continuity">
 
 HTML;
-	}
+		} else {
+			print <<<HTML
+	<div class=continuity id=reader
+	data-continuity="$continuity">
+
+HTML;
+	} }
 	foreach ($posts as $post) {
 		if (isset($topic))
 			$linkify = false;

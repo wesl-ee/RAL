@@ -9,7 +9,7 @@
 		color: #800000;
 		background-color: #FFFFEE;
 	}
-	article, th, td {
+	article, th, td, .hoverbox, select {
 		background-color: #F0E0D6
 	}
 	article .info .id {

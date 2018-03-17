@@ -9,13 +9,20 @@ function appendToReader(reader, posthtml)
 	var post = range.createContextualFragment(
 		posthtml
 	);
+	var mostpost = reader.getAttribute('data-mostpost');
 	var direction = reader.getAttribute('data-append');
 	if (direction == 'top') {
 		reader.insertBefore(post, reader.children[0]);
-		return reader.children[0];
+		var children = reader.children;
+		if (children.length > mostpost)
+			reader.removeChild(children[children.length-1]);
+		return children[0];
 	} else {
 		reader.appendChild(post);
 		var children = reader.children;
+		if (children.length > mostpost)
+			reader.removeChild(children[0]);
+		children = reader.children;
 		return children[children.length-1];
 	}
 }

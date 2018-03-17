@@ -2,7 +2,6 @@ function updatelatency()
 {
 	var xhr = new XMLHttpRequest();
 
-
 	var t1;
 	xhr.onreadystatechange = function() {
 	if (this.readyState == 1) {
@@ -12,40 +11,33 @@ function updatelatency()
 	if (this.readyState == 2) {
 		var t2 = performance.now();
 		var latency = Math.round(t2 - t1);
-		movelatbar(latency);
+		updatelatbar(latency);
 	} }
 	xhr.open('GET', '/');
 	xhr.send();
 }
-function movelatbar(latency)
+function updatelatbar(latency)
 {
 	var lat = document.getElementById('latency');
-	var excellent_interval = 50;
-	var good_interval = 200;
-	var bad_interval = 500;
 
 	var text = lat.getElementsByClassName('text')[0];
 	var bar = lat.getElementsByClassName('bar')[0];
 
-	if (!latency) {
+	if (latency === false) {
 		bar.className = 'bar disconnected';
 	}
-	else if (latency < excellent_interval) {
+	else {
 		text.innerText = latency + ' ms';
-		bar.className = 'bar excellent';
-	}
-	else if (latency < good_interval) {
-		text.innerText = latency + ' ms';
-		bar.className = 'bar good';
-	}
-	else if (latency < bad_interval) {
-		text.innerText = latency + ' ms';
-		bar.className = 'bar bad';
+		bar.className = 'bar connected';
 	}
 }
-function oos()
+function outofsync()
 {
-	document.getElementById('latency').className = 'error';
+	var lat = document.getElementById('latency');
+	var text = lat.getElementsByClassName('text')[0];
+	var bar = lat.getElementsByClassName('bar')[0];
+	bar.className = 'bar error';
+	text.innerText = 'Out of Sync';
 }
 function subscribe(reader, continuity, topic)
 {
@@ -62,14 +54,10 @@ function subscribe(reader, continuity, topic)
 		// Read the most recent message
 		var msg = JSON.parse(this.responseText);
 
-		// For sanity
-		console.log(this.responseText);
-
 		// For Vorkuta
 		if (msg.type == 'POST') {
 			var posthtml = msg.body.content;
 			var post = appendToReader(reader, posthtml);
-			console.log(post);
 			doctitlenotify();
 			highlightnew(post); notifyuser(post);
 		}
@@ -82,11 +70,10 @@ function subscribe(reader, continuity, topic)
 function verifyposts(reader, continuity, topic)
 {
 	var xhr = new XMLHttpRequest();
-	var mostpost = reader.getAttribute('data-mostpost');
 
 	xhr.timeout = 15000;
 	xhr.ontimeout = function() {
-		movelatbar(false); return false;
+		updatelatbar(false);
 	}
 
 	var t1;
@@ -97,29 +84,20 @@ function verifyposts(reader, continuity, topic)
 	}
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		movelatbar(Math.round(t2 - t1));
+		updatelatbar(Math.round(t2 - t1));
 	}
 	if (this.readyState == 4)
 	if (this.status == 200)
 	if (this.responseText) {
 		var posts = JSON.parse(this.responseText);
 		if (!verifyreader(reader, posts)) {
-			movelatbar(false); return false;
+			outofsync();
 		}
 	} }
-	var uri = '?verify';
-	if (continuity)
-		uri += '&continuity=' + continuity;
-	if (topic)
-		uri += "&topic=" + topic;
+	var verifyurl = reader.getAttribute('data-verifyurl');
 	// Prevent caching or throttling
-	uri += '&' + Math.random().toString(36);
-	if (mostpost)
-		uri += '&mostpost=' + mostpost;
-	xhr.open('GET', '/api.php' + uri);
-
-	// Synchronous: we care about the result
-	xhr.send(false);
+	xhr.open('GET', verifyurl);
+	xhr.send();
 }
 function previewPost(text, container)
 {
@@ -131,7 +109,7 @@ function previewPost(text, container)
 	}
 	if (this.readyState == 2) {
 		var t2 = performance.now();
-		movelatbar(Math.round(t2 - t1));
+		updatelatbar(Math.round(t2 - t1));
 	}
 	if (this.readyState == 4)
 	if (this.status == 200) {

@@ -77,16 +77,26 @@ HTML;
 	<h2>Fresh Posts</h2>
 <?php
 	$mostpost = CONFIG_FRONTPAGE_POSTS;
-	$realtimeurl = CONFIG_WEBROOT
-	. "api.php?subscribe&linkify&format=HTML";
-
-	print <<<HTML
+	if (CONFIG_REATIME_ENABLE) {
+		$realtimeurl = CONFIG_WEBROOT
+		. "api.php?subscribe&linkify&format=HTML";
+		$verifyurl = CONFIG_WEBROOT
+		. "api.php?verify&mostpost=$mostpost";
+		print <<<HTML
 	<div class=recent id=reader
 	data-mostpost="$mostpost"
 	data-realtimeurl="$realtimeurl"
+	data-verifyurl="$verifyurl"
 	data-append=top>
 
 HTML;
+	} else {
+		print <<<HTML
+	<div class=recent id=reader
+	data-mostpost="$mostpost">
+
+HTML;
+	}
 	$recent = fetch_recent_posts(CONFIG_FRONTPAGE_POSTS);
 	$linkify = true;
 	foreach ($recent as $post)
