@@ -26,13 +26,3 @@
 		background-color: white;
 		color: black;
 	}
-/* Notifications */
-	#notifications li {
-		background-color: palegoldenrod;
-		color: black;
-	}
-/* Trivial */
-	code {
-		background: #151515;
-		color: #D7D0C7;
-	}

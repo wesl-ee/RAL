@@ -20,13 +20,3 @@
 		background: white;
 		color: black;
 	}
-/* Notifications */
-	#notifications li {
-		background-color: palegoldenrod;
-		color: black;
-	}
-/* Trivial */
-	code {
-		background: slategray;
-		color: #EEE;
-	}

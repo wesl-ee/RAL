@@ -113,23 +113,6 @@
 	}
 	.previewing .preview { display: block; }
 	.previewing textarea { display: none; }
-/* Notifications */
-	#notifications {
-		position: fixed;
-		top: 0;
-		right: 0;
-		margin: 20px;
-		list-style-type: none;
-		-webkit-padding-start: 0;
-	}
-	#notifications li {
-		padding: 5px;
-		margin-bottom: 5px;
-		border: 1px solid;
-	}
-	.lowpriority .priority {
-		background-color: green;
-	}
 /* Miscellaneous elements */
 	/* Collection of items */
 	.collection {

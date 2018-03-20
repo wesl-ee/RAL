@@ -34,14 +34,6 @@
 		background-color: white;
 		color: black;
 	}
-/* Notifications */
-	#notifications li {
-		background-color: palegoldenrod;
-		color: black;
-	}
-	pre {
-		font-family: inherit;
-	}
 /* Fonts */
 	@font-face {
 		font-family: "Systemspace";
@@ -51,6 +43,10 @@
 		font-family: "IBM ISO";
 		src: url('font/IBM_ISO8.ttf');
 	}
-article .content a {
-	color: red;
-}
+	pre {
+		font-family: inherit;
+	}
+/* <a>nchor colors */
+	article .content a {
+		color: red;
+	}

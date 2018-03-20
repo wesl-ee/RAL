@@ -30,11 +30,6 @@
 	.hoverbox, .sideclickbox {
 		transition: color 0.08s;
 	}
-/* Notifications */
-	#notifications li {
-		background-color: palegoldenrod;
-		color: black;
-	}
 /* Trivial */
 	kbd {
 		padding: 2px;

@@ -18,13 +18,3 @@
 	article.new {
 		background: palegoldenrod !important;
 	}
-/* Notififications */
-	#notifications li {
-		background-color: palegoldenrod;
-		color: black;
-	}
-/* Trivial */
-	code {
-		background: #151515;
-		color: #D7D0C7;
-	}
