@@ -14,6 +14,10 @@
 	article {
 		background-color: white;
 	}
+	pre {
+		color: white;
+		background-color: black;
+	}
 /* Trivial */
 	a {
 		color: #36B;

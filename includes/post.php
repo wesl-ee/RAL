@@ -73,18 +73,39 @@ class post {
 function paragraphize($string)
 {
 	$contents[] = "<p>";
-	$offset = 0; $a = 0;
+	$offset = 0; $a = 0; $preformat = false;
 	while (($a = indexOf($string, "\n", $offset)) >= 0) {
-		if (substr($string, $offset, $a - $offset - 1) == "") {
-			$offset = $a + 1;
+		/* Capture the text and advance the cursor */
+		$text = substr($string, $offset, $a - $offset - 1);
+		$offset = $a + 1;
+
+		/* Ignore empty paragraphs */
+		if ($text == "") continue;
+
+		/* Is the text pre-formatted? */
+		if (indexOf($text, "<pre>") >= 0) {
+			$contents[] = "</p>";
+			$preformat = true;
+		}
+		if (indexOf($text, "</pre>") >= 0) {
+			$contents[] = "<p>";
+			$preformat = false;
+		}
+
+		/* Append text */
+		$contents[] = $text;
+
+		if ($preformat) {
+			$contents[] = "\n";
 			continue;
 		}
-		$contents[] = substr($string, $offset, $a - $offset - 1);
+		/* End the current paragraph and open the next */
 		$contents[] = "</p><p>";
-		$offset = $a + 1;
 	} while ($a >= 0);
-	$contents[] = substr($string, $offset);
-	$contents[] = "</p>";
+	$text = substr($string, $offset);
+	$contents[] = $text;
+	if (indexOf($text, "</pre>") == -1)
+		$contents[] = "</p>";
 	return join($contents);
 }
 /*
@@ -132,6 +153,10 @@ function bbbbbbb($string)
 			case 'code':
 				$open = "<kbd>";
 				$close = "</kbd>";
+				break;
+			case 'aa':
+				$open = "<pre>";
+				$close = "</pre>";
 				break;
 			case 'color':
 				$color = htmlspecialchars($param);

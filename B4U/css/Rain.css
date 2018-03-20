@@ -19,6 +19,10 @@
 		color: black;
 		background-color: azure;
 	}
+	pre {
+		color: white;
+		background-color: black;
+	}
 /* Hoverbox */
 	.hoverbox,
 	input[type=submit],

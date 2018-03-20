@@ -20,6 +20,10 @@
 		background-color: white;
 		color: #181818;
 	}
+	pre {
+		color: white;
+		background-color: black;
+	}
 /* Hoverbox tweaks */
 	.hoverbox, .sideclickbox {
 		background: white;
@@ -31,13 +35,6 @@
 		transition: color 0.08s;
 	}
 /* Trivial */
-	kbd {
-		padding: 2px;
-	}
-	code {
-		background: slategray;
-		color: #EEE;
-	}
 	a:hover, .hoverbox:hover {
 		color: orange;
 	}

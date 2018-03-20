@@ -306,7 +306,16 @@
 		font-family: Monospace;
 	}
 	pre {
-		overflow: scroll;
+		padding: 10px;
+		overflow-x: auto;
+		border-radius: 5px;
+		font-size: 12px;
+		line-height: 1em;
+		font-family: "SFMono-Regular",
+		Consolas,
+		"Liberation Mono",
+		Menlo, Courier,
+		monospace;
 	}
 /* Uhh just legacy stuff
  * I might use later */
