@@ -15,10 +15,6 @@
 	article .info .id {
 		color: #117743;
 	}
-	pre {
-		color: white;
-		background-color: black;
-	}
 /* New posts */
 	article {
 		transition: background 0.3s ease-in-out;

@@ -317,6 +317,20 @@
 		Menlo, Courier,
 		monospace;
 	}
+/* Default colors */
+	pre {
+		color: white;
+		background-color: black;
+	}
+	.spoiler {
+		color: black;
+		background-color: black;
+		border: 1px solid;
+	}
+	.spoiler.shown {
+		color: inherit;
+		background-color: inherit;
+	}
 /* Uhh just legacy stuff
  * I might use later */
 	#background {

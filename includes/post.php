@@ -158,6 +158,10 @@ function bbbbbbb($string)
 				$open = "<pre>";
 				$close = "</pre>";
 				break;
+			case 'spoiler':
+				$open = "<span class=spoiler>";
+				$close = "</span>";
+				break;
 			case 'color':
 				$color = htmlspecialchars($param);
 				$open = "<span style='color:$color'>";

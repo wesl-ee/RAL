@@ -15,10 +15,6 @@
 		border-color: #AAA;
 		color: #EEE;
 	}
-	pre {
-		color: white;
-		background-color: black;
-	}
 /* Hoverbox tweaks */
 	.hoverbox, textarea, input {
 		background: white;

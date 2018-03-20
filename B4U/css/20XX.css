@@ -11,15 +11,14 @@
 		color: black;
 		background-color: white;
 	}
+	pre {
+		color: white;
+		background-color: black;
+	}
 /* New posts */
 	article {
 		transition: background 0.3s ease-in-out;
 	}
 	article.new {
 		background: palegoldenrod !important;
-	}
-/* ASCII Art */
-	pre {
-		color: white;
-		background-color: black;
 	}

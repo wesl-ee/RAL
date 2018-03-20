@@ -19,10 +19,6 @@
 		color: white;
 		background-color: #8c5883;
 	}
-	pre {
-		color: white;
-		background-color: black;
-	}
 /* Boxes */
 	.hoverbox,
 	input[type=submit],

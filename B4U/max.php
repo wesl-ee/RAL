@@ -109,7 +109,7 @@ else
 	}
 	include "{$ROOT}template/head.php";
 ?>
-	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
+
 	<script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 </head>
 <body><main id=main>
@@ -200,7 +200,7 @@ HTML;
 ?>
 </main>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
-
+<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <script>
 var reader = document.getElementById('reader');
 var continuity = reader.getAttribute('data-continuity');

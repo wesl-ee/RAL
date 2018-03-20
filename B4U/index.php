@@ -27,7 +27,7 @@ include "{$ROOT}includes/git.php";
 	href="$href"
 HREF;
 ?>>
-	<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
+
 </head>
 <body>
 <main id=main class=welcome>
@@ -172,13 +172,11 @@ HTML;
 <!-- Scripts -->
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
+<script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
 <script>
 /* Make the site pretty if the user has JS */
 var reader = document.getElementById('reader');
-
-if (reader) {
-	subscribe(reader);
-}
+subscribe(reader);
 </script>
 <!-- End of scripts -->
 </body>

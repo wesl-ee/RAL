@@ -44,6 +44,14 @@ http(s): are allowed as well (e.g. ftp)
 C<author> is the cited author. This will be appended to the bottom of the
 blockquote as if the author said the quote.
 
+=item [aa]
+
+For ASCII Art!
+
+=item [spoiler]
+
+Hide text from the casual viewer
+
 =back
 
 =head3 Valid BBCode Markdown Examples

@@ -18,3 +18,30 @@ function animateOnce(item, classname)
 		}
 	});
 }
+function toggleSpoiler(e)
+{
+	var s = e.target;
+	if (s.classList.contains('shown'))
+		s.classList.remove('shown');
+	else
+		s.classList.add('shown');
+}
+function clickSpoiler(e)
+{
+	var s = e.target;
+	if (!s.clicked) {
+		s.clicked = true;
+		s.removeEventListener('mouseover', toggleSpoiler);
+		s.removeEventListener('mouseout', toggleSpoiler);
+	} else {
+		s.clicked = false;
+		s.addEventListener('mouseover', toggleSpoiler);
+		s.addEventListener('mouseout', toggleSpoiler);
+	}
+}
+var nodes = document.getElementsByClassName('spoiler');
+for (var i = 0; i < nodes.length; i++) {
+	nodes[i].addEventListener('mouseover', toggleSpoiler);
+	nodes[i].addEventListener('mouseout', toggleSpoiler);
+	nodes[i].addEventListener('click', clickSpoiler);
+}
