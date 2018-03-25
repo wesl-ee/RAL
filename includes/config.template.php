@@ -91,6 +91,7 @@ define("CONFIG_THEMES",
 	'BBS' => 'BBS',
 	'Futaba' => 'Futaba',
 	'Celestial' => 'Celestial',
+	'Daytona' => 'Daytona',
 	'Kinoko' => 'Kinoko',
 	'PR' => '【=◈︿◈=】'
 	'Rain' => 'Rain',

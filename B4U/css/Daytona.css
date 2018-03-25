@@ -1,0 +1,25 @@
+/* Theme colors and fonts */
+	body {
+		color: black;
+		background-image: url('img/ral-daytona.gif');
+		background-color: white;
+		cursor: url('img/daytona-cursor.gif'), auto;
+	}
+	main,
+	select,
+	textarea,
+	article {
+		color: black;
+		background-color: white;
+	}
+	pre {
+		color: white;
+		background-color: black;
+	}
+/* New posts */
+	article {
+		transition: background 0.3s ease-in-out;
+	}
+	article.new {
+		background: palegoldenrod !important;
+	}

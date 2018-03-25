@@ -67,6 +67,10 @@
 		word-wrap: break-word;
 		line-height: 1.8em;
 	}
+	article .content blockquote {
+		border-left: 2px solid;
+		padding-left: 5px;
+	}
 	/* Special rules for masonry layout */
 		#reader {
 			display: flex;
