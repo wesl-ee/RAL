@@ -3,7 +3,6 @@ $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/fetch.php";
 include "{$ROOT}includes/post.php";
-include "{$ROOT}includes/render.php";
 include "{$ROOT}includes/git.php";
 ?>
 <!DOCTYPE HTML>
