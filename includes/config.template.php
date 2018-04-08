@@ -93,7 +93,7 @@ define("CONFIG_THEMES",
 	'Celestial' => 'Celestial',
 	'Daytona' => 'Daytona',
 	'Kinoko' => 'Kinoko',
-	'PR' => '【=◈︿◈=】'
+	'PR' => '【=◈︿◈=】',
 	'Rain' => 'Rain',
 ]);
 ?>
