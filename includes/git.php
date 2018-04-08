@@ -1,7 +1,8 @@
 <?php
 define("RELEASES", [
 	'v1.0' => 'Lightning',
-	'v1.1' => 'Snow'
+	'v1.1' => 'Snow',
+	'v1.2' => 'Hope'
 ]);
 
 /*
