@@ -1,10 +1,3 @@
-function readerhighlight(reader, element)
-{
-	reader.highlighted.classList.remove('selected');
-	element.classList.add('selected');
-	reader.highlighted = element;
-
-}
 function animateOnce(item, classname)
 {
 	var newitem = item.cloneNode(true);

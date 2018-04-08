@@ -2,4 +2,4 @@
 <body>
 Page not found
 </body>
-</body>
+</HTML>

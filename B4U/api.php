@@ -42,44 +42,6 @@ if (isset($_GET['fetch'])) {
 		print json_encode($continuities);
 	}
 }
-// Real-time updates
-if (isset($_GET['subscribe'])) {
-	$continuity = $_GET['continuity'];
-	$topic = $_GET['topic'];
-	$format = $_GET['format'];
-	$linkify = isset($_GET['linkify']);
-
-	$c_id = create_listener();
-	do {
-		$msg = fetch_message($c_id);
-		switch($msg['type']) {
-		case 'POST':
-			$post = $msg['body'];
-			if (isset($continuity)
-			&& $post->continuity != $continuity)
-				$relevant = False;
-			elseif (isset($topic)
-			&& $post->topic != $topic)
-				$relevant = False;
-			else
-				$relevant = True;
-			break;
-		case 'PING':
-			$relevant = True;
-		}
-		if ($relevant) { switch(strtoupper($format)) {
-		case 'HTML':
-			ob_start();
-			include '../template/post.php';
-			$post->content = ob_get_clean();
-			break;
-		}
-		print json_encode($msg);
-		}
-	} while (!$relevant && !connection_aborted());
-
-	destroy_listener($c_id);
-}
 if (isset($_GET['verify'])) {
 	$continuity = $_GET['continuity'];
 	$topic = $_GET['topic'];

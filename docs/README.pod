@@ -20,7 +20,7 @@ Refer to C<docs/INSTALL.pod> for the bloody details
 
 Contributions are welcome! If you are interested in contributing, join
 L<howler.space:6667|https://irc.ral.space> #bigtown or L<send me an
-e-mail|mailto:yumi@ral.space>. Further reading is available in
+e-mail|mailto:yumi@prettyboytellem.com>. Further reading is available in
 C<docs/HACKING.pod>
 
 =head2 License

@@ -29,27 +29,12 @@ define("CONFIG_RAL_USERNAME", "MY_USERNAME");
 define("CONFIG_RAL_PASSWORD", "MY_PASSWORD");
 define("CONFIG_RAL_DATABASE", "MY_DATABASE");
 
-// Logs
-define("CONFIG_RAL_LOG", "/var/log/MY_LOG.log");
-
 // shmem array of listening clients
 // 0xC0FFEE
 define("CONFIG_RAL_SHMCLIENTLIST", 12648430);
 
-// Message queue, general shared memory, and semaphore
-define("CONFIG_RAL_QUEUEKEY", 12648430);
-define("CONFIG_RAL_SHMKEY", 12648431);
-define("CONFIG_RAL_SEMKEY", 12648432);
-
 // Maximum post length in characters
 define("CONFIG_RAL_POSTMAXLEN", 5000);
-
-// Number of continuities displayed per page
-define("CONFIG_PER_PAGE", 5);
-
-// After this time, PHP will consider a listener
-// who has not been updated recently as having timed out
-define("CONFIG_CLIENT_TIMEOUT", 15);
 
 // You!
 define("CONFIG_ADMIN_MAIL", "webmaster@domain.tld");
@@ -77,9 +62,6 @@ define("CONFIG_CLEAN_URL", false);
 
 // A line-seperated list of words to use for the robocheck
 define("CONFIG_WORDLIST", "/usr/share/wordlists/rockyou.txt");
-
-// Users receive real-time updates about topics; no need to refresh!
-define("CONFIG_REALTIME_ENABLE", false);
 
 // Site-wide theming
 // Pulls in the CSS and JS files

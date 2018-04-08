@@ -32,6 +32,9 @@
 	.floathead em {
 		float:right;
 	}
+	.op {
+		text-align: center;
+	}
 	/* Navigation breadcrumb at the page top */
 	.breadcrumb {
 		list-style-type: none;

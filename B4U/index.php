@@ -75,27 +75,10 @@ HTML;
 ?></tbody></table>
 	<h2>Fresh Posts</h2>
 <?php
-	$mostpost = CONFIG_FRONTPAGE_POSTS;
-	if (CONFIG_REATIME_ENABLE) {
-		$realtimeurl = CONFIG_WEBROOT
-		. "api.php?subscribe&linkify&format=HTML";
-		$verifyurl = CONFIG_WEBROOT
-		. "api.php?verify&mostpost=$mostpost";
-		print <<<HTML
-	<div class=recent id=reader
-	data-mostpost="$mostpost"
-	data-realtimeurl="$realtimeurl"
-	data-verifyurl="$verifyurl"
-	data-append=top>
+	print <<<HTML
+	<div class=recent id=reader>
 
 HTML;
-	} else {
-		print <<<HTML
-	<div class=recent id=reader
-	data-mostpost="$mostpost">
-
-HTML;
-	}
 	$recent = fetch_recent_posts(CONFIG_FRONTPAGE_POSTS);
 	$linkify = true;
 	foreach ($recent as $post)
@@ -169,14 +152,8 @@ HTML;
 	</footer>
 </main>
 <!-- Scripts -->
-<script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/render.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
-<script>
-/* Make the site pretty if the user has JS */
-var reader = document.getElementById('reader');
-subscribe(reader);
-</script>
 <!-- End of scripts -->
 </body>
 </HTML>

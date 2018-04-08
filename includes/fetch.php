@@ -66,8 +66,6 @@ function fetch_posts($continuity, $topic)
 }
 /*
  * Return a list of all post numbers in a given ($continuity, $topic) keyed pair
- * We use the result for error checking and validation when
- * CONFIG_REALTIME_ENABLE is tripped out
 */
 function fetch_post_nums($continuity, $topic)
 {
@@ -90,8 +88,6 @@ function fetch_post_nums($continuity, $topic)
 }
 /*
  * Return a list of all topic numbers in a given $continuity
- * We use the result for error checking an validation when
- * CONFIG_REALTIME_ENABLE is tripped out
 */
 function fetch_topic_nums($continuity)
 {

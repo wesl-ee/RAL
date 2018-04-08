@@ -26,8 +26,6 @@
 		$heading = "New Topic<br/>[ $continuity ]";
 	}
 
-	if (!empty($q)) $target = "$target?$q";
-
 	$robocheck = gen_robocheck();
 	$robosrc = $robocheck['src'];
 	$robocode = $robocheck['id'];
@@ -58,7 +56,7 @@
 		placeholder="Verify Humanity"
 		autocomplete=off>
 	</div><div class=buttons>
-		<a href="$target" class="cancel hoverbox">Cancel</a>
+	<a href="$target" class="cancel hoverbox">Cancel</a>
 		<button class=hoverbox type=submit>$submittext</button>
 	</div>
 </form>

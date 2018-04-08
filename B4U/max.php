@@ -7,9 +7,9 @@ include $ROOT.'includes/post.php';
 // Which continuity we are reading
 $continuity = urldecode($_GET['continuity']);
 // Which topic (if any) we are reading
-$topic = $_GET['topic'];
+$topic = @$_GET['topic'];
 // Whether we are posting or only reading
-$postmode = $_GET['postmode'];
+$postmode = @$_GET['postmode'];
 
 // Posting in a topic
 if (isset($_POST['content']) && isset($topic)) {
@@ -31,8 +31,6 @@ if (isset($_POST['content']) && isset($topic)) {
 		die;
 	}
 	else {
-		if (CONFIG_REALTIME_ENABLE)
-			notify_listeners('POST', $post);
 		header("HTTP/1.1 303 See Other");
 		if (CONFIG_CLEAN_URL)
 			$location = CONFIG_WEBROOT . "r3";
@@ -78,7 +76,7 @@ $continuities = fetch_continuities();
 
 // Timeline parameter extraction and verification
 $i = count($continuities);
-for ($i = count($continuities); $i + 1; $i--) {
+for ($i = count($continuities) - 1; $i + 1; $i--) {
 	if ($continuities[$i]->name == $continuity) break;
 }
 // 404 continuities which do not exist
@@ -105,6 +103,7 @@ else
 	}
 	else {
 		$pagetitle = "$continuity - $continuitydesc";
+		$pagedesc = $continuitydesc;
 	}
 	include "{$ROOT}template/head.php";
 ?>
@@ -131,65 +130,42 @@ else
 
 	// Browsing a topic (reader is in 'expanded' view)
 	if (isset($topic)) {
-		// Special attributes for telling the client
-		// where to fetch realtime updates and verification
-		if (CONFIG_REALTIME_ENABLE) {
-			$realtimeurl = CONFIG_WEBROOT
-			. "api.php?subscribe&continuity=$continuity"
-			. "&topic=$topic&format=html";
-			$verifyurl = CONFIG_WEBROOT
-			. "api.php?verify&continuity=$continuity"
-			. "&topic=$topic";
-			print <<<HTML
+		print <<<HTML
 	<div id=reader class=expanded
 	data-topic="$topic"
-	data-continuity="$continuity"
-	data-realtimeurl="$realtimeurl"
-	data-verifyurl="$verifyurl"
-	data-append=bottom>
-
-HTML;
-		} else {
-			print <<<HTML
-	<div id=reader class=expanded
-	data-topic="$topic"
-	data-continuity="$continuity"
-
-HTML;
-	// Browsing a continuity (reader is in 'continuity' view)
-	} } else {
-		if (CONFIG_REALTIME_ENABLE) {
-			$realtimeurl = CONFIG_WEBROOT
-			. "api.php?subscribe&continuity=$continuity"
-			. "&format=html";
-			$verifyurl = CONFIG_WEBROOT
-			. "api.php?verify&continuity=$continuity";
-			print <<<HTML
-	<div class=continuity id=reader
-	data-realtimeurl="$realtimeurl"
-	data-verifyurl="$verifyurl"
-	data-append=top
 	data-continuity="$continuity">
+	<section class="content op">{$posts[0]->toHtml()}</section>
+	<hr />
 
 HTML;
-		} else {
-			print <<<HTML
-	<div class=continuity id=reader
-	data-continuity="$continuity">
-
-HTML;
-	} }
-	foreach ($posts as $post) {
-		if (isset($topic))
-			$linkify = false;
-		else
-			$linkify = true;
-		include "../template/post.php";
-	} print
+		$linkify = false;
+		for ($i = 1; $i < count($posts); $i++) {
+			$post = $posts[$i];
+			include "../template/post.php";
+		}
+		print
 <<<HTML
 	</div>
 
 HTML;
+
+	// Browsing a continuity (reader is in 'continuity' view)
+	} else {
+		print <<<HTML
+	<div class=continuity id=reader
+	data-continuity="$continuity">
+
+HTML;
+		$linkify = true;
+		foreach ($posts as $post) {
+			include "../template/post.php";
+		}
+		print
+<<<HTML
+	</div>
+
+HTML;
+	}
 	if (isset($postmode))
 		// Requires $continuity; $topic optional
 		include "../template/postbox.php";
@@ -200,19 +176,5 @@ HTML;
 </main>
 <script src='<?php print CONFIG_WEBROOT?>js/remote.js'></script>
 <script src='<?php print CONFIG_WEBROOT?>js/esthetic.js'></script>
-<script>
-var reader = document.getElementById('reader');
-var continuity = reader.getAttribute('data-continuity');
-var topic = reader.getAttribute('data-topic');
-
-<?php
-	if (CONFIG_REALTIME_ENABLE) print
-<<<REALTIME_JS
-
-subscribe(reader, continuity, topic);
-
-REALTIME_JS;
-?>
-</script>
 </body>
 </HTML>

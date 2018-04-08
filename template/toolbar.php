@@ -1,6 +1,5 @@
 <?php
-	$home = CONFIG_WEBROOT;
-	if (CONFIG_REALTIME_ENABLE) {
+	if (CONFIG_CLEAN_URL) {
 		$theming = CONFIG_WEBROOT . "info/theme";
 		$help = CONFIG_WEBROOT . "info/help";
 	} else {
@@ -14,16 +13,6 @@
 		<img src="<?php print CONFIG_WEBROOT?>res/home.gif"
 		title=Home>
 	</a>
-<?php
-	if (CONFIG_REALTIME_ENABLE) print
-<<<LATENCY
-	<span id=latency>
-		<span class="bar disconnected"></span>
-		<span class=text></span>
-	</span>
-
-LATENCY;
-?>
 	<a class=hoverbox href=<?php print $theming?>>
 		<img src="<?php print CONFIG_WEBROOT?>res/theme.gif"
 		title=Theming>
@@ -45,8 +34,6 @@ LATENCY;
 		$name = $items[$i]['name'];
 		$desc = $items[$i]['description'];
 		$location = $items[$i]['url'];
-		// Put all items in the DOM (but only
-		// display some) (for JS)
 		if (isset($desc)) print <<<HTML
 	<a class=hoverbox title="$desc" href="$location">$name</a>
 

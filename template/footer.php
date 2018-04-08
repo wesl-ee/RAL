@@ -5,23 +5,16 @@
 <footer>
 <?php
 	if (isset($topic)) {
-		$q = $_GET;
-		unset($q['topic']);
 		if (CONFIG_CLEAN_URL) {
-			$q = http_build_query($q);
-			if (empty($q)) $a =  CONFIG_WEBROOT
-			. "max/" . urlencode($continuity);
-			else $a = CONFIG_WEBROOT
-			. "max/" . urlencode($continuity) . "?$q";
+			$a =  CONFIG_WEBROOT . "max/" . urlencode($continuity);
+		} else {
+			$a = CONFIG_WEBROOT . "max.php?continuity="
+			. urlencode($continuity);
 		}
-		else {
-			$q = http_build_query($q);
-			$a = "?$q";
-		}
-
 		print
 <<<HTML
-	<a href='$a' class=hoverbox>Return</a>
+	<a href="$a" class=hoverbox>Return</a>
+
 HTML;
 
 		$q = $_GET;

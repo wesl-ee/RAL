@@ -8,13 +8,6 @@ if (isset($_POST['theme'])) {
 	CONFIG_COOKIE_TIMEOUT+time(), '/');
 }
 if (count($_POST)) {
-	if (isset($_POST['dnotify']))
-		setcookie('dnotify', 'XXX',
-		CONFIG_COOKIE_TIMEOUT+time(), '/');
-	else
-		setcookie('dnotify', '', 1, '/');
-}
-if (count($_POST)) {
 	header("Location: ?$_SERVER[QUERY_STRING]");
 	die;
 }
@@ -135,18 +128,6 @@ HTML;
 		print <<<HTML
 		</select></dd>
 		</dl>
-		<dl><dt>Desktop Notifications</dt>
-		<dd>
-HTML;
-		if (isset($_COOKIE['dnotify']))
-			print <<<HTML
-		<input type=checkbox checked name=dnotify>
-HTML;
-		else print <<<HTML
-		<input type=checkbox name=dnotify>
-HTML;
-		print <<<HTML
-		</dd></dl>
 		<button class=hoverbox type=submit>Commit</button>
 		</form>
 		</div>
