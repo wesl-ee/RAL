@@ -9,31 +9,31 @@
 ?>
 
 <nav class=toolbar>
-	<a class=hoverbox href="<?php print CONFIG_WEBROOT?>">
+	<a href="<?php print CONFIG_WEBROOT?>">
 		<img src="<?php print CONFIG_WEBROOT?>res/home.gif"
 		title=Home>
 	</a>
-	<a class=hoverbox href=<?php print $theming?>>
+	<a href=<?php print $theming?>>
 		<img src="<?php print CONFIG_WEBROOT?>res/theme.gif"
 		title=Theming>
 	</a>
-	<a class=hoverbox href=<?php print $help?>>
+	<a href=<?php print $help?>>
 		<img src="<?php print CONFIG_WEBROOT?>res/help.gif"
 		title=Help>
 	</a>
-<!--	<a href=<?php print CONFIG_WEBROOT . "feedback"?>>
+	<a href=<?php print CONFIG_WEBROOT . "feedback"?>>
 		<img src="<?php print CONFIG_WEBROOT?>res/ideas.gif"
 		title=Feedback>
-	</a>-->
+	</a>
 </nav>
 <nav class=collection>
 <?php
 	for ($i = 0; $i < count($items); $i++) {
 		// Convert objects into their arrays
 		$items[$i] = (array)$items[$i];
-		$name = $items[$i]['name'];
-		$desc = $items[$i]['description'];
-		$location = $items[$i]['url'];
+		$name = $items[$i]['Name'];
+		$desc = $items[$i]['Description'];
+		$location = $items[$i]['URL'];
 		if (isset($desc)) print <<<HTML
 	<a class=hoverbox title="$desc" href="$location">$name</a>
 

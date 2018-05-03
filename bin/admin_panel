@@ -3,6 +3,7 @@ use strict;
 use DBI;
 use File::Basename;
 use Text::Table;
+use Digest::MD5 'md5_hex';
 
 # Cute formatting; ANSI escape codes
 use constant HOOYA_VERSION => '0.7';
@@ -194,13 +195,10 @@ if ($choice eq 'Continuities') {
 		continue;
 	}
 	my $content = $sth->fetchrow_hashref->{'Content'};
-	my $rails = int(rand(8)+3);
-	my $ciphertext = rail_fence $content, $rails;
-
-	print "Cipher: Rail-fence ($rails rails)\n";
+	$content = md5_hex($content);
 	$sth = $dbh->prepare('UPDATE `Posts` SET `Content`=(?) WHERE'
 	. ' `Continuity`=(?) AND `Id`=(?)');
-	$sth->execute($ciphertext, $choice, $id) or die_error ;
+	$sth->execute($content, $choice, $id) or die_error DBI::errstr;
 	if ($sth->rows) {
 		notify_success "Success: Encrypted $choice/$id";
 	} else {
@@ -249,7 +247,7 @@ if ($choice eq 'Continuities') {
 	}
 } elsif ($choice eq 'Post Details') {
 } elsif ($choice eq 'Miscellany') {
-	$choice = present_choices 'Convert HTML Entities';
+	$choice = present_choices 'Convert HTML Entities', 'Convert Old DB';
 	if ($choice eq 'Convert HTML Entities') {
 		$sth = $dbh->prepare('SELECT `Id`, `Continuity`,'
 		. ' `Content` FROM `Posts`');
@@ -276,6 +274,55 @@ PROMPT
 				$sth2->execute($newcontent, $row->{'Id'},
 				$row->{'Continuity'});
 			}
+		} }
+	} elsif ($choice eq 'Convert Old DB') {
+		$sth = $dbh->prepare('SELECT `Id`, `Continuity`,'
+		. ' `Created`, `Topic`, `Content` FROM `Posts`'
+		. ' WHERE `Id`=`Topic` ORDER BY `Created` ASC');
+		my $sth2 = $dbh->prepare('INSERT INTO `Topics` (`Id`, `Created`,'
+		. ' `Continuity`, `Content`) VALUES'
+		. '((?), (?), (?), (?))');
+		print <<PROMPT;
+Selecting this option will convert the current database to the new format
+introduced in v2.0. This option is only useful if you are upgrading from
+v1.2 or below.
+PROMPT
+		print "Convert DB? (Y/n) ";
+		my $answer = <>; chomp $answer;
+		if ($answer eq 'Y') { $sth->execute() or die DBI::errstr;
+		my $topic = 1;
+		my %topicmap = {};
+		while ($row = $sth->fetchrow_hashref) {
+			$topicmap{"$row->{Continuity}/$row->{Id}"} = $topic;
+			print "Converting [$row->{Continuity}/$row->{Id}]\n";
+			$sth2->execute(
+				$topic,
+				$row->{Created},
+				$row->{Continuity},
+				$row->{Content}
+			); $topic++;
+		}
+		$sth = $dbh->prepare('SELECT `Id`, `Continuity`,'
+		. ' `Created`, `Topic`, `Content` FROM `Posts`'
+		. ' WHERE `Id`!=`Topic` ORDER BY `Topic` ASC, `Created` ASC');
+		$sth2 = $dbh->prepare('INSERT INTO `Replies` (`Id`, `Created`,'
+		. ' `Continuity`, `Topic`, `Content`)'
+		. 'VALUES ((?), (?), (?), (?), (?))');
+		$sth->execute() or die DBI::errstr;
+		my $reply;
+		while ($row = $sth->fetchrow_hashref) {
+			if (!defined $topic || $row->{Topic} != $topic) {
+				$reply = 1;
+				$topic = $row->{Topic};
+			}
+			print "Converting [$row->{Continuity}/$row->{Id}]\n";
+			$sth2->execute(
+				$reply,
+				$row->{Created},
+				$row->{Continuity},
+				$topicmap{"$row->{Continuity}/$row->{Topic}"},
+				$row->{Content}
+			) or die DBI::errstr; $reply++;
 		} }
 	}
 } print "\n"; } while ($choice ne 'Quit');

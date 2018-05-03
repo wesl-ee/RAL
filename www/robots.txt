@@ -1,0 +1,9 @@
+# RAL loves robots (but androids are cuter)
+User-agent: *
+Disallow:
+
+# If you will be using CONFIG_CLEAN_URL, you
+# may use /sitemap, otherwise specify
+# /sitemap.php
+
+# Sitemap: https:ral.space/sitemap.php

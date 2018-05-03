@@ -4,18 +4,35 @@
 */
 function fetch_continuities()
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Name`, `Description`, `Post Count`"
-	. " FROM `Continuities` ORDER BY `Name`";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
-		$ret[] = new continuity($row);
+
+	$query = <<<SQL
+		SELECT `Name`, `Description`, `Post Count`
+		FROM `Continuities` ORDER BY `Name`
+SQL;
+	$res = $dbh->query($query);
+	while ($row = $res->fetch_assoc()) {
+		$ret[] = $row;
+	}
+	return $ret;
+}
+function fetch_overview($continuity)
+{
+	$dbh = $GLOBALS['RM']->getdb();
+	$ret = [];
+
+	$query = <<<SQL
+		SELECT `Year`, COUNT(*) AS `Num` FROM `Topics`
+		WHERE `Continuity`=? GROUP BY `Year`
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('s', $continuity);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	while ($row = $res->fetch_assoc()) {
+		$ret[$row['Year']] = $row['Num'];
 	}
 	return $ret;
 }
@@ -24,19 +41,20 @@ function fetch_continuities()
 */
 function fetch_topics($continuity)
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$continuity = mysqli_real_escape_string($dbh, $continuity);
-	$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-	. ", `Created` AS `Date`, `Auth` FROM `Posts`"
-	. " WHERE `Continuity`='$continuity' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
+
+	$query = <<<SQL
+		SELECT `Id`, `Continuity`, `Topic`, `Content`
+		, `Created`, `Year`, FROM `Topics`
+		WHERE `Continuity`=? ORDER BY `Created` DESC";
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('s', $continuity);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	while ($row = $res->fetch_assoc()) {
 		$ret[] = new post($row);
 	}
 	return $ret;
@@ -46,20 +64,20 @@ function fetch_topics($continuity)
 */
 function fetch_posts($continuity, $topic)
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$continuity = mysqli_real_escape_string($dbh, $continuity);
-	$topic = mysqli_real_escape_string($dbh, $topic);
-	$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-	. ", `Created` AS `Date`, `Auth` FROM `Posts`"
-	. " WHERE `Continuity`='$continuity' AND `Topic`=$topic";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
+
+	$query = <<<SQL
+		SELECT `Id`, `Continuity`, `Topic`, `Content`
+		, `Created` AS `Date`, `Auth` FROM `Posts`
+		WHERE `Continuity`=? AND `Topic`=?
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('si', $continuity, $topic);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	while ($row = $res->fetch_assoc()) {
 		$ret[] = new post($row);
 	}
 	return $ret;
@@ -69,19 +87,19 @@ function fetch_posts($continuity, $topic)
 */
 function fetch_post_nums($continuity, $topic)
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$continuity = mysqli_real_escape_string($dbh, $continuity);
-	$topic = mysqli_real_escape_string($dbh, $topic);
-	$query = "SELECT `Id` FROM `Posts`"
-	. " WHERE `Continuity`='$continuity' AND `Topic`=$topic";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
+
+	$query = <<<SQL
+		SELECT `Id` FROM `Posts`
+		WHERE `Continuity`=? AND `Topic`=?
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('si', $continuity, $topic);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	while ($row = $res->fetch_assoc()) {
 		$ret[] = $row['Id'];
 	}
 	return $ret;
@@ -91,34 +109,39 @@ function fetch_post_nums($continuity, $topic)
 */
 function fetch_topic_nums($continuity)
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$continuity = mysqli_real_escape_string($dbh, $continuity);
-	$query = "SELECT `Id` FROM `Posts`"
-	. " WHERE `Continuity`='$continuity' GROUP BY `Topic` ORDER BY MAX(`Created`) DESC";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
+
+	$query = <<<SQL
+		SELECT `Id` FROM `Posts`
+		WHERE `Continuity`=? GROUP BY `Topic`
+		ORDER BY MAX(`Created`) DESC
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('s', $continuity);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	while ($row = $res->fetch_assoc()) {
 		$ret[] = $row['Id'];
 	}
 	return $ret;
 }
 function fetch_recent_post_nums($n)
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Id` FROM `Posts` ORDER BY `Created` DESC LIMIT $n";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
+
+	$query = <<<SQL
+		SELECT `Id` FROM `Posts` ORDER BY `Created` DESC LIMIT ?
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('i', $n);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	$res = mysqli_query($dbh, $query);
+	while ($row = $res->fetch_assoc()) {
 		$ret[] = $row['Id'];
 	}
 	return $ret;
@@ -128,19 +151,21 @@ function fetch_recent_post_nums($n)
 */
 function fetch_recent_posts($n)
 {
-	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
-		CONFIG_RAL_USERNAME,
-		CONFIG_RAL_PASSWORD,
-		CONFIG_RAL_DATABASE);
-	if (!$dbh) return false;
-	mysqli_set_charset($dbh, 'utf8');
-	$query = "SELECT `Id`, `Continuity`, `Topic`, `Content`"
-	. ", `Created` AS `Date`, `Auth` FROM `Posts` ORDER"
-	. " BY `Date` DESC LIMIT $n";
-	$res = mysqli_query($dbh, $query);
+	$dbh = $GLOBALS['RM']->getdb();
 	$ret = [];
-	while ($row = mysqli_fetch_assoc($res)) {
-		$ret[] = new post($row);
+
+	$query = <<<SQL
+		SELECT `Id`, `Continuity`, `Topic`, `Content`
+		, `Created`, `Year` FROM `Replies` ORDER
+		BY `Created` DESC LIMIT ?
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('i', $n);
+
+	$stmt->execute();
+	$res = $stmt->get_result();
+	while ($row = $res->fetch_assoc()) {
+		$ret[] = new reply($row);
 	}
 	return $ret;
 }

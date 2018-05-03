@@ -1,40 +1,28 @@
 <?php
-$CONFIG_WEBROOT = CONFIG_WEBROOT;
-$pagetitle = str_replace('"', '', $pagetitle);
-$pagedesc = str_replace('"', '', $pagedesc);
-print
+	$WROOT = CONFIG_WEBROOT;
+	$LOCALROOT = CONFIG_LOCALROOT;
+	print
 <<<HTML
 	<meta name=viewport content="width=device-width,
 	maximum-scale=1, minimum-scale=1">
-	<link rel=stylesheet href="${CONFIG_WEBROOT}css/base.css">
-
-
-HTML;
-$theme = get_theme();
-
-$path = dirname(__FILE__);
-if (file_exists("$path/../B4U/js/themes/$theme.js"))
-	print
-<<<HTML
-	<script src="${CONFIG_WEBROOT}js/themes/$theme.js"></script>
+	<link rel=stylesheet href="${WROOT}css/Base.css">
+	<link rel=icon type="image/x-icon" href="${WROOT}favicon.ico">
 
 HTML;
-if (file_exists("$path/../B4U/css/$theme.css"))
-	print
-<<<HTML
-	<link rel=stylesheet href="${CONFIG_WEBROOT}css/$theme.css">
+	if ($theme) print <<<HTML
+	<link rel=stylesheet href="${WROOT}css/$theme.css">
 
 HTML;
-if (file_exists("$path/../B4U/css/favicons/favicon-$theme.ico"))
-	$favicon = "${CONFIG_WEBROOT}css/favicons/"
-	. "favicon-$theme.ico";
-else
-	$favicon = "${CONFIG_WEBROOT}css/favicons/favicon.ico";
-print
-<<<HTML
-	<link rel=icon type="image/x-icon" href="$favicon">
+	if (isset($pagetitle)) print <<<HTML
 	<title>$pagetitle - RAL Neo-Forum Textboard</title>
+
+HTML;
+	if (isset($pagedesc)) print <<<HTML
 	<meta name=description content="$pagedesc"/>
 
 HTML;
-?>
+
+if (file_exists("${LOCALROOT}www/js/themes/$theme.js")) print <<<HTML
+	<script src="${WROOT}js/themes/$theme.js"></script>
+
+HTML;

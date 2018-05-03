@@ -6,7 +6,7 @@ class continuity {
 	public $postcount;
 
 	// Fills in a post's information from a SQL row from `Continuities`
-	public function __construct($row) {
+	public function __construct($row, $year) {
 		$this->name = $row['Name'];
 		$this->description = $row['Description'];
 		$this->postcount = $row['Post Count'];
@@ -16,375 +16,122 @@ class continuity {
 	/* Resolve the continuity to a URL */
 	function resolve() {
 		if (CONFIG_CLEAN_URL)
-			$ret =  CONFIG_WEBROOT . "max/"
+			$ret =  CONFIG_WEBROOT . "view/"
 			. urlencode($this->name);
 		else
-			$ret = CONFIG_WEBROOT . "max.php&continuity="
-			. rawurlencode($this->name);
+			$ret = CONFIG_WEBROOT . "view.php"
+			. "?continuity=" . rawurlencode($this->name);
 		return $ret;
 	}
 }
-class post {
+class year {
+	public $year;
+	public $topics;
+	public $url;
+
+
+	// Fills in a post's information from a SQL row from `Continuities`
+	public function __construct($row, $year) {
+		$this->name = $row['Name'];
+		$this->description = $row['Description'];
+		$this->postcount = $row['Post Count'];
+		$this->url = $this->resolve();
+	}
+
+	/* Resolve the continuity to a URL */
+	function resolve() {
+		if (CONFIG_CLEAN_URL)
+			$ret =  CONFIG_WEBROOT . "view/"
+			. urlencode($this->name);
+		else
+			$ret = CONFIG_WEBROOT . "view.php"
+			. "?continuity=" . rawurlencode($this->name);
+		return $ret;
+	}
+}
+/*class reply {
 	public $id;
 	public $continuity;
 	public $topic;
 	public $content;
 	public $date;
-	public $shortdate;
-	public $auth;
+	public $year;
+	public $humandate;
 	public $url;
 
 	// Fills in a post's information from a SQL row from `Posts`
 	public function __construct($row = null) {
 		if (!$row) return;
-		$time = strtotime($row['Date']);
+		$time = strtotime($row['Created']);
 		$this->id = $row['Id'];
 		$this->continuity = $row['Continuity'];
 		$this->topic = $row['Topic'];
 		$this->content = $row['Content'];
 		$this->date = gmdate(DATE_RSS, $time);
-		$this->shortdate = gmdate('M d Y T', $time);
-		$this->auth = $row['Auth'];
+		$this->humandate = gmdate('M d Y T', $time);
+		$this->year = $row['Year'];
 		$this->url = $this->resolve();
 	}
-	/* Resolve the post to a URL */
 	function resolve() {
 		if (CONFIG_CLEAN_URL)
-			$ret = CONFIG_WEBROOT . "max/"
+			$ret = CONFIG_WEBROOT . "view/"
 			. urlencode($this->continuity) . "/"
+			. urlencode($this->year) . "/"
 			. urlencode($this->topic);
 		else
-			$ret =  CONFIG_WEBROOT
-			. "max.php?continuity="
-			. rawurlencode($this->continuity)
+			$ret =  CONFIG_WEBROOT . "view.php"
+			. "?continuity=" . rawurlencode($this->continuity)
+			. "&year=" . rawurlencode($this->year)
 			. "&topic=" . rawurlencode($this->topic);
-		// Hash only for non-topic posts
-		if ($this->topic != $this->id) $ret .= "#" . $this->id;
+		$ret .= "#" . $this->id;
 		return $ret;
 	}
-	/* Prepare a post for HTML output */
 	public function toHtml() {
-		return paragraphize(
-		bbbbbbb(
-		htmlspecialchars(
-		$this->content)));
+		$bbparser = $GLOBALS['RM']->getbbparser();
+		$bbparser->parse(htmlentities($this->content));
+		return $bbparser->getAsHtml();
 	}
-}
-function paragraphize($string)
-{
-	$contents[] = "<p>";
-	$offset = 0; $a = 0; $preformat = false;
-	while (($a = indexOf($string, "\n", $offset)) >= 0) {
-		/* Capture the text and advance the cursor */
-		$text = substr($string, $offset, $a - $offset - 1);
-		$offset = $a + 1;
+}*/
+/* class topic {
+	public $id;
+	public $continuity;
+	public $content;
+	public $date;
+	public $year;
+	public $humandate;
+	public $url;
 
-		/* Ignore empty paragraphs */
-		if ($text == "") continue;
-
-		/* Is the text pre-formatted? */
-		if (indexOf($text, "<pre>") >= 0) {
-			$contents[] = "</p>";
-			$preformat = true;
-		}
-		if (indexOf($text, "</pre>") >= 0) {
-			$contents[] = "<p>";
-			$preformat = false;
-		}
-
-		/* Append text */
-		$contents[] = $text;
-
-		if ($preformat) {
-			$contents[] = "\n";
-			continue;
-		}
-		/* End the current paragraph and open the next */
-		$contents[] = "</p><p>";
-	} while ($a >= 0);
-	$text = substr($string, $offset);
-	$contents[] = $text;
-	if (indexOf($text, "</pre>") == -1)
-		$contents[] = "</p>";
-	return join($contents);
-}
-/*
- * Magical BBcode parser
-*/
-function bbbbbbb($string)
-{
-	$opened = []; $contents = [];
-	$offset = 0;
-	while (($a = indexOf($string, "[", $offset)) >= 0
-	&& ($b = indexOf($string, "]", $offset)) > $a) {
-		// Push the parsed contents to an array
-		$contents[] = substr($string, $offset, $a - $offset);
-		$tag = substr($string, $a, $b + 1 - $a);
-		$contents[] = $tag;
-
-		// Since we finished scanning the part of the string
-		// that is behind the last seen bracket, advance
-		// the scanning offset
-		$offset = $b + 1;
-
-		// Strip brackets
-		$inside = substr($tag, 1, strlen($tag) - 2);
-
-		// Is this a closing or opening tag?
-		if ($inside{0} == "/") {
-			$tag = substr($inside, 1);
-			if (!count($opened[$tag]))
-				continue;
-			$opening_tag = array_pop($opened[$tag]);
-			$from = $opening_tag["index"];
-			$param = $opening_tag["param"];
-			$to = count($contents) - 1;
-
-			switch($tag) {
-			case  'b':
-				$open = "<strong>";
-				$close = "</strong>";
-				break;
-			case 'i':
-				$open = "<em>";
-				$close = "</em>";
-				break;
-			case 'j':
-			case 'code':
-				$open = "<kbd>";
-				$close = "</kbd>";
-				break;
-			case 'aa':
-				$open = "<pre>";
-				$close = "</pre>";
-				break;
-			case 'spoiler':
-				$open = "<span class=spoiler>";
-				$close = "</span>";
-				break;
-			case 'color':
-				$color = htmlspecialchars($param);
-				$open = "<span style='color:$color'>";
-				$close = "</span>";
-				break;
-			case 'quote':
-				if ($param) {
-					$open = "<blockquote>";
-					$close = "<footer>— "
-					. htmlspecialchars($param)
-					. "</footer><blockquote>";
-				}
-				else {
-					$open = "<blockquote>";
-					$close = "</blockquote>";
-				}
-				break;
-			case 'url':
-				if ($param)
-					$url = htmlspecialchars($param);
-				else $url = htmlspecialchars(join(array_slice(
-					$contents, $from + 1, $to - $from - 1), ''
-				));
-				// Assume http: protocol if none other is given
-				if (indexOf($url, ':') < 0)
-					$url = 'http:' . $url;
-				$open = "<a rel=nofollow href='$url'>";
-				$close = "</a>";
-				break;
-			default: continue;
-			}
-			$contents[$from] = $open;
-			$contents[$to] = $close;
-		} else {
-			if (($c = indexOf($inside, "=")) > 0) {
-				$tag = substr($inside, 0, $c);
-				$param = substr($inside, $c + 1);
-			} else {
-				$tag = $inside;
-				unset($param);
-			}
-			$opened[$tag][] = [
-				"index" => count($contents) - 1,
-				"param" => $param
-			];
-		}
+	// Fills in a post's information from a SQL row from `Posts`
+	public function __construct($row = null) {
+		if (!$row) return;
+		$time = strtotime($row['Created']);
+		$this->id = $row['Id'];
+		$this->continuity = $row['Continuity'];
+		$this->content = $row['Content'];
+		$this->date = gmdate(DATE_RSS, $time);
+		$this->humandate = gmdate('M d Y T', $time);
+		$this->year = $row['Year'];
+		$this->url = $this->resolve();
 	}
-	$contents[] = substr($string, $offset);
-	return join($contents);
-}
-/*
- * Magical BBCode stripping function
-*/
-function bbbbbbbstrip($string)
-{
-	$opened = []; $contents = [];
-	$offset = 0;
-	while (($a = indexOf($string, "[", $offset)) >= 0
-	&& ($b = indexOf($string, "]", $offset)) > $a) {
-		// Push the parsed contents to an array
-		$contents[] = substr($string, $offset, $a - $offset);
-		$tag = substr($string, $a, $b + 1 - $a);
-		$contents[] = $tag;
-
-		// Since we finished scanning the part of the string
-		// that is behind the last seen bracket, advance
-		// the scanning offset
-		$offset = $b + 1;
-
-		// Strip brackets
-		$inside = substr($tag, 1, strlen($tag) - 2);
-
-		// Is this a closing or opening tag?
-		if ($inside{0} == "/") {
-			$tag = substr($inside, 1);
-			if (!count($opened[$tag]))
-				continue;
-			$opening_tag = array_pop($opened[$tag]);
-			$from = $opening_tag["index"];
-			$to = count($contents) - 1;
-
-			switch($tag) {
-			case  'b':
-			case 'i':
-			case 'j':
-			case 'color':
-			case 'quote':
-			case 'url':
-			case 'code':
-				break;
-			default: continue;
-			}
-			unset($contents[$from]);
-			unset($contents[$to]);
-		} else {
-			if (($c = indexOf($inside, "=")) > 0) {
-				$tag = substr($inside, 0, $c);
-			} else {
-				$tag = $inside;
-			}
-			$opened[$tag][] = [
-				"index" => count($contents) - 1,
-			];
-		}
+	function resolve() {
+		if (CONFIG_CLEAN_URL)
+			$ret = CONFIG_WEBROOT . "view/"
+			. urlencode($this->continuity) . "/"
+			. urlencode($this->year) . "/"
+			. urlencode($this->topic);
+		else
+			$ret =  CONFIG_WEBROOT . "view.php"
+			. "?continuity=" . rawurlencode($this->continuity)
+			. "&year=" . rawurlencode($this->year)
+			. "&topic=" . rawurlencode($this->topic);
+		return $ret;
 	}
-	$contents[] = substr($string, $offset);
-	return join($contents);
-}
-/*
- * Renders a paragraph of Perl's Plain Old Documentation in HTML
-*/
-function podparagraph($string)
-{
-	$hint = $string{0};
-	// Command paragraphs begin with an equals sign
-	if ($hint == "=") {
-		$seperator = indexOf($string, ' ', 1);
-		if ($seperator < 0)
-			$seperator = strlen($string);
-		$identifier = substr($string, 1, $seperator - 1);
-		$text = decodepod(substr($string, $seperator + 1));
-		switch($identifier) {
-		case "head1":
-			print "<h1>$text</h1>\n";
-			break;
-		case "head2":
-			print "<h2>$text</h2>\n";
-			break;
-		case "head3":
-			print "<h3>$text</h3>\n";
-			break;
-		case "head4":
-			print "<h4>$text</h4>\n";
-			break;
-		case "over":
-			print "<ul>\n";
-			break;
-		case "item":
-			print "<li>$text</li>\n";
-			break;
-		case "back":
-			print "</ul>\n";
-			break;
-		}
+	public function toHtml() {
+		$bbparser = $GLOBALS['RM']->getbbparser();
+		$bbparser->parse(htmlentities($this->content));
+		return $bbparser->getAsHtml();
 	}
-	// Verbatim paragraphs begin with a space or tabliture
-	else if ($hint == " " || $hint == "\t") {
-		print "<pre>$string</pre>\n";
-	}
-	else {
-		$string = decodepod($string);
-		print "<p>$string</p>\n";
-	}
-}
-function decodepod($string)
-{
-	$offset = 0; unset($ret);
-	while (($a = indexOf($string, "<", $offset)) >= 0
-	&& ($b = indexOf($string, ">", $offset)) > $a) {
-		$ret .= substr($string, $offset, $a - $offset - 1);
-		$tag = $string{$a - 1};
-		$text = substr($string, $a + 1, $b - $a - 1);
-		$offset = $b + 1;
-		switch ($tag) {
-		case "I":
-		case "F":
-			$ret .= "<em>$text</em>";
-			break;
-		case "C":
-			$ret .= "<kbd>$text</kbd>";
-			break;
-		case "B":
-			$ret .= "<strong>$text</strong>";
-			break;
-		case "L":
-			if (($sep = strpos($text, "|")) >= 0) {
-				$href = substr($text, $sep + 1);
-				$text = substr($text, 0, $sep);
-			} else $href = $text;
-			$ret .= "<a href='$href'>$text</a>";
-			break;
-		}
-	}
-	return $ret . substr($string, $offset);
-}
-/*
- * Renders a file of Perl's Plain Old Documentation in HTML
-*/
-function ppppppp($file, $maxlen = 4092)
-{
-	$fh = fopen($file, 'r');
-	while ($line = fgets($fh, $maxlen)) {
-		$hint = $line{0};
-		if ($hint != "=") continue;
-		$seperator = indexOf($line, ' ', 1);
-		if ($seperator < 0)
-			$seperator = strlen($line);
-		$identifier = substr($line, 1, $seperator - 1);
-		$text = substr($line, $seperator + 1);
-		if ($identifier == "head1"
-		|| $identifier == "head2"
-		|| $identifier == "head3"
-		|| $identifier == "head4")
-			$headings[] = [
-				'text' => $text,
-				'level' => substr($identifier,
-				strlen($identifier) - 1)
-			];
-	}
-	$fh = fopen($file, 'r');
-	while ($line = fgets($fh, $maxlen)) {
-		if ($line == "\n") {
-			podparagraph(rtrim($paragraph));
-			unset($paragraph);
-		} else
-			if ($paragraph)
-				$paragraph .= ' ' . $line;
-			else
-				$paragraph = $line;
-	}
-	podparagraph(rtrim($paragraph));
-	fclose($fh);
-}
+}*/
 /*
  * Generate an interesting title for a piece of text
 */
@@ -535,6 +282,7 @@ function indexOf($string, $substring, $offset = 0)
 {
 	$stringlen = strlen($string);
 	$sublen = strlen($substring);
+	if (!$stringlen) return -1;
 	for ($i = $offset, $j = 0; $i < $stringlen; $i++) {
 		if ($string{$i} == $substring{$j}) {
 			if (!(++$j - $sublen))

@@ -1,11 +1,16 @@
 includes/config.php
 
-B4U/robocheck/*
-!B4U/robocheck/.keep
+www/robocheck/*
+!www/robocheck/.keep
 
 tmp/*
 !tmp/robocheck-answers
 tmp/robocheck-answers/*
 !tmp/robocheck-answers/.keep
 
-info/MOTD.pod
+www/continuities/*
+!www/continuities/Example
+
+info/MOTD
+
+includes/jBBCode
