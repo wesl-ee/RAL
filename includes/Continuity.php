@@ -5,65 +5,70 @@ class Continuity {
 	public $PostCount;
 	public $Description;
 
-	/* State */
-	public $year;
-	public $topic;
-
-	public $Posts;
-
 	public function __construct($row) {
 		$this->Name = $row['Name'];
 		$this->PostCount = $row['Post Count'];
 		$this->Description = $row['Description'];
 		return $this;
 	}
-	public function getYears($url = true) {
-		$dbh = $GLOBALS['RM']->getdb();
-		$ret = [];
-		$query = <<<SQL
-			SELECT `Year`, COUNT(*) AS Topics FROM `Topics`
-			WHERE `Continuity`=? GROUP BY `Year` ORDER BY `Year`
-			DESC
-SQL;
-		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('s', $this->Name);
+	public function render() {
+		$href = $this->resolve();
+		$src = $this->getBanner();
+		$alt = $this->Name;
+		$desc = $this->Description;
+		$title = $this->Name;
+		print <<<HTML
+	<article class=continuity-splash>
+		<div class=banner>
+		<a href="$href">
+			<img height=150 width=380
+			title="$title" alt="$alt"
+			src="$src" />
+		</a>
+		</div>
+		<span class=description>
+			$desc
+		</span>
+	</article>
 
-		$stmt->execute();
-		$res = $stmt->get_result();
-		$oldyear = $this->year;
-		while ($row = $res->fetch_assoc()) {
-			$this->year = $row['Year'];
-			$this->Posts = $row['Topics'];
-			$ret[] = [
-				'Year' => $this->year,
-				'URL' => $this->resolve(),
-				'Topics' => $this->Posts,
-			];
-		}
-		$this->year = $oldyear;
-		return $ret;
+HTML;
+	}
+	public function renderSelection($items) {
+		print <<<HTML
+	<main class=continuity-splashes>
+HTML;
+		foreach ($items as $i) $i->render();
+		print <<<HTML
+	</main>
+HTML;
 	}
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
+		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
+			. rawurlencode($this->Name);
+		else return "{$WROOT}view.php"
+			. "?continuity=" . urlencode($this->Name);
+	}
+	public function resolveComposer() {
 		if ($this->year)
 		if ($this->topic)
-		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
+		if (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
 			. rawurlencode($this->Name)
 			. rawurlencode($this->year) . "/"
 			. rawurlencode($this->Topic);
-		else return "{$WROOT}view.php"
+		else return "{$WROOT}composer.php"
 			. "?continuity=" . urlencode($this->Name)
 			. "&year=" .  urlencode($this->year)
 			. "&topic=" . urlencode($this->Topic);
-		elseif (CONFIG_CLEAN_URL) return "{$WROOT}view/"
+		elseif (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
 			. rawurlencode($this->Name) . "/"
 			. rawurlencode($this->year);
-		else return "{$WROOT}view.php"
+		else return "{$WROOT}composer.php"
 			. "?continuity=" . urlencode($this->Name)
 			. "&year=" . urlencode($this->year);
-		elseif (CONFIG_CLEAN_URL) return "{$WROOT}view/"
+		elseif (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
 			. rawurlencode($this->Name);
-		else return "{$WROOT}view.php"
+		else return "{$WROOT}composer.php"
 			. "?continuity=" . urlencode($this->Name);
 	}
 	public function getBanner() {
@@ -74,6 +79,7 @@ SQL;
 		return CONFIG_WEBROOT
 		. "continuities/{$this->Name}/theme.css";
 	}
+
 	public function getAsListItem() {
 		return [
 			'Name' => $this->Name,
@@ -85,14 +91,16 @@ SQL;
 	}
 
 	/* HTML Output */
-	public function drawBanner() {
+	public function renderBanner() {
 		$href = $this->resolve();
 		$src = $this->getBanner();
 		$alt = $this->Name;
+		$title = $this->Name;
 		print <<<HTML
 	<div class=banner><a href="$href">
 		<img height=150 width=380
 		src="$src"
+		title="$title"
 		alt="$alt"/>
 	</a></div>
 
@@ -103,12 +111,14 @@ HTML;
 		$src = $this->getBanner();
 		$alt = $this->Name;
 		$desc = $this->Description;
+		$title = $this->Name;
 		print <<<HTML
 	<article class=continuity-splash>
 		<div class=banner>
 		<a href="$href">
 			<img height=150 width=380
-			src="$src" alt="$alt"/>
+			title="$title" alt="$alt"
+			src="$src" />
 		</a>
 		</div>
 		<span class=description>
@@ -118,12 +128,21 @@ HTML;
 
 HTML;
 	}
+	public function drawComposeInvitation() {
+		$href = $this->resolveComposer();
+		print <<<HTML
+		<nav>
+		[ <a href="$href">Post Here</a> ]
+		</nav>
+
+HTML;
+	}
 	public function drawContent() {
 		$ROOT = CONFIG_LOCALROOT;
 		if (isset($this->topic)) {
 			print $this->topic;
 		} if (isset ($this->year)) {
-			print $this->year;
+			include "{$ROOT}template/ContinuityYear.php";
 		} else {
 			include "{$ROOT}template/ContinuityOverview.php";
 		}

@@ -12,6 +12,15 @@ h1, h2, h3, h4, h5, h6 {
 header, footer {
 	text-align: center;
 }
+table, tr, td, th {
+	border: 1px solid;
+	border-collapse: collapse;
+	padding: 3px;
+	text-align: center;
+}
+main table {
+	margin: auto;
+}
 .continuity-splashes {
 	display: flex;
 	flex-flow: row wrap;
@@ -23,6 +32,18 @@ header, footer {
 	margin: 5px;
 	padding: 10px;
 	border: 3px double;
+	border-radius: 5px 0;
+}
+.continuity-year {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	align-items: center;
+}
+main article {
+	border: 3px double;
+	padding: 10px;
+	margin: 5px;
 	border-radius: 5px 0;
 }
 .banner img {

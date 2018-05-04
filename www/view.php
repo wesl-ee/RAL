@@ -1,45 +1,43 @@
 <?php
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/Continuity.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 
 $iterator = new RAL\ContinuityIterator();
 
 // Which continuity we are reading
-$cname = urldecode($_GET['continuity']);
-// Which topic (if any) we are reading
-$topic = @$_GET['topic'];
+$continuity = urldecode($_GET['continuity']);
 // Which year are we browsing?
 $year = @$_GET['year'];
+// Which topic (if any) we are reading
+$topic = @$_GET['topic'];
 
-if (!$cname || !$iterator->fetchContinuity($cname)) {
+if (!$continuity || !$iterator->select($continuity, $year, $topic)) {
 	http_response_code(404);
 	include "{$ROOT}template/404.php";
 	die;
 }
-$continuity = $iterator->fetchContinuity($cname);
 
 ?>
 <!DOCTYPE HTML>
 <HTML>
 <head>
 <?php
-	$pagetitle = "[$cname]";
+	$pagetitle = "[$continuity]";
 	$pagedesc = "DEVELOPER MODE";
 	include "{$ROOT}template/head.php";
 ?>
 </head>
-<body><main>
+<body>
 <header>
-<?php $continuity->drawBanner(); ?>
+<?php $iterator->renderBanner(); ?>
 <ol vocab='http://schema.org/' typeof=BreadcrumbList
 class=breadcrumb>[
 <?php
 	$href = CONFIG_WEBROOT; $name = 'RAL'; $position = 1;
 	include "{$ROOT}template/BreadCrumbItem.php";
 
-	$href = $continuity->resolve(); $name = $cname; $position = 2;
+	$href = $iterator->Continuity->resolve(); $name = $continuity; $position = 2;
 	include "{$ROOT}template/BreadCrumbItem.php";
 
 	if (isset($year)) {
@@ -52,17 +50,18 @@ class=breadcrumb>[
 		include "{$ROOT}template/BreadCrumbItem.php";
 	}
 ?>
-]</ol></header>
+]</ol>
+
+</header>
 <nav class=info-links>
 	[ <a href>About</a>
 	| <a href>IRC</a>
 	| <a href>Settings</a> ]
 </nav><hr />
 <?php
-
-$continuity->drawContent();
+/* $iterator->drawComposeInvitation(); */
+$iterator->render();
 ?>
-</main>
 <hr /><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
 </footer>

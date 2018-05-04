@@ -1,7 +1,6 @@
 <?php
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/Continuity.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 
 $iterator = new RAL\ContinuityIterator();
@@ -53,12 +52,11 @@ HREF;
 
 HTML;
 	}
-?><main class=continuity-splashes>
+?>
 <?php
-	foreach ($iterator->continuities as $c) {
-		$c->drawSplash();
-	}
-?></main>
+	$iterator->select();
+	$iterator->render();
+?>
 <hr /><footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
