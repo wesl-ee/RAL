@@ -290,6 +290,9 @@ PROMPT
 		print "Convert DB? (Y/n) ";
 		my $answer = <>; chomp $answer;
 		if ($answer eq 'Y') { $sth->execute() or die DBI::errstr;
+		$dbh->do("CREATE TABLE `Topics` ( `Id` INT(11) NOT NULL, `Created` DATETIME DEFAULT current_timestamp(), `Continuity` VARCHAR(16) NOT NULL,`Content` TEXT NOT NULL DEFAULT '', `Replies` INT(11) DEFAULT  0, `Year` INT(4) DEFAULT YEAR(`Created`), PRIMARY KEY (`Continuity`, `Year`, `Id`) )") or die DBI::errstr;
+		$dbh->do("CREATE TABLE `Replies` ( `Id` INT(11) NOT NULL, `Created` DATETIME DEFAULT CURRENT_TIMESTAMP(), Continuity VARCHAR(16) NOT NULL, `Year` INT(4) DEFAULT YEAR(`Created`), `Topic` INT(11) NOT NULL, `Content` TEXT NOT NULL DEFAULT '', PRIMARY KEY (`Continuity`, `Year`, `Topic`, `Id`) )") or die DBI::errstr;
+
 		my $topic = 1;
 		my %topicmap = {};
 		while ($row = $sth->fetchrow_hashref) {
@@ -304,7 +307,7 @@ PROMPT
 		}
 		$sth = $dbh->prepare('SELECT `Id`, `Continuity`,'
 		. ' `Created`, `Topic`, `Content` FROM `Posts`'
-		. ' WHERE `Id`!=`Topic` ORDER BY `Topic` ASC, `Created` ASC');
+		. ' ORDER BY `Topic` ASC, `Created` ASC');
 		$sth2 = $dbh->prepare('INSERT INTO `Replies` (`Id`, `Created`,'
 		. ' `Continuity`, `Topic`, `Content`)'
 		. 'VALUES ((?), (?), (?), (?), (?))');

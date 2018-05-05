@@ -9,7 +9,7 @@
 	<link rel=icon type="image/x-icon" href="${WROOT}favicon.ico">
 
 HTML;
-	if ($theme) print <<<HTML
+	if (@$theme) print <<<HTML
 	<link rel=stylesheet href="${WROOT}css/$theme.css">
 
 HTML;
@@ -22,7 +22,7 @@ HTML;
 
 HTML;
 
-if (file_exists("${LOCALROOT}www/js/themes/$theme.js")) print <<<HTML
+if (@file_exists("${LOCALROOT}www/js/themes/$theme.js")) print <<<HTML
 	<script src="${WROOT}js/themes/$theme.js"></script>
 
 HTML;

@@ -31,18 +31,18 @@ main table {
 	text-align: center;
 	margin: 5px;
 	padding: 10px;
-	border: 3px double;
 	border-radius: 5px 0;
 }
-.continuity-year {
+main.flex {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
 	align-items: center;
 }
+main.flex > * {
+	flex: 1 1 auto;
+}
 main article {
-	border: 3px double;
-	padding: 10px;
 	margin: 5px;
 	border-radius: 5px 0;
 }
@@ -55,6 +55,15 @@ main article {
 }
 .info-links {
 	text-align: right;
+}
+.info-links > *, .breadcrumb > * {
+	border-style: solid;
+	border-color: black;
+	border-width: 1px 1px 1px 0;
+	padding: 0 8px;
+}
+.info-links > *:first-child, .breadcrumb > *:first-child {
+	border-width: 1px;
 }
 /* Navigation breadcrumb at the page top */
 .breadcrumb {

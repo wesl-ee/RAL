@@ -2,6 +2,7 @@
 include 'Continuity.php';
 include 'Year.php';
 include 'Topic.php';
+include 'Reply.php';
 class ContinuityIterator {
 	// State
 	public $Continuity;
@@ -19,6 +20,7 @@ class ContinuityIterator {
 
 		if (!$continuity) {
 			$query = <<<SQL
+
 			SELECT `Name`, `Post Count`, `Description` FROM
 			`Continuities`
 SQL;
@@ -38,9 +40,9 @@ SQL;
 			$this->Continuity = new Continuity($row);
 
 			$query = <<<SQL
-			SELECT `Year`, COUNT(*) AS Count FROM `Topics`
-			WHERE `Continuity`=? GROUP BY `Year` ORDER BY `Year`
-			DESC
+			SELECT `Continuity`, `Year`, COUNT(*) AS Count FROM
+			`Topics` WHERE `Continuity`=? GROUP BY `Year` ORDER BY
+			`Year` DESC
 SQL;
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('s', $continuity);
@@ -50,8 +52,27 @@ SQL;
 				$this->Selection[] = new Year($row);
 			}
 		} elseif (!$topic) {
-			$this->Continuity = new Continuity($continuity);
-			$this->Year = new Continuity($Year);
+			$query = <<<SQL
+			SELECT `Name`, `Post Count`, `Description` FROM
+			`Continuities` WHERE `Name`=?
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('s', $continuity);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			$this->Continuity = new Continuity($row);
+
+			$query = <<<SQL
+			SELECT `Continuity`, `Year`, COUNT(*) AS Count FROM
+			`Topics` WHERE `Continuity`=? AND `Year`=? GROUP BY
+			`Year` ORDER BY `Year` DESC
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('si', $continuity, $year);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			$this->Year = new Year($row);
+
 			$query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Content`
 			, `Replies`, `Year` FROM `Topics` WHERE `Continuity`=?
@@ -64,6 +85,52 @@ SQL;
 			while ($row = $res->fetch_assoc()) {
 				$this->Selection[] = new Topic($row);
 			}
+		} else {
+			$query = <<<SQL
+			SELECT `Name`, `Post Count`, `Description` FROM
+			`Continuities` WHERE `Name`=?
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('s', $continuity);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			$this->Continuity = new Continuity($row);
+
+			$query = <<<SQL
+			SELECT `Continuity`, `Year`, COUNT(*) AS Count FROM
+			`Topics` WHERE `Continuity`=? AND `Year`=? GROUP BY
+			`Year` ORDER BY `Year` DESC
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('si', $continuity, $year);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			$this->Year = new Year($row);
+
+			$query = <<<SQL
+			SELECT `Id`, `Created`, `Continuity`, `Content`
+			, `Replies`, `Year` FROM `Topics` WHERE `Continuity`=?
+			AND `Year`=? AND `Id`=? ORDER BY `Created` DESC
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('sii', $continuity, $year, $topic);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			$this->Topic = new Topic($row);
+
+			$query = <<<SQL
+			SELECT `Id`, `Continuity`, `Topic`, `Content`
+			, `Created`, `Year` FROM `Replies`
+			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('sii', $continuity, $year, $topic);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			while ($row = $res->fetch_assoc()) {
+				$this->Selection[] = new Reply($row);
+			}
+
 		} return $dbh->affected_rows;
 	}
 	public function render() {

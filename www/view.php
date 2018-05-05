@@ -32,7 +32,7 @@ if (!$continuity || !$iterator->select($continuity, $year, $topic)) {
 <header>
 <?php $iterator->renderBanner(); ?>
 <ol vocab='http://schema.org/' typeof=BreadcrumbList
-class=breadcrumb>[
+class=breadcrumb>
 <?php
 	$href = CONFIG_WEBROOT; $name = 'RAL'; $position = 1;
 	include "{$ROOT}template/BreadCrumbItem.php";
@@ -41,22 +41,17 @@ class=breadcrumb>[
 	include "{$ROOT}template/BreadCrumbItem.php";
 
 	if (isset($year)) {
-		$continuity->year = $year;
-		$href = $continuity->resolve(); $name = $year; $position = 3;
+		$href = $iterator->Year->resolve(); $name = $year; $position = 3;
 		include "{$ROOT}template/BreadCrumbItem.php";
 	} if (isset($topic)) {
-		$continuity->topic = $topic;
-		$href = $continuity->resolve(); $name = $topic; $position = 4;
+		$href = $iterator->Topic->resolve(); $name = $topic; $position = 4;
 		include "{$ROOT}template/BreadCrumbItem.php";
 	}
 ?>
-]</ol>
-
+</ol>
 </header>
 <nav class=info-links>
-	[ <a href>About</a>
-	| <a href>IRC</a>
-	| <a href>Settings</a> ]
+<a href>About</a><a href>IRC</a><a href>Settings</a>
 </nav><hr />
 <?php
 /* $iterator->drawComposeInvitation(); */

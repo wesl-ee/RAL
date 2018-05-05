@@ -34,9 +34,7 @@ HREF;
 	<span>Neo-Forum Textboard</span>
 </header>
 <nav class=info-links>
-	[ <a href>About</a>
-	| <a href>IRC</a>
-	| <a href>Settings</a> ]
+<a href>About</a><a href>IRC</a><a href>Settings</a>
 </nav><hr />
 <?php
 	$motd = "{$ROOT}info/MOTD";
