@@ -42,9 +42,18 @@ main.flex {
 main.flex > * {
 	flex: 1 1 auto;
 }
-main article {
+.post {
 	margin: 5px;
-	border-radius: 5px 0;
+	padding: 0 5px;
+	border-style: solid;
+	border-width: 0 0 0 1px;
+}
+
+.post .expand {
+	float: right;
+	padding: 5px 5px 4px 5px;
+	border-style: solid;
+	border-width: 1px 1px 0 1px;
 }
 .banner img {
 	display: block;
@@ -99,6 +108,9 @@ a:hover {
 }
 .continuity-splash {
 	background-color: white;
+}
+.post .id {
+	color: Green;
 }
 
 /* Animations */

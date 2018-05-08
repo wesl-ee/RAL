@@ -33,14 +33,11 @@ class Topic {
 		$bbparser->parse(htmlentities($this->Content));
 		$href = $this->resolve();
 		print <<<HTML
-	<article>
+	<article class=post>
 		<nav>
-			<a href="$href" class=id>[
-				$this->Continuity /
-				$this->Year /
-				$this->Id
-			]</a>
+			<span class=id>$this->Id.</span>
 			<date>$this->Created</date>
+			<a href="$href" class=expand>Expand Topic</a>
 		</nav><hr />
 		{$bbparser->getAsHtml()}
 	</article>

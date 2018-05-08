@@ -31,13 +31,9 @@ class Reply {
 		$bbparser = $GLOBALS['RM']->getbbparser();
 		$bbparser->parse(htmlentities($this->Content));
 		print <<<HTML
-	<article>
+	<article class=post>
 		<nav>
-			<span class=id>[
-				$this->Continuity /
-				$this->Year /
-				$this->Id
-			]</span>
+			<span class=id>$this->Id.</span>
 			<date>$this->Created</date>
 		</nav><hr />
 		{$bbparser->getAsHtml()}
