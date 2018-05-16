@@ -1,9 +1,11 @@
 <?php namespace RAL;
 include 'jBBCode/Parser.php';
+include 'LineBreakVisitor.php';
 
 class ResourceManager {
 	public $raldb;
 	public $bbparser;
+	public $linebreakvisitor;
 
 	function getdb() {
 		if ($this->raldb) return $this->raldb;
@@ -81,5 +83,10 @@ class ResourceManager {
 
 		$this->bbparser = $bbparser;
 		return $this->bbparser;
+	}
+	function getLineBreakVisitor() {
+		if ($this->linebreakvisitor) return $this->linebreakvisitor;
+		$this->linebreakvisitor =  new \JBBCode\Visitors\LineBreakVisitor();
+		return $this->linebreakvisitor;
 	}
 }

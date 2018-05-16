@@ -96,8 +96,7 @@ sub rail_fence {
 my ($CONFIG_RAL_SERVER,
 $CONFIG_RAL_USERNAME,
 $CONFIG_RAL_PASSWORD,
-$CONFIG_RAL_DATABASE,
-$CONFIG_ADMIN_NAME);
+$CONFIG_RAL_DATABASE);
 my $incfile =  dirname($0) . "/../includes/config.php";
 open(FILE, $incfile);
 while (<FILE>) {
@@ -105,7 +104,6 @@ while (<FILE>) {
 	$CONFIG_RAL_USERNAME = $1 if (/"CONFIG_RAL_USERNAME", ["'](.+)["']/);
 	$CONFIG_RAL_PASSWORD = $1 if (/["']CONFIG_RAL_PASSWORD["'], ["'](.+)["']/);
 	$CONFIG_RAL_DATABASE = $1 if (/["']CONFIG_RAL_DATABASE["'], ["'](.+)["']/);
-	$CONFIG_ADMIN_NAME = $1 if (/["']CONFIG_ADMIN_NAME["'], ["'](.+)["']/);
 }
 close(FILE);
 
@@ -131,8 +129,10 @@ while ($row = $sth->fetchrow_hashref) {
 }
 
 print FG_CYAN
-. "Welcome home $CONFIG_ADMIN_NAME\n"
-. FG_DEFAULT;
+. "RAL Admin Panel\n"
+. FG_DEFAULT
+. "---------------\n";
+
 
 my $choice;
 do {
@@ -177,7 +177,10 @@ if ($choice eq 'Continuities') {
 		$sth = $dbh->prepare('DELETE FROM `Continuities` WHERE'
 		. ' `Name`=(?)');
 		$sth->execute($choice) or die_error DBI::errstr;
-		$sth = $dbh->prepare('DELETE FROM `Posts` WHERE'
+		$sth = $dbh->prepare('DELETE FROM `Replies` WHERE'
+		. ' `Continuity`=(?)');
+		$sth->execute($choice) or die_error DBI::errstr;
+		$sth = $dbh->prepare('DELETE FROM `Topics` WHERE'
 		. ' `Continuity`=(?)');
 		$sth->execute($choice) or die_error DBI::errstr;
 		notify_success "Deleted $choice and all its posts";
@@ -290,8 +293,48 @@ PROMPT
 		print "Convert DB? (Y/n) ";
 		my $answer = <>; chomp $answer;
 		if ($answer eq 'Y') { $sth->execute() or die DBI::errstr;
-		$dbh->do("CREATE TABLE `Topics` ( `Id` INT(11) NOT NULL, `Created` DATETIME DEFAULT current_timestamp(), `Continuity` VARCHAR(16) NOT NULL,`Content` TEXT NOT NULL DEFAULT '', `Replies` INT(11) DEFAULT  0, `Year` INT(4) DEFAULT YEAR(`Created`), PRIMARY KEY (`Continuity`, `Year`, `Id`) )") or die DBI::errstr;
-		$dbh->do("CREATE TABLE `Replies` ( `Id` INT(11) NOT NULL, `Created` DATETIME DEFAULT CURRENT_TIMESTAMP(), Continuity VARCHAR(16) NOT NULL, `Year` INT(4) DEFAULT YEAR(`Created`), `Topic` INT(11) NOT NULL, `Content` TEXT NOT NULL DEFAULT '', PRIMARY KEY (`Continuity`, `Year`, `Topic`, `Id`) )") or die DBI::errstr;
+		my $statement = <<SQL;
+		CREATE TABLE `Topics` (
+			`Id` INT(11) NOT NULL,
+			`Created` DATETIME DEFAULT current_timestamp(),
+			`Continuity` VARCHAR(16) NOT NULL,
+			`Content` TEXT NOT NULL DEFAULT '',
+			`Replies` INT(11) DEFAULT  0,
+			`Year` INT(4) DEFAULT YEAR(`Created`),
+			PRIMARY KEY (`Continuity`, `Year`, `Id`) )
+SQL
+		$dbh->do($statement) or die DBI::errstr;
+		$statement = <<SQL;
+		CREATE TABLE `Replies` (
+			`Id` INT(11) NOT NULL,
+			`Created` DATETIME DEFAULT CURRENT_TIMESTAMP(),
+			`Continuity` VARCHAR(16) NOT NULL,
+			`Year` INT(4) DEFAULT YEAR(`Created`),
+			`Topic` INT(11) NOT NULL,
+			`Content` TEXT NOT NULL DEFAULT '',
+			PRIMARY KEY (`Continuity`, `Year`, `Topic`, `Id`) )
+SQL
+		$dbh->do($statement) or die DBI::errstr;
+		$statement = <<SQL;
+		CREATE TRIGGER new_reply AFTER INSERT ON Replies
+		FOR EACH ROW
+			UPDATE Topics SET Replies = Replies + 1
+			WHERE Topics.Id=NEW.Topic
+SQL
+		$dbh->do($statement) or die DBI::errstr;
+
+		my $firstpost = <<POST;
+CONCAT("Welcome to the [i]", NEW.Name, "[/i] continuiity.
+Here you will find topics about [i]", NEW.description, "[/i].
+I hope you will enjoy your time here!")
+POST
+		$statement = <<SQL;
+		CREATE TRIGGER new_continuity AFTER INSERT ON Continuities
+		FOR EACH ROW
+			INSERT INTO Topics (`Id`, `Created`, `Continuity`, `Content`)
+			VALUES (1, CURRENT_TIMESTAMP(), NEW.Name, $firstpost)
+SQL
+		$dbh->do($statement) or die DBI::errstr;
 
 		my $topic = 1;
 		my %topicmap = {};
@@ -307,7 +350,7 @@ PROMPT
 		}
 		$sth = $dbh->prepare('SELECT `Id`, `Continuity`,'
 		. ' `Created`, `Topic`, `Content` FROM `Posts`'
-		. ' ORDER BY `Topic` ASC, `Created` ASC');
+		. ' WHERE Topic!=Id ORDER BY `Topic` ASC, `Created` ASC');
 		$sth2 = $dbh->prepare('INSERT INTO `Replies` (`Id`, `Created`,'
 		. ' `Continuity`, `Topic`, `Content`)'
 		. 'VALUES ((?), (?), (?), (?), (?))');

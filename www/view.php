@@ -12,7 +12,8 @@ $year = @$_GET['year'];
 // Which topic (if any) we are reading
 $topic = @$_GET['topic'];
 
-if (!$continuity || !$iterator->select($continuity, $year, $topic)) {
+$iterator->select($continuity, $year, $topic);
+if (!$continuity) {
 	http_response_code(404);
 	include "{$ROOT}template/404.php";
 	die;
@@ -50,12 +51,11 @@ class=breadcrumb>
 ?>
 </ol>
 </header>
-<nav class=info-links>
-<a href>About</a><a href>IRC</a><a href>Settings</a>
-</nav><hr />
+<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
 <?php
-/* $iterator->drawComposeInvitation(); */
+$iterator->renderPostButton();
 $iterator->render();
+$iterator->renderPostButton();
 ?>
 <hr /><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>

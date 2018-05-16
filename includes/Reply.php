@@ -5,13 +5,17 @@ class Reply {
 	public $Year;
 	public $Content;
 	public $Created;
-	function __construct($row) {
+
+	public $Parent;
+	function __construct($row, $parent) {
 		$this->Id = $row['Id'];
 		$this->Continuity = $row['Continuity'];
 		$this->Year = $row['Year'];
 		$this->Topic = $row['Topic'];
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
+
+		$this->Parent = $parent;
 	}
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
@@ -28,20 +32,20 @@ class Reply {
 	}
 
 	public function render() {
-		$bbparser = $GLOBALS['RM']->getbbparser();
-		$bbparser->parse(htmlentities($this->Content));
+		$content = $this->getContentAsHtml();
 		print <<<HTML
 	<article class=post>
 		<nav>
 			<span class=id>$this->Id.</span>
 			<date>$this->Created</date>
 		</nav><hr />
-		{$bbparser->getAsHtml()}
+		{$content}
 	</article>
 
 HTML;
 	}
 	public function renderSelection($items) {
+		$this->Parent->renderOP();
 		print <<<HTML
 	<main class=flex>
 HTML;
@@ -49,5 +53,12 @@ HTML;
 		print <<<HTML
 	</main>
 HTML;
+	}
+	public function getContentAsHtml() {
+		$bbparser = $GLOBALS['RM']->getbbparser();
+		$visitor = $GLOBALS['RM']->getLineBreakVisitor();
+		$bbparser->parse(htmlentities($this->Content));
+		$bbparser->accept($visitor);
+		return $bbparser->getAsHtml();
 	}
 }

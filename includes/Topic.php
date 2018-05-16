@@ -28,9 +28,19 @@ class Topic {
 			. "&year=" . urlencode($this->Year)
 			. "&topic=" . urlencode($this->Id);
 	}
+	public function resolveComposer() {
+		$WROOT = CONFIG_WEBROOT;
+		if (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
+			. rawurlencode($this->Continuity) . '/'
+			. rawurlencode($this->Year) . '/'
+			. rawurlencode($this->Id);
+		else return "{$WROOT}composer.php"
+			. "?continuity=" . urlencode($this->Continuity)
+			. "&year=" . urlencode($this->Year)
+			. "&topic=" . urlencode($this->Id);
+	}
 	public function render() {
-		$bbparser = $GLOBALS['RM']->getbbparser();
-		$bbparser->parse(htmlentities($this->Content));
+		$content = $this->getContentAsHtml();
 		$href = $this->resolve();
 		print <<<HTML
 	<article class=post>
@@ -39,7 +49,20 @@ class Topic {
 			<date>$this->Created</date>
 			<a href="$href" class=expand>Expand Topic</a>
 		</nav><hr />
-		{$bbparser->getAsHtml()}
+		{$content}
+	</article>
+
+HTML;
+	}
+	public function renderOP() {
+		$content = $this->getContentAsHtml();
+		print <<<HTML
+	<article class=op>
+		<nav>
+			<span class=id>OP</span>
+			<date>$this->Created</date>
+		</nav><hr />
+		{$content}
 	</article>
 
 HTML;
@@ -52,5 +75,21 @@ HTML;
 		print <<<HTML
 	</main>
 HTML;
+	}
+	public function drawPostButton() {
+		$href = $this->resolveComposer();
+		print <<<HTML
+		<nav class=info-links>
+		<a class=post-button href="$href">Reply</a>
+		</nav>
+
+HTML;
+	}
+	public function getContentAsHtml() {
+		$bbparser = $GLOBALS['RM']->getbbparser();
+		$visitor = $GLOBALS['RM']->getLineBreakVisitor();
+		$bbparser->parse(htmlentities($this->Content));
+		$bbparser->accept($visitor);
+		return $bbparser->getAsHtml();
 	}
 }

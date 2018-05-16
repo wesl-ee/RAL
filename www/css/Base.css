@@ -33,6 +33,10 @@ main table {
 	padding: 10px;
 	border-radius: 5px 0;
 }
+.continuity-splash .title {
+	font-size: 1.5em;
+	font-weight: bold;
+}
 main.flex {
 	display: flex;
 	flex-flow: row wrap;
@@ -42,12 +46,12 @@ main.flex {
 main.flex > * {
 	flex: 1 1 auto;
 }
-.post {
+.op, .post {
 	margin: 5px;
 	padding: 0 5px;
-	border-style: solid;
-	border-width: 0 0 0 1px;
 }
+.post { border-width: 0 0 0 1px; border-style: solid; }
+.op { border-width: 0 0 0 3px; border-style: double; padding: 5px; }
 
 .post .expand {
 	float: right;
@@ -63,11 +67,13 @@ main.flex > * {
 	display: inline-block;
 }
 .info-links {
+	padding: 10px 0;
+}
+.info-links.right {
 	text-align: right;
 }
 .info-links > *, .breadcrumb > * {
 	border-style: solid;
-	border-color: black;
 	border-width: 1px 1px 1px 0;
 	padding: 0 8px;
 }
@@ -109,7 +115,7 @@ a:hover {
 .continuity-splash {
 	background-color: white;
 }
-.post .id {
+.id {
 	color: Green;
 }
 

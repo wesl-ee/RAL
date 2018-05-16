@@ -128,10 +128,9 @@ SQL;
 			$stmt->execute();
 			$res = $stmt->get_result();
 			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Reply($row);
+				$this->Selection[] = new Reply($row, $this->Topic);
 			}
-
-		} return $dbh->affected_rows;
+		}
 	}
 	public function render() {
 		$this->Selection[0]->renderSelection($this->Selection);
@@ -139,5 +138,11 @@ SQL;
 	public function renderBanner() {
 		if (isset($this->Continuity))
 			$this->Continuity->renderBanner();
+	}
+	public function renderPostButton() {
+		if (isset($this->Topic))
+			$this->Topic->drawPostButton();
+		else if (isset($this->Continuity))
+			$this->Continuity->drawPostButton();
 	}
 }

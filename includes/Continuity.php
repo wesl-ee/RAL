@@ -16,7 +16,7 @@ class Continuity {
 		$src = $this->getBanner();
 		$alt = $this->Name;
 		$desc = $this->Description;
-		$title = $this->Name;
+		$title = "[{$this->Name}]";
 		print <<<HTML
 	<article class=continuity-splash>
 		<div class=banner>
@@ -26,6 +26,9 @@ class Continuity {
 			src="$src" />
 		</a>
 		</div>
+		<span class=title>
+			$title
+		</span><br />
 		<span class=description>
 			$desc
 		</span>
@@ -50,23 +53,7 @@ HTML;
 			. "?continuity=" . urlencode($this->Name);
 	}
 	public function resolveComposer() {
-		if ($this->year)
-		if ($this->topic)
 		if (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
-			. rawurlencode($this->Name)
-			. rawurlencode($this->year) . "/"
-			. rawurlencode($this->Topic);
-		else return "{$WROOT}composer.php"
-			. "?continuity=" . urlencode($this->Name)
-			. "&year=" .  urlencode($this->year)
-			. "&topic=" . urlencode($this->Topic);
-		elseif (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
-			. rawurlencode($this->Name) . "/"
-			. rawurlencode($this->year);
-		else return "{$WROOT}composer.php"
-			. "?continuity=" . urlencode($this->Name)
-			. "&year=" . urlencode($this->year);
-		elseif (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
 			. rawurlencode($this->Name);
 		else return "{$WROOT}composer.php"
 			. "?continuity=" . urlencode($this->Name);
@@ -128,11 +115,11 @@ HTML;
 
 HTML;
 	}
-	public function drawComposeInvitation() {
+	public function drawPostButton() {
 		$href = $this->resolveComposer();
 		print <<<HTML
-		<nav>
-		[ <a href="$href">Post Here</a> ]
+		<nav class=info-links>
+		<a class=post-button href="$href">Create a Topic</a>
 		</nav>
 
 HTML;

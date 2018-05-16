@@ -1,0 +1,10 @@
+<h2>Rules</h2>
+<article><p>
+There are a few guidelines you should follow:
+</p><ol>
+	<li>No spamming</li>
+	<li>Do not post anything which is <em>explicitly</em> illegal in the
+	United States</li>
+	<li>Lurk more - it's never enough</li>
+</ol>
+</article>

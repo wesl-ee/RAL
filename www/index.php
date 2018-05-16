@@ -33,28 +33,11 @@ HREF;
 	</div>
 	<span>Neo-Forum Textboard</span>
 </header>
-<nav class=info-links>
-<a href>About</a><a href>IRC</a><a href>Settings</a>
-</nav><hr />
-<?php
-	$motd = "{$ROOT}info/MOTD";
-	if (is_file($motd) && filesize($motd)) {
-		$bbparser = $GLOBALS[RM]->getbbparser();
-		$bbparser->parse(file_get_contents($motd));
-
-		print <<<HTML
-		<h2>Announcements</h2>
-		<article>
-		{$bbparser->getAsHtml()}
-		</article><hr />
-
-HTML;
-	}
-?>
-<?php
-	$iterator->select();
-	$iterator->render();
-?>
+<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
+<?php $iterator->select(); $iterator->render(); ?>
+<?php include "{$ROOT}info/News.txt" ?><hr />
+<?php include "{$ROOT}info/About.txt" ?><hr />
+<?php include "{$ROOT}info/Rules.txt" ?>
 <hr /><footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
