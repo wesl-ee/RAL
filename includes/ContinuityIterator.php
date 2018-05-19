@@ -128,7 +128,7 @@ SQL;
 			$stmt->execute();
 			$res = $stmt->get_result();
 			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Reply($row, $this->Topic);
+				$this->Selection[] = new Reply($row);
 			}
 		}
 	}
@@ -144,5 +144,11 @@ SQL;
 			$this->Topic->drawPostButton();
 		else if (isset($this->Continuity))
 			$this->Continuity->drawPostButton();
+	}
+	public function renderComposer() {
+		if (isset($this->Topic))
+			$this->Topic->drawComposer();
+		else if (isset($this->Continuity))
+			$this->Continuity->drawComposer();
 	}
 }

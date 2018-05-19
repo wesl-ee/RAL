@@ -6,16 +6,13 @@ class Reply {
 	public $Content;
 	public $Created;
 
-	public $Parent;
-	function __construct($row, $parent) {
+	function __construct($row) {
 		$this->Id = $row['Id'];
 		$this->Continuity = $row['Continuity'];
 		$this->Year = $row['Year'];
 		$this->Topic = $row['Topic'];
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
-
-		$this->Parent = $parent;
 	}
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
@@ -45,7 +42,6 @@ class Reply {
 HTML;
 	}
 	public function renderSelection($items) {
-		$this->Parent->renderOP();
 		print <<<HTML
 	<main class=flex>
 HTML;

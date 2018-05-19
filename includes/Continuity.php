@@ -124,6 +124,37 @@ HTML;
 
 HTML;
 	}
+	public function drawComposer() {
+		$action = $this->resolveComposer();
+		$cancel = $this->resolve();
+		$title = "[$this->Name]";
+
+		$robocheck = gen_robocheck();
+		$robosrc = $robocheck['src'];
+		$robocode = $robocheck['id'];
+		$height = $robocheck['height'];
+		$width = $robocheck['width'];
+		print <<<HTML
+		<header>$title<br/>New Topic</header>
+		<form method=POST action=$action class=composer>
+		<div class=textarea>
+			<textarea autofocus rows=5
+			maxlength=5000
+			placeholder="Contribute your thoughts and desires..."
+			name=content></textarea>
+		</div><div class=robocheck>
+			<img height=$height width=$width src="$robosrc">
+			<input name=robocheckid type=hidden value=$robocode>
+			<input name=robocheckanswer
+			placeholder="Verify Humanity"
+			autocomplete=off>
+		</div><div class=buttons>
+			<a href="$cancel" class="cancel">Cancel</a>
+			<button class type=submit>Post</button>
+		</div></form>
+
+HTML;
+	}
 	public function drawContent() {
 		$ROOT = CONFIG_LOCALROOT;
 		if (isset($this->topic)) {

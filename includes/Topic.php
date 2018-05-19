@@ -54,19 +54,6 @@ class Topic {
 
 HTML;
 	}
-	public function renderOP() {
-		$content = $this->getContentAsHtml();
-		print <<<HTML
-	<article class=op>
-		<nav>
-			<span class=id>OP</span>
-			<date>$this->Created</date>
-		</nav><hr />
-		{$content}
-	</article>
-
-HTML;
-	}
 	public function renderSelection($items) {
 		print <<<HTML
 	<main class=flex>

@@ -99,7 +99,64 @@ main.flex > * {
 .breadcrumb li {
 	display: inline;
 }
-
+.composer > * {
+	margin-bottom: 5px;
+	margin-left: auto; margin-right: auto;
+	text-align: center;
+}
+.robocheck input,
+.robocheck img {
+	display: block;
+	margin: auto;
+	width: 165px;
+	box-sizing: border-box;
+}
+.robocheck input { text-align: center; }
+.buttons { text-align: center; }
+.buttons > * {
+	border: 1px solid;
+	padding: 0 8px;
+	cursor: pointer;
+	color: inherit;
+}
+button {
+	display: inline-block;
+	position: relative;
+	padding-left: 5px;
+	padding-right: 5px;
+	transition: box-shadow 0.2s;
+	border: 1px solid;
+	cursor: pointer;
+}
+button::after {
+	position: absolute;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	content: '';
+	box-shadow: -2px 2px 3px;
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+button:hover::after { opacity: 1; }
+textarea {
+	padding: 5px;
+	border: 3px double;
+	text-align: justify;
+	font-family: inherit;
+	width: 32em;
+	min-width: 30px;
+	max-width: calc(100% - 10px);
+}
+input, select, textarea, button {
+	font-family: inherit;
+	background-color: inherit;
+	color: inherit;
+	font-size: inherit;
+	outline: 0;
+}
+input, select { border: 1px solid; }
 
 /* Colors */
 body {
