@@ -139,7 +139,7 @@ do {
 print "Main Menu\n";
 $choice = present_choices(
 	'Continuities',
-	'Encrypt a post',
+	'News',
 	'Bans',
 	'Post Details',
 	'Miscellany',
@@ -185,27 +185,44 @@ if ($choice eq 'Continuities') {
 		$sth->execute($choice) or die_error DBI::errstr;
 		notify_success "Deleted $choice and all its posts";
 	}
-} elsif ($choice eq 'Encrypt a post') {
-	print "\nFrom which continuity?\n";
-	$choice = present_choices @continuities;
-	print "Post id: ";
-	my $id = <>; chomp $id;
-	$sth = $dbh->prepare('SELECT `Content` FROM `Posts` WHERE `Continuity`=(?)'
-	. ' AND `Id`=(?)');
-	$sth->execute($choice, $id) or die_error DBI::errstr;
-	if (!$sth->rows) {
-		notify_warn 'No such post';
-		continue;
-	}
-	my $content = $sth->fetchrow_hashref->{'Content'};
-	$content = md5_hex($content);
-	$sth = $dbh->prepare('UPDATE `Posts` SET `Content`=(?) WHERE'
-	. ' `Continuity`=(?) AND `Id`=(?)');
-	$sth->execute($content, $choice, $id) or die_error DBI::errstr;
-	if ($sth->rows) {
-		notify_success "Success: Encrypted $choice/$id";
-	} else {
-		notify_warn "Error: Nothing was changed";
+} elsif ($choice eq 'News') {
+	$choice = present_choices(
+		'Add a News Item',
+		'Delete a News Item'
+	);
+	if ($choice eq 'Add a News Item') {
+		print "\nAuthor: ";
+		my $author = <>; chomp $author;
+		print "Author's e-mail: ";
+		my $email = <>; chomp $email;
+		print "Title: ";
+		my $title = <>; chomp $title;
+		print "Content (Terminate with \"EOL\")\n";
+		my $content; while (<>) {
+			last if ($_ eq "EOL\n");
+			$content .= $_;
+		} chomp $content;
+		my $query = <<SQL;
+		INSERT INTO `News` (
+			`Author`,
+			`Email`,
+			`Title`,
+			`Content`
+		) VALUES (
+			(?), (?), (?), (?)
+		)
+SQL
+		$sth = $dbh->prepare($query);
+		$sth->execute($author, $email, $title, $content) or die_error DBI::errstr;
+		notify_success "Successfully created the news item!";
+	} elsif ($choice eq 'Delete a News Item') {
+		print "\nNews Item ID To Delete: ";
+		my $id;
+		my $id = <>; chomp $id;
+		$sth = $dbh->prepare('DELETE FROM `News` WHERE'
+		. ' `Id`=(?)');
+		$sth->execute($id) or die_error DBI::errstr;
+		notify_success "Deleted news item $id";
 	}
 } elsif ($choice eq 'Bans') {
 	$choice = present_choices 'View Bans', 'Shadow Ban', 'Lift a Ban';
@@ -314,6 +331,17 @@ SQL
 			`Topic` INT(11) NOT NULL,
 			`Content` TEXT NOT NULL DEFAULT '',
 			PRIMARY KEY (`Continuity`, `Year`, `Topic`, `Id`) )
+SQL
+		$dbh->do($statement) or die DBI::errstr;
+		$statement = <<SQL;
+		CREATE TABLE `News` (
+			`Id` int(11) NOT NULL AUTO_INCREMENT,
+			`Created` datetime DEFAULT current_timestamp(),
+			`Author` varchar(40) NOT NULL,
+			`Email` varchar(100) DEFAULT NULL,
+			`TITLE` varchar(100) NOT NULL,
+			`Content` varchar(5000) NOT NULL,
+			PRIMARY KEY (`Id`) )
 SQL
 		$dbh->do($statement) or die DBI::errstr;
 

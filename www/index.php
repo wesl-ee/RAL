@@ -2,6 +2,7 @@
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/News.php";
 
 $iterator = new RAL\ContinuityIterator();
 ?>
@@ -35,7 +36,7 @@ HREF;
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
 <?php $iterator->select(); $iterator->render(); ?>
-<?php include "{$ROOT}info/News.txt" ?><hr />
+<?php (new RAL\News())->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
 <hr /><footer>
