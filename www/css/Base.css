@@ -41,7 +41,6 @@ main.flex {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
-	align-items: center;
 }
 main.flex > * {
 	flex: 1 1 auto;
@@ -174,6 +173,9 @@ a:hover {
 }
 .id {
 	color: Green;
+}
+hr {
+	border-color: lightgray;
 }
 
 /* Animations */

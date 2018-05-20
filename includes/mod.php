@@ -84,14 +84,13 @@ function gen_robocheck()
 /*
  * Validate a $user's answer to the robocheck
 */
-function check_robocheck($id, $answer, $user = null)
+function check_robocheck($id, $answer)
 {
-	if ($user === null) $user = $_COOKIE["auth"];
-	$imgfile = CONFIG_LOCALROOT . "www/robocheck/$user/$id.jpg";
-	$keyfile = CONFIG_LOCALROOT . "tmp/robocheck-answers/$user/$id.txt";
+	$imgfile = CONFIG_LOCALROOT . "www/robocheck/$id.jpg";
+	$keyfile = CONFIG_LOCALROOT . "tmp/robocheck-answers/$id.txt";
 
 	if (strpos(get_absolute_path($imgfile)
-	, CONFIG_LOCALROOT . "B4U/robocheck") !== 0)
+	, CONFIG_LOCALROOT . "www/robocheck") !== 0)
 		return false;
 
 	$a = chop(file_get_contents($keyfile));

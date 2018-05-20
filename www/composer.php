@@ -18,6 +18,18 @@ if (!$continuity) {
 	include "{$ROOT}template/404.php";
 	die;
 }
+if (!empty($_POST)) {
+	$id = $_POST['robocheckid'];
+	$answer = $_POST['robocheckanswer'];
+	if (!isset($id, $answer)) {
+		print "Please verify your humanity!";
+	} else if (!check_robocheck($id, $answer)) {
+		print "Imposter!";
+	} else {
+		print "You pass!";
+		$iterator->post($_POST['content']);
+	}
+}
 
 ?>
 <!DOCTYPE HTML>
@@ -52,10 +64,8 @@ class=breadcrumb>
 </ol>
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
-<?php
-$iterator->renderComposer();
-$iterator->render();
-?>
+<?php $iterator->renderComposer(); ?><hr />
+<?php $iterator->render(); ?>
 <hr /><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
 </footer>

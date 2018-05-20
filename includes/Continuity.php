@@ -53,6 +53,7 @@ HTML;
 			. "?continuity=" . urlencode($this->Name);
 	}
 	public function resolveComposer() {
+		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
 			. rawurlencode($this->Name);
 		else return "{$WROOT}composer.php"
@@ -164,5 +165,33 @@ HTML;
 		} else {
 			include "{$ROOT}template/ContinuityOverview.php";
 		}
+	}
+	public function post($content) {
+		$year = date('Y');
+		$dbh = $GLOBALS['RM']->getdb();
+
+		$query = <<<SQL
+		INSERT INTO `Topics`
+		(`Id`, `Continuity`, `Year`, `Content`) SELECT
+		COUNT(*)+1 AS `Id`,
+		? AS `Continuity`,
+		? AS `Year`,
+		? AS `Content`
+		FROM `Topics` WHERE Continuity=?
+		AND YEAR=?
+SQL;
+		print $query;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('sissi', $this->Name, $year, $content, $this->Name, $year);
+		$stmt->execute();
+
+		$query = <<<SQL
+		UPDATE `Continuities` SET `Post Count`=`Post Count`+1
+		WHERE `Name`=?
+SQL;
+		print $query;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $this->Name);
+		$stmt->execute();
 	}
 }

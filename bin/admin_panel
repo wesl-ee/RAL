@@ -285,6 +285,7 @@ PROMPT
 		my $sth2 = $dbh->prepare('INSERT INTO `Topics` (`Id`, `Created`,'
 		. ' `Continuity`, `Content`) VALUES'
 		. '((?), (?), (?), (?))');
+
 		print <<PROMPT;
 Selecting this option will convert the current database to the new format
 introduced in v2.0. This option is only useful if you are upgrading from
@@ -356,6 +357,8 @@ SQL
 		$sth2 = $dbh->prepare('INSERT INTO `Replies` (`Id`, `Created`,'
 		. ' `Continuity`, `Topic`, `Content`)'
 		. 'VALUES ((?), (?), (?), (?), (?))');
+		my $sth3 = $dbh->prepare('UPDATE `Continuities` SET'
+		. ' `Post Count`=`Post Count`+1 WHERE `Name`=(?)');
 		$sth->execute() or die DBI::errstr;
 		my $reply;
 		while ($row = $sth->fetchrow_hashref) {

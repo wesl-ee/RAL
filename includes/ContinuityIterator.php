@@ -20,7 +20,6 @@ class ContinuityIterator {
 
 		if (!$continuity) {
 			$query = <<<SQL
-
 			SELECT `Name`, `Post Count`, `Description` FROM
 			`Continuities`
 SQL;
@@ -150,5 +149,11 @@ SQL;
 			$this->Topic->drawComposer();
 		else if (isset($this->Continuity))
 			$this->Continuity->drawComposer();
+	}
+	public function post($content) {
+		if (isset($this->Topic))
+			$this->Topic->post($content);
+		else if (isset($this->Continuity))
+			$this->Continuity->post($content);
 	}
 }

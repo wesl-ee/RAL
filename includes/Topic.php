@@ -79,4 +79,6 @@ HTML;
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
 	}
+	public function post($content) {
+	}
 }
