@@ -189,7 +189,6 @@ SQL;
 		UPDATE `Continuities` SET `Post Count`=`Post Count`+1
 		WHERE `Name`=?
 SQL;
-		print $query;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('s', $this->Name);
 		$stmt->execute();

@@ -156,4 +156,29 @@ SQL;
 		else if (isset($this->Continuity))
 			$this->Continuity->post($content);
 	}
+	public function selectRecent($n) {
+		if (isset($this->Topic))
+			;
+		else if (isset($this->Continuity))
+			;
+		else {
+			$query = <<<SQL
+			SELECT `Id`, `Created`, `Continuity`, `Content`
+			, `Replies`, `Year` FROM `Topics` ORDER BY `Created`
+			DESC LIMIT ?
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('i', $n);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			while ($row = $res->fetch_assoc()) {
+				$this->Selection[] = new Reply($row);
+			}
+		}
+	}
+	public function renderAsRSSItems() {
+		foreach ($Selection as $item) {
+			print $item;
+		}
+	}
 }

@@ -45,7 +45,7 @@ class Topic {
 		print <<<HTML
 	<article class=post>
 		<nav>
-			<span class=id>$this->Id.</span>
+			<span class=id>[{$this->Continuity}/{$this->Year}/{$this->Id}]</span>
 			<date>$this->Created</date>
 			<a href="$href" class=expand>Expand Topic</a>
 		</nav><hr />
@@ -79,6 +79,61 @@ HTML;
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
 	}
+	public function drawComposer() {
+		$action = $this->resolveComposer();
+		$cancel = $this->resolve();
+		$title = "[{$this->Continuity} / {$this->Year} / {$this->Id}]";
+
+		$robocheck = gen_robocheck();
+		$robosrc = $robocheck['src'];
+		$robocode = $robocheck['id'];
+		$height = $robocheck['height'];
+		$width = $robocheck['width'];
+		print <<<HTML
+		<header>$title<br/>Reply to Topic</header>
+		<form method=POST action=$action class=composer>
+		<div class=textarea>
+			<textarea autofocus rows=5
+			maxlength=5000
+			placeholder="Contribute your thoughts and desires..."
+			name=content></textarea>
+		</div><div class=robocheck>
+			<img height=$height width=$width src="$robosrc">
+			<input name=robocheckid type=hidden value=$robocode>
+			<input name=robocheckanswer
+			placeholder="Verify Humanity"
+			autocomplete=off>
+		</div><div class=buttons>
+			<a href="$cancel" class="cancel">Cancel</a>
+			<button class type=submit>Post</button>
+		</div></form>
+
+HTML;
+	}
 	public function post($content) {
+		$dbh = $GLOBALS['RM']->getdb();
+
+		$query = <<<SQL
+		INSERT INTO `Replies`
+		(`Id`, `Continuity`, `Year`, `Topic`, `Content`) SELECT
+		COUNT(*)+1 AS `Id`,
+		? AS `Continuity`,
+		? AS `Year`,
+		? AS `Topic`,
+		? AS `Content`
+		FROM `Replies` WHERE Continuity=?
+		AND YEAR=? AND Topic=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('siissii', $this->Continuity, $this->Year, $this->Id, $content, $this->Continuity, $this->Year, $this->Id);
+		$stmt->execute();
+
+		$query = <<<SQL
+		UPDATE `Continuities` SET `Post Count`=`Post Count`+1
+		WHERE `Name`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $this->Name);
+		$stmt->execute();
 	}
 }

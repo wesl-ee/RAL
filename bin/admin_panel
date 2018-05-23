@@ -346,7 +346,7 @@ SQL
 		$dbh->do($statement) or die DBI::errstr;
 
 		my $firstpost = <<POST;
-CONCAT("Welcome to the [i]", NEW.Name, "[/i] continuiity.
+CONCAT("Welcome to the [i]", NEW.Name, "[/i] continuity.
 Here you will find topics about [i]", NEW.description, "[/i].
 I hope you will enjoy your time here!")
 POST
