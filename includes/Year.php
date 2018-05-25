@@ -33,6 +33,9 @@ HTML;
 	</table></main>
 HTML;
 	}
+	function selectiontitle() {
+		return "[{$this->Continuity}]";
+	}
 	function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"

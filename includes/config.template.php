@@ -39,6 +39,9 @@ define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
 define("CONFIG_WEBROOT", "/");
 define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 
+// Only used for the RSS feed
+define("CONFIG_CANON_URL", "https://ral.space");
+
 // Only set if you have set up lighttpd like in the example config!
 // true: https:ral.space/max/Anime/1
 // false: https:ral.space/max.php?continuity=Anime&topic=1

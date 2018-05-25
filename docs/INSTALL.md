@@ -8,13 +8,13 @@ This document provides a detailed guide on the best-practice of configuring
 RAL. Since RAL is written (nearly) entirely in PHP, you may be able to guess
 what sort of tools I will be using:
 
-###On Reverse Proxy
+### On Reverse Proxy
 
 * Nginx
 
 	For proxying requests and as a SSL termination proxy
 
-###On Back-end Webserver
+### On Back-end Webserver
 
 * lighttpd
 
@@ -52,27 +52,27 @@ what sort of tools I will be using:
 		random *robocheck* images to combat spam.
 
            Typical Implementation
- /*****************************************\
- *                                         *
- *         Internet                        *
- *    _______|_|_______                    *
- *    _______|_|_______ Firewall           *
- *           | |                           *
- *           | | (http/2)                  *
- *           | | (SSL Ciphered)            *
- *           | |                           *
- *    +------v--------+                    *
- *    |     Nginx     |  Reverse proxy     *
- *    +--------^------+                    *
- *           | | (plaintext)               *
- *           | | (http/1.1)                *
- *           | |                           *
- *    +------v--------+                    *
- *    |    Lighttpd   |  Back-end          *
- *    +--+---------+--+                    *
- *       | fpm-PHP |                       *
- *       +---------+                       *
- \*****************************************/
+	/*****************************************\
+	*                                         *
+	*         Internet                        *
+	*    _______|_|_______                    *
+	*    _______|_|_______ Firewall           *
+	*           | |                           *
+	*           | | (http/2)                  *
+	*           | | (SSL Ciphered)            *
+	*           | |                           *
+	*    +------v--------+                    *
+	*    |     Nginx     |  Reverse proxy     *
+	*    +--------^------+                    *
+	*           | | (plaintext)               *
+	*           | | (http/1.1)                *
+	*           | |                           *
+	*    +------v--------+                    *
+	*    |    Lighttpd   |  Back-end          *
+	*    +--+---------+--+                    *
+	*       | fpm-PHP |                       *
+	*       +---------+                       *
+	\*****************************************/
 
 In our example, Nginx is the first stop for clients once they connect to the
 server. Nginx will pass the client request on to lighttpd and send the client

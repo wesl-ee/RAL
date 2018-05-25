@@ -1,7 +1,7 @@
 RAL Neo-Forum
 =============
 
-Textboard from a future society
+Textboard from a future society.
 
 Executive Summary
 -----------------
@@ -12,6 +12,16 @@ takes inspiration from the classic forum model.
 
 If you are curious what RAL feels like [check out the site](https://ral.space)
 
+First, you may notice that there are a number of different boards which
+have a single focus. These boards are called _continuities_ because unlinke
+boards, posts are never archived and threads are never locked. Thus,
+conversation is continuous, leading to the name _continuity_. Only the admin
+may create or remove a new continuity using `bin/admin_panel`.
+
+Each continuity has a number of topics created by users. These topics
+express thoughts and ideas and are expanded upon in the replies. Anyone may
+create a topic or a reply.
+
 Installation / Dependencies
 ---------------------------
 
@@ -21,8 +31,8 @@ Contributing
 ------------
 
 Contributions are welcome! If you are interested in contributing, join
-[howler.space:6667](https://irc.ral.space) #bigtown or [send me an e-mail]
-(mailto:yumi@prettyboytellem.com). Further reading is available in
+[howler.space:6667](https://irc.ral.space) #bigtown or send me an e-mail
+at yumi@prettyboytellem.com. Further reading is available in
 `docs/HACKING.md`
 
 License

@@ -157,14 +157,15 @@ SQL;
 			$this->Continuity->post($content);
 	}
 	public function selectRecent($n) {
+		$dbh = $GLOBALS['RM']->getdb();
 		if (isset($this->Topic))
 			;
 		else if (isset($this->Continuity))
 			;
 		else {
 			$query = <<<SQL
-			SELECT `Id`, `Created`, `Continuity`, `Content`
-			, `Replies`, `Year` FROM `Topics` ORDER BY `Created`
+			SELECT `Id`, `Created`, `Continuity`, `Topic`
+			, `Content`, `Year` FROM `Replies` ORDER BY `Created`
 			DESC LIMIT ?
 SQL;
 			$stmt = $dbh->prepare($query);
@@ -177,8 +178,11 @@ SQL;
 		}
 	}
 	public function renderAsRSSItems() {
-		foreach ($Selection as $item) {
-			print $item;
+		foreach ($this->Selection as $item) {
+			$item->renderAsRSS();
 		}
+	}
+	public function title() {
+		return $this->Selection[0]->selectiontitle();
 	}
 }

@@ -18,12 +18,12 @@ $iterator = new RAL\ContinuityIterator();
 	<link rel=alternate type="application/rss+xml" title=RSS
 <?php
 	if (CONFIG_CLEAN_URL)
-		$href = CONFIG_WEBROOT . "rss";
+		$rss = CONFIG_WEBROOT . "rss";
 	else
-		$href = CONFIG_WEBROOT . "rss.php";
+		$rss = CONFIG_WEBROOT . "rss.php";
 	print
 <<<HREF
-	href="$href"
+	href="$rss"
 HREF;
 ?>>
 </head>

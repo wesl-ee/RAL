@@ -63,6 +63,9 @@ HTML;
 	</main>
 HTML;
 	}
+	function selectiontitle() {
+		return "[{$this->Continuity}/{$this->Year}]";
+	}
 	public function drawPostButton() {
 		$href = $this->resolveComposer();
 		print <<<HTML

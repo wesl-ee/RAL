@@ -24,7 +24,7 @@ if (!$continuity) {
 <HTML>
 <head>
 <?php
-	$pagetitle = "[$continuity]";
+	$pagetitle = $iterator->title();
 	$pagedesc = "DEVELOPER MODE";
 	include "{$ROOT}template/head.php";
 ?>

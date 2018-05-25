@@ -27,6 +27,11 @@ class Reply {
 			. "&topic=" . urlencode($this->Topic)
 			. "#" . urlencode($this->Id);
 	}
+	function title() {
+		return "[{$this->Continuity}/{$this->Year}/"
+		. "{$this->Topic}/{$this->Id}]";
+	}
+
 
 	public function render() {
 		$content = $this->getContentAsHtml();
@@ -41,6 +46,22 @@ class Reply {
 
 HTML;
 	}
+	public function renderAsRSS() {
+		$content = htmlentities($this->getContentAsText());
+		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
+		$title = $this->title();
+		$date = $this->Created;
+		print <<<RSS
+<item>
+	<title>$title</title>
+	<link>$url</link>
+	<guid isPermaLink="true">$url</guid>
+	<description>$content</description>
+	<pubDate>$date</pubDate>
+</item>
+RSS;
+
+	}
 	public function renderSelection($items) {
 		print <<<HTML
 	<main class=flex>
@@ -50,11 +71,20 @@ HTML;
 	</main>
 HTML;
 	}
+	function selectiontitle() {
+		return "[{$this->Continuity}/{$this->Year}/"
+		. "{$this->Topic}]";
+	}
 	public function getContentAsHtml() {
 		$bbparser = $GLOBALS['RM']->getbbparser();
 		$visitor = $GLOBALS['RM']->getLineBreakVisitor();
 		$bbparser->parse(htmlentities($this->Content));
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
+	}
+	public function getContentAsText() {
+		$bbparser = $GLOBALS['RM']->getbbparser();
+		$bbparser->parse($this->Content);
+		return $bbparser->getAsText();
 	}
 }
