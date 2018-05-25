@@ -6,13 +6,17 @@ class Reply {
 	public $Content;
 	public $Created;
 
-	function __construct($row) {
+	public $Parent;
+
+	function __construct($row, $parent = null) {
 		$this->Id = $row['Id'];
 		$this->Continuity = $row['Continuity'];
 		$this->Year = $row['Year'];
 		$this->Topic = $row['Topic'];
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
+
+		$this->Parent = $parent;
 	}
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
@@ -71,9 +75,8 @@ HTML;
 	</main>
 HTML;
 	}
-	function selectiontitle() {
-		return "[{$this->Continuity}/{$this->Year}/"
-		. "{$this->Topic}]";
+	public function renderBanner() {
+		return $this->Parent->renderBanner();
 	}
 	public function getContentAsHtml() {
 		$bbparser = $GLOBALS['RM']->getbbparser();

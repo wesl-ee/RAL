@@ -8,13 +8,17 @@ class Topic {
 	public $Replies;
 	public $Year;
 
-	public function __construct($row) {
+	public $Parent;
+
+	public function __construct($row, $parent) {
 		$this->Id = $row['Id'];
 		$this->Created = $row['Created'];
 		$this->Continuity = $row['Continuity'];
 		$this->Content = $row['Content'];
 		$this->Replies = $row['Replies'];
 		$this->Year = $row['Year'];
+
+		$this->Parent = $parent;
 		return $this;
 	}
 	public function resolve() {
@@ -63,10 +67,14 @@ HTML;
 	</main>
 HTML;
 	}
-	function selectiontitle() {
-		return "[{$this->Continuity}/{$this->Year}]";
+	public function renderBanner() {
+		return $this->Parent->renderBanner();
 	}
-	public function drawPostButton() {
+	function title() {
+		return "[{$this->Continuity}/{$this->Year}/"
+		. "{$this->Id}]";
+	}
+	public function renderPostButton() {
 		$href = $this->resolveComposer();
 		print <<<HTML
 		<nav class=info-links>

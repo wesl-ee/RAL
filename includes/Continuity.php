@@ -5,10 +5,14 @@ class Continuity {
 	public $PostCount;
 	public $Description;
 
-	public function __construct($row) {
+	public $Parent;
+
+	public function __construct($row, $parent = null) {
 		$this->Name = $row['Name'];
 		$this->PostCount = $row['Post Count'];
 		$this->Description = $row['Description'];
+
+		$this->Parent = $parent;
 		return $this;
 	}
 	public function render() {
@@ -78,6 +82,9 @@ HTML;
 			'Banner' => $this->getBanner()
 		];
 	}
+	function title() {
+		return "[{$this->Name}]";
+	}
 
 	/* HTML Output */
 	public function renderBanner() {
@@ -117,7 +124,7 @@ HTML;
 
 HTML;
 	}
-	public function drawPostButton() {
+	public function renderPostButton() {
 		$href = $this->resolveComposer();
 		print <<<HTML
 		<nav class=info-links>
@@ -126,7 +133,7 @@ HTML;
 
 HTML;
 	}
-	public function drawComposer() {
+	public function renderComposer() {
 		$action = $this->resolveComposer();
 		$cancel = $this->resolve();
 		$title = "[$this->Name]";

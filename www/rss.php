@@ -8,8 +8,7 @@ $CONFIG_WEBROOT = CONFIG_WEBROOT;
 $iterator = new RAL\ContinuityIterator();
 $posts = $iterator->selectRecent(20);
 
-print
-<<<XML_HEAD
+print <<<XML_HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 	<channel>
@@ -27,27 +26,8 @@ print
 		<generator>RAL</generator>
 
 XML_HEAD;
-
 $iterator->renderAsRSSItems();
-/*	if (!($post->topic - $post->id))
-		$title = "User Created New Topic on [$post->continuity]";
-	else
-		$title = "New Post in [$post->continuity / $post->topic]";
-	print
-<<<ITEM
-		<item>
-			<title><![CDATA[$title]]></title>
-			<link>$post->url</link>
-			<guid isPermaLink="true">$post->url</guid>
-			<description><![CDATA[{$post->toHtml()}]]></description>
-			<pubDate>$post->date</pubDate>
-		</item>
-
-ITEM;
-}*/
-
-print
-<<<XML_DONE
+print <<<XML_DONE
 	</channel>
 </rss>
 XML_DONE;

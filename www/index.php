@@ -32,9 +32,10 @@ HREF;
 	<div>
 		<h1 class=glitch data-text=RAL>RAL</h1>
 	</div>
-	<span>Neo-Forum Textboard</span>
+	<span>Neo-Forum Textboard</span><br />
 </header>
-<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
+<?php include "{$ROOT}template/Feelies.php" ?><hr />
+<?php $iterator->drawRSSButton(); ?>
 <?php $iterator->select(); $iterator->render(); ?>
 <?php (new RAL\News())->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />

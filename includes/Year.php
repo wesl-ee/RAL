@@ -4,10 +4,13 @@ class Year {
 	public $Continuity;
 	public $Count;
 
-	public function __construct($row) {
+	public $Parent;
+
+	public function __construct($row, $parent) {
 		$this->Year = $row['Year'];
 		$this->Continuity = $row['Continuity'];
 		$this->Count = $row['Count'];
+		$this->Parent = $parent;
 	}
 	public function render() {
 		$href = $this->resolve();
@@ -33,8 +36,20 @@ HTML;
 	</table></main>
 HTML;
 	}
-	function selectiontitle() {
-		return "[{$this->Continuity}]";
+	public function renderBanner() {
+		return $this->Parent->renderBanner();
+	}
+	public function renderPostButton() {
+		return $this->Parent->renderPostButton();
+	}
+	public function renderComposer() {
+		return $this->Parent->renderComposer();
+	}
+	public function post($content) {
+		return $this->Parent->post($content);
+	}
+	function title() {
+		return "[{$this->Continuity}/{$this->Year}]";
 	}
 	function resolve() {
 		$WROOT = CONFIG_WEBROOT;
