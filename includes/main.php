@@ -41,3 +41,4 @@ HTML;
 
 HTML;
 }
+function say($s) { print "$s\n"; }

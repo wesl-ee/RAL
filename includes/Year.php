@@ -12,8 +12,8 @@ class Year {
 		$this->Count = $row['Count'];
 		$this->Parent = $parent;
 	}
-	public function render() {
-		$href = $this->resolve();
+	public function renderAsHtml() {
+		$href = htmlentities($this->resolve());
 		print <<<HTML
 	<tr>
 		<td><a href="$href">$this->Year</a></td>
@@ -22,19 +22,23 @@ class Year {
 	</tr>
 HTML;
 	}
-	public function renderSelection($items) {
-		print <<<HTML
-	<main><table>
-	<tr>
-		<th>Year</th>
-		<th>Topics</th>
-		<th>Text Archive</th>
-	</tr>
+	public function renderSelection($items, $format) {
+		switch ($format) {
+		case 'HTML':
+			print <<<HTML
+<main><table>
+<tr>
+	<th>Year</th>
+	<th>Topics</th>
+	<th>Text Archive</th>
+</tr>
 HTML;
-		foreach ($items as $i) $i->render();
-		print <<<HTML
-	</table></main>
+			foreach ($items as $i) $i->renderAsHtml();
+			print <<<HTML
+</table></main>
 HTML;
+			break;
+		}
 	}
 	public function renderBanner() {
 		return $this->Parent->renderBanner();

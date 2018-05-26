@@ -43,9 +43,9 @@ class Topic {
 			. "&year=" . urlencode($this->Year)
 			. "&topic=" . urlencode($this->Id);
 	}
-	public function render() {
+	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
-		$href = $this->resolve();
+		$href = htmlentities($this->resolve());
 		print <<<HTML
 	<article class=post>
 		<nav>
@@ -58,14 +58,13 @@ class Topic {
 
 HTML;
 	}
-	public function renderSelection($items) {
-		print <<<HTML
-	<main class=flex>
-HTML;
-		foreach ($items as $i) $i->render();
-		print <<<HTML
-	</main>
-HTML;
+	public function renderSelection($items, $format) {
+		switch ($format) {
+		case 'HTML':
+			say('<main class=flex>');
+			foreach ($items as $i) $i->renderAsHtml();
+			say('</main>');
+		break; }
 	}
 	public function renderBanner() {
 		return $this->Parent->renderBanner();
@@ -90,9 +89,9 @@ HTML;
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
 	}
-	public function drawComposer() {
-		$action = $this->resolveComposer();
-		$cancel = $this->resolve();
+	public function renderComposer() {
+		$action = htmlentities($this->resolveComposer());
+		$cancel = htmlentities($this->resolve());
 		$title = "[{$this->Continuity} / {$this->Year} / {$this->Id}]";
 
 		$robocheck = gen_robocheck();

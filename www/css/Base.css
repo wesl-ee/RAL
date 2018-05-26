@@ -25,6 +25,9 @@ main table {
 	padding-left: 5px;
 	border-left: 1px solid;
 }
+.news-item nav {
+	margin-bottom: 10px;
+}
 .continuity-splashes {
 	display: flex;
 	flex-flow: row wrap;

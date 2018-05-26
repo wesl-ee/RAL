@@ -38,14 +38,17 @@ class=breadcrumb>
 	$href = CONFIG_WEBROOT; $name = 'RAL'; $position = 1;
 	include "{$ROOT}template/BreadCrumbItem.php";
 
-	$href = $iterator->Continuity->resolve(); $name = $continuity; $position = 2;
+	$href = htmlentities($iterator->Continuity->resolve());
+	$name = $continuity; $position = 2;
 	include "{$ROOT}template/BreadCrumbItem.php";
 
 	if (isset($year)) {
-		$href = $iterator->Year->resolve(); $name = $year; $position = 3;
+		$href = htmlentities($iterator->Year->resolve());
+		$name = $year; $position = 3;
 		include "{$ROOT}template/BreadCrumbItem.php";
 	} if (isset($topic)) {
-		$href = $iterator->Topic->resolve(); $name = $topic; $position = 4;
+		$href = htmlentities($iterator->Topic->resolve());
+		$name = $topic; $position = 4;
 		include "{$ROOT}template/BreadCrumbItem.php";
 	}
 ?>

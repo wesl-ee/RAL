@@ -104,8 +104,14 @@ SQL;
 			}
 		}
 	}
-	public function render() {
-		$this->Selection[0]->renderSelection($this->Selection);
+	public function render($format = 'HTML') {
+		$this->Selection[0]->renderSelection(
+			$this->Selection,
+			$format
+		);
+	}
+	public function renderAsText() {
+		$this->Selection[0]->renderSelectionAsText($this->Selection);
 	}
 	public function renderBanner() {
 		$this->Selection[0]->Parent->renderBanner();

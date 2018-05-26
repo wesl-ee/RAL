@@ -37,7 +37,7 @@ class Reply {
 	}
 
 
-	public function render() {
+	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
 		print <<<HTML
 	<article class=post>
@@ -66,14 +66,13 @@ HTML;
 RSS;
 
 	}
-	public function renderSelection($items) {
-		print <<<HTML
-	<main class=flex>
-HTML;
-		foreach ($items as $i) $i->render();
-		print <<<HTML
-	</main>
-HTML;
+	public function renderSelection($items, $format) {
+		switch($format) {
+		case 'HTML':
+			say('<main class=flex>');
+			foreach ($items as $i) $i->renderAsHtml();
+			say('</main>');
+		break; }
 	}
 	public function renderBanner() {
 		return $this->Parent->renderBanner();

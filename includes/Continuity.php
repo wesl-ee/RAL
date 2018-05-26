@@ -15,7 +15,7 @@ class Continuity {
 		$this->Parent = $parent;
 		return $this;
 	}
-	public function render() {
+	public function renderAsHtml() {
 		$href = $this->resolve();
 		$src = $this->getBanner();
 		$alt = $this->Name;
@@ -40,14 +40,16 @@ class Continuity {
 
 HTML;
 	}
-	public function renderSelection($items) {
-		print <<<HTML
-	<main class=continuity-splashes>
-HTML;
-		foreach ($items as $i) $i->render();
-		print <<<HTML
-	</main>
-HTML;
+	public function renderSelection($items, $format) {
+		switch ($format) {
+		case 'HTML':
+			say('<main class=continuity-splashes>');
+			foreach ($items as $i) $i->renderAsHtml();
+			say('</main>');
+		break; }
+	}
+	public function renderSelectionAsText($items) {
+		foreach ($items as $i) $i->renderAsText();
 	}
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
@@ -125,7 +127,7 @@ HTML;
 HTML;
 	}
 	public function renderPostButton() {
-		$href = $this->resolveComposer();
+		$href = htmlentities($this->resolveComposer());
 		print <<<HTML
 		<nav class=info-links>
 		<a class=post-button href="$href">Create a Topic</a>
@@ -134,8 +136,8 @@ HTML;
 HTML;
 	}
 	public function renderComposer() {
-		$action = $this->resolveComposer();
-		$cancel = $this->resolve();
+		$action = htmlentities($this->resolveComposer());
+		$cancel = htmlentities($this->resolve());
 		$title = "[$this->Name]";
 
 		$robocheck = gen_robocheck();
@@ -145,7 +147,7 @@ HTML;
 		$width = $robocheck['width'];
 		print <<<HTML
 		<header>$title<br/>New Topic</header>
-		<form method=POST action=$action class=composer>
+		<form method=POST action="$action" class=composer>
 		<div class=textarea>
 			<textarea autofocus rows=5
 			maxlength=5000
