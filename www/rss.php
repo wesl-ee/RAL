@@ -26,7 +26,7 @@ print <<<XML_HEAD
 		<generator>RAL</generator>
 
 XML_HEAD;
-$iterator->renderAsRSSItems();
+$iterator->render('rss');
 print <<<XML_DONE
 	</channel>
 </rss>

@@ -58,7 +58,7 @@ $content
 
 TEXT;
 	}
-	public function renderAsRSS() {
+	public function renderAsRss() {
 		$content = htmlentities($this->getContentAsText());
 		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
 		$title = $this->title();
@@ -82,6 +82,8 @@ RSS;
 			say('</main>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
+		break; case 'rss':
+			foreach ($items as $i) $i->renderAsRss();
 		break; }
 	}
 	public function renderBanner($format) {

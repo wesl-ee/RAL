@@ -148,11 +148,6 @@ SQL;
 			$this->Selection[] = new Reply($row);
 		}
 	}
-	public function renderAsRSSItems() {
-		foreach ($this->Selection as $item) {
-			$item->renderAsRSS();
-		}
-	}
 	public function title() {
 		return $this->Selection[0]->Parent->title();
 	}
