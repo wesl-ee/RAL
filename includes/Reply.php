@@ -50,6 +50,14 @@ class Reply {
 
 HTML;
 	}
+	public function renderAsText() {
+		$content = $this->getContentAsText();
+		print <<<TEXT
+$this->Id. ($this->Created)
+$content
+
+TEXT;
+	}
 	public function renderAsRSS() {
 		$content = htmlentities($this->getContentAsText());
 		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
@@ -68,14 +76,16 @@ RSS;
 	}
 	public function renderSelection($items, $format) {
 		switch($format) {
-		case 'HTML':
+		case 'html':
 			say('<main class=flex>');
 			foreach ($items as $i) $i->renderAsHtml();
 			say('</main>');
+		break; case 'text':
+			foreach ($items as $i) $i->renderAsText();
 		break; }
 	}
-	public function renderBanner() {
-		return $this->Parent->renderBanner();
+	public function renderBanner($format) {
+		return $this->Parent->renderBanner($format);
 	}
 	public function getContentAsHtml() {
 		$bbparser = $GLOBALS['RM']->getbbparser();

@@ -22,9 +22,15 @@ class Year {
 	</tr>
 HTML;
 	}
+	public function renderAsText() {
+		print <<<TEXT
+[{$this->Continuity}/{$this->Year}] ($this->Count topics)
+
+TEXT;
+	}
 	public function renderSelection($items, $format) {
 		switch ($format) {
-		case 'HTML':
+		case 'html':
 			print <<<HTML
 <main><table>
 <tr>
@@ -37,11 +43,12 @@ HTML;
 			print <<<HTML
 </table></main>
 HTML;
-			break;
-		}
+		break; case 'text':
+			foreach ($items as $i) $i->renderAsText();
+		break; }
 	}
-	public function renderBanner() {
-		return $this->Parent->renderBanner();
+	public function renderBanner($format) {
+		return $this->Parent->renderBanner($format);
 	}
 	public function renderPostButton() {
 		return $this->Parent->renderPostButton();

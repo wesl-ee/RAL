@@ -58,16 +58,26 @@ class Topic {
 
 HTML;
 	}
+	public function renderAsText() {
+		$content = $this->getContentAsText();
+		print <<<TEXT
+$this->Id. ($this->Created)
+$content
+
+TEXT;
+	}
 	public function renderSelection($items, $format) {
 		switch ($format) {
-		case 'HTML':
+		case 'html':
 			say('<main class=flex>');
 			foreach ($items as $i) $i->renderAsHtml();
 			say('</main>');
+		break; case 'text':
+			foreach ($items as $i) $i->renderAsText();
 		break; }
 	}
-	public function renderBanner() {
-		return $this->Parent->renderBanner();
+	public function renderBanner($format) {
+		return $this->Parent->renderBanner($format);
 	}
 	function title() {
 		return "[{$this->Continuity}/{$this->Year}/"
@@ -88,6 +98,11 @@ HTML;
 		$bbparser->parse(htmlentities($this->Content));
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
+	}
+	public function getContentAsText() {
+		$bbparser = $GLOBALS['RM']->getbbparser();
+		$bbparser->parse($this->Content);
+		return $bbparser->getAsText();
 	}
 	public function renderComposer() {
 		$action = htmlentities($this->resolveComposer());

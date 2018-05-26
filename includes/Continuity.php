@@ -17,7 +17,7 @@ class Continuity {
 	}
 	public function renderAsHtml() {
 		$href = $this->resolve();
-		$src = $this->getBanner();
+		$src = $this->getBannerImage();
 		$alt = $this->Name;
 		$desc = $this->Description;
 		$title = "[{$this->Name}]";
@@ -40,12 +40,20 @@ class Continuity {
 
 HTML;
 	}
+	function renderAsText() {
+		print <<<TEXT
+$this->Name ($this->Description)
+
+TEXT;
+	}
 	public function renderSelection($items, $format) {
 		switch ($format) {
-		case 'HTML':
+		case 'html':
 			say('<main class=continuity-splashes>');
 			foreach ($items as $i) $i->renderAsHtml();
 			say('</main>');
+		break; case 'text':
+			foreach ($items as $i) $i->renderAsText();
 		break; }
 	}
 	public function renderSelectionAsText($items) {
@@ -65,16 +73,19 @@ HTML;
 		else return "{$WROOT}composer.php"
 			. "?continuity=" . urlencode($this->Name);
 	}
-	public function getBanner() {
+	public function getBannerImage() {
 		return CONFIG_WEBROOT
 		. "continuities/{$this->Name}/banner.gif";
+	}
+	public function getBannerTextFile() {
+		return CONFIG_LOCALROOT
+		. "continuities/{$this->Name}/banner.txt";
 	}
 	public function getTheme() {
 		return CONFIG_WEBROOT
 		. "continuities/{$this->Name}/theme.css";
 	}
-
-
+	// TODO: Delete this
 	public function getAsListItem() {
 		return [
 			'Name' => $this->Name,
@@ -87,11 +98,9 @@ HTML;
 	function title() {
 		return "[{$this->Name}]";
 	}
-
-	/* HTML Output */
-	public function renderBanner() {
+	public function renderBannerAsHtml() {
 		$href = $this->resolve();
-		$src = $this->getBanner();
+		$src = $this->getBannerImage();
 		$alt = $this->Name;
 		$title = $this->Name;
 		print <<<HTML
@@ -104,27 +113,14 @@ HTML;
 
 HTML;
 	}
-	public function drawSplash() {
-		$href = $this->resolve();
-		$src = $this->getBanner();
-		$alt = $this->Name;
-		$desc = $this->Description;
-		$title = $this->Name;
-		print <<<HTML
-	<article class=continuity-splash>
-		<div class=banner>
-		<a href="$href">
-			<img height=150 width=380
-			title="$title" alt="$alt"
-			src="$src" />
-		</a>
-		</div>
-		<span class=description>
-			$desc
-		</span>
-	</article>
-
-HTML;
+	public function renderBannerAsText() {
+		readfile($this->getBannerTextFile);
+	}
+	public function renderBanner($format) {
+		switch ($format) {
+		case 'html': $this->renderBannerAsHtml();
+		case 'text': $this->renderBannerAsText();
+		break; }
 	}
 	public function renderPostButton() {
 		$href = htmlentities($this->resolveComposer());
@@ -165,16 +161,6 @@ HTML;
 		</div></form>
 
 HTML;
-	}
-	public function drawContent() {
-		$ROOT = CONFIG_LOCALROOT;
-		if (isset($this->topic)) {
-			print $this->topic;
-		} if (isset ($this->year)) {
-			include "{$ROOT}template/ContinuityYear.php";
-		} else {
-			include "{$ROOT}template/ContinuityOverview.php";
-		}
 	}
 	public function post($content) {
 		$year = date('Y');

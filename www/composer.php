@@ -65,7 +65,7 @@ class=breadcrumb>
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
 <?php $iterator->renderComposer(); ?><hr />
-<?php $iterator->render('HTML'); ?>
+<?php $iterator->render(); ?>
 <hr /><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
