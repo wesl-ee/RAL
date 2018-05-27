@@ -142,23 +142,38 @@ HTML;
 		$height = $robocheck['height'];
 		$width = $robocheck['width'];
 		print <<<HTML
-		<header>$title<br/>New Topic</header>
+		<h2>New topic on $title</h2>
 		<form method=POST action="$action" class=composer>
 		<div class=textarea>
 			<textarea autofocus rows=5
 			maxlength=5000
 			placeholder="Contribute your thoughts and desires..."
 			name=content></textarea>
-		</div><div class=robocheck>
+		<div class=bbcode-help>
+		<header>RAL BBCode Reference</header><ul>
+			<li>[aa]</li>
+			<li>[b]</li>
+			<li>[i]</li>
+			<li>[em]</li>
+			<li>[url]</li>
+			<li>[url=<em>url</em>]</li>
+			<li>[color=<em>Color</em>]</li>
+			<li>[spoiler]</li>
+			<li>[quote]</li>
+		</ul>
+		<footer>
+			<a href=http://www.bbcode.org>What is this?</a>
+		</footer>
+		</div></div><div class=robocheck>
 			<img height=$height width=$width src="$robosrc">
 			<input name=robocheckid type=hidden value=$robocode>
 			<input name=robocheckanswer
 			placeholder="Verify Humanity"
 			autocomplete=off>
-		</div><div class=buttons>
+		<div class=buttons>
 			<a href="$cancel" class="cancel">Cancel</a>
 			<button class type=submit>Post</button>
-		</div></form>
+		</div></div></form>
 
 HTML;
 	}

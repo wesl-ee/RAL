@@ -49,9 +49,9 @@ class Topic {
 		print <<<HTML
 	<article class=post>
 		<nav>
+			<a href="$href">Read Topic</a>
 			<span class=id>[{$this->Continuity}/{$this->Year}/{$this->Id}]</span>
 			<date>$this->Created</date>
-			<a href="$href" class=expand>Expand Topic</a>
 		</nav><hr />
 		{$content}
 	</article>
@@ -107,7 +107,7 @@ HTML;
 	public function renderComposer() {
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
-		$title = "[{$this->Continuity} / {$this->Year} / {$this->Id}]";
+		$title = $this->title();
 
 		$robocheck = gen_robocheck();
 		$robosrc = $robocheck['src'];
@@ -115,23 +115,38 @@ HTML;
 		$height = $robocheck['height'];
 		$width = $robocheck['width'];
 		print <<<HTML
-		<header>$title<br/>Reply to Topic</header>
-		<form method=POST action=$action class=composer>
+		<h2>Reply to $title</h2>
+		<form method=POST action="$action" class=composer>
 		<div class=textarea>
 			<textarea autofocus rows=5
 			maxlength=5000
 			placeholder="Contribute your thoughts and desires..."
 			name=content></textarea>
-		</div><div class=robocheck>
+		<div class=bbcode-help>
+		<header>RAL BBCode Reference</header><ul>
+			<li>[aa]</li>
+			<li>[b]</li>
+			<li>[i]</li>
+			<li>[em]</li>
+			<li>[url]</li>
+			<li>[url=<em>url</em>]</li>
+			<li>[color=<em>Color</em>]</li>
+			<li>[spoiler]</li>
+			<li>[quote=<em>Source</em>]</li>
+		</ul>
+		<footer>
+			<a href=http://www.bbcode.org>What is this?</a>
+		</footer>
+		</div></div><div class=robocheck>
 			<img height=$height width=$width src="$robosrc">
 			<input name=robocheckid type=hidden value=$robocode>
 			<input name=robocheckanswer
 			placeholder="Verify Humanity"
 			autocomplete=off>
-		</div><div class=buttons>
+		<div class=buttons>
 			<a href="$cancel" class="cancel">Cancel</a>
 			<button class type=submit>Post</button>
-		</div></form>
+		</div></div></form>
 
 HTML;
 	}

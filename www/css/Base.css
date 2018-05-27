@@ -3,7 +3,6 @@ body {
 	"Book Antiqua",
 	Palatino,
 	serif;
-	font-weight: lighter;
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight: lighter;
@@ -56,15 +55,8 @@ main.flex > * {
 	margin: 5px;
 	padding: 0 5px;
 }
-.post { border-width: 0 0 0 1px; border-style: solid; }
+.post { border-width: 0 0 0 1px; border-style: solid; max-width: calc(100% - 10px) }
 .op { border-width: 0 0 0 3px; border-style: double; padding: 5px; }
-
-.post .expand {
-	float: right;
-	padding: 5px 5px 4px 5px;
-	border-style: solid;
-	border-width: 1px 1px 0 1px;
-}
 .banner img {
 	display: block;
 	border: 1px solid;
@@ -107,23 +99,43 @@ main.flex > * {
 }
 .composer > * {
 	margin-bottom: 5px;
-	margin-left: auto; margin-right: auto;
-	text-align: center;
 }
 .robocheck input,
 .robocheck img {
 	display: block;
-	margin: auto;
 	width: 165px;
 	box-sizing: border-box;
 }
+.robocheck {
+	display: inline-block;
+}
+.robocheck > * {
+	margin-bottom: 5px;
+}
+@media (min-width: 600px) {
+	.textarea { display: flex; }
+}
 .robocheck input { text-align: center; }
-.buttons { text-align: center; }
+.buttons {
+	text-align: center;
+}
 .buttons > * {
 	border: 1px solid;
 	padding: 0 8px;
 	cursor: pointer;
 	color: inherit;
+}
+.bbcode-help {
+	padding: 5px;
+	border: 1px solid;
+	display: inline-block;
+}
+.bbcode-help ul {
+	padding: 5px 40px;
+	margin: 0;
+}
+.textarea textarea {
+	width: 100%;
 }
 button {
 	display: inline-block;
@@ -147,9 +159,9 @@ button::after {
 }
 button:hover::after { opacity: 1; }
 textarea {
+	margin: 0;
 	padding: 5px;
 	border: 3px double;
-	text-align: justify;
 	font-family: inherit;
 	width: 32em;
 	min-width: 30px;
@@ -163,6 +175,18 @@ input, select, textarea, button {
 	outline: 0;
 }
 input, select { border: 1px solid; }
+.post pre {
+	display: inline-block;
+	max-width: 100%;
+	overflow-x: scroll;
+	padding: 2px;
+	border-radius: 5px;
+}
+.post blockquote {
+	border-left: 2px solid;
+	padding-left: 5px;
+	margin: 0;
+}
 
 /* Colors */
 body {
@@ -183,6 +207,9 @@ a:hover {
 }
 hr {
 	border-color: lightgray;
+}
+pre {
+	background-color: Gainsboro;
 }
 .news-item .title {
 	color: Red;

@@ -81,6 +81,21 @@ class ResourceManager {
 		$builder->setParseContent(false);
 		$bbparser->addCodeDefinition($builder->build());
 
+		/* [quote] Quote Art tag */
+		$figure = <<<HTML
+<figure>
+	<blockquote>{param}</blockquote>
+	<figcaption>— {option}</figcaption>
+</figure>
+
+HTML;
+		$builder = new \jBBCode\CodeDefinitionBuilder(
+			'quote',
+			$figure
+		);
+		$builder->setUseOption(true);
+		$bbparser->addCodeDefinition($builder->build());
+
 		$this->bbparser = $bbparser;
 		return $this->bbparser;
 	}
