@@ -7,13 +7,17 @@ class NewsItem {
 	public $Title;
 	public $Content;
 
-	public function __construct($row) {
+	public $Parent;
+
+	public function __construct($row, $parent) {
 		$this->Id = $row['Id'];
 		$this->Created = $row['Created'];
 		$this->Author = $row['Author'];
 		$this->Email = $row['Email'];
 		$this->Title = $row['Title'];
 		$this->Content = $row['Content'];
+
+		$this->Parent = $parent;
 	}
 	public function draw() {
 		$id = $this->Id;
@@ -26,9 +30,9 @@ class NewsItem {
 		print <<<HTML
 		<article class=news-item>
 		<nav>
-			<em class=title>$title</em>
+			<h3 class=title>$title</h3>
 			by <a href="mailto:$email">$author</a>
-		/ <date>$created</date>
+		/ <time>$created</time>
 		</nav>
 		$content
 		</article>
@@ -36,11 +40,17 @@ HTML;
 	}
 	public function drawSelection($selection) {
 		print <<<HTML
+		<article>
 		<h2>News</h2>
+
 HTML;
 		foreach ($selection as $item) {
 			$item->draw();
 		}
+		print <<<HTML
+		</article>
+
+HTML;
 	}
 	public function getContentAsHtml() {
 		$bbparser = $GLOBALS['RM']->getbbparser();

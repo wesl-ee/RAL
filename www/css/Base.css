@@ -17,6 +17,11 @@ table, tr, td, th {
 	padding: 3px;
 	text-align: center;
 }
+.post h2,
+.post h3 {
+	font-size: 1em;
+	display: inline;
+}
 main table {
 	margin: auto;
 }
@@ -79,7 +84,7 @@ main.flex > * {
 }
 .post { border-width: 0 0 0 1px; border-style: solid; max-width: calc(100% - 10px) }
 .post nav { display: flex; }
-.post nav .expand { flex: 1; text-align: right; padding-left: 5px; }
+.post nav .expand { flex: 1; text-align: right; padding-left: 5px; white-space: nowrap;}
 .op { border-width: 0 0 0 3px; border-style: double; padding: 5px; }
 .banner img {
 	display: block;
@@ -215,7 +220,7 @@ pre {
 	background-color: Gainsboro;
 }
 .news-item .title {
-	color: Red;
+	color: DarkViolet;
 }
 .breadcrumb li {
 	border-color: HotPink;

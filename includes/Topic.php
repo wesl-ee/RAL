@@ -9,6 +9,7 @@ class Topic {
 	public $Year;
 
 	public $Parent;
+	private $RM;
 
 	public function __construct($row, $parent) {
 		$this->Id = $row['Id'];
@@ -21,6 +22,7 @@ class Topic {
 		$this->Parent = $parent;
 		return $this;
 	}
+	public function getRM() { return $this->Parent->getRM(); }
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
@@ -50,11 +52,11 @@ class Topic {
 	<article class=post>
 		<nav>
 		<span>
-			<span class=id>[{$this->Continuity}/{$this->Year}/{$this->Id}]</span>
-			<date>$this->Created</date>
+			<h3 class=id>[{$this->Continuity}/{$this->Year}/{$this->Id}]</h3>
+			<time>$this->Created</time>
 		</span>
 		<span class=expand>
-			<a href="$href">Read Topic ($this->Replies)</a>
+			<a href="$href">Conversation ($this->Replies)</a>
 		</span></nav><hr />
 		{$content}
 	</article>
@@ -96,14 +98,14 @@ TEXT;
 HTML;
 	}
 	public function getContentAsHtml() {
-		$bbparser = $GLOBALS['RM']->getbbparser();
-		$visitor = $GLOBALS['RM']->getLineBreakVisitor();
+		$bbparser = $this->getRM()->getbbparser();
+		$visitor = $this->getRM()->getLineBreakVisitor();
 		$bbparser->parse(htmlentities($this->Content));
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
 	}
 	public function getContentAsText() {
-		$bbparser = $GLOBALS['RM']->getbbparser();
+		$bbparser = $this->getRM()->getbbparser();
 		$bbparser->parse($this->Content);
 		return $bbparser->getAsText();
 	}
@@ -154,7 +156,7 @@ HTML;
 HTML;
 	}
 	public function post($content) {
-		$dbh = $GLOBALS['RM']->getdb();
+		$dbh = $this->getRM()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Replies`

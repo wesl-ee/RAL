@@ -1,5 +1,6 @@
+<article>
 <h2>About</h2>
-<article><p>
+<p>
 RAL is a text-only message board / forum. It is written solely by
 <a href="https://prettyboytellem.com">Prettyboy Yumi</a> who is enigmatic as he
 is charming (according to a popular vote once held).

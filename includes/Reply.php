@@ -18,6 +18,7 @@ class Reply {
 
 		$this->Parent = $parent;
 	}
+	public function getRM() { return $this->Parent->getRM(); }
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
@@ -42,8 +43,8 @@ class Reply {
 		print <<<HTML
 	<article class=post>
 		<nav>
-			<span class=id>$this->Id.</span>
-			<date>$this->Created</date>
+			<h2 class=id>$this->Id.</h2>
+			<time>$this->Created</time>
 		</nav><hr />
 		{$content}
 	</article>
@@ -90,14 +91,14 @@ RSS;
 		return $this->Parent->renderBanner($format);
 	}
 	public function getContentAsHtml() {
-		$bbparser = $GLOBALS['RM']->getbbparser();
-		$visitor = $GLOBALS['RM']->getLineBreakVisitor();
+		$bbparser = $this->getRM()->getbbparser();
+		$visitor = $this->getRM()->getLineBreakVisitor();
 		$bbparser->parse(htmlentities($this->Content));
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
 	}
 	public function getContentAsText() {
-		$bbparser = $GLOBALS['RM']->getbbparser();
+		$bbparser = $this->getRM()->getbbparser();
 		$bbparser->parse($this->Content);
 		return $bbparser->getAsText();
 	}

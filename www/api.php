@@ -3,7 +3,8 @@ include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 include "{$ROOT}includes/News.php";
 
-$iterator = new RAL\ContinuityIterator();
+$RM = new RAL\ResourceManager();
+$iterator = new RAL\ContinuityIterator($RM);
 
 // Translate GET parameters from their percent-encoded values
 foreach ($_GET as $param => $value) $_GET[$param] = urldecode($value);

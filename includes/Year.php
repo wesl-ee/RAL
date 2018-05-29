@@ -12,6 +12,7 @@ class Year {
 		$this->Count = $row['Count'];
 		$this->Parent = $parent;
 	}
+	public function getRM() { return $this->Parent->getRM(); }
 	public function renderAsHtml() {
 		$href = htmlentities($this->resolve());
 		print <<<HTML

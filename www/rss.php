@@ -5,7 +5,8 @@ include "{$ROOT}includes/ContinuityIterator.php";
 
 header("Content-type: text/xml");
 $CONFIG_WEBROOT = CONFIG_WEBROOT;
-$iterator = new RAL\ContinuityIterator();
+$RM = new RAL\ResourceManager();
+$iterator = new RAL\ContinuityIterator($RM);
 $posts = $iterator->selectRecent(20);
 
 print <<<XML_HEAD

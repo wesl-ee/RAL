@@ -6,6 +6,7 @@ class Continuity {
 	public $Description;
 
 	public $Parent;
+	private $RM;
 
 	public function __construct($row, $parent = null) {
 		$this->Name = $row['Name'];
@@ -15,6 +16,7 @@ class Continuity {
 		$this->Parent = $parent;
 		return $this;
 	}
+	public function getRM() { return $this->Parent->getRM(); }
 	public function renderAsHtml() {
 		$href = $this->resolve();
 		$src = $this->getBannerImage();
@@ -30,9 +32,9 @@ class Continuity {
 			src="$src" />
 		</a>
 		</div>
-		<span class=title>
+		<h2 class=title>
 			$title
-		</span><br />
+		</h2>
 		<span class=description>
 			$desc
 		</span>
@@ -179,7 +181,7 @@ HTML;
 	}
 	public function post($content) {
 		$year = date('Y');
-		$dbh = $GLOBALS['RM']->getdb();
+		$dbh = $this->getRM()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Topics`

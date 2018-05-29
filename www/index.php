@@ -4,7 +4,8 @@ include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 include "{$ROOT}includes/News.php";
 
-$iterator = new RAL\ContinuityIterator();
+$RM = new RAL\ResourceManager();
+$iterator = new RAL\ContinuityIterator($RM);
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -35,7 +36,7 @@ HREF;
 <?php include "{$ROOT}template/Feelies.php" ?><hr />
 <?php $iterator->drawRSSButton(); ?>
 <?php $iterator->select(); $iterator->render(); ?>
-<?php (new RAL\News())->select()->draw(); ?><hr />
+<?php (new RAL\News($RM))->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
 <hr /><footer>

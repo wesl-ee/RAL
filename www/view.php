@@ -3,7 +3,8 @@ $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 
-$iterator = new RAL\ContinuityIterator();
+$RM = new RAL\ResourceManager();
+$iterator = new RAL\ContinuityIterator($RM);
 
 // Which continuity we are reading
 $continuity = urldecode($_GET['continuity']);

@@ -1,6 +1,7 @@
 <?php
 	$WROOT = CONFIG_WEBROOT;
 	$LOCALROOT = CONFIG_LOCALROOT;
+	$themefile = "continuities/$theme/style.css";
 	print
 <<<HTML
 	<meta name=viewport content="width=device-width,
@@ -9,8 +10,9 @@
 	<link rel=icon type="image/x-icon" href="${WROOT}favicon.ico">
 
 HTML;
-	if (@$theme) print <<<HTML
-	<link rel=stylesheet href="${WROOT}css/$theme.css">
+	if (@$theme && file_exists("{$LOCALROOT}www/$themefile"))
+		print <<<HTML
+	<link rel=stylesheet href="${WROOT}$themefile">
 
 HTML;
 	if (isset($pagetitle)) print <<<HTML

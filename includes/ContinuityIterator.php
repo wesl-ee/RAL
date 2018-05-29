@@ -10,12 +10,14 @@ class ContinuityIterator {
 	public $Topic;
 
 	public $Selection = [];
-	public $Parent;
+	private $Parent;
+	private $RM;
 
+	public function __construct($RM) { $this->RM = $RM; }
 	public function select($continuity = null,
 	$year = null,
 	$topic = null) {
-		$dbh = $GLOBALS['RM']->getdb();
+		$dbh = $this->RM->getdb();
 
 		$this->Selection = [];
 
@@ -37,7 +39,7 @@ SQL;
 			$stmt->bind_param('s', $continuity);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_assoc();
-			$this->Continuity = new Continuity($row);
+			$this->Continuity = new Continuity($row, $this);
 			$this->Parent = $this->Continuity;
 		} if ($continuity && !$year) {
 			$query = <<<SQL
@@ -104,11 +106,15 @@ SQL;
 			}
 		}
 	}
+	public function getRM() { return $this->RM; }
 	public function render($format = 'html') {
 		$this->Selection[0]->renderSelection(
 			$this->Selection,
 			$format
 		);
+//		$this->Selection[0]->initializeTemplater($this->Templater);
+//		$this->Templater->setFormat($format);
+//		$this->Templater->render($this->Selection)
 	}
 	public function renderBanner($format = 'html') {
 		$this->Selection[0]->Parent->renderBanner(
@@ -134,7 +140,7 @@ HTML;
 		$this->Selection[0]->Parent->post($content);
 	}
 	public function selectRecent($n) {
-		$dbh = $GLOBALS['RM']->getdb();
+		$dbh = $this->RM->getdb();
 		$query = <<<SQL
 		SELECT `Id`, `Created`, `Continuity`, `Topic`
 		, `Content`, `Year` FROM `Replies` ORDER BY `Created`
@@ -145,7 +151,7 @@ SQL;
 		$stmt->execute();
 		$res = $stmt->get_result();
 		while ($row = $res->fetch_assoc()) {
-			$this->Selection[] = new Reply($row);
+			$this->Selection[] = new Reply($row, $this);
 		}
 	}
 	public function title() {

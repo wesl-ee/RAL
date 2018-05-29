@@ -1,5 +1,6 @@
+<article>
 <h2>Rules</h2>
-<article><p>
+<p>
 There are a few guidelines you should follow:
 </p><ol>
 	<li>No spamming</li>
