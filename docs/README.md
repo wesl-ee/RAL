@@ -7,8 +7,8 @@ Executive Summary
 -----------------
 
 RAL is a text-only message board / forum. It provides a totally anonymous
-discussion space on the internet; RAL is often called a neo-forum because it
-takes inspiration from the classic forum model.
+discussion space on the internet; RAL is a new type of discussion space
+called a neo-forum.
 
 If you are curious what RAL feels like [check out the site](https://ral.space)
 
@@ -16,7 +16,7 @@ First, you may notice that there are a number of different boards which
 have a single focus. These boards are called _continuities_ because unlinke
 boards, posts are never archived and threads are never locked. Thus,
 conversation is continuous, leading to the name _continuity_. Only the admin
-may create or remove a new continuity using `bin/admin_panel`.
+may create or remove a new continuity using the administrator interface.
 
 Each continuity has a number of topics created by users. These topics
 express thoughts and ideas and are expanded upon in the replies. Anyone may

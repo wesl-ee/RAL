@@ -126,7 +126,7 @@ HTML;
 		$href = htmlentities($this->resolveComposer());
 		print <<<HTML
 		<nav class=info-links>
-		<a class=post-button href="$href">Create a Topic</a>
+		<a class="post-button" href="$href">Create a Topic</a>
 		</nav>
 
 HTML;

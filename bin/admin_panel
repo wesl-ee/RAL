@@ -387,6 +387,9 @@ SQL
 		. 'VALUES ((?), (?), (?), (?), (?))');
 		my $sth3 = $dbh->prepare('UPDATE `Continuities` SET'
 		. ' `Post Count`=`Post Count`+1 WHERE `Name`=(?)');
+		my $sth4 = $dbh->prepare('UPDATE `Topics` SET'
+		. ' `Replies`=`Replies`+1 WHERE `Continuity`=(?)'
+		. ' AND `Id`=? AND Year=?');
 		$sth->execute() or die DBI::errstr;
 		my $reply;
 		while ($row = $sth->fetchrow_hashref) {
@@ -402,7 +405,15 @@ SQL
 				$row->{Continuity},
 				$topicmap{"$row->{Continuity}/$row->{Topic}"},
 				$row->{Content}
-			) or die DBI::errstr; $reply++;
+			) or die DBI::errstr;
+			$sth3->execute(
+				$row->{Continuity}
+			);
+			$sth4->execute(
+				$row->{Continuity},
+				'2018',	# Extract year from $row->{Created}
+				$topicmap{"$row->{Continuity}/$row->{Topic}"}
+			); $reply++;
 		} }
 	}
 } print "\n"; } while ($choice ne 'Quit');

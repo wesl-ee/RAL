@@ -29,9 +29,7 @@ HREF;
 </head>
 <body>
 <header>
-	<div>
-		<h1 class=glitch data-text=RAL>RAL</h1>
-	</div>
+	<h1>RAL</h1>
 	<span>Neo-Forum Textboard</span><br />
 </header>
 <?php include "{$ROOT}template/Feelies.php" ?><hr />

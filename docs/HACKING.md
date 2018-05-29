@@ -6,12 +6,14 @@ RAL, this file will help you to get started.
 
 First and foremost, ensure that you are on the `develop` branch. This is
 the developer's branch. `master` is considered production-stable and is
-only merged with develop for stable releases.
+only merged with develop for stable releases. It is advised to create a
+seperate feature branch when you contribute. I, too, add feature branches
+from time to time.
 
 Submitting Patches / Pull Requests
 ----------------------------------
 
-Either mail me at L<yumi@prettyboytellem.com|mailto:yumi@prettyboytellem.com> or join the IRC at
+Either mail me at yumi@prettyboytellem.com or join the IRC at
 [howler.space:6667](https://irc.ral.space) #bigtown. A PR is also fine but
 I would prefer that you either send a .patch (for small things), or link me
 the repository with your feature branch (for larger things)

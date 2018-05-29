@@ -8,7 +8,7 @@ necessary skill (and courage), continue reading.
 Overview of the API
 -------------------
 
-The RAL API is available within the source tree at `B4U/api.php`. This is
+The RAL API is available within the source tree at `www/api.php`. This is
 exposed to the public for everyone to use! By exposing this interface, I
 hope to extend the RAL community. Some use cases may be:
 
@@ -20,7 +20,7 @@ hope to extend the RAL community. Some use cases may be:
 
 Here are all of the functions which the API responds to:
 
-Fetch
+View
 -----
 
 Fetches things (i.e. continuities, topics, posts). Pass the relevant
@@ -31,9 +31,9 @@ parameters.
 All parameters are optional.
 
 * continuity
+* year
 * topic
 * format
-* linkify
 
 ### Response
 
@@ -43,48 +43,15 @@ response will be in JSON form.
 
 ### Examples
 
-`https://ral.space/api?fetch`
+`https://ral.space/api.php?a=view`
 
-Fetches all continuities in the JSON format
+Fetches all continuities in the default format (typically text)
 
-`https://ral.space/api?fetch&continuity=Chat`
+`https://ral.space/api.php?a=view&continuity=Chat`
 
-Fetches all topics in the [Chat] continuity
+Fetches all topics in the [Chat] continuity in the default format
 
-`https://ral.space/api?fetch&continuity=Chat&topic=1&format=html`
+`https://ral.space/api.php?fetch&continuity=Chat&year=2018&topic=1&format=html`
 
-Fetches all posts in the [Chat/1] topic and displays them in a basic HTML format
-
-Verify
------
-
-Meant for realtime interaction. You can query this instead of doing a
-full fetch to just get the relevant post numbers that should be on your
-page. If the response differs from your page, you know that your content
-is not up-to-date and must be refreshed.
-
-### Parameters
-
-All parameters are optional
-
-* continuity
-* topic
-* mostpost
-
-### Response
-
-Expect a JSON array of numbers which represents the posts in the topic
-or continuity you queried.
-
-Preview
--------
-
-A simple way to format BBCode text into HTML using RAL's specification.
-
-### Parameters
-
-* text
-
-### Response
-
-Expect a fragment of HTML which represents the BBCode text
+Fetches all posts in the [Chat/2018/1] topic and displays them in a basic
+HTML format.

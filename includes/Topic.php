@@ -49,10 +49,13 @@ class Topic {
 		print <<<HTML
 	<article class=post>
 		<nav>
-			<a href="$href">Read Topic</a>
+		<span>
 			<span class=id>[{$this->Continuity}/{$this->Year}/{$this->Id}]</span>
 			<date>$this->Created</date>
-		</nav><hr />
+		</span>
+		<span class=expand>
+			<a href="$href">Read Topic ($this->Replies)</a>
+		</span></nav><hr />
 		{$content}
 	</article>
 
@@ -173,7 +176,15 @@ SQL;
 		WHERE `Name`=?
 SQL;
 		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('s', $this->Name);
+		$stmt->bind_param('s', $this->Continuity);
+		$stmt->execute();
+
+		$query = <<<SQL
+		UPDATE `Topics` SET `Replies`=`Replies`+1
+		WHERE `Continuity`=? AND `Year`=? AND `Id`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('sii', $this->Continuity, $this->Year, $this->Id);
 		$stmt->execute();
 	}
 }
