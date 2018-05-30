@@ -38,7 +38,7 @@ All parameters are optional.
 ### Response
 
 Returns the queried material in a format matching the passed `format`
-(currently only HTML may be specified). If no format is passed, the
+(currently only html, text, or json may be specified). If no format is passed, the
 response will be in JSON form.
 
 ### Examples

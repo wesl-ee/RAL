@@ -117,15 +117,15 @@ SQL;
 //		$this->Templater->render($this->Selection)
 	}
 	public function renderBanner($format = 'html') {
-		$this->Selection[0]->Parent->renderBanner(
+		$this->Selection[0]->getParent()->renderBanner(
 			$format
 		);
 	}
 	public function renderPostButton() {
-		$this->Selection[0]->Parent->renderPostButton();
+		$this->Selection[0]->getParent()->renderPostButton();
 	}
 	public function renderComposer() {
-		$this->Selection[0]->Parent->renderComposer();
+		$this->Selection[0]->getParent()->renderComposer();
 	}
 	public function drawRSSButton() {
 		$WROOT = CONFIG_WEBROOT;
@@ -139,22 +139,29 @@ HTML;
 	public function post($content) {
 		$this->Selection[0]->Parent->post($content);
 	}
-	public function selectRecent($n) {
+	public function selectRecent($n = 0) {
 		$dbh = $this->RM->getdb();
-		$query = <<<SQL
-		SELECT `Id`, `Created`, `Continuity`, `Topic`
-		, `Content`, `Year` FROM `Replies` ORDER BY `Created`
-		DESC LIMIT ?
+		if (!$n) { $query = <<<SQL
+			SELECT `Id`, `Created`, `Continuity`, `Topic`
+			, `Content`, `Year` FROM `Replies` ORDER BY `Created`
 SQL;
-		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('i', $n);
-		$stmt->execute();
-		$res = $stmt->get_result();
+			$res = $dbh->query($query);
+		}
+		else { $query = <<<SQL
+			SELECT `Id`, `Created`, `Continuity`, `Topic`
+			, `Content`, `Year` FROM `Replies` ORDER BY `Created`
+			DESC LIMIT ?
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('i', $n);
+			$stmt->execute();
+			$res = $stmt->get_result();
+		}
 		while ($row = $res->fetch_assoc()) {
 			$this->Selection[] = new Reply($row, $this);
 		}
 	}
 	public function title() {
-		return $this->Selection[0]->Parent->title();
+		return $this->Selection[0]->getParent()->title();
 	}
 }

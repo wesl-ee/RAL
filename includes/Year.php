@@ -4,7 +4,7 @@ class Year {
 	public $Continuity;
 	public $Count;
 
-	public $Parent;
+	private $Parent;
 
 	public function __construct($row, $parent) {
 		$this->Year = $row['Year'];
@@ -13,6 +13,7 @@ class Year {
 		$this->Parent = $parent;
 	}
 	public function getRM() { return $this->Parent->getRM(); }
+	public function getParent() { return $this->Parent; }
 	public function renderAsHtml() {
 		$href = htmlentities($this->resolve());
 		print <<<HTML
@@ -28,6 +29,15 @@ HTML;
 [{$this->Continuity}/{$this->Year}] ($this->Count topics)
 
 TEXT;
+	}
+	public function renderAsSitemap() {
+		$loc = $this->resolve();
+print <<<XML
+	<url>
+		<loc>$loc</loc>
+	</url>
+
+XML;
 	}
 	public function renderSelection($items, $format) {
 		switch ($format) {
@@ -46,7 +56,11 @@ HTML;
 HTML;
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
-		break; }
+		break; case 'sitemap':
+			foreach ($items as $i) $i->renderAsSitemap();
+		break; case 'json':
+			print json_encode($items);
+		}
 	}
 	public function renderBanner($format) {
 		return $this->Parent->renderBanner($format);

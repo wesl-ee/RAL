@@ -6,7 +6,7 @@ class Reply {
 	public $Content;
 	public $Created;
 
-	public $Parent;
+	private $Parent;
 
 	function __construct($row, $parent = null) {
 		$this->Id = $row['Id'];
@@ -19,6 +19,7 @@ class Reply {
 		$this->Parent = $parent;
 	}
 	public function getRM() { return $this->Parent->getRM(); }
+	public function getParent() { return $this->Parent; }
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
@@ -73,7 +74,6 @@ TEXT;
 	<pubDate>$date</pubDate>
 </item>
 RSS;
-
 	}
 	public function renderSelection($items, $format) {
 		switch($format) {
@@ -85,7 +85,9 @@ RSS;
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'rss':
 			foreach ($items as $i) $i->renderAsRss();
-		break; }
+		break; case 'json':
+			print json_encode($items);
+		}
 	}
 	public function renderBanner($format) {
 		return $this->Parent->renderBanner($format);

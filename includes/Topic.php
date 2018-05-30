@@ -8,7 +8,7 @@ class Topic {
 	public $Replies;
 	public $Year;
 
-	public $Parent;
+	private $Parent;
 	private $RM;
 
 	public function __construct($row, $parent) {
@@ -23,6 +23,7 @@ class Topic {
 		return $this;
 	}
 	public function getRM() { return $this->Parent->getRM(); }
+	public function getParent() { return $this->Parent; }
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
@@ -71,6 +72,15 @@ $content
 
 TEXT;
 	}
+	public function renderAsSitemap() {
+		$loc = $this->resolve();
+print <<<XML
+	<url>
+		<loc>$loc</loc>
+	</url>
+
+XML;
+	}
 	public function renderSelection($items, $format) {
 		switch ($format) {
 		case 'html':
@@ -79,6 +89,10 @@ TEXT;
 			say('</main>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
+		break; case 'json':
+			print json_encode($items);
+		break; case 'sitemap':
+			foreach ($items as $i) $i->renderAsSitemap();
 		break; }
 	}
 	public function renderBanner($format) {

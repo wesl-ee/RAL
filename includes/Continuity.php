@@ -5,7 +5,7 @@ class Continuity {
 	public $PostCount;
 	public $Description;
 
-	public $Parent;
+	private $Parent;
 	private $RM;
 
 	public function __construct($row, $parent = null) {
@@ -48,6 +48,15 @@ $this->Name ($this->Description)
 
 TEXT;
 	}
+	public function renderAsSitemap() {
+		$loc = $this->resolve();
+print <<<XML
+	<url>
+		<loc>$loc</loc>
+	</url>
+
+XML;
+	}
 	public function renderSelection($items, $format) {
 		switch ($format) {
 		case 'html':
@@ -56,7 +65,11 @@ TEXT;
 			say('</main>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
-		break; }
+		break; case 'sitemap':
+			foreach ($items as $i) $i->renderAsSitemap();
+		break; case 'json':
+			print json_encode($items);
+		}
 	}
 	public function renderSelectionAsText($items) {
 		foreach ($items as $i) $i->renderAsText();
@@ -120,7 +133,7 @@ HTML;
 	}
 	public function renderBanner($format) {
 		switch ($format) {
-		case 'html': $this->renderBannerAsHtml();
+		case 'html': $this->renderBannerAsHtml(); break;
 		case 'text': $this->renderBannerAsText();
 		break; }
 	}
