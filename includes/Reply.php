@@ -42,7 +42,7 @@ class Reply {
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
 		print <<<HTML
-	<article class=post>
+	<article class=post id=$this->Id>
 		<nav>
 			<h2 class=id>$this->Id.</h2>
 			<time>$this->Created</time>

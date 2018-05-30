@@ -3,6 +3,7 @@ include 'Continuity.php';
 include 'Year.php';
 include 'Topic.php';
 include 'Reply.php';
+include 'RecentPost.php';
 class ContinuityIterator {
 	// State
 	public $Continuity;
@@ -140,6 +141,7 @@ HTML;
 		$this->Selection[0]->Parent->post($content);
 	}
 	public function selectRecent($n = 0) {
+		$this->Selection = [];
 		$dbh = $this->RM->getdb();
 		if (!$n) { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
@@ -158,7 +160,7 @@ SQL;
 			$res = $stmt->get_result();
 		}
 		while ($row = $res->fetch_assoc()) {
-			$this->Selection[] = new Reply($row, $this);
+			$this->Selection[] = new RecentPost($row, $this);
 		}
 	}
 	public function title() {
