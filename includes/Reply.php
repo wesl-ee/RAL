@@ -83,8 +83,6 @@ RSS;
 			say('</main>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
-		break; case 'rss':
-			foreach ($items as $i) $i->renderAsRss();
 		break; case 'json':
 			print json_encode($items);
 		}

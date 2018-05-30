@@ -129,9 +129,10 @@ SQL;
 		$this->Selection[0]->getParent()->renderComposer();
 	}
 	public function drawRSSButton() {
-		$WROOT = CONFIG_WEBROOT;
+		if (CONFIG_CLEAN_URL) $href = CONFIG_WEBROOT . "rss";
+		else $href = CONFIG_WEBROOT . "rss.php";
 		print <<<HTML
-		<div class="info-links right"><a href={$WROOT}rss.php>
+		<div class="info-links right"><a href="$href">
 			RSS Summary
 		</a></div>
 

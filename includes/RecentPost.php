@@ -26,6 +26,21 @@ $content
 
 TEXT;
 	}
+	public function renderAsRss() {
+		$content = htmlentities($this->getContentAsText());
+		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
+		$title = $this->title();
+		$date = $this->Created;
+		print <<<RSS
+<item>
+	<title>$title</title>
+	<link>$url</link>
+	<guid isPermaLink="true">$url</guid>
+	<description>$content</description>
+	<pubDate>$date</pubDate>
+</item>
+RSS;
+	}
 	public function renderSelection($items, $format) {
 		switch($format) {
 		case 'html':
