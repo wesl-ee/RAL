@@ -8,51 +8,26 @@ This document provides a detailed guide on the best-practice of configuring
 RAL. Since RAL is written (nearly) entirely in PHP, you may be able to guess
 what sort of tools I will be using:
 
-### On Reverse Proxy
+Tools
+-----
 
-* Nginx
-
-	For proxying requests and as a SSL termination proxy
-
-### On Back-end Webserver
-
-* lighttpd
-
-	Serve client requests when they are passed from nginx
-
+* Webserver
 * MariaDB (or other MySQL provider)
-
-	MariaDB stores post and continuity info for RAL so that it is
-	persistent across reboots and accessible to any MySQL driver
-
 * Git
-
-	Since RAL is version-controlled using git, this is pretty necessary.
-	Additionally, RAL calls `git` to fetch the version number and display
-	it at the bottom of some pages.
-
 * PHP >= 5.1 (PHP provider)
+	- MySQLi
+	- fpm-PHP (PHP pool manager)
+	- ImageMagick
+	- jBBCode
 
-	Executes the RAL script. For RAL, PHP must be compiled with at least
-	the following components:
+Ensure that your webserver can serve PHP files. Then install jBBCode into
+`/includes/jBBCode`. jBBCode can be downloaded from
+[the official website](http://jbbcode.com/).
 
-	* MySQLi
+Example Setup
+-------------
 
-		Access to the MySQL database is possible through PHP's
-		MySQLi interface.
-
-	* fpm-PHP (PHP pool manager)
-
-		Provides greater flexibility for controlling the dynamic load
-		and timouts of a long-polling load
-
-	* ImageMagick
-
-		PHP calls C<convert> and uses CONFIG_WORDLIST to generate
-		random *robocheck* images to combat spam.
-
-           Typical Implementation
-	/*****************************************\
+	/**************** My Setup ***************\
 	*                                         *
 	*         Internet                        *
 	*    _______|_|_______                    *
@@ -86,13 +61,9 @@ reducing the hassle when you deploy new keys.
 
 ### Example configurations
 
-In `docs/config/` you will find two folders. One of these folders holds
-configurations for the reverse proxy, and the other holds configurations for
-the back-end webserver.
-
-All of these softwares may run on the same computer. In any case, nginx
-B<MUST> be set to listen on either 80 (http:) or 443 (https:) for regular
-web clients to easily connect to your server.
+In `docs/config/` you will find some useful files for setting up the
+back-end server. Whether or not you set up a reverse proxy is really up to
+you, but I would _highly_ recommend it.
 
 If you decide to deploy using http/2 remember that the modern interpretation
 of http/2 [practically requires SSL](https://www.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf>)

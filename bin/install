@@ -3,7 +3,7 @@ use strict;
 use File::Basename;
 use DBI;
 
-use constant VERSION => '1.0 "Lightning"';
+use constant VERSION => '2.0 "Feisar"';
 use constant {
 	FOREGROND_BLACK => '[0;30m',
 	FOREGROUND_RED => '[0;31m',
@@ -113,28 +113,46 @@ if (!$sth->execute) {
 }
 
 # Table creation
-$sth = $dbh->prepare(
-	"CREATE TABLE `Continuities` ("
-	. "`Name` VARCHAR(16) NOT NULL,"
-	. "`Post Count` INT(11) DEFAULT 0,"
-	. "`Description` VARCHAR(32) DEFAULT NULL,"
-	. "PRIMARY KEY (`Name`)"
-	. ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
-);
+my $query;
+$query = <<SQL;
+	CREATE TABLE `Continuities` (
+	`Name` varchar(16) NOT NULL,
+	`Post Count` int(11) DEFAULT 0,
+	`Description` varchar(32) DEFAULT NULL,
+	PRIMARY KEY (`Name`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL
+$sth = $dbh->prepare($query);
 if (!$sth->execute) {
 	die_error DBI::errstr;
 }
-$sth = $dbh->prepare(
-	"CREATE TABLE `Posts` ("
-	. "`Id` INT(11) NOT NULL,"
-	. "`Created` DATETIME DEFAULT CURRENT_TIMESTAMP,"
-	. "`Continuity` VARCHAR(16) NOT NULL,"
-	. "`Topic` INT(11) NOT NULL,"
-	. "`Content` TEXT NOT NULL DEFAULT '',"
-	. "`Auth` VARCHAR(512) NOT NULL,"
-	. "PRIMARY KEY (`Id`, `Continuity`)"
-	. ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
-);
+$query = <<SQL;
+	CREATE TABLE `Topics` (
+	`Id` int(11) NOT NULL,
+	`Created` datetime DEFAULT current_timestamp(),
+	`Continuity` varchar(16) NOT NULL,
+	`Content` text NOT NULL DEFAULT '',
+	`Replies` int(11) DEFAULT 0,
+	`Year` int(4) NOT NULL DEFAULT year(`Created`),
+	PRIMARY KEY (`Continuity`,`Year`,`Id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL
+$sth = $dbh->prepare($query);
+if (!$sth->execute) {
+	die_error DBI::errstr;
+}
+$query = <<SQL;
+	CREATE TABLE `Replies` (
+	`Id` int(11) NOT NULL,
+	`Created` datetime DEFAULT current_timestamp(),
+	`Continuity` varchar(16) NOT NULL,
+	`Year` int(4) NOT NULL DEFAULT year(`Created`),
+	`Topic` int(11) NOT NULL,
+	`Content` text NOT NULL DEFAULT '',
+	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL
+$sth = $dbh->prepare($query);
 if (!$sth->execute) {
 	die_error DBI::errstr;
 }
