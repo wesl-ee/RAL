@@ -96,17 +96,15 @@ main.flex > * {
 .info-links {
 	padding: 10px 0;
 }
-.info-links.right {
-	text-align: right;
-}
-.info-links > *, .breadcrumb > * {
+.breadcrumb > * {
 	border-style: solid;
-	border-width: 1px 1px 1px 0;
+	border-width: 0 1px 0 0;
 	padding: 0 8px;
 }
-.info-links > *:first-child, .breadcrumb > *:first-child {
-	border-width: 1px;
+.breadcrumb > *:last-child {
+	border-width: 0;
 }
+.info-links > * { margin: 0 8px; }
 
 /* Navigation breadcrumb at the page top */
 .breadcrumb {
@@ -200,12 +198,11 @@ input, select { border: 1px solid; }
 
 /* Colors */
 body {
-	background: White;
+	background: LightGray;
 	color: Black;
 }
 a {
 	text-decoration: none;
-	color: HotPink;
 }
 a:hover {
 	text-decoration: underline;
@@ -222,6 +219,6 @@ pre {
 .news-item .title {
 	color: DarkViolet;
 }
-.breadcrumb li {
-	border-color: HotPink;
+a {
+	color: Blue;
 }

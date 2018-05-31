@@ -132,7 +132,7 @@ SQL;
 		if (CONFIG_CLEAN_URL) $href = CONFIG_WEBROOT . "rss";
 		else $href = CONFIG_WEBROOT . "rss.php";
 		print <<<HTML
-		<div class="info-links right"><a href="$href">
+		<div class="info-links"><a href="$href">
 			RSS Summary
 		</a></div>
 
