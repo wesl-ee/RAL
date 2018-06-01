@@ -137,7 +137,7 @@ HTML;
 		<h2>Reply to $title</h2>
 		<form method=POST action="$action" class=composer>
 		<div class=textarea>
-			<textarea autofocus rows=5
+			<textarea autofocus rows=5 tabindex=1
 			maxlength=5000
 			placeholder="Contribute your thoughts and desires..."
 			name=content></textarea>
@@ -161,10 +161,11 @@ HTML;
 			<input name=robocheckid type=hidden value=$robocode>
 			<input name=robocheckanswer
 			placeholder="Verify Humanity"
+			tabindex=2
 			autocomplete=off>
 		<div class=buttons>
 			<a href="$cancel" class="cancel">Cancel</a>
-			<button class type=submit>Post</button>
+			<button class type=submit tabindex=3>Post</button>
 		</div></div></form>
 
 HTML;

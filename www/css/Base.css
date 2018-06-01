@@ -96,12 +96,13 @@ main.flex > * {
 .info-links {
 	padding: 10px 0;
 }
-.breadcrumb > * {
+.breadcrumb > *, .buttons > * {
 	border-style: solid;
 	border-width: 0 1px 0 0;
 	padding: 0 8px;
 }
-.breadcrumb > *:last-child {
+.breadcrumb > *:last-child,
+.buttons > *:last-child {
 	border-width: 0;
 }
 .info-links > * { margin: 0 8px; }
@@ -133,6 +134,7 @@ main.flex > * {
 	display: block;
 	width: 165px;
 	box-sizing: border-box;
+	border: 1px solid;
 }
 .robocheck {
 	display: inline-block;
@@ -148,14 +150,11 @@ main.flex > * {
 	text-align: center;
 }
 .buttons > * {
-	border: 1px solid;
-	padding: 0 8px;
 	cursor: pointer;
 	color: inherit;
 }
 .bbcode-help {
 	padding: 5px;
-	border: 1px solid;
 	display: inline-block;
 }
 .bbcode-help ul {
@@ -175,7 +174,10 @@ textarea {
 	min-width: 30px;
 	max-width: calc(100% - 10px);
 }
-input, select, textarea, button {
+button {
+	cursor: pointer;
+}
+select, button {
 	font-family: inherit;
 	background-color: inherit;
 	color: inherit;
@@ -201,10 +203,10 @@ body {
 	background: LightGray;
 	color: Black;
 }
-a {
+a, button {
 	text-decoration: none;
 }
-a:hover {
+a:hover, button:hover {
 	text-decoration: underline;
 }
 .id {

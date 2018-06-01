@@ -131,15 +131,16 @@ SQL;
 	public function drawRSSButton() {
 		if (CONFIG_CLEAN_URL) $href = CONFIG_WEBROOT . "rss";
 		else $href = CONFIG_WEBROOT . "rss.php";
+		$rssimg = CONFIG_WEBROOT . "res/rss.gif";
 		print <<<HTML
 		<div class="info-links"><a href="$href">
-			RSS Summary
+			<img src="$rssimg" alt=RSS title=RSS>
 		</a></div>
 
 HTML;
 	}
 	public function post($content) {
-		$this->Selection[0]->Parent->post($content);
+		$this->Selection[0]->getParent()->post($content);
 	}
 	public function selectRecent($n = 0) {
 		$this->Selection = [];

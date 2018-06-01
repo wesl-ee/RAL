@@ -1,7 +1,7 @@
 <?php
 	$WROOT = CONFIG_WEBROOT;
 	$LOCALROOT = CONFIG_LOCALROOT;
-	$themefile = "continuities/$theme/style.css";
+	@$themefile = "continuities/$theme/style.css";
 	print
 <<<HTML
 	<meta name=viewport content="width=device-width,
