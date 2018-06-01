@@ -22,14 +22,20 @@ if (!$continuity) {
 if (!empty($_POST)) {
 	$id = $_POST['robocheckid'];
 	$answer = $_POST['robocheckanswer'];
+	$page = $iterator->resolve();
 	if (!isset($id, $answer)) {
-		print "Please verify your humanity!";
+		header("Refresh: 10; url=$page");
+		$reason = "Did you forget to verify your humanity?";
+		include "{$ROOT}template/PostFailure.php";
 	} else if (!check_robocheck($id, $answer)) {
-		print "Imposter!";
+		header("Refresh: 10; url=$page");
+		$reason = "You failed the humanity check!";
+		include "{$ROOT}template/PostFailure.php";
 	} else {
-		print "You pass!";
 		$iterator->post($_POST['content']);
-	}
+		header("Refresh: 10; url=$page");
+		include "{$ROOT}template/PostSuccess.php";
+	} die;
 }
 
 ?>

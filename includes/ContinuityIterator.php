@@ -142,6 +142,9 @@ HTML;
 	public function post($content) {
 		$this->Selection[0]->getParent()->post($content);
 	}
+	public function resolve() {
+		return $this->Selection[0]->getParent()->resolve();
+	}
 	public function selectRecent($n = 0) {
 		$this->Selection = [];
 		$dbh = $this->RM->getdb();

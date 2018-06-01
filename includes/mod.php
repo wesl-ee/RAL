@@ -92,6 +92,7 @@ function check_robocheck($id, $answer)
 	if (strpos(get_absolute_path($imgfile)
 	, CONFIG_LOCALROOT . "www/robocheck") !== 0)
 		return false;
+	if (!is_file($imgfile)) return false;
 
 	$a = chop(file_get_contents($keyfile));
 
