@@ -41,11 +41,12 @@ class Reply {
 
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
+		$date = date('l M jS \'y', strtotime($this->Created));
 		print <<<HTML
 	<article class=post id=$this->Id>
 		<nav>
 			<h2 class=id>$this->Id.</h2>
-			<time>$this->Created</time>
+			<time datetime="$this->Created">$date</time>
 		</nav><hr />
 		{$content}
 	</article>

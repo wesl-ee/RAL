@@ -49,15 +49,16 @@ class Topic {
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
 		$href = htmlentities($this->resolve());
+		$date = date('l M jS \'y', strtotime($this->Created));
 		print <<<HTML
 	<article class=post>
 		<nav>
 		<span>
-			<h3 class=id>[{$this->Continuity}/{$this->Year}/{$this->Id}]</h3>
-			<time>$this->Created</time>
-		</span>
+			<h3 class=id>{$this->title()}</h3>
+			<time datetime="$this->Created">$date</time>
+		</span><br />
 		<span class=expand>
-			<a href="$href">Conversation ($this->Replies)</a>
+			<a href="$href">Replies ($this->Replies)</a>
 		</span></nav><hr />
 		{$content}
 	</article>

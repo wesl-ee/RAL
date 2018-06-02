@@ -2,14 +2,15 @@
 class RecentPost extends Reply {
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
+		$date = date('l M jS \'y', strtotime($this->Created));
 		$href = $this->resolve();
 
 		print <<<HTML
 	<article class=post>
 		<nav><span>
 			<h2 class=id>{$this->title()}</h2>
-			<time>$this->Created</time>
-		</span><span class=expand>
+			<time datetime="$this->Created">$date</time>
+		</span><br /><span class=expand>
 			<a href="$href">View in Context</a>
 		</span>
 		</nav><hr />
