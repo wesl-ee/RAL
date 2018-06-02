@@ -24,16 +24,16 @@ if (!empty($_POST)) {
 	$answer = $_POST['robocheckanswer'];
 	$page = $iterator->resolve();
 	if (!isset($id, $answer)) {
-		header("Refresh: 10; url=$page");
+		header("Refresh: 5; url=$page");
 		$reason = "Did you forget to verify your humanity?";
 		include "{$ROOT}template/PostFailure.php";
 	} else if (!check_robocheck($id, $answer)) {
-		header("Refresh: 10; url=$page");
+		header("Refresh: 5; url=$page");
 		$reason = "You failed the humanity check!";
 		include "{$ROOT}template/PostFailure.php";
 	} else {
 		$iterator->post($_POST['content']);
-		header("Refresh: 10; url=$page");
+		header("Refresh: 5; url=$page");
 		include "{$ROOT}template/PostSuccess.php";
 	} die;
 }

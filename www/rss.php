@@ -4,7 +4,7 @@ include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 
 header("Content-type: text/xml");
-$CONFIG_WEBROOT = CONFIG_WEBROOT;
+$CONFIG_CANON_URL = CONFIG_CANON_URL;
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);
 $posts = $iterator->selectRecent(20);
@@ -17,12 +17,12 @@ print <<<XML_HEAD
 		<description>The world's first
 		and last Neoforum / Textboard.
 		Experience the VIRTUAL WORLD today</description>
-		<link>$CONFIG_WEBROOT</link>
-		<lastBuildDate>{$posts[0]->date}</lastBuildDate>
+		<link>$CONFIG_CANON_URL</link>
+		<lastBuildDate>{$iterator->Selection[0]->Created}</lastBuildDate>
 		<image>
-			<url>{$CONFIG_WEBROOT}favicon.ico</url>
+			<url>{$CONFIG_CANON_URL}favicon.ico</url>
 			<title>RAL Favicon</title>
-			<link>$CONFIG_WEBROOT</link>
+			<link>$CONFIG_CANON_URL</link>
 		</image>
 		<generator>RAL</generator>
 

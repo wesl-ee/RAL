@@ -207,7 +207,6 @@ HTML;
 		FROM `Topics` WHERE Continuity=?
 		AND YEAR=?
 SQL;
-		print $query;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('sissi', $this->Name, $year, $content, $this->Name, $year);
 		$stmt->execute();
