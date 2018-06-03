@@ -28,10 +28,12 @@ $content
 TEXT;
 	}
 	public function renderAsRss() {
-		$content = htmlentities($this->getContentAsText());
+		$content = htmlspecialchars(
+			$this->getContentAsText(),ENT_COMPAT,'utf-8'
+			);
 		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
 		$title = $this->title();
-		$date = $this->Created;
+		$date = date(DATE_RSS, strtotime($this->Created));
 		print <<<RSS
 <item>
 	<title>$title</title>

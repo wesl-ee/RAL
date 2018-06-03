@@ -7,7 +7,7 @@
 	<meta name=viewport content="width=device-width,
 	maximum-scale=1, minimum-scale=1">
 	<link rel=stylesheet href="${WROOT}css/Base.css">
-	<link rel=icon type="image/x-icon" href="${WROOT}favicon.ico">
+	<link rel=icon type="image/x-icon" href="${WROOT}favicon.gif">
 
 HTML;
 	if (@$theme && file_exists("{$LOCALROOT}www/$themefile"))
