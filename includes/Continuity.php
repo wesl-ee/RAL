@@ -24,7 +24,7 @@ class Continuity {
 		$desc = $this->Description;
 		$title = "[{$this->Name}]";
 		print <<<HTML
-	<article class=continuity-splash>
+	<section class=continuity-splash>
 		<div class=banner>
 		<a href="$href">
 			<img height=150 width=380
@@ -38,7 +38,7 @@ class Continuity {
 		<span class=description>
 			$desc
 		</span>
-	</article>
+	</section>
 
 HTML;
 	}
@@ -60,9 +60,12 @@ XML;
 	public function renderSelection($items, $format) {
 		switch ($format) {
 		case 'html':
-			say('<main class=continuity-splashes>');
+			print <<<HTML
+	<article>
+	<h2>Continuities</h2><div class=continuity-splashes>
+HTML;
 			foreach ($items as $i) $i->renderAsHtml();
-			say('</main>');
+			say('</div></article>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'sitemap':
@@ -140,7 +143,7 @@ HTML;
 	public function renderPostButton() {
 		$href = htmlentities($this->resolveComposer());
 		print <<<HTML
-		<nav class=info-links>
+		<nav class="info-links right">
 		<a class="post-button" href="$href">Create a Topic</a>
 		</nav>
 

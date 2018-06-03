@@ -21,21 +21,21 @@ class NewsItem {
 	}
 	public function draw() {
 		$id = $this->Id;
-		$created = date('M j, Y', strtotime($this->Created));
+		$time = strtotime($this->Created);
+		$prettydate = date('l M jS \'y', $time);
+		$datetime = date(DATE_W3C, $time);
 		$author = $this->Author;
 		$email = $this->Email;
 		$title = $this->Title;
 		$content = $this->getContentAsHtml();
 
 		print <<<HTML
-		<article class=news-item>
-		<nav>
+		<section class=news-item>
 			<h3 class=title>$title</h3>
 			by <a href="mailto:$email">$author</a>
-		/ <time>$created</time>
-		</nav>
+		/ <time datetime="$datetime">$prettydate</time><hr />
 		$content
-		</article>
+		</section>
 HTML;
 	}
 	public function drawSelection($selection) {

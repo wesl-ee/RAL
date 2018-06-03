@@ -2,18 +2,19 @@
 class RecentPost extends Reply {
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
-		$date = date('l M jS \'y', strtotime($this->Created));
+		$time = strtotime($this->Created);
+		$prettydate = date('l M jS \'y', $time);
+		$datetime = date(DATE_W3C, $time);
 		$href = $this->resolve();
 
 		print <<<HTML
 	<article class=post>
-		<nav><span>
-			<h2 class=id>{$this->title()}</h2>
-			<time datetime="$this->Created">$date</time>
-		</span><br /><span class=expand>
+		<h2 class=id>{$this->title()}</h2>
+		<time datetime="$datetime">$prettydate</time><br />
+		<span class=expand>
 			<a href="$href">View in Context</a>
 		</span>
-		</nav><hr />
+		<hr />
 		{$content}
 	</article>
 
@@ -47,9 +48,12 @@ RSS;
 	public function renderSelection($items, $format) {
 		switch($format) {
 		case 'html':
-			say('<main class=flex>');
+			print <<<HTML
+	<article>
+	<h2>Fresh Posts</h2><div class=content>
+HTML;
 			foreach ($items as $i) $i->renderAsHtml();
-			say('</main>');
+			say('</div></article>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'rss':

@@ -41,15 +41,16 @@ class Reply {
 
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
-		$date = date('l M jS \'y', strtotime($this->Created));
+		$time = strtotime($this->Created);
+		$prettydate = date('l M jS \'y', $time);
+		$datetime = date(DATE_W3C, $time);
 		print <<<HTML
-	<article class=post id=$this->Id>
-		<nav>
-			<h2 class=id>$this->Id.</h2>
-			<time datetime="$this->Created">$date</time>
-		</nav><hr />
+	<section class=post id=$this->Id>
+		<h2 class=id>$this->Id.</h2>
+		<time datetime="$datetime">$prettydate</time>
+		<hr />
 		{$content}
-	</article>
+	</section>
 
 HTML;
 	}
@@ -79,9 +80,13 @@ RSS;
 	public function renderSelection($items, $format) {
 		switch($format) {
 		case 'html':
-			say('<main class=flex>');
+			print <<<HTML
+	<article>
+	<h2>{$this->Parent->title()}</h2><div class=content>
+
+HTML;
 			foreach ($items as $i) $i->renderAsHtml();
-			say('</main>');
+			say('</div></article>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'json':

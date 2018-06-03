@@ -6,6 +6,9 @@ body {
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight: lighter;
+}
+header h1,
+.continuity-splash h2 {
 	margin: 0;
 }
 header, footer {
@@ -48,12 +51,12 @@ main table {
 	font-size: 1.5em;
 	font-weight: bold;
 }
-main.flex {
+article .content {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-around;
 }
-main.flex > * {
+article .content > * {
 	flex: 1 1 auto;
 }
 .hoverbox {
@@ -78,12 +81,11 @@ main.flex > * {
 	transition: opacity 0.2s;
 }
 .hoverbox:hover::after { opacity: 1; }
-.op, .post {
+.post {
 	background: Gainsboro;
 	padding: 5px;
 }
 .post { border-width: 0 0 1px 1px; border-style: solid; max-width: calc(100% - 10px) }
-.op { border-width: 0 0 0 3px; border-style: double; padding: 5px; }
 .banner img {
 	display: block;
 	border: 1px solid;
@@ -91,9 +93,7 @@ main.flex > * {
 .banner a {
 	display: inline-block;
 }
-.info-links {
-	padding: 10px 0;
-}
+.info-links { padding: 5px 0; }
 .breadcrumb > *, .buttons > * {
 	border-style: solid;
 	border-width: 0 1px 0 0;

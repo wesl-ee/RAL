@@ -36,7 +36,6 @@ HREF;
 <?php include "{$ROOT}template/Feelies.php" ?><hr />
 <?php $iterator->drawRSSButton(); ?>
 <?php $iterator->select(); $iterator->render(); ?>
-<h2>Fresh Posts</h2>
 <?php $iterator->selectRecent(10); $iterator->render(); ?><hr />
 <?php (new RAL\News($RM))->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />

@@ -49,19 +49,18 @@ class Topic {
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
 		$href = htmlentities($this->resolve());
-		$date = date('l M jS \'y', strtotime($this->Created));
+		$time = strtotime($this->Created);
+		$prettydate = date('l M jS \'y', $time);
+		$datetime = date(DATE_W3C, $time);
 		print <<<HTML
-	<article class=post>
-		<nav>
-		<span>
-			<h3 class=id>{$this->title()}</h3>
-			<time datetime="$this->Created">$date</time>
-		</span><br />
+	<section class=post>
+		<h3 class=id>{$this->title()}</h3>
+		<time datetime="$datetime">$prettydate</time><br />
 		<span class=expand>
 			<a href="$href">Replies ($this->Replies)</a>
-		</span></nav><hr />
+		</span><hr />
 		{$content}
-	</article>
+	</section>
 
 HTML;
 	}
@@ -85,9 +84,12 @@ XML;
 	public function renderSelection($items, $format) {
 		switch ($format) {
 		case 'html':
-			say('<main class=flex>');
+			print <<<HTML
+	<article>
+	<h2>{$this->Parent->title()}</h2><div class=content>
+HTML;
 			foreach ($items as $i) $i->renderAsHtml();
-			say('</main>');
+			say('</div></article>');
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'json':
@@ -106,7 +108,7 @@ XML;
 	public function renderPostButton() {
 		$href = $this->resolveComposer();
 		print <<<HTML
-		<nav class=info-links>
+		<nav class="info-links right">
 		<a class=post-button href="$href">Reply</a>
 		</nav>
 
