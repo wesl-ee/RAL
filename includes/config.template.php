@@ -39,6 +39,8 @@ define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
 define("CONFIG_WEBROOT", "/");
 define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 
+define("CONFIG_TMP_EXPIRY", 1440);
+
 // Only used for the RSS feed
 define("CONFIG_CANON_URL", "https://ral.space");
 

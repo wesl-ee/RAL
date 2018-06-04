@@ -1,6 +1,0 @@
-#!/bin/bash
-
-find /var/http/hub/ral-dev/tmp/robocheck-answers \
--type f \( ! -iname ".keep" \) -mtime -60 -exec rm -r {} \;
-find /var/http/hub/ral-dev/B4U/robocheck -mtime -60 \
--type f \( ! -iname ".keep" \) -exec rm -r {} \;
