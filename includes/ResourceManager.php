@@ -1,6 +1,9 @@
 <?php namespace RAL;
-include 'jBBCode/Parser.php';
-include 'LineBreakVisitor.php';
+$dir = dirname(__FILE__);
+if (is_dir("{$dir}/jBBCode")) {
+	include "{$dir}/jBBCode/Parser.php";
+	include "{$dir}/LineBreakVisitor.php";
+}
 
 class ResourceManager {
 	public $raldb;
@@ -20,6 +23,7 @@ class ResourceManager {
 		return $this->raldb;
 	}
 	function getbbparser() {
+
 		if ($this->bbparser) return $this->bbparser;
 
 		$bbparser = new \jBBCode\Parser();
