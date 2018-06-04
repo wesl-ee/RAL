@@ -10,8 +10,8 @@ class Continuity {
 
 	public function __construct($row, $parent = null) {
 		$this->Name = $row['Name'];
-		$this->PostCount = $row['Post Count'];
 		$this->Description = $row['Description'];
+		@$this->PostCount = $row['Post Count'];
 
 		$this->Parent = $parent;
 		return $this;
@@ -220,6 +220,17 @@ SQL;
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('s', $this->Name);
+		$stmt->execute();
+	}
+	public function create() {
+		$dbh = $this->getRM()->getdb();
+		$query = <<<SQL
+		INSERT INTO `Continuities`
+		(`Name`, `Description`) VALUES
+		(?, ?)
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('ss', $this->Name, $this->Description);
 		$stmt->execute();
 	}
 }
