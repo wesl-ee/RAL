@@ -19,7 +19,6 @@ if (!$continuity) {
 	include "{$ROOT}template/404.php";
 	die;
 }
-
 if (@$_POST['post'] && @$_POST['robocheckid']) {
 	$id = $_POST['robocheckid'];
 	$answer = $_POST['robocheckanswer'];
@@ -31,6 +30,10 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 	} else if (!check_robocheck($id, $answer)) {
 		header("Refresh: 5; url=$page");
 		$reason = "You failed the humanity check!";
+		include "{$ROOT}template/PostFailure.php";
+	} else if (empty(@$_POST['content'])) {
+		header("Refresh: 5; url=$page");
+		$reason = "Just what are you trying to do?";
 		include "{$ROOT}template/PostFailure.php";
 	} else {
 		$iterator->post($_POST['content']);
@@ -71,7 +74,7 @@ class=breadcrumb>
 </ol>
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
-<?php if (@$_POST['preview']) {
+<?php if (@$_POST['preview'] && !empty(@$_POST['content'])) {
 	$iterator->renderRobocheck($_POST['content']);
 } else { $iterator->renderComposer(@$_POST['content']);
 } ?><hr />

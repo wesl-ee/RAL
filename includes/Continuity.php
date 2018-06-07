@@ -224,7 +224,7 @@ HTML;
 		<div class="buttons center">
 			<a href="$cancel" class="cancel">Cancel</a>
 			<button name=post value=post type=submit
-			tabindex=2>Post</button>
+			tabindex=2>Next</button>
 		</div></div></form>
 
 HTML;

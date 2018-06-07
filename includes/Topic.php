@@ -158,7 +158,7 @@ HTML;
 			<a href="$cancel" class="cancel">Cancel</a>
 			<button value=preview name=preview
 			tabindex=2
-			type=submit>Post</button>
+			type=submit>Next</button>
 		</div>
 		</form>
 
