@@ -109,7 +109,7 @@ HTML;
 		$href = $this->resolveComposer();
 		print <<<HTML
 		<nav class="info-links right">
-		<a class=post-button href="$href">Reply</a>
+		<a class=button href="$href">Reply to Topic</a>
 		</nav>
 
 HTML;
@@ -126,24 +126,18 @@ HTML;
 		$bbparser->parse($this->Content);
 		return $bbparser->getAsText();
 	}
-	public function renderComposer() {
+	public function renderComposer($content = '') {
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
-		$title = $this->title();
 
-		$robocheck = gen_robocheck();
-		$robosrc = $robocheck['src'];
-		$robocode = $robocheck['id'];
-		$height = $robocheck['height'];
-		$width = $robocheck['width'];
 		print <<<HTML
-		<h2>Reply to $title</h2>
+		<h2>Reply to {$this->title()}</h2>
 		<form method=POST action="$action" class=composer>
 		<div class=textarea>
 			<textarea autofocus rows=5 tabindex=1
 			maxlength=5000
 			placeholder="Contribute your thoughts and desires..."
-			name=content></textarea>
+			name=content>$content</textarea>
 		<div class=bbcode-help>
 		<header>RAL BBCode Reference</header><ul>
 			<li>[aa]</li>
@@ -154,21 +148,59 @@ HTML;
 			<li>[url=<em>url</em>]</li>
 			<li>[color=<em>Color</em>]</li>
 			<li>[spoiler]</li>
-			<li>[quote=<em>Source</em>]</li>
+			<li>[quote]</li>
 		</ul>
 		<footer>
 			<a href=http://www.bbcode.org>What is this?</a>
 		</footer>
-		</div></div><div class=robocheck>
+		</div></div>
+		<div class=buttons>
+			<a href="$cancel" class="cancel">Cancel</a>
+			<button value=preview name=preview
+			tabindex=2
+			type=submit>Post</button>
+		</div>
+		</form>
+
+HTML;
+	}
+	public function renderRobocheck($content = '') {
+		$action = htmlentities($this->resolveComposer());
+		$cancel = htmlentities($this->resolve());
+		$title = "[$this->Name]";
+
+		$reply = new PreviewPost($content, $this);
+		$content = htmlspecialchars($content);
+
+		$robocheck = gen_robocheck();
+		$robosrc = $robocheck['src'];
+		$robocode = $robocheck['id'];
+		$height = $robocheck['height'];
+		$width = $robocheck['width'];
+
+		print <<<HTML
+		<h2>Double Check</h2>
+		<p>Before you post, please verify that everything is as you
+		intend. If the preview looks okay, continue by verifying your
+		humanity and submitting your post.</p>
+
+HTML;
+
+		$reply->renderAsHtml();
+		print <<<HTML
+		<form method=POST action="$action" class=composer>
+		<input type=hidden name=content value="$content">
+		<div class=robocheck>
 			<img height=$height width=$width src="$robosrc">
 			<input name=robocheckid type=hidden value=$robocode>
 			<input name=robocheckanswer
+			tabindex=1
 			placeholder="Verify Humanity"
-			tabindex=2
 			autocomplete=off>
-		<div class=buttons>
+		<div class="buttons center">
 			<a href="$cancel" class="cancel">Cancel</a>
-			<button class type=submit tabindex=3>Post</button>
+			<button name=post value=post type=submit
+			tabindex=2>Post</button>
 		</div></div></form>
 
 HTML;

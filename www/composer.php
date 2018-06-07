@@ -19,7 +19,8 @@ if (!$continuity) {
 	include "{$ROOT}template/404.php";
 	die;
 }
-if (!empty($_POST)) {
+
+if (@$_POST['post'] && @$_POST['robocheckid']) {
 	$id = $_POST['robocheckid'];
 	$answer = $_POST['robocheckanswer'];
 	$page = $iterator->resolve();
@@ -37,7 +38,6 @@ if (!empty($_POST)) {
 		include "{$ROOT}template/PostSuccess.php";
 	} die;
 }
-
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -71,7 +71,10 @@ class=breadcrumb>
 </ol>
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
-<?php $iterator->renderComposer(); ?><hr />
+<?php if (@$_POST['preview']) {
+	$iterator->renderRobocheck($_POST['content']);
+} else { $iterator->renderComposer(@$_POST['content']);
+} ?><hr />
 <?php $iterator->render(); ?>
 <hr /><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
