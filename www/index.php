@@ -33,14 +33,16 @@ HREF;
 	<h1>RAL</h1>
 	<span>Neo-Forum Textboard</span><br />
 </header>
-<?php include "{$ROOT}template/Feelies.php" ?><hr />
-<?php $iterator->drawRSSButton(); ?>
+<?php include "{$ROOT}template/Feelies.php" ?>
+
+<?php $iterator->drawSearchBar(); ?><hr />
 <?php $iterator->select(); $iterator->render(); ?>
 <?php $iterator->selectRecent(10); $iterator->render(); ?><hr />
 <?php (new RAL\News($RM))->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
 <hr /><footer>
+<?php $iterator->drawRSSButton(); ?>
 <?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
 </body>

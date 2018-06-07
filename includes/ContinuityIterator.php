@@ -4,6 +4,8 @@ include 'Year.php';
 include 'Topic.php';
 include 'Reply.php';
 include 'RecentPost.php';
+include 'SearchResult.php';
+include 'PreviewPost.php';
 class ContinuityIterator {
 	// State
 	public $Continuity;
@@ -19,7 +21,6 @@ class ContinuityIterator {
 	$year = null,
 	$topic = null) {
 		$dbh = $this->RM->getdb();
-
 		$this->Selection = [];
 
 		if (!$continuity) {
@@ -107,15 +108,35 @@ SQL;
 			}
 		}
 	}
+	public function selectSearch($q, $continuity = null,
+	$year = null,
+	$topic = null) {
+		$q = "%{$q}%";
+		$dbh = $this->RM->getdb();
+		$this->Selection = [];
+		if (!$continuity) {
+			$query = <<<SQL
+			SELECT `Id`, `Continuity`, `Topic`, `Content`
+			, `Created`, `Year` FROM `Replies`
+			WHERE MATCH(`Content`)
+			AGAINST(? WITH QUERY EXPANSION)
+SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('s', $q);
+		}
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$this->Selection[] = new SearchResult($row, $this);
+		}
+	}
 	public function getRM() { return $this->RM; }
 	public function render($format = 'html') {
+		if (!$this->Selection[0]) return false;
 		$this->Selection[0]->renderSelection(
 			$this->Selection,
 			$format
 		);
-//		$this->Selection[0]->initializeTemplater($this->Templater);
-//		$this->Templater->setFormat($format);
-//		$this->Templater->render($this->Selection)
 	}
 	public function renderBanner($format = 'html') {
 		$this->Selection[0]->getParent()->renderBanner(
@@ -125,8 +146,27 @@ SQL;
 	public function renderPostButton() {
 		$this->Selection[0]->getParent()->renderPostButton();
 	}
-	public function renderComposer() {
-		$this->Selection[0]->getParent()->renderComposer();
+	public function drawSearchBar($text = null) {
+		if (!$this->Selection[0] ||
+		$this->Selection[0]->getParent() == $this) {
+			$target = $this->resolveSearch();
+			print <<<HTML
+	<form method=POST action="$target">
+		<input name=query
+		placeholder="Search RAL"
+		value="$text">
+		<input type=submit value="Go!">
+	</form>
+HTML;
+		} else {
+			$this->Selection[0]->getParent()->drawSearchBar();
+		}
+	}
+	public function renderComposer($content = '') {
+		$this->Selection[0]->getParent()->renderComposer($content);
+	}
+	public function renderRobocheck($content = '') {
+		$this->Selection[0]->getParent()->renderRobocheck($content);
 	}
 	public function drawRSSButton() {
 		if (CONFIG_CLEAN_URL) $href = CONFIG_WEBROOT . "rss";
@@ -144,6 +184,18 @@ HTML;
 	}
 	public function resolve() {
 		return $this->Selection[0]->getParent()->resolve();
+	}
+	public function resolveSearch($query = null) {
+		if (!$this->Selection[0]) {
+			if (CONFIG_CLEAN_URL && $query)
+				return CONFIG_WEBROOT . "search/$query";
+			if (CONFIG_CLEAN_URL)
+				return CONFIG_WEBROOT . "search";
+			if ($query)
+				return CONFIG_WEBROOT . "search.php?query=$query";
+			else
+				return CONFIG_WEBROOT . "search.php";
+		}
 	}
 	public function selectRecent($n = 0) {
 		$this->Selection = [];

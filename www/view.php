@@ -55,13 +55,11 @@ class=breadcrumb>
 ?>
 </ol>
 </header>
-<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
-<?php
-$iterator->renderPostButton();
-$iterator->render();
-$iterator->renderPostButton();
-?>
-<hr /><footer>
+<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?>
+<?php $iterator->renderPostButton();?><hr />
+<?php $iterator->render();?><hr />
+<?php $iterator->renderPostButton(); ?>
+<footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
 </body>
