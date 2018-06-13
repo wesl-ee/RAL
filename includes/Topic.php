@@ -155,9 +155,9 @@ HTML;
 		</footer>
 		</div></div>
 		<div class=buttons>
-			<a href="$cancel" class="cancel">Cancel</a>
+			<a href="$cancel" class="cancel button">Cancel</a>
 			<button value=preview name=preview
-			tabindex=2
+			tabindex=2 class=button
 			type=submit>Next</button>
 		</div>
 		</form>

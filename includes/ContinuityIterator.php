@@ -119,7 +119,7 @@ SQL;
 			SELECT `Id`, `Continuity`, `Topic`, `Content`
 			, `Created`, `Year` FROM `Replies`
 			WHERE MATCH(`Content`)
-			AGAINST(? WITH QUERY EXPANSION)
+			AGAINST(?)
 SQL;
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('s', $q);
@@ -155,7 +155,7 @@ SQL;
 		<input name=query
 		placeholder="Search RAL"
 		value="$text">
-		<input type=submit value="Go!">
+		<input class=button type=submit value="Go!">
 	</form>
 HTML;
 		} else {

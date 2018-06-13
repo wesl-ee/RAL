@@ -17,11 +17,10 @@ class Year {
 	public function renderAsHtml() {
 		$href = htmlentities($this->resolve());
 		print <<<HTML
-	<tr>
-		<td><a href="$href">$this->Year</a></td>
-		<td>$this->Count</td>
-		<td>N/A</td>
-	</tr>
+	<li><div>
+		<time><a href="$href">$this->Year</a></time><br />
+		$this->Count Topics
+	</div></li>
 HTML;
 	}
 	public function renderAsText() {
@@ -43,16 +42,14 @@ XML;
 		switch ($format) {
 		case 'html':
 			print <<<HTML
-<main><table>
-<tr>
-	<th>Year</th>
-	<th>Topics</th>
-	<th>Text Archive</th>
-</tr>
+	<article class=timeline>
+	<h2>Overview of {$this->Parent->title()}</h2><ul>
+
 HTML;
 			foreach ($items as $i) $i->renderAsHtml();
 			print <<<HTML
-</table></main>
+	</ul></article>
+
 HTML;
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();

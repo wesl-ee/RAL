@@ -82,10 +82,42 @@ article .content > * {
 }
 .hoverbox:hover::after { opacity: 1; }
 .post {
-	background: Gainsboro;
 	padding: 5px;
+	border-width: 0 0 1px 1px;
+	border-style: solid;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	max-width: calc(100% - 10px)
 }
-.post { border-width: 0 0 1px 1px; border-style: solid; max-width: calc(100% - 10px) }
+.timeline ul li {
+	list-style-type: none;
+	position: relative;
+	width: 2px;
+	margin: 0 auto;
+	padding-bottom: 25px;
+	background: Black;
+}
+.timeline ul li div {
+	position: relative;
+	bottom: 0;
+	width: 200px;
+	padding: 0 20px;
+}
+.timeline ul li:nth-child(even) div {
+	left: -240px;
+	text-align: right;
+}
+.timeline ul li::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	width: 20px;
+	height: 20px;
+	border: 1px solid;
+	border-radius: 15%;
+}
 .banner img {
 	display: block;
 	border: 1px solid;
@@ -94,10 +126,11 @@ article .content > * {
 	display: inline-block;
 }
 .info-links { padding: 5px 0; }
-.breadcrumb > *, .buttons > *, .button {
+.button {
 	border: 2px outset ButtonFace;
-	background-color: ButtonFace;
+	cursor: Pointer;
 	padding: 0 8px;
+	outline: none;
 	color: inherit;
 }
 .breadcrumb a { color: inherit; }
@@ -216,11 +249,23 @@ body {
 	background: LightGray;
 	color: Black;
 }
+.timeline ul li::after {
+	background: LightGray;
+}
+.post {
+	background: Gainsboro;
+}
 a, button {
 	text-decoration: none;
 }
 a:hover, button:hover {
 	text-decoration: underline;
+}
+.button {
+	background-color: ButtonFace;
+}
+.button:active {
+	background-color: ButtonShadow;
 }
 .id {
 	color: Green;

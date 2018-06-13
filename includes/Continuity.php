@@ -179,9 +179,9 @@ HTML;
 		</footer>
 		</div></div>
 		<div class=buttons>
-			<a href="$cancel" class="cancel">Cancel</a>
+			<a href="$cancel" class="cancel button">Cancel</a>
 			<button value=preview name=preview
-			tabindex=2
+			tabindex=2 class=button
 			type=submit>Next</button>
 		</div>
 		</form>
@@ -222,8 +222,8 @@ HTML;
 			placeholder="Verify Humanity"
 			autocomplete=off>
 		<div class="buttons center">
-			<a href="$cancel" class="cancel">Cancel</a>
-			<button name=post value=post type=submit
+			<a href="$cancel" class="button cancel">Cancel</a>
+			<button class=button name=post value=post type=submit
 			tabindex=2>Next</button>
 		</div></div></form>
 
