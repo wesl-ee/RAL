@@ -33,6 +33,7 @@ $iterator->selectSearch($query, $continuity, $year, $topic);
 	$pagedesc = "DEVELOPER MODE";
 	include "{$ROOT}template/head.php";
 ?>
+	<meta name="robots" content="noindex,follow"/>
 </head>
 <body>
 <header>
@@ -41,7 +42,10 @@ $iterator->selectSearch($query, $continuity, $year, $topic);
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?>
 <?php $iterator->drawSearchBar(@$query); ?><hr />
-<?php if ($iterator->render() === false)
+<?php
+if (empty($query)) {
+	print "You didn't search anything!";
+} else if ($iterator->render() === false)
 	print "Nobody's talking about {$query}!";
 ?>
 <hr /><footer>

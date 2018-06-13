@@ -49,7 +49,7 @@ $this->Name ($this->Description)
 TEXT;
 	}
 	public function renderAsSitemap() {
-		$loc = $this->resolve();
+		$loc = CONFIG_CANON_URL . $this->resolve();
 print <<<XML
 	<url>
 		<loc>$loc</loc>

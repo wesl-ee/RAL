@@ -3,7 +3,7 @@ $ROOT="../";
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 
-header("Content-type: text/xml");
+header("Content-type: text/xml;charset=UTF-8");
 $CONFIG_WEBROOT = CONFIG_WEBROOT;
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);

@@ -50,6 +50,7 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 	$pagedesc = "DEVELOPER MODE";
 	include "{$ROOT}template/head.php";
 ?>
+	<meta name="robots" content="noindex,follow"/>
 </head>
 <body>
 <header>
