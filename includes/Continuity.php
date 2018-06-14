@@ -10,7 +10,7 @@ class Continuity {
 
 	public function __construct($row, $parent = null) {
 		$this->Name = $row['Name'];
-		$this->Description = $row['Description'];
+		@$this->Description = $row['Description'];
 		@$this->PostCount = $row['Post Count'];
 
 		$this->Parent = $parent;
@@ -264,6 +264,29 @@ SQL;
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('ss', $this->Name, $this->Description);
+		$stmt->execute();
+	}
+	public function destroy() {
+		$dbh = $this->getRM()->getdb();
+		$query = <<<SQL
+		DELETE FROM `Continuities` WHERE `Name`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $this->Name);
+		$stmt->execute();
+
+		$query = <<<SQL
+		DELETE FROM `Topics` WHERE `Continuity`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $this->Name);
+		$stmt->execute();
+
+		$query = <<<SQL
+		DELETE FROM `Replies` WHERE `Continuity`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $this->Name);
 		$stmt->execute();
 	}
 }

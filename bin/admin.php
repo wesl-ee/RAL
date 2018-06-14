@@ -46,6 +46,10 @@ do { $answer = ask([
 		break;
 
 		case 'Delete a Continuity':
+		$C = new RAL\Continuity([
+			'Name' => prompt('Name'),
+		], $iterator);
+		if (prompt('Are you sure? (Y/n) ') == 'Y') $C->destroy();
 	} break;
 
 	// Other main-menu options go here
