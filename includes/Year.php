@@ -6,14 +6,31 @@ class Year {
 
 	private $Parent;
 
-	public function __construct($row, $parent) {
+	public function __construct($row, $parent = null) {
 		$this->Year = $row['Year'];
 		$this->Continuity = $row['Continuity'];
 		$this->Count = $row['Count'];
 		$this->Parent = $parent;
+		return $this;
 	}
-	public function getRM() { return $this->Parent->getRM(); }
-	public function getParent() { return $this->Parent; }
+	public function parent() {
+		return $this->Parent;
+	}
+	public function renderBanner($format) {
+		return $this->Parent->renderBanner($format);
+	}
+	public function renderPostButton() {
+		return $this->Parent->renderPostButton();
+	}
+	public function renderComposer() {
+		return $this->Parent->renderComposer();
+	}
+	public function post($content) {
+		return $this->Parent->post($content);
+	}
+	public function Rm() {
+		return $this->Parent->Rm();
+	}
 	public function renderAsHtml() {
 		$href = htmlentities($this->resolve());
 		print <<<HTML
@@ -59,22 +76,10 @@ HTML;
 			print json_encode($items);
 		}
 	}
-	public function renderBanner($format) {
-		return $this->Parent->renderBanner($format);
-	}
-	public function renderPostButton() {
-		return $this->Parent->renderPostButton();
-	}
-	public function renderComposer() {
-		return $this->Parent->renderComposer();
-	}
-	public function post($content) {
-		return $this->Parent->post($content);
-	}
-	function title() {
+	public function title() {
 		return "[{$this->Continuity}/{$this->Year}]";
 	}
-	function resolve() {
+	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
 			. rawurlencode($this->Continuity) . "/"

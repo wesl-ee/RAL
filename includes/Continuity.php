@@ -6,39 +6,38 @@ class Continuity {
 	public $Description;
 
 	private $Parent;
-	private $RM;
 
 	public function __construct($row, $parent = null) {
 		$this->Name = $row['Name'];
 		@$this->Description = $row['Description'];
 		@$this->PostCount = $row['Post Count'];
-
 		$this->Parent = $parent;
 		return $this;
 	}
-	public function getRM() { return $this->Parent->getRM(); }
+	/* Methods for accessing the elitist superstructure */
+	public function Parent() { return $this->Parent; }
+	public function Rm() { return $this->Parent->Rm(); }
+	/* Methods for rendering a Continuity as HTML, text, etc. */
 	public function renderAsHtml() {
 		$href = $this->resolve();
 		$src = $this->getBannerImage();
 		$alt = $this->Name;
 		$desc = $this->Description;
-		$title = "[{$this->Name}]";
+		$title = $this->title();
 		print <<<HTML
-	<section class=continuity-splash>
-		<div class=banner>
-		<a href="$href">
-			<img height=150 width=380
-			title="$title" alt="$alt"
-			src="$src" />
-		</a>
-		</div>
-		<h2 class=title>
-			$title
-		</h2>
-		<span class=description>
-			$desc
-		</span>
-	</section>
+<section class=continuity-splash>
+	<div class=banner><a href="$href">
+		<img height=150 width=380
+		title="$title" alt="$alt"
+		src="$src" />
+	</a></div>
+	<h2 class=title>
+		$title
+	</h2>
+	<span class=description>
+		$desc
+	</span>
+</section>
 
 HTML;
 	}
@@ -57,15 +56,20 @@ print <<<XML
 
 XML;
 	}
+	/* Rendering an array of Continuities */
 	public function renderSelection($items, $format) {
 		switch ($format) {
 		case 'html':
 			print <<<HTML
-	<article>
-	<h2>Continuities</h2><div class=continuity-splashes>
+<article>
+<h2>Continuities</h2><div class=continuity-splashes>
+
 HTML;
 			foreach ($items as $i) $i->renderAsHtml();
-			say('</div></article>');
+			print <<<HTML
+</div></article>
+
+HTML;
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'sitemap':
@@ -74,48 +78,7 @@ HTML;
 			print json_encode($items);
 		}
 	}
-	public function renderSelectionAsText($items) {
-		foreach ($items as $i) $i->renderAsText();
-	}
-	public function resolve() {
-		$WROOT = CONFIG_WEBROOT;
-		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
-			. rawurlencode($this->Name);
-		else return "{$WROOT}view.php"
-			. "?continuity=" . urlencode($this->Name);
-	}
-	public function resolveComposer() {
-		$WROOT = CONFIG_WEBROOT;
-		if (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
-			. rawurlencode($this->Name);
-		else return "{$WROOT}composer.php"
-			. "?continuity=" . urlencode($this->Name);
-	}
-	public function getBannerImage() {
-		return CONFIG_WEBROOT
-		. "continuities/{$this->Name}/banner.gif";
-	}
-	public function getBannerTextFile() {
-		return CONFIG_LOCALROOT
-		. "continuities/{$this->Name}/banner.txt";
-	}
-	public function getTheme() {
-		return CONFIG_WEBROOT
-		. "continuities/{$this->Name}/theme.css";
-	}
-	// TODO: Delete this
-	public function getAsListItem() {
-		return [
-			'Name' => $this->Name,
-			'Description' => $this->Description,
-			'Post Count' => $this->PostCount,
-			'URL' => $this->resolve(),
-			'Banner' => $this->getBanner()
-		];
-	}
-	function title() {
-		return "[{$this->Name}]";
-	}
+	/* Rendering the object's banner */
 	public function renderBannerAsHtml() {
 		$href = $this->resolve();
 		$src = $this->getBannerImage();
@@ -140,6 +103,22 @@ HTML;
 		case 'text': $this->renderBannerAsText();
 		break; }
 	}
+	/* For HTML purposes, returns a URL to the current object */
+	public function resolve() {
+		$WROOT = CONFIG_WEBROOT;
+		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
+			. rawurlencode($this->Name);
+		else return "{$WROOT}view.php"
+			. "?continuity=" . urlencode($this->Name);
+	}
+	public function resolveComposer() {
+		$WROOT = CONFIG_WEBROOT;
+		if (CONFIG_CLEAN_URL) return "{$WROOT}composer/"
+			. rawurlencode($this->Name);
+		else return "{$WROOT}composer.php"
+			. "?continuity=" . urlencode($this->Name);
+	}
+	/* Rendering the composer */
 	public function renderPostButton() {
 		$href = htmlentities($this->resolveComposer());
 		print <<<HTML
@@ -152,7 +131,6 @@ HTML;
 	public function renderComposer($content = '') {
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
-
 		print <<<HTML
 		<h2>New topic on {$this->title()}</h2>
 		<form method=POST action="$action" class=composer>
@@ -192,16 +170,13 @@ HTML;
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
 		$title = "[$this->Name]";
-
 		$reply = new PreviewPost($content, $this);
 		$content = htmlspecialchars($content);
-
 		$robocheck = gen_robocheck();
 		$robosrc = $robocheck['src'];
 		$robocode = $robocheck['id'];
 		$height = $robocheck['height'];
 		$width = $robocheck['width'];
-
 		print <<<HTML
 		<h2>Double Check</h2>
 		<p>Before you post, please verify that everything is as you
@@ -209,7 +184,6 @@ HTML;
 		humanity and submitting your post.</p>
 
 HTML;
-
 		$reply->renderAsHtml();
 		print <<<HTML
 		<form method=POST action="$action" class=composer>
@@ -229,6 +203,24 @@ HTML;
 
 HTML;
 	}
+	/* Just a cute title */
+	function title() {
+		return "[{$this->Name}]";
+	}
+	/* Miscellaneous resources */
+	public function getBannerImage() {
+		return CONFIG_WEBROOT
+		. "continuities/{$this->Name}/banner.gif";
+	}
+	public function getBannerTextFile() {
+		return CONFIG_LOCALROOT
+		. "continuities/{$this->Name}/banner.txt";
+	}
+	public function getTheme() {
+		return CONFIG_WEBROOT
+		. "continuities/{$this->Name}/theme.css";
+	}
+	/* Adding to the conversation */
 	public function post($content) {
 		$year = date('Y');
 		$dbh = $this->getRM()->getdb();
@@ -255,6 +247,7 @@ SQL;
 		$stmt->bind_param('s', $this->Name);
 		$stmt->execute();
 	}
+	/* Just for the admin panel :P */
 	public function create() {
 		$dbh = $this->getRM()->getdb();
 		$query = <<<SQL

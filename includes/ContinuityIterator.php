@@ -130,7 +130,7 @@ SQL;
 			$this->Selection[] = new SearchResult($row, $this);
 		}
 	}
-	public function getRM() { return $this->RM; }
+	public function Rm() { return $this->RM; }
 	public function render($format = 'html') {
 		if (!$this->Selection[0]) return false;
 		$this->Selection[0]->renderSelection(
@@ -139,16 +139,16 @@ SQL;
 		);
 	}
 	public function renderBanner($format = 'html') {
-		$this->Selection[0]->getParent()->renderBanner(
+		$this->Selection[0]->Parent()->renderBanner(
 			$format
 		);
 	}
 	public function renderPostButton() {
-		$this->Selection[0]->getParent()->renderPostButton();
+		$this->Selection[0]->Parent()->renderPostButton();
 	}
 	public function drawSearchBar($text = null) {
 		if (!$this->Selection[0] ||
-		$this->Selection[0]->getParent() == $this) {
+		$this->Selection[0]->Parent() == $this) {
 			$target = $this->resolveSearch();
 			print <<<HTML
 	<form method=POST action="$target">
@@ -159,14 +159,14 @@ SQL;
 	</form>
 HTML;
 		} else {
-			$this->Selection[0]->getParent()->drawSearchBar();
+			$this->Selection[0]->parent()->drawSearchBar();
 		}
 	}
 	public function renderComposer($content = '') {
-		$this->Selection[0]->getParent()->renderComposer($content);
+		$this->Selection[0]->Parent()->renderComposer($content);
 	}
 	public function renderRobocheck($content = '') {
-		$this->Selection[0]->getParent()->renderRobocheck($content);
+		$this->Selection[0]->Parent()->renderRobocheck($content);
 	}
 	public function drawRSSButton() {
 		if (CONFIG_CLEAN_URL) $href = CONFIG_WEBROOT . "rss";
@@ -180,10 +180,10 @@ HTML;
 HTML;
 	}
 	public function post($content) {
-		$this->Selection[0]->getParent()->post($content);
+		$this->Selection[0]->Parent()->post($content);
 	}
 	public function resolve() {
-		return $this->Selection[0]->getParent()->resolve();
+		return $this->Selection[0]->Parent()->resolve();
 	}
 	public function resolveSearch($query = null) {
 		if (!$this->Selection[0]) {
@@ -221,6 +221,6 @@ SQL;
 		}
 	}
 	public function title() {
-		return $this->Selection[0]->getParent()->title();
+		return $this->Selection[0]->Parent()->title();
 	}
 }

@@ -9,7 +9,6 @@ class Topic {
 	public $Year;
 
 	private $Parent;
-	private $RM;
 
 	public function __construct($row, $parent) {
 		$this->Id = $row['Id'];
@@ -22,8 +21,68 @@ class Topic {
 		$this->Parent = $parent;
 		return $this;
 	}
-	public function getRM() { return $this->Parent->getRM(); }
-	public function getParent() { return $this->Parent; }
+	/* Methods for accessing the elitist superstructure */
+	public function Rm() { return $this->Parent->Rm(); }
+	public function Parent() { return $this->Parent; }
+	/* Methods for rendering as HTML, text, etc. */
+	public function renderAsHtml() {
+		$content = $this->getContentAsHtml();
+		$href = htmlentities($this->resolve());
+		$time = strtotime($this->Created);
+		$prettydate = date('l M jS \'y', $time);
+		$datetime = date(DATE_W3C, $time);
+		print <<<HTML
+<section class=post>
+	<h3 class=id>{$this->title()}</h3>
+	<time datetime="$datetime">$prettydate</time><br />
+	<span class=expand>
+		<a href="$href">Replies ($this->Replies)</a>
+	</span><hr />
+	{$content}
+</section>
+
+HTML;
+	}
+	public function renderAsText() {
+		$content = $this->getContentAsText();
+		print <<<TEXT
+$this->Id. ($this->Created)
+$content
+
+TEXT;
+	}
+	public function renderAsSitemap() {
+		$loc = $this->resolve();
+print <<<XML
+<url>
+	<loc>$loc</loc>
+</url>
+
+XML;
+	}
+	/* Rendering an array of objects */
+	public function renderSelection($items, $format) {
+		switch ($format) {
+		case 'html':
+			print <<<HTML
+<article>
+<h2>{$this->Parent->title()}</h2><div class=content>
+
+HTML;
+			foreach ($items as $i) $i->renderAsHtml();
+			print <<<HTML
+</div></article>
+
+HTML;
+		break; case 'text':
+			foreach ($items as $i) $i->renderAsText();
+		break; case 'json':
+			print json_encode($items);
+		break; case 'sitemap':
+			foreach ($items as $i) $i->renderAsSitemap();
+		break; }
+	}
+	/* For HTML purposes, returns a URL to the current object */
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
@@ -46,65 +105,30 @@ class Topic {
 			. "&year=" . urlencode($this->Year)
 			. "&topic=" . urlencode($this->Id);
 	}
-	public function renderAsHtml() {
-		$content = $this->getContentAsHtml();
-		$href = htmlentities($this->resolve());
-		$time = strtotime($this->Created);
-		$prettydate = date('l M jS \'y', $time);
-		$datetime = date(DATE_W3C, $time);
-		print <<<HTML
-	<section class=post>
-		<h3 class=id>{$this->title()}</h3>
-		<time datetime="$datetime">$prettydate</time><br />
-		<span class=expand>
-			<a href="$href">Replies ($this->Replies)</a>
-		</span><hr />
-		{$content}
-	</section>
-
-HTML;
-	}
-	public function renderAsText() {
-		$content = $this->getContentAsText();
-		print <<<TEXT
-$this->Id. ($this->Created)
-$content
-
-TEXT;
-	}
-	public function renderAsSitemap() {
-		$loc = $this->resolve();
-print <<<XML
-	<url>
-		<loc>$loc</loc>
-	</url>
-
-XML;
-	}
-	public function renderSelection($items, $format) {
-		switch ($format) {
-		case 'html':
-			print <<<HTML
-	<article>
-	<h2>{$this->Parent->title()}</h2><div class=content>
-HTML;
-			foreach ($items as $i) $i->renderAsHtml();
-			say('</div></article>');
-		break; case 'text':
-			foreach ($items as $i) $i->renderAsText();
-		break; case 'json':
-			print json_encode($items);
-		break; case 'sitemap':
-			foreach ($items as $i) $i->renderAsSitemap();
-		break; }
-	}
-	public function renderBanner($format) {
-		return $this->Parent->renderBanner($format);
-	}
+	/* Just a cute title */
 	function title() {
 		return "[{$this->Continuity}/{$this->Year}/"
 		. "{$this->Id}]";
 	}
+
+	/* There are no special rules for topic banners */
+	public function renderBanner($format) {
+		return $this->Parent->renderBanner($format);
+	}
+	/* Parsing BBCode from the topic's content */
+	public function getContentAsHtml() {
+		$bbparser = $this->Rm()->getbbparser();
+		$visitor = $this->Rm()->getLineBreakVisitor();
+		$bbparser->parse(htmlentities($this->Content));
+		$bbparser->accept($visitor);
+		return $bbparser->getAsHtml();
+	}
+	public function getContentAsText() {
+		$bbparser = $this->Rm()->getbbparser();
+		$bbparser->parse($this->Content);
+		return $bbparser->getAsText();
+	}
+	/* Rendering the new post composer */
 	public function renderPostButton() {
 		$href = $this->resolveComposer();
 		print <<<HTML
@@ -114,22 +138,9 @@ HTML;
 
 HTML;
 	}
-	public function getContentAsHtml() {
-		$bbparser = $this->getRM()->getbbparser();
-		$visitor = $this->getRM()->getLineBreakVisitor();
-		$bbparser->parse(htmlentities($this->Content));
-		$bbparser->accept($visitor);
-		return $bbparser->getAsHtml();
-	}
-	public function getContentAsText() {
-		$bbparser = $this->getRM()->getbbparser();
-		$bbparser->parse($this->Content);
-		return $bbparser->getAsText();
-	}
 	public function renderComposer($content = '') {
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
-
 		print <<<HTML
 		<h2>Reply to {$this->title()}</h2>
 		<form method=POST action="$action" class=composer>
@@ -206,7 +217,7 @@ HTML;
 HTML;
 	}
 	public function post($content) {
-		$dbh = $this->getRM()->getdb();
+		$dbh = $this->Rm()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Replies`
