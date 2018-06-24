@@ -79,6 +79,10 @@ HTML;
 	public function title() {
 		return "[{$this->Continuity}/{$this->Year}]";
 	}
+	public function description() {
+		return $this->Parent->description()
+		. " in the year $this->Year";
+	}
 	public function resolve() {
 		$WROOT = CONFIG_WEBROOT;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"

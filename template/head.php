@@ -10,21 +10,27 @@
 	<link rel=icon type="image/x-icon" href="${WROOT}favicon.gif">
 
 HTML;
-	if (@$theme && file_exists("{$LOCALROOT}www/$themefile"))
+	if (@$theme && file_exists("{$LOCALROOT}www/$themefile")) {
 		print <<<HTML
 	<link rel=stylesheet href="${WROOT}$themefile">
 
 HTML;
-	if (isset($pagetitle)) print <<<HTML
+	} if (isset($pagetitle)) {
+		$pagetitle = htmlspecialchars($pagetitle);
+		print <<<HTML
 	<title>$pagetitle - RAL Neo-Forum Textboard</title>
 
 HTML;
-	if (isset($pagedesc)) print <<<HTML
+	} if (isset($pagedesc)) {
+		$pagedesc = htmlspecialchars($pagedesc, ENT_QUOTES);
+		print <<<HTML
 	<meta name=description content="$pagedesc"/>
 
 HTML;
-
-if (@file_exists("${LOCALROOT}www/js/themes/$theme.js")) print <<<HTML
+	}
+	if (@file_exists("${LOCALROOT}www/js/themes/$theme.js")) {
+		print <<<HTML
 	<script src="${WROOT}js/themes/$theme.js"></script>
 
 HTML;
+	}

@@ -110,7 +110,9 @@ HTML;
 		return "[{$this->Continuity}/{$this->Year}/"
 		. "{$this->Id}]";
 	}
-
+	function description() {
+		return $this->Content;
+	}
 	/* There are no special rules for topic banners */
 	public function renderBanner($format) {
 		return $this->Parent->renderBanner($format);

@@ -207,6 +207,9 @@ HTML;
 	function title() {
 		return "[{$this->Name}]";
 	}
+	function description() {
+		return $this->Description;
+	}
 	/* Miscellaneous resources */
 	public function getBannerImage() {
 		return CONFIG_WEBROOT

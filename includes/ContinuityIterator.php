@@ -223,4 +223,7 @@ SQL;
 	public function title() {
 		return $this->Selection[0]->Parent()->title();
 	}
+	public function description() {
+		return $this->Selection[0]->Parent()->description();
+	}
 }

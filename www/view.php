@@ -26,7 +26,7 @@ if (!$continuity) {
 <head>
 <?php
 	$pagetitle = $iterator->title();
-	$pagedesc = "DEVELOPER MODE";
+	$pagedesc = $iterator->description();
 	include "{$ROOT}template/head.php";
 ?>
 </head>
