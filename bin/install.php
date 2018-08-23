@@ -66,6 +66,8 @@ SQL;
 foreach ($queries as $q) {
 	if (!$dbh->query($q)) {
 		printf("MySQL Error: %s\n", $dbh->error);
+		printf("Please resolve this before continuing!\n");
+		exit(1);
 	}
 }
 
@@ -95,4 +97,7 @@ CMD;
 CMD;
 	system($cmd);
 }
-print "Finished!";
+print <<<FIN
+	Finished!
+
+FIN;
