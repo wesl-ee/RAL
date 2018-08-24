@@ -1,0 +1,70 @@
+<article>
+<h2>BBCode Reference</h2>
+<p>
+RAL lets you mark text up with Bulletin Board Code (BBCode). BBcode is a
+markup language similar to HTML which allows you to style your text. Text
+marked up with BBCode will look something like this:
+</p><code>
+[b]This[/b] text is bold; [color=red]here[/color] is a link to
+[url]prettyboytellem.com[/url]
+</code><p>
+As you can see, BBCode tags are enclosed by square braces. Every [tag] which
+is opened <strong>must</strong> be closed by a closing [/tag]. Tags sometimes take
+an optional parameter, like <samp>[color=red]</samp>. It's up to
+<em>you</em> to supply valid parameters to the tag.
+</p><p>
+RAL uses an
+implementation of <a href="http://jbbcode.com/">jBBCode</a> with some
+home-baked extensions. If you are accessing RAL over the HTTP(S) interface
+with a user-agent, the BBCode will be parsed and presented with HTML tags
+such that it looks pretty in your user-agent. If you are accessing RAL using
+the API you can typically choose whether or not you want the BBCode parsed
+by jBBCode.
+</p><h2>Implementation on RAL</h2>
+<p>
+Overall, BBCode implementations differ from site to site; below is a
+reference of BBCode tags which are appropriate in the context of RAL.
+</p><table><tr>
+	<th>Tag</th>
+	<th>Meaning</th>
+	<th>HTML Equivalent</th>
+	<th>Parameter</th>
+</tr><tr>
+	<td>[b]</td>
+	<td>Bolded text</td>
+	<td>&lt;strong&gt;</td>
+	<td>N/A</td>
+</tr><tr>
+	<td>[i]</td>
+	<td>Emphasized text</td>
+	<td>&lt;em&gt;</td>
+	<td>N/A</td>
+</tr><tr>
+	<td>[aa]</td>
+	<td>ASCII Art</td>
+	<td>&lt;code&gt;</td>
+	<td>N/A</td>
+</tr><tr>
+	<td>[url=<em>param</em>]</td>
+	<td>Hyperlink</td>
+	<td>&lt;a href="<em>param</em>"&gt;</td>
+	<td>Optional; valid http(s)://, ftp:// URL</td>
+</tr><tr>
+	<td>[color=<em>param</em>]</td>
+	<td>Text Color</td>
+	<td>&lt;span color="<em>param</em>"&gt;</td>
+	<td>Required; <a
+	href="https://drafts.csswg.org/css-color-3/">valid</a> CSS
+	color</td>
+</tr><tr>
+	<td>[spoiler]</td>
+	<td>Spoiler text</td>
+	<td>&lt;span class=spoiler&gt;</td>
+	<td>N/A</td>
+</tr><tr>
+	<td>[quote=<em>source</em>]</td>
+	<td>Un/attributed quote</td>
+	<td>&lt;blockquote cite=<em>source</em>&gt;</td>
+	<td>Optional; provides a source for the quote</td>
+</table>
+</article>

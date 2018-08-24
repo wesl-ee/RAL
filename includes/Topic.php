@@ -141,8 +141,11 @@ HTML;
 HTML;
 	}
 	public function renderComposer($content = '') {
+		$WROOT = CONFIG_WEBROOT;
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
+		if (CONFIG_CLEAN_URL) $bbcoderef = "{$WROOT}bbcode-help";
+		else $bbcoderef = "{$WROOT}bbcode-help.php";
 		print <<<HTML
 		<h2>Reply to {$this->title()}</h2>
 		<form method=POST action="$action" class=composer>
@@ -151,27 +154,13 @@ HTML;
 			maxlength=5000
 			placeholder="Contribute your thoughts and desires..."
 			name=content>$content</textarea>
-		<div class=bbcode-help>
-		<header>RAL BBCode Reference</header><ul>
-			<li>[aa]</li>
-			<li>[b]</li>
-			<li>[i]</li>
-			<li>[em]</li>
-			<li>[url]</li>
-			<li>[url=<em>url</em>]</li>
-			<li>[color=<em>Color</em>]</li>
-			<li>[spoiler]</li>
-			<li>[quote]</li>
-		</ul>
-		<footer>
-			<a href=http://www.bbcode.org>What is this?</a>
-		</footer>
-		</div></div>
+		</div>
 		<div class=buttons>
 			<a href="$cancel" class="cancel button">Cancel</a>
 			<button value=preview name=preview
 			tabindex=2 class=button
 			type=submit>Next</button>
+			<a href="$bbcoderef">Using BBCode</a>
 		</div>
 		</form>
 
@@ -211,7 +200,7 @@ HTML;
 			placeholder="Verify Humanity"
 			autocomplete=off>
 		<div class="buttons center">
-			<a href="$cancel" class="cancel">Cancel</a>
+			<a href="$cancel" class="cancel button">Cancel</a>
 			<button name=post value=post type=submit
 			tabindex=2>Post</button>
 		</div></div></form>

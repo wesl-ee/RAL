@@ -140,27 +140,13 @@ HTML;
 			maxlength=5000
 			placeholder="Contribute your thoughts and desires..."
 			name=content>$content</textarea>
-		<div class=bbcode-help>
-		<header>RAL BBCode Reference</header><ul>
-			<li>[aa]</li>
-			<li>[b]</li>
-			<li>[i]</li>
-			<li>[em]</li>
-			<li>[url]</li>
-			<li>[url=<em>url</em>]</li>
-			<li>[color=<em>Color</em>]</li>
-			<li>[spoiler]</li>
-			<li>[quote]</li>
-		</ul>
-		<footer>
-			<a href=http://www.bbcode.org>What is this?</a>
-		</footer>
-		</div></div>
+		</div>
 		<div class=buttons>
 			<a href="$cancel" class="cancel button">Cancel</a>
 			<button value=preview name=preview
 			tabindex=2 class=button
 			type=submit>Next</button>
+			<a href="$bbcoderef">Using BBCode</a>
 		</div>
 		</form>
 

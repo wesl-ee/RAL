@@ -1,9 +1,8 @@
 <?php namespace RAL;
 class PreviewPost extends Reply {
-	function __construct($content, $parent) {
+	function __construct($content, $parent = null) {
 		$this->Content = $content;
-
-		$this->Parent = $parent;
+		$this->setParent($parent);
 	}
 	public function getRM() { return $this->Parent->getRM(); }
 	public function renderAsHtml() {

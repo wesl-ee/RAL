@@ -21,6 +21,7 @@ class Reply {
 	/* Methods for accessing the elitist superstructure */
 	public function Rm() { return $this->Parent->Rm(); }
 	public function Parent() { return $this->Parent; }
+	public function setParent($p) { $this->Parent = $p; }
 	/* Methods for rendering a reply as HTML, RSS, etc. */
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();

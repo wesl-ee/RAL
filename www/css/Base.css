@@ -172,29 +172,14 @@ article .content > * {
 .robocheck > * {
 	margin-bottom: 5px;
 }
-@media (min-width: 600px) {
-	.textarea { display: flex; }
-}
 .robocheck input { text-align: center; }
 .buttons.center {
 	text-align: center;
 }
-.buttons > * {
+.buttons > .button {
 	cursor: pointer;
 	color: inherit;
 }
-.bbcode-help {
-	padding: 5px;
-	display: inline-block;
-}
-.bbcode-help ul {
-	padding: 5px 40px;
-	margin: 0;
-}
-.textarea textarea {
-	width: 100%;
-}
-
 textarea {
 	margin: 0;
 	padding: 5px;
