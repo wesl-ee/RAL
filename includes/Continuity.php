@@ -212,7 +212,7 @@ HTML;
 	/* Adding to the conversation */
 	public function post($content) {
 		$year = date('Y');
-		$dbh = $this->getRM()->getdb();
+		$dbh = $this->Rm()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Topics`
