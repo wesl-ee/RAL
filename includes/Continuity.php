@@ -142,8 +142,11 @@ HTML;
 HTML;
 	}
 	public function renderComposer($content = '') {
+		$WROOT = CONFIG_WEBROOT;
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
+		if (CONFIG_CLEAN_URL) $bbcoderef = "{$WROOT}bbcode-help";
+		else $bbcoderef = "{$WROOT}bbcode-help.php";
 		print <<<HTML
 		<h2>New topic on {$this->title()}</h2>
 		<form method=POST action="$action" class=composer>
