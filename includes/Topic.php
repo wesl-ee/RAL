@@ -115,7 +115,7 @@ HTML;
 	}
 	/* There are no special rules for topic banners */
 	public function renderBanner($format) {
-		return $this->Parent->renderBanner($format);
+		return $this->Parent()->renderBanner($format);
 	}
 	/* Parsing BBCode from the topic's content */
 	public function getContentAsHtml() {

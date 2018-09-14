@@ -25,12 +25,13 @@ class Reply {
 	/* Methods for rendering a reply as HTML, RSS, etc. */
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
+		$href = htmlentities($this->resolve(), ENT_QUOTES);
 		$time = strtotime($this->Created);
 		$prettydate = date('l M jS \'y', $time);
 		$datetime = date(DATE_W3C, $time);
 		print <<<HTML
 <section class=post id=$this->Id>
-	<h2 class=id>$this->Id.</h2>
+	<h2><a class=id href="$href">$this->Id.</a></h2>
 	<time datetime="$datetime">$prettydate</time>
 	<hr />
 	{$content}
@@ -85,13 +86,13 @@ HTML;
 		if (CONFIG_CLEAN_URL) return "{$WROOT}view/"
 			. rawurlencode($this->Continuity) . '/'
 			. rawurlencode($this->Year) . '/'
-			. rawurlencode($this->Topic) . '#'
+			. rawurlencode($this->Topic) . '/'
 			. rawurlencode($this->Id);
 		else return "{$WROOT}view.php"
 			. "?continuity=" . urlencode($this->Continuity)
 			. "&year=" . urlencode($this->Year)
 			. "&topic=" . urlencode($this->Topic)
-			. "#" . urlencode($this->Id);
+			. "&post=" . urlencode($this->Id);
 	}
 	/* Just a cute title */
 	function title() {

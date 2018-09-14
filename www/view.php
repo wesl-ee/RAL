@@ -12,8 +12,10 @@ $continuity = urldecode($_GET['continuity']);
 $year = @$_GET['year'];
 // Which topic (if any) we are reading
 $topic = @$_GET['topic'];
+// Which posts (if any) we are reading
+$replies = @$_GET['replies'];
 
-$iterator->select($continuity, $year, $topic);
+$iterator->select($continuity, $year, $topic, $replies);
 if (!$continuity) {
 	http_response_code(404);
 	include "{$ROOT}template/404.php";

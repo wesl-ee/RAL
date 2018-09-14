@@ -2,6 +2,7 @@
 include 'Continuity.php';
 include 'Year.php';
 include 'Topic.php';
+include 'TopicSlice.php';
 include 'Reply.php';
 include 'RecentPost.php';
 include 'SearchResult.php';
@@ -11,6 +12,7 @@ class ContinuityIterator {
 	public $Continuity;
 	public $Year;
 	public $Topic;
+	public $Post;
 
 	public $Selection = [];
 	private $Parent;
@@ -19,7 +21,8 @@ class ContinuityIterator {
 	public function __construct($RM) { $this->RM = $RM; }
 	public function select($continuity = null,
 	$year = null,
-	$topic = null) {
+	$topic = null,
+	$replies = null) {
 		$dbh = $this->RM->getdb();
 		$this->Selection = [];
 
@@ -81,7 +84,7 @@ SQL;
 			while ($row = $res->fetch_assoc()) {
 				$this->Selection[] = new Topic($row, $this->Parent);
 			}
-		} else if ($continuity && $continuity && $topic) {
+		} else if ($continuity && $year && $topic) {
 			$query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Content`
 			, `Replies`, `Year` FROM `Topics` WHERE `Continuity`=?
@@ -91,14 +94,45 @@ SQL;
 			$stmt->bind_param('sii', $continuity, $year, $topic);
 			$stmt->execute();
 			$row = $stmt->get_result()->fetch_assoc();
-			$this->Topic = new Topic($row, $this->Parent);
+			if (!$replies)
+				$this->Topic = new Topic($row, $this->Parent);
+			else
+				$this->Topic = new TopicSlice($row, $this->Parent, $replies);
 			$this->Parent = $this->Topic;
-		} if ($continuity && $continuity && $topic) {
+		} if ($continuity && $year && $topic && !$replies) {
 			$query = <<<SQL
 			SELECT `Id`, `Continuity`, `Topic`, `Content`
 			, `Created`, `Year` FROM `Replies`
 			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
 SQL;
+			$stmt = $dbh->prepare($query);
+			$stmt->bind_param('sii', $continuity, $year, $topic);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			while ($row = $res->fetch_assoc()) {
+				$this->Selection[] = new Reply($row, $this->Parent);
+			}
+		} else if ($continuity && $year && $topic && $replies) {
+			$query = <<<SQL
+			SELECT `Id`, `Continuity`, `Topic`, `Content`
+			, `Created`, `Year` FROM `Replies`
+			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
+			AND (
+SQL;
+			$ranges = explode(',', $replies);
+			for ($i = 0; $i < count($ranges); $i++) {
+				$range = $ranges[$i];
+				if (!($pos = strpos($range, '-'))) {
+					$reply = (int)$ranges[$i];
+					if (!$i) $query .= " `Id`=$reply";
+					else $query .= " OR `Id`=$reply";
+				} else {
+					$to = substr($range, $pos + 1);
+					$from = substr($range, 0, $pos);
+					if (!$i) $query .= " (`Id` BETWEEN $from AND $to)";
+					else $query .= " OR (`Id` BETWEEN $from AND $to)";
+				}
+			} $query .= " )";
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('sii', $continuity, $year, $topic);
 			$stmt->execute();
