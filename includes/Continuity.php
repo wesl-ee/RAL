@@ -78,6 +78,19 @@ HTML;
 			print json_encode($items);
 		}
 	}
+	public function renderBreadcrumb($position) {
+		$position = $this->Parent()->renderBreadcrumb($position);
+		$href = $this->resolve();
+		$name = $this->Name;
+		print <<<BREAD
+	<li property=itemListElement typeof=ListItem class=button>
+		<a href="$href" property=item typeof=WebPage>
+		<span property=name>$name</span></a>
+		<meta property=position content=$position />
+	</li>
+BREAD;
+		return 1+$position;
+	}
 	/* Rendering the object's banner */
 	public function renderBannerAsHtml() {
 		$href = $this->resolve();

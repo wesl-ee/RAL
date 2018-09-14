@@ -196,6 +196,28 @@ HTML;
 			$this->Selection[0]->parent()->drawSearchBar();
 		}
 	}
+	public function breadcrumb() {
+		print <<<BREADOPEN
+<ol vocab='http://schema.org/' typeof=BreadcrumbList
+class=breadcrumb>
+BREADOPEN;
+		$this->Selection[0]->parent()->renderBreadcrumb(0);
+		print <<<BREADCLOSE
+</ol>
+BREADCLOSE;
+	}
+	public function renderBreadcrumb($position) {
+		$href = CONFIG_WEBROOT;
+		$name = 'RAL';
+		print <<<BREAD
+	<li property=itemListElement typeof=ListItem class=button>
+		<a href="$href" property=item typeof=WebPage>
+		<span property=name>$name</span></a>
+		<meta property=position content=$position />
+	</li>
+BREAD;
+		return 1+$position;
+	}
 	public function renderComposer($content = '') {
 		$this->Selection[0]->Parent()->renderComposer($content);
 	}

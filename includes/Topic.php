@@ -140,6 +140,20 @@ HTML;
 
 HTML;
 	}
+	public function renderBreadcrumb($position) {
+		$position = $this->Parent()->renderBreadcrumb($position);
+
+		$href = $this->resolve();
+		$name = $this->Id;
+		print <<<BREAD
+	<li property=itemListElement typeof=ListItem class=button>
+		<a href="$href" property=item typeof=WebPage>
+		<span property=name>$name</span></a>
+		<meta property=position content=$position />
+	</li>
+BREAD;
+		return 1+$position;
+	}
 	public function renderComposer($content = '') {
 		$WROOT = CONFIG_WEBROOT;
 		$action = htmlentities($this->resolveComposer());

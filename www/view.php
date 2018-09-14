@@ -35,27 +35,7 @@ if (!$continuity) {
 <body>
 <header>
 <?php $iterator->renderBanner(); ?>
-<ol vocab='http://schema.org/' typeof=BreadcrumbList
-class=breadcrumb>
-<?php
-	$href = CONFIG_WEBROOT; $name = 'RAL'; $position = 1;
-	include "{$ROOT}template/BreadCrumbItem.php";
-
-	$href = htmlentities($iterator->Continuity->resolve());
-	$name = $continuity; $position = 2;
-	include "{$ROOT}template/BreadCrumbItem.php";
-
-	if (isset($year)) {
-		$href = htmlentities($iterator->Year->resolve());
-		$name = $year; $position = 3;
-		include "{$ROOT}template/BreadCrumbItem.php";
-	} if (isset($topic)) {
-		$href = htmlentities($iterator->Topic->resolve());
-		$name = $topic; $position = 4;
-		include "{$ROOT}template/BreadCrumbItem.php";
-	}
-?>
-</ol>
+<?php $iterator->breadcrumb(); ?>
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?>
 <?php $iterator->renderPostButton();?><hr />
