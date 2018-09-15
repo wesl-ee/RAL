@@ -11,6 +11,11 @@ tmp/robocheck-answers/*
 www/continuities/*
 !www/continuities/Example
 
+www/css/*
+www/css/Base.css
+www/css/Result.css
+www/css/Classic
+
 info/MOTD
 
 includes/jBBCode

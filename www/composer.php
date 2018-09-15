@@ -2,7 +2,10 @@
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Renderer.php";
 
+$Renderer = new RAL\Renderer();
+$Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);
 
@@ -46,9 +49,9 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 <HTML>
 <head>
 <?php
-	$pagetitle = "[$continuity]";
-	$pagedesc = "DEVELOPER MODE";
-	include "{$ROOT}template/head.php";
+	$Renderer->Title = "[$continuity]";
+	$Renderer->Desc = "Posting to " . $iterator->description();
+	$Renderer->putHead();
 ?>
 	<meta name="robots" content="noindex,follow"/>
 </head>

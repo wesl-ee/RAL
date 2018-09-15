@@ -1,7 +1,8 @@
 <?php
-include 'config.php';
-include 'ResourceManager.php';
-include 'mod.php';
+$cd = dirname(__FILE__) . '/';
+include "{$cd}config.php";
+include "{$cd}ResourceManager.php";
+include "{$cd}mod.php";
 
 // Generate an ID for posting authentication
 if (!isset($_COOKIE['auth'])) {

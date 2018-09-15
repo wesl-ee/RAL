@@ -228,7 +228,7 @@ HTML;
 	/* Adding to the conversation */
 	public function post($content) {
 		$year = date('Y');
-		$dbh = $this->getRM()->getdb();
+		$dbh = $this->RM()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Topics`
@@ -254,7 +254,7 @@ SQL;
 	}
 	/* Just for the admin panel :P */
 	public function create() {
-		$dbh = $this->getRM()->getdb();
+		$dbh = $this->RM()->getdb();
 		$query = <<<SQL
 		INSERT INTO `Continuities`
 		(`Name`, `Description`) VALUES
@@ -265,7 +265,7 @@ SQL;
 		$stmt->execute();
 	}
 	public function destroy() {
-		$dbh = $this->getRM()->getdb();
+		$dbh = $this->RM()->getdb();
 		$query = <<<SQL
 		DELETE FROM `Continuities` WHERE `Name`=?
 SQL;

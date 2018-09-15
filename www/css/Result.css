@@ -3,8 +3,7 @@ body {
 	top: 0;
 	left: 0;
 	width: 100%;
-	margin-left: 0;
-	margin-right: 0;
+	margin: 0;
 	height: 100%;
 }
 #video video,
@@ -35,13 +34,12 @@ body {
 	text-align: center;
 	white-space: nowrap;
 	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
 	border: 3px double;
 	border-radius: 5px 0;
 	padding: 10px;
+	margin: 10px;
 	background-color: White;
+	color: Black;
 }
 h1 {
 	font-weight: lighter;

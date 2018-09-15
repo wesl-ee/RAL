@@ -2,7 +2,10 @@
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Renderer.php";
 
+$Renderer = new RAL\Renderer();
+$Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);
 
@@ -27,9 +30,9 @@ if (!$continuity) {
 <HTML>
 <head>
 <?php
-	$pagetitle = $iterator->title();
-	$pagedesc = $iterator->description();
-	include "{$ROOT}template/head.php";
+	$Renderer->Title = $iterator->title();
+	$Renderer->Desc = $iterator->description();
+	$Renderer->putHead();
 ?>
 </head>
 <body>

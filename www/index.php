@@ -3,7 +3,10 @@ $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
 include "{$ROOT}includes/News.php";
+include "{$ROOT}includes/Renderer.php";
 
+$Renderer = new RAL\Renderer();
+$Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);
 ?>
@@ -11,10 +14,10 @@ $iterator = new RAL\ContinuityIterator($RM);
 <HTML>
 <head>
 <?php
-	$pagetitle = "Home";
-	$pagedesc = "The world's first and last Neo-Forum / Textboard."
+	$Renderer->Title = "Home";
+	$Renderer->Desc = "The world's first and last Neo-Forum / Textboard."
 	. " Experience the VIRTUAL WORLD today.";
-	include "{$ROOT}template/head.php";
+	$Renderer->putHead();
 ?>
 	<link rel=alternate type="application/rss+xml" title=RSS
 <?php
@@ -30,7 +33,8 @@ HREF;
 </head>
 <body>
 <header>
-	<h1>RAL</h1>
+	<img src="res/RAL.gif">
+	<h1>RALEE.org</h1>
 	<span>Neo-Forum Textboard</span><br />
 </header>
 <?php include "{$ROOT}template/Feelies.php" ?>

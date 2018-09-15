@@ -2,7 +2,10 @@
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Renderer.php";
 
+$Renderer = new RAL\Renderer();
+$Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);
 
@@ -29,9 +32,9 @@ $iterator->selectSearch($query, $continuity, $year, $topic);
 <HTML>
 <head>
 <?php
-	$pagetitle = "[$continuity]";
-	$pagedesc = "DEVELOPER MODE";
-	include "{$ROOT}template/head.php";
+	if (@$query) $Renderer->Title = "Search - $query";
+	else $Renderer->Title = "Search";
+	$Renderer->putHead();
 ?>
 	<meta name="robots" content="noindex,follow"/>
 </head>

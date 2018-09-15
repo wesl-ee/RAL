@@ -1,0 +1,38 @@
+/* Colors */
+body {
+	background: LightGray;
+	color: Black;
+}
+.timeline ul li::after {
+	background: LightGray;
+}
+.post {
+	background: Gainsboro;
+}
+a, button {
+	text-decoration: none;
+}
+a:hover, button:hover {
+	text-decoration: underline;
+}
+.button {
+	background-color: ButtonFace;
+}
+.button:active {
+	background-color: ButtonShadow;
+}
+.id {
+	color: Green;
+}
+hr {
+	border-color: lightgray;
+}
+.news-item .title {
+	color: DarkViolet;
+}
+a {
+	color: Blue;
+}
+.button {
+	border: 2px outset ButtonFace;
+}

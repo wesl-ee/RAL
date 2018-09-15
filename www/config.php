@@ -9,23 +9,33 @@ $Renderer = new RAL\Renderer();
 $Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
 $iterator = new RAL\ContinuityIterator($RM);
+
+if (isset($_POST['Theme'])) {
+	setcookie('Theme', $_POST['Theme']);
+	$_COOKIE['Theme'] = $_POST['Theme'];
+	$page = CONFIG_WEBROOT;
+	header("Refresh: 5; url=$page");
+	include "{$ROOT}template/ThemeChange.php";
+	die;
+}
 ?>
 <!DOCTYPE HTML>
 <HTML>
 <head>
 <?php
-	$Renderer->Title = "BBCode Help";
+	$Renderer->title = "Site Configuration";
 	$Renderer->putHead();
 ?>
 </head>
 <body>
 <header>
-	<h1>Using BBCode on RAL</h1>
-	<span>or, making your text look pretty on-line</span><br />
+	<h1>Site Configuration</h1>
+	<span>Adjust your Experience</span><br />
 </header>
 <?php include "{$ROOT}template/Feelies.php" ?><hr />
-<?php include "{$ROOT}info/BBCode.txt" ?><hr />
-<footer>
+<?php $Renderer->configForm(); ?>
+<hr /><footer>
+
 <?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
 </body>
