@@ -29,11 +29,11 @@ HTML;
 			$h_theme = htmlentities($theme);
 			if (!strcmp($theme, $this->Theme->name)) print <<<HTML
 	<input type=radio name=Theme id="theme-$q_theme" value="$q_theme" checked>
-	<label for="Theme-$q_theme">$h_theme</label>
+	<label for="Theme-$q_theme">$h_theme</label><br />
 HTML;
 			else print <<<HTML
 	<input type=radio name=Theme id="theme-$q_theme" value="$q_theme">
-	<label for=Theme-"$q_theme">$h_theme</label>
+	<label for=Theme-"$q_theme">$h_theme</label><br />
 HTML;
 		}
 /*		print <<<HTML
@@ -54,7 +54,7 @@ HTML;
 HTML;
 		}*/
 		print <<<HTML
-	<br /><input class=button type=submit value=Submit>
+	<input class=button type=submit value=Submit>
 </form>
 HTML;
 	}

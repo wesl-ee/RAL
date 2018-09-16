@@ -33,8 +33,7 @@ HREF;
 </head>
 <body>
 <header>
-	<img src="res/RAL.gif">
-	<h1>RALEE.org</h1>
+	<h1>RAL</h1>
 	<span>Neo-Forum Textboard</span><br />
 </header>
 <?php include "{$ROOT}template/Feelies.php" ?>

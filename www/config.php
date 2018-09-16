@@ -33,7 +33,7 @@ if (isset($_POST['Theme'])) {
 	<span>Adjust your Experience</span><br />
 </header>
 <?php include "{$ROOT}template/Feelies.php" ?><hr />
-<?php $Renderer->configForm(); ?>
+<article><?php $Renderer->configForm(); ?></article>
 <hr /><footer>
 
 <?php include "{$ROOT}template/Footer.php"; ?>

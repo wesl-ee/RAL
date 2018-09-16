@@ -51,3 +51,9 @@ define("CONFIG_CLEAN_URL", false);
 
 // A line-seperated list of words to use for the robocheck
 define("CONFIG_WORDLIST", "/usr/share/wordlists/rockyou.txt");
+
+// Themes
+define("CONFIG_THEMES", [
+	"Classic",
+]);
+define("CONFIG_DEFAULT_THEME", "Classic"
