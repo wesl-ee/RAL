@@ -6,9 +6,10 @@
 </head>
 <body>
 <div id=video>
-	<video autoplay mute loop>
-		<source src='https://cdn.prettyboytellem.com/ral/innocence.webm'>
-	</video>
+	<video autoplay mute loop><?php
+	$video = htmlentities(CONFIG_RESULT_VIDEOS['Failure'], ENT_QUOTES);
+	print "<source src=\"$video\">";
+	?></video>
 </div>
 <div id=message>
 	<h1>Post Failure</h1>

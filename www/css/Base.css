@@ -175,6 +175,9 @@ article .content > * {
 .robocheck > * {
 	margin-bottom: 5px;
 }
+.robocheck img {
+	margin: 0;
+}
 .robocheck input { text-align: center; }
 .buttons.center {
 	text-align: center;

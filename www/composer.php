@@ -61,10 +61,10 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 <?php $iterator->breadcrumb(); ?>
 </header>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
-<?php if (@$_POST['preview'] && !empty(@$_POST['content'])) {
+<article><?php if (@$_POST['preview'] && !empty(@$_POST['content'])) {
 	$iterator->renderRobocheck($_POST['content']);
 } else { $iterator->renderComposer(@$_POST['content']);
-} ?><hr />
+} ?></article><hr />
 <?php $iterator->render(); ?>
 <hr /><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
