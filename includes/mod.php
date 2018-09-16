@@ -48,35 +48,56 @@ function clearban($auth)
 function gen_robocheck()
 {
 	$height = 70; $width = 165;
-	$imgpath = CONFIG_LOCALROOT . "www/robocheck/";
-	$keypath = CONFIG_LOCALROOT . "tmp/robocheck-answers/";
+	$centerX = $width / 2; $centerY = $height / 2;
 
 	$id = uniqid();
 	$imgfile = "$id.jpg";
 	$keyfile = "$id.txt";
 
-	$tmp = CONFIG_LOCALROOT . "tmp/";
-	$key = rand_line(CONFIG_WORDLIST);
+	$keypath = CONFIG_LOCALROOT . "tmp/robocheck-answers/"
+	. substr($id, 0, 2) . '/';
+	$imgpath = CONFIG_LOCALROOT . "www/robocheck/"
+	. substr($id, 0, 2) . '/';
 
-	system("convert -size {$width}x{$height} plasma:fractal -colorspace Gray $tmp/$id-fractal.jpg");
-	system("convert $tmp/$id-fractal.jpg -paint 10 $tmp/$id-background.jpg");
-	system("convert -size {$width}x -background 'rgba(0,0,0,0)' -fill black -spread 1 -blur 0x1 -blur 0x1 label:'$key' $tmp/$id-text.png");
-	system("composite -gravity center $tmp/$id-text.png $tmp/$id-background.jpg $tmp/$id-final.jpg");
+	$answer = rand_line(CONFIG_WORDLIST);
+	$text = $answer;
 
-	// Clean up temporary files
-	unlink("$tmp/$id-background.jpg");
-	unlink("$tmp/$id-fractal.jpg");
-	unlink("$tmp/$id-text.png");
+	if (!is_dir($keypath)) mkdir($keypath);
+	if (!is_dir($imgpath)) mkdir($imgpath);
 
-	// Stash the image in www/robocheck/uniqid().jpg
-	rename("$tmp/$id-final.jpg", $imgpath . $imgfile);
+	$lines = 5; $angle = 0;
+	$font = CONFIG_LOCALROOT . "www/res/mouthbrebb.ttf";
+
+	$im = imagecreatetruecolor($width, $height);
+	$bg = imagecolorallocate($im, 230, 80, 0);
+	$fg = imagecolorallocate($im, 255, 255, 255);
+	$ns = imagecolorallocate($im, 200, 200, 200);
+	imagefill($im, 0, 0, $bg);
+
+	$centerX = $width / 2;
+	$centerY = $height / 2;
+	list($left, $bottom, $right, , , $top) = imageftbbox(20, $angle, $font, $text);
+	$left_offset = ($right - $left) / 2;
+	$top_offset = ($bottom - $top) / 2;
+	$x = $centerX - $left_offset;
+	$y = $centerY + $top_offset;
+	imagettftext($im, 20, $angle, $x, $y, $fg, $font, $text);
+	while ($lines--) {
+		imageline($im, 0, rand(0, $height), $width, rand(0, $height), $fg);
+	}
+	for($i=0;$i<1000;$i++) {
+		imagesetpixel($im,rand()%$width,rand()%$height,$fg);
+	}
+	imagegif($im, $imgpath . $imgfile);
+	imagedestroy($im);
 
 	// Stash the answer in tmp/robocheck-answers/uniqid().txt
-	file_put_contents($keypath . $keyfile, $key);
+	file_put_contents($keypath . $keyfile, $answer);
 
 	return [
 		"id" => $id,
-		"src" => CONFIG_WEBROOT . "robocheck/$imgfile",
+		"src" => CONFIG_WEBROOT . "robocheck/"
+		. substr($id, 0, 2) . "/$imgfile",
 		"height" => $height,
 		"width" => $width
 	];
@@ -86,20 +107,28 @@ function gen_robocheck()
 */
 function check_robocheck($id, $answer)
 {
-	$imgfile = CONFIG_LOCALROOT . "www/robocheck/$id.jpg";
-	$keyfile = CONFIG_LOCALROOT . "tmp/robocheck-answers/$id.txt";
+	$keypath = CONFIG_LOCALROOT . "tmp/robocheck-answers/"
+	. substr($id, 0, 2) . "/";
+	$imgpath = CONFIG_LOCALROOT . "www/robocheck/"
+	. substr($id, 0, 2) . '/';
 
-	if (strpos(get_absolute_path($imgfile)
+	$imgfile = "$id.jpg";
+	$keyfile = "$id.txt";
+
+	if (strpos(get_absolute_path($keypath . $keyfile)
+	, CONFIG_LOCALROOT . "tmp/robocheck-answers") !== 0)
+		return false;
+	if (strpos(get_absolute_path($imgpath . $imgfile)
 	, CONFIG_LOCALROOT . "www/robocheck") !== 0)
 		return false;
-	if (!is_file($imgfile)) return false;
+//	if (!is_file($keypath)) return false;
 
-	$a = chop(file_get_contents($keyfile));
+	$a = chop(file_get_contents($keypath . $keyfile));
 
-	unlink($imgfile);
-	unlink($keyfile);
+	unlink($imgpath . $imgfile);
+	unlink($keypath . $keyfile);
 
-	return ($a == $answer);
+	return !strcasecmp($a, $answer);
 }
 /*
  * T-O-R-O-N-T-O

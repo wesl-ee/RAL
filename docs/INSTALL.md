@@ -17,7 +17,7 @@ Tools
 * PHP >= 5.1 (PHP provider)
 	- MySQLi
 	- fpm-PHP (PHP pool manager)
-	- ImageMagick
+	- Graphics Draw (GD) Library for PHP
 	- jBBCode
 
 Ensure that your webserver can serve PHP files. Then install jBBCode into
