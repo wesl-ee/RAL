@@ -22,7 +22,7 @@ class Renderer {
 	public function configForm() {
 		print <<<HTML
 <form method=POST>
-	<h2>Site Theme</h2>
+<fieldset><legend>Site Theme</legend>
 HTML;
 		foreach (CONFIG_THEMES as $theme) {
 			$q_theme = htmlentities($theme, ENT_QUOTES);
@@ -33,7 +33,7 @@ HTML;
 HTML;
 			else print <<<HTML
 	<input type=radio name=Theme id="theme-$q_theme" value="$q_theme">
-	<label for=Theme-"$q_theme">$h_theme</label><br />
+	<label for=Theme-"$q_theme">$h_theme</label>
 HTML;
 		}
 /*		print <<<HTML
@@ -54,7 +54,7 @@ HTML;
 HTML;
 		}*/
 		print <<<HTML
-	<input class=button type=submit value=Submit>
+	</fieldset><br /><input class=button type=submit value=Submit>
 </form>
 HTML;
 	}

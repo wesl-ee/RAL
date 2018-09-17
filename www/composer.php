@@ -56,7 +56,7 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 	<meta name="robots" content="noindex,follow"/>
 </head>
 <body>
-<div class=hf-container><header>
+<div class=hf-container><header class=no-flair>
 <?php $iterator->renderBanner(); ?>
 <?php $iterator->breadcrumb(); ?>
 </header></div>
