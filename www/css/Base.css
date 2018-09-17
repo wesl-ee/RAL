@@ -1,11 +1,5 @@
 body {
-	font-family: "Palatino Linotype",
-	"Book Antiqua",
-	Palatino,
-	serif;
-}
-h1, h2, h3, h4, h5, h6 {
-	font-weight: lighter;
+	font-family: 'ＭＳ Ｐゴシック', IPAMonaPGothic, Mona;
 }
 header img {
 	border: 1px solid;
@@ -206,11 +200,13 @@ select, button {
 	outline: 0;
 }
 input, select { border: 1px solid; }
-.post pre {
+.post .aa, .post .sjis {
 	display: inline-block;
 	max-width: 100%;
 	overflow-x: scroll;
 	padding: 5px;
+	white-space: pre;
+	letter-spacing: 0;
 }
 .post blockquote {
 	margin: 0;
@@ -233,4 +229,13 @@ input, select { border: 1px solid; }
 }
 blockquote > * {
 	display: inline;
+}
+.sjis {
+	font-family: 'ＭＳ Ｐゴシック', IPAMonaPGothic, Mona;
+	font-size: 12pt;
+	line-height: 18px;
+}
+.aa {
+	font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+	line-height: 12px;
 }

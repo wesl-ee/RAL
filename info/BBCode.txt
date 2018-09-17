@@ -66,5 +66,15 @@ reference of BBCode tags which are appropriate in the context of RAL.
 	<td>Un/attributed quote</td>
 	<td>&lt;blockquote cite=<em>source</em>&gt;</td>
 	<td>Optional; provides a source for the quote</td>
-</table>
+</tr><tr>
+	<td>[aa]</td>
+	<td>ASCII Art</td>
+	<td>&lt;span class=aa&gt;</td>
+	<td>N/A</td>
+</tr><tr>
+	<td>[sjis]</td>
+	<td>SJIS Art</td>
+	<td>&lt;span class=sjis&gt;</td>
+	<td>N/A</td>
+</tr></table>
 </article>

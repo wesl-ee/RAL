@@ -80,7 +80,13 @@ class ResourceManager {
 		/* [aa] ASCII Art tag */
 		$builder = new \jBBCode\CodeDefinitionBuilder(
 			'aa',
-			'<pre>{param}</pre>'
+			'<samp class=aa>{param}</samp>'
+		);
+		$bbparser->addCodeDefinition($builder->build());
+		/* [sjis] ASCII Art tag */
+		$builder = new \jBBCode\CodeDefinitionBuilder(
+			'sjis',
+			'<samp class=sjis>{param}</samp>'
 		);
 		$builder->setParseContent(false);
 		$bbparser->addCodeDefinition($builder->build());
