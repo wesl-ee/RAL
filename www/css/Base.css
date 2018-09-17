@@ -239,3 +239,7 @@ blockquote > * {
 	font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 	line-height: 12px;
 }
+.spoiler {
+	background: Black;
+	color: Black;
+}
