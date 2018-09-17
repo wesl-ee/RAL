@@ -28,15 +28,15 @@ if (isset($_POST['Theme'])) {
 ?>
 </head>
 <body>
-<header>
+<div class=hf-container><header>
 	<h1>Site Configuration</h1>
 	<span>Adjust your Experience</span><br />
-</header>
+</header></div>
 <?php include "{$ROOT}template/Feelies.php" ?><hr />
 <article><?php $Renderer->configForm(); ?></article>
-<hr /><footer>
-
+<hr />
+<div class=hf-container><footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
-</footer>
+</footer></div>
 </body>
 </HTML>

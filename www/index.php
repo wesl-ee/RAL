@@ -32,10 +32,10 @@ HREF;
 ?>>
 </head>
 <body>
-<header>
-	<h1>RAL</h1>
-	<span>Neo-Forum Textboard</span><br />
-</header>
+<div class=hf-container><header>
+	<span><h1>RAL</h1>
+	<span>Neo-Forum Textboard</span><br /></span>
+</header></div>
 <?php include "{$ROOT}template/Feelies.php" ?>
 
 <?php $iterator->drawSearchBar(); ?><hr />
@@ -44,9 +44,9 @@ HREF;
 <?php (new RAL\News($RM))->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
-<hr /><footer>
+<hr /><div class="hf-container"><footer>
 <?php $iterator->drawRSSButton(); ?>
 <?php include "{$ROOT}template/Footer.php"; ?>
-</footer>
+</footer></div>
 </body>
 </HTML>

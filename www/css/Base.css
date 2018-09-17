@@ -1,6 +1,9 @@
 body {
 	font-family: 'ＭＳ Ｐゴシック', IPAMonaPGothic, Mona;
 }
+.hf-container {
+	text-align: center;
+}
 header img {
 	border: 1px solid;
 }
@@ -9,7 +12,9 @@ header h1,
 	margin: 0;
 }
 header, footer {
+	display: inline-block;
 	text-align: center;
+	padding: 10px;
 }
 table, tr, td, th {
 	border: 1px solid;

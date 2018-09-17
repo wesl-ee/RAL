@@ -36,16 +36,16 @@ if (!$continuity) {
 ?>
 </head>
 <body>
-<header>
+<div class=hf-container><header>
 <?php $iterator->renderBanner(); ?>
 <?php $iterator->breadcrumb(); ?>
-</header>
+</header></div>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?>
 <?php $iterator->renderPostButton();?><hr />
 <?php $iterator->render();?><hr />
 <?php $iterator->renderPostButton(); ?>
-<footer>
+<div class=hf-container><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
-</footer>
+</footer></div>
 </body>
 </HTML>
