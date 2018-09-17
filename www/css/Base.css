@@ -39,9 +39,12 @@ header, footer {
 	display: inline-block;
 	text-align: center;
 }
+header.no-flair {
+	padding: 10px;
+}
 header.no-flair:before,
 header.no-flair:after {
-	border: 0;
+	display: none;
 }
 table, tr, td, th {
 	border: 1px solid;
@@ -129,11 +132,11 @@ article .content > * {
 .timeline ul li div {
 	position: relative;
 	bottom: 0;
-	width: 200px;
+	width: 100px;
 	padding: 0 20px;
 }
 .timeline ul li:nth-child(even) div {
-	left: -240px;
+	left: -140px;
 	text-align: right;
 }
 .timeline ul li::after {

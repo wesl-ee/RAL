@@ -23,7 +23,7 @@ if (isset($_POST['Theme'])) {
 <HTML>
 <head>
 <?php
-	$Renderer->title = "Site Configuration";
+	$Renderer->Title = "Site Configuration";
 	$Renderer->putHead();
 ?>
 </head>
@@ -33,7 +33,10 @@ if (isset($_POST['Theme'])) {
 	<span>Adjust your Experience</span><br />
 </header></div>
 <?php include "{$ROOT}template/Feelies.php" ?><hr />
-<article><?php $Renderer->configForm(); ?></article>
+<article>
+<h2>Configuration</h2>
+<?php $Renderer->configForm(); ?>
+</article>
 <hr />
 <div class=hf-container><footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
