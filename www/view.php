@@ -36,7 +36,7 @@ if (!$continuity) {
 ?>
 </head>
 <body>
-<div class=hf-container><header class=no-flair>
+<header>
 <?php $iterator->renderBanner(); ?>
 <?php $iterator->breadcrumb(); ?>
 </header></div>

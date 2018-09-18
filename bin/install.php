@@ -54,6 +54,24 @@ $queries[] = <<<SQL
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
 $queries[] = <<<SQL
+	CREATE TABLE `Friends` (
+	`Username` varchar(30) NOT NULL,
+	`Password` varchar(255) NOT NULL,
+	`Birthday` char(5) NOT NULL,
+	`Consequence` varchar(20) NOT NULL DEFAULT 'Co-sysop',
+	`Joined` datetime DEFAULT current_timestamp(),
+	`Password Expiry` datetime DEFAULT (current_timestamp() + interval 1 year),
+	PRIMARY KEY (`Username`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL;
+$queries[] = <<<SQL
+	CREATE TABLE `Sessions` (
+	`Id` varchar(64) NOT NULL,
+	`Username` varchar(30) NOT NULL,
+	PRIMARY KEY (`Id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL;
+$queries[] = <<<SQL
 	CREATE TABLE `Bans` (
 	`Id` VARCHAR(256) NOT NULL,
 	`Type` VARCHAR(64) NOT NULL,
