@@ -185,7 +185,7 @@ SQL;
 		$this->Selection[0]->Parent() == $this) {
 			$target = $this->resolveSearch();
 			print <<<HTML
-	<form method=POST action="$target">
+	<form method=POST class=search action="$target">
 		<input name=query
 		placeholder="Search RAL"
 		value="$text">

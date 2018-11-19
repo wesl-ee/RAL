@@ -73,12 +73,16 @@ XML;
 		case 'html':
 			print <<<HTML
 	<article class=timeline>
-	<h2>Overview of {$this->Parent->title()}</h2><ul>
+	<h2>
+		Overview of {$this->Parent->title()}
+	</h2>
+	<ul>
 
 HTML;
 			foreach ($items as $i) $i->renderAsHtml();
 			print <<<HTML
-	</ul></article>
+	</ul>
+</article>
 
 HTML;
 		break; case 'text':

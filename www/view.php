@@ -40,10 +40,8 @@ if (!$continuity) {
 <?php $iterator->renderBanner(); ?>
 <?php $iterator->breadcrumb(); ?>
 </header></div>
-<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?>
-<?php $iterator->renderPostButton();?><hr />
+<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
 <?php $iterator->render();?><hr />
-<?php $iterator->renderPostButton(); ?>
 <div class=hf-container><footer>
 	<?php include "{$ROOT}template/Footer.php"; ?>
 </footer></div>

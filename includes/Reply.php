@@ -69,11 +69,24 @@ RSS;
 			print <<<HTML
 <article><h2>
 	{$this->Parent->title()}
-</h2><div class=content>
+</h2>
+
+HTML;
+			$this->Parent->renderPostButton();
+			print <<<HTML
+<div class=content>
 
 HTML;
 			foreach ($items as $i) $i->renderAsHtml();
-			say('</div></article>');
+			print <<<HTML
+</div>
+
+HTML;
+			$this->Parent->renderPostButton();
+			print <<<HTML
+
+</article>
+HTML;
 		break; case 'text':
 			foreach ($items as $i) $i->renderAsText();
 		break; case 'json':

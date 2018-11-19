@@ -66,12 +66,24 @@ XML;
 		case 'html':
 			print <<<HTML
 <article>
-<h2>{$this->Parent->title()}</h2><div class=content>
+<h2>
+	{$this->Parent->title()}
+</h2>
+
+HTML;
+			$this->Parent->renderPostButton();
+			print <<<HTML
+<div class=content>
 
 HTML;
 			foreach ($items as $i) $i->renderAsHtml();
 			print <<<HTML
-</div></article>
+</div>
+
+HTML;
+			$this->Parent->renderPostButton();
+			print <<<HTML
+</article>
 
 HTML;
 		break; case 'text':
