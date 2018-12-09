@@ -32,7 +32,7 @@ class Continuity {
 		src="$src" />
 	</a></div>
 	<h2 class=title>
-		$title
+		<a href="$href">$title</a>
 	</h2>
 	<span class=description>
 		$desc
