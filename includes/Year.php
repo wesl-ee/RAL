@@ -76,6 +76,9 @@ XML;
 	<h2>
 		Overview of {$this->Parent->title()}
 	</h2>
+HTML;
+			$this->renderPostButton();
+			print <<<HTML
 	<ul>
 
 HTML;
