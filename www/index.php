@@ -32,21 +32,19 @@ HREF;
 ?>>
 </head>
 <body>
-<div class=hf-container><header>
-	<span><h1>RAL</h1>
-	<span>Neo-Forum Textboard</span><br /></span>
-</header></div>
-<?php include "{$ROOT}template/Feelies.php" ?>
-
-<?php $iterator->drawSearchBar(); ?><hr />
+<?php $iterator->renderHeader(); ?><hr />
+<main>
 <?php $iterator->select(); $iterator->render(); ?>
 <?php $iterator->selectRecent(10); $iterator->render(); ?><hr />
 <?php (new RAL\News($RM))->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
-<hr /><div class="hf-container"><footer>
-<?php $iterator->drawRSSButton(); ?>
+</main>
+<div class=discovery>
+<?php include "{$ROOT}template/Sponsors.php"; ?>
+</div>
+<footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
-</footer></div>
+</footer>
 </body>
 </HTML>

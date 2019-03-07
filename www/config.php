@@ -28,18 +28,18 @@ if (isset($_POST['Theme'])) {
 ?>
 </head>
 <body>
-<div class=hf-container><header>
-	<h1>Site Configuration</h1>
-	<span>Adjust your Experience</span><br />
-</header></div>
-<?php include "{$ROOT}template/Feelies.php" ?><hr />
+<?php $iterator->renderHeader(); ?>
+<main>
 <article>
 <h2>Configuration</h2>
 <?php $Renderer->configForm(); ?>
 </article>
-<hr />
-<div class=hf-container><footer>
+</main>
+<div class=discovery>
+<?php include "{$ROOT}template/Sponsors.php"; ?>
+</div>
+<footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
-</footer></div>
+</footer>
 </body>
 </HTML>

@@ -173,16 +173,45 @@ SQL;
 		);
 	}
 	public function renderBanner($format = 'html') {
+		if (!$this->Selection[0]) {
+			print <<<HTML
+	<img src="https://ralee.org/res/RAL.gif">
+HTML;
+			return;
+		}
 		$this->Selection[0]->Parent()->renderBanner(
 			$format
 		);
+	}
+	public function renderHeader($format = 'html') {
+		if ($this->Selection[0]) {
+			return $this->Selection[0]->renderHeader();
+		}
+		print <<<HTML
+	<header>
+		<div>
+HTML;
+		$this->renderBanner();
+		include CONFIG_LOCALROOT . "template/Feelies.php";
+		print <<<HTML
+		</div>
+
+HTML;
+		$this->drawSearchBar();
+		print <<<HTML
+	</header>
+
+HTML;
+/*		$this->Selection[0]->Parent()->renderHeader(
+			$format
+		); */
 	}
 	public function renderPostButton() {
 		$this->Selection[0]->Parent()->renderPostButton();
 	}
 	public function drawSearchBar($text = null) {
-		if (!$this->Selection[0] ||
-		$this->Selection[0]->Parent() == $this) {
+		/* if (!$this->Selection[0] ||
+		$this->Selection[0]->Parent() == $this) { */
 			$target = $this->resolveSearch();
 			print <<<HTML
 	<form method=POST class=search action="$target">
@@ -192,9 +221,9 @@ SQL;
 		<input class=button type=submit value="Go!">
 	</form>
 HTML;
-		} else {
-			$this->Selection[0]->parent()->drawSearchBar();
-		}
+		/* } else {
+			// $this->Selection[0]->parent()->drawSearchBar();
+		} */
 	}
 	public function breadcrumb() {
 		print <<<BREADOPEN

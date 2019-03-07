@@ -19,6 +19,9 @@ class Year {
 	public function renderBanner($format) {
 		return $this->Parent->renderBanner($format);
 	}
+	public function renderHeader() {
+		return $this->Parent->renderHeader($format);
+	}
 	public function renderPostButton() {
 		return $this->Parent->renderPostButton();
 	}

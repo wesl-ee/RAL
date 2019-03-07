@@ -56,19 +56,20 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 	<meta name="robots" content="noindex,follow"/>
 </head>
 <body>
-<header>
-<?php $iterator->renderBanner(); ?>
-<?php $iterator->breadcrumb(); ?>
-</header></div>
+<?php $iterator->renderHeader(); ?>
+<main>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
 <article><?php if (@$_POST['preview'] && !empty(@$_POST['content'])) {
 	$iterator->renderRobocheck($_POST['content']);
 } else { $iterator->renderComposer(@$_POST['content']);
-} ?></article><hr />
+} ?></article>
 <?php $iterator->render(); ?>
-<hr />
-<div class=hf-container><footer>
-	<?php include "{$ROOT}template/Footer.php"; ?>
-</footer></div>
+</main>
+<div class=discovery>
+<?php include "{$ROOT}template/Sponsors.php"; ?>
+</div>
+<footer>
+<?php include "{$ROOT}template/Footer.php"; ?>
+</footer>
 </body>
 </HTML>

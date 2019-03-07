@@ -17,6 +17,29 @@ class Continuity {
 	/* Methods for accessing the elitist superstructure */
 	public function Parent() { return $this->Parent; }
 	public function Rm() { return $this->Parent->Rm(); }
+
+	/* Lazy... */
+	public function breadcrumb() { $this->Parent->breadcrumb(); }
+	public function renderHeader() {
+		print <<<HTML
+	<header>
+		<div>
+HTML;
+		$this->renderBannerAsHTML();
+		include CONFIG_LOCALROOT . "template/Feelies.php";
+		$this->breadcrumb();
+		print <<<HTML
+		</div>
+
+HTML;
+		$this->drawSearchBar();
+		print <<<HTML
+	</header>
+
+HTML;
+	}
+	public function drawSearchBar() { $this->Parent->drawSearchBar(); }
+
 	/* Methods for rendering a Continuity as HTML, text, etc. */
 	public function renderAsHtml() {
 		$href = $this->resolve();

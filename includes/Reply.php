@@ -47,6 +47,7 @@ $content
 
 TEXT;
 	}
+	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsRss() {
 		$content = htmlentities($this->getContentAsText());
 		$url = CONFIG_CANON_URL . htmlentities($this->resolve());

@@ -1,10 +1,39 @@
 body {
+	display: grid;
+	grid-template-areas:
+		'header header'
+		'main discovery'
+		'footer footer';
+	grid-gap: 1em;
+	margin: 0 1em;
+	grid-template-columns: 1fr 350px;
 	font-family: 'ＭＳ Ｐゴシック', IPAMonaPGothic, Mona;
+}
+main, aside { padding: 0 10px 10px; }
+.search { padding: 0 10px; }
+.info-links { padding: 10px 0; }
+header { grid-area: header; }
+main { grid-area: main; }
+.discovery { grid-area: discovery; }
+footer { grid-area: footer; }
+aside figure {
+	margin: 0;
 	text-align: center;
 }
-.info-links, .search { padding: 10px 0; text-align: left; }
-.hf-container, .hf-container .info-links {
-	text-align: center;
+figure img {
+	border: 1px solid;
+}
+aside h2 {
+	text-align: right;
+}
+header {
+	display: flex;
+	align-items: flex-end;
+	flex-wrap: wrap;
+}
+header .search {
+	flex: 1 1 auto;
+	text-align: right;
 }
 header img {
 	border: 1px solid;
@@ -12,35 +41,6 @@ header img {
 header h1,
 .continuity-splash h2 {
 	margin: 0;
-}
-.hf-container header, .hf-container footer {
-	display: inline-block;
-	position: relative;
-	padding: 10px 60px;
-}
-header {
-}
-.hf-container header:before, .hf-container footer:before,
-.hf-container header:after, .hf-container footer:after {
-	content: "";
-	position: absolute;
-	height: 0px;
-	border-top: 1px solid;
-	top: 50%;
-	width: 50px;
-}
-.hf-container header:before,
-.hf-container footer:before {
-	right: 100%;
-	margin-right: -55px;
-}
-.hf-container header:after,
-.hf-container footer:after {
-	left: 100%;
-	margin-left: -55px;
-}
-header, footer {
-	text-align: center;
 }
 header.no-flair {
 	padding: 10px;
@@ -86,17 +86,9 @@ main table {
 	font-size: 1.5em;
 	font-weight: bold;
 }
-article {
-	display: inline-block;
-	text-align: left;
-}
 article .content {
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-around;
 }
 article .content > * {
-	flex: 1 1 auto;
 }
 .hoverbox {
 	display: inline-block;
@@ -222,14 +214,16 @@ article .content > * {
 	cursor: pointer;
 	color: inherit;
 }
+.textarea {
+	width: 100%;
+}
 textarea {
 	margin: 0;
 	padding: 5px;
 	border: 3px double;
 	font-family: inherit;
-	width: 32em;
+	width: 100%;
 	min-width: 30px;
-	max-width: calc(100% - 10px);
 }
 button {
 	cursor: pointer;

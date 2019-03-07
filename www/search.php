@@ -40,19 +40,23 @@ $iterator->selectSearch($query, $continuity, $year, $topic);
 </head>
 <body>
 <header>
-	<h1>RAL Site Search</h1>
+<div><h1>RAL Site Search</h1>
 	<span>Enquire within.</span>
-</header>
-<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?>
-<?php $iterator->drawSearchBar(@$query); ?><hr />
+	<?php include CONFIG_LOCALROOT . "template/Feelies.php"; ?></div>
+	<?php $iterator->drawSearchBar(@$query); ?>
+</header><main>
 <?php
 if (empty($query)) {
 	print "You didn't search anything!";
 } else if ($iterator->render() === false)
 	print "Nobody's talking about {$query}!";
 ?>
-<hr /><footer>
-	<?php include "{$ROOT}template/Footer.php"; ?>
+</main>
+<div class=discovery>
+<?php include "{$ROOT}template/Sponsors.php"; ?>
+</div>
+<footer>
+<?php include "{$ROOT}template/Footer.php"; ?>
 </footer>
 </body>
 </HTML>

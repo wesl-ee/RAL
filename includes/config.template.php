@@ -57,10 +57,3 @@ define("CONFIG_THEMES", [
 	"Classic",
 ]);
 define("CONFIG_DEFAULT_THEME", "Classic"
-
-// <video>s to be displayed on various user-facing screens
-define("CONFIG_RESULT_VIDEOS", [
-	"Success" => "https://cdn.prettyboytellem.com/ral/congratulations.webm",
-	"Failure" => "https://cdn.prettyboytellem.com/ral/innocence.webm",
-	"Config" => "https://cdn.prettyboytellem.com/ral/sailor-transform.webm"
-]);

@@ -43,6 +43,8 @@ class Topic {
 
 HTML;
 	}
+
+	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsText() {
 		$content = $this->getContentAsText();
 		print <<<TEXT

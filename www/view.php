@@ -36,14 +36,15 @@ if (!$continuity) {
 ?>
 </head>
 <body>
-<header>
-<?php $iterator->renderBanner(); ?>
-<?php $iterator->breadcrumb(); ?>
-</header></div>
-<?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
-<?php $iterator->render();?><hr />
-<div class=hf-container><footer>
-	<?php include "{$ROOT}template/Footer.php"; ?>
-</footer></div>
+<?php $iterator->renderHeader(); ?>
+<main>
+<?php $iterator->render();?>
+</main>
+<div class=discovery>
+<?php include "{$ROOT}template/Sponsors.php"; ?>
+</div>
+<footer>
+<?php include "{$ROOT}template/Footer.php"; ?>
+</footer>
 </body>
 </HTML>
