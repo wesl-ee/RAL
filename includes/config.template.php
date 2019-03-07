@@ -42,11 +42,11 @@ define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 define("CONFIG_TMP_EXPIRY", 1440);
 
 // Only used for the RSS feed
-define("CONFIG_CANON_URL", "https://ral.space");
+define("CONFIG_CANON_URL", "https://ralee.org");
 
 // Only set if you have set up lighttpd like in the example config!
-// true: https:ral.space/max/Anime/1
-// false: https:ral.space/max.php?continuity=Anime&topic=1
+// true: https:ralee.org/max/Anime/1
+// false: https:ralee.org/max.php?continuity=Anime&topic=1
 define("CONFIG_CLEAN_URL", false);
 
 // A line-seperated list of words to use for the robocheck

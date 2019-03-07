@@ -43,15 +43,15 @@ response will be in JSON form.
 
 ### Examples
 
-`https://ral.space/api.php?a=view`
+`https://ralee.org/api.php?a=view`
 
 Fetches all continuities in the default format (typically text)
 
-`https://ral.space/api.php?a=view&continuity=Chat`
+`https://ralee.org/api.php?a=view&continuity=Chat`
 
 Fetches all topics in the [Chat] continuity in the default format
 
-`https://ral.space/api.php?fetch&continuity=Chat&year=2018&topic=1&format=html`
+`https://ralee.org/api.php?fetch&continuity=Chat&year=2018&topic=1&format=html`
 
 Fetches all posts in the [Chat/2018/1] topic and displays them in a basic
 HTML format.

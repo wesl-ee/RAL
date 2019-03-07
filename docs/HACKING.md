@@ -14,9 +14,10 @@ Submitting Patches / Pull Requests
 ----------------------------------
 
 Either mail me at yumi@prettyboytellem.com or join the IRC at
-[howler.space:6667](https://irc.ral.space) #bigtown. A PR is also fine but
-I would prefer that you either send a .patch (for small things), or link me
-the repository with your feature branch (for larger things)
+[irc.prettyboytellem.com:6667](https://irc.prettyboytellem.com) #bigtown. A
+PR is also fine but I would prefer that you either send a .patch (for small
+things), or link me the repository with your feature branch (for larger
+things).
 
 Style
 -----

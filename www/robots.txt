@@ -6,4 +6,4 @@ Disallow:
 # may use /sitemap, otherwise specify
 # /sitemap.php
 
-Sitemap: https:ral.space/sitemap.php
+Sitemap: https://ralee.org/sitemap.php

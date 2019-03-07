@@ -11,7 +11,7 @@ discussion space on the internet; RAL is a new type of discussion space
 called a neo-forum.
 
 If you are curious what RAL feels like
-[check out the site](https://ral.space).
+[check out the site](https://ralee.org).
 
 First, you may notice that there are a number of different boards which
 have a single focus. These boards are called _continuities_ because unlinke
@@ -32,8 +32,8 @@ Contributing
 ------------
 
 Contributions are welcome! If you are interested in contributing, join
-[howler.space:6667](https://irc.ral.space) #bigtown or send me an e-mail
-at yumi@prettyboytellem.com. Further reading is available in
+[irc.prettyboytellem.com:6667](https://irc.prettyboytellem.com) #bigtown or
+send me an e-mail at yumi@prettyboytellem.com. Further reading is available in
 `docs/HACKING.md`
 
 License
