@@ -42,16 +42,17 @@ $iterator->selectSearch($query, $continuity, $year, $topic);
 <header>
 <div><h1>RAL Site Search</h1>
 	<span>Enquire within.</span>
-	<?php include CONFIG_LOCALROOT . "template/Feelies.php"; ?></div>
+	<?php include "{$ROOT}template/Feelies.php"; ?></div>
 	<?php $iterator->drawSearchBar(@$query); ?>
-</header><main>
+</header>
+<div class=main><main>
 <?php
 if (empty($query)) {
 	print "You didn't search anything!";
 } else if ($iterator->render() === false)
 	print "Nobody's talking about {$query}!";
 ?>
-</main>
+</main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>
 </div>

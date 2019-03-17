@@ -37,9 +37,9 @@ if (!$continuity) {
 </head>
 <body>
 <?php $iterator->renderHeader(); ?>
-<main>
+<div class=main><main>
 <?php $iterator->render();?>
-</main>
+</main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>
 </div>

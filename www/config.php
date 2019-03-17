@@ -14,7 +14,7 @@ if (isset($_POST['Theme'])) {
 	setcookie('Theme', $_POST['Theme']);
 	$_COOKIE['Theme'] = $_POST['Theme'];
 	$page = CONFIG_WEBROOT;
-	header("Refresh: 5; url=$page");
+	header("Refresh: 0; url=$page");
 	include "{$ROOT}template/ThemeChange.php";
 	die;
 }
@@ -29,12 +29,12 @@ if (isset($_POST['Theme'])) {
 </head>
 <body>
 <?php $iterator->renderHeader(); ?>
-<main>
+<div class=main><main>
 <article>
 <h2>Configuration</h2>
 <?php $Renderer->configForm(); ?>
 </article>
-</main>
+</main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>
 </div>

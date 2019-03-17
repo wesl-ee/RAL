@@ -4,16 +4,16 @@ body {
 		'header header'
 		'main discovery'
 		'footer footer';
-	grid-gap: 0.1em;
-	margin: 0 1em;
+	grid-gap: 1em;
 	grid-template-columns: 1fr 350px;
 	font-family: 'ＭＳ Ｐゴシック', IPAMonaPGothic, Mona;
 }
-main, aside { padding: 0 10px 10px; }
+main, aside  { padding: 0 10px 10px; }
+footer { padding: 10px; text-align: center; }
 .search { padding: 0 10px; }
 .info-links { padding: 10px 0; }
 header { grid-area: header; }
-main { grid-area: main; }
+.main { grid-area: main; }
 .discovery { grid-area: discovery; }
 footer { grid-area: footer; }
 aside figure {
@@ -189,8 +189,6 @@ article .content > * {
 			'main'
 			'discovery'
 			'footer';
-		grid-gap: 1em;
-		margin: 0 1em;
 		grid-template-columns: 1fr;
 	}
 }

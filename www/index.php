@@ -33,13 +33,13 @@ HREF;
 </head>
 <body>
 <?php $iterator->renderHeader(); ?><hr />
-<main>
+<div class=main><main>
 <?php $iterator->select(); $iterator->render(); ?>
 <?php $iterator->selectRecent(10); $iterator->render(); ?><hr />
 <?php (new RAL\News($RM))->select()->draw(); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
-</main>
+</main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>
 </div>

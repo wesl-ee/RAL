@@ -36,7 +36,7 @@ class Topic {
 	<h3 class=id>{$this->title()}</h3>
 	<time datetime="$datetime">$prettydate</time><br />
 	<span class=expand>
-		<a href="$href">Replies ($this->Replies)</a>
+		<a href="$href">Read Topic ($this->Replies Posts)</a>
 	</span><hr />
 	{$content}
 </section>

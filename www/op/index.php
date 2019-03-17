@@ -23,11 +23,13 @@ if ($Syspanel->isAuthorizationAttempt($_POST)) {
 ?>
 </head>
 <body>
-<div class=hf-container><header>
+<header>
+<div>
 	<h1>Sysop / Co-sysop Panel</h1>
 	<span>Bless this mess</span><br />
-</header></div>
-<?php include "{$ROOT}template/Feelies.php" ?><hr />
+	<?php include "{$ROOT}template/Feelies.php" ?>
+</div></header>
+<div class=main><main>
 <article>
 <?php if (!$Syspanel->Authorized) {
 	print <<<HTML
@@ -42,10 +44,13 @@ HTML;
 
 HTML;
 	$Syspanel->renderPanel($view);
-}?></article>
-<hr />
-<div class=hf-container><footer>
+}?>
+</article></main></div>
+<div class=discovery>
+<?php include "{$ROOT}template/Sponsors.php"; ?>
+</div>
+<footer>
 <?php include "{$ROOT}template/Footer.php"; ?>
-</footer></div>
+</footer>
 </body>
 </HTML>

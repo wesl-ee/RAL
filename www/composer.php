@@ -27,20 +27,20 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 	$answer = $_POST['robocheckanswer'];
 	$page = $iterator->resolve();
 	if (!isset($id, $answer)) {
-		header("Refresh: 5; url=$page");
+		header("Refresh: 0; url=$page");
 		$reason = "Did you forget to verify your humanity?";
 		include "{$ROOT}template/PostFailure.php";
 	} else if (!check_robocheck($id, $answer)) {
-		header("Refresh: 5; url=$page");
+		header("Refresh: 0; url=$page");
 		$reason = "You failed the humanity check!";
 		include "{$ROOT}template/PostFailure.php";
 	} else if (empty(@$_POST['content'])) {
-		header("Refresh: 5; url=$page");
+		header("Refresh: 0; url=$page");
 		$reason = "Just what are you trying to do?";
 		include "{$ROOT}template/PostFailure.php";
 	} else {
 		$iterator->post($_POST['content']);
-		header("Refresh: 5; url=$page");
+		header("Refresh: 0; url=$page");
 		include "{$ROOT}template/PostSuccess.php";
 	} die;
 }
@@ -57,14 +57,14 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 </head>
 <body>
 <?php $iterator->renderHeader(); ?>
-<main>
+<div class=main><main>
 <?php include CONFIG_LOCALROOT . "template/Feelies.php" ?><hr />
 <article><?php if (@$_POST['preview'] && !empty(@$_POST['content'])) {
 	$iterator->renderRobocheck($_POST['content']);
 } else { $iterator->renderComposer(@$_POST['content']);
 } ?></article>
 <?php $iterator->render(); ?>
-</main>
+</main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>
 </div>
