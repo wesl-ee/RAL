@@ -13,8 +13,10 @@ $iterator = new RAL\ContinuityIterator($RM);
 if (isset($_POST['Theme'])) {
 	setcookie('Theme', $_POST['Theme']);
 	$_COOKIE['Theme'] = $_POST['Theme'];
-	$page = CONFIG_WEBROOT;
-	header("Refresh: 0; url=$page");
+	if (CONFIG_CLEAN_URL) $page = CONFIG_WEBROOT . 'config';
+	else $page = CONFIG_WEBROOT . 'config.php';
+	$until = 3;
+	header("Refresh: $until; url=$page");
 	include "{$ROOT}template/ThemeChange.php";
 	die;
 }

@@ -223,9 +223,7 @@ article .content > * {
 	cursor: pointer;
 	color: inherit;
 }
-.textarea {
-	width: 100%;
-}
+.textarea { width: calc(100% - 20px); }
 textarea {
 	margin: 0;
 	padding: 5px;

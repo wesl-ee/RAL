@@ -48,9 +48,9 @@ $iterator->selectSearch($query, $continuity, $year, $topic);
 <div class=main><main>
 <?php
 if (empty($query)) {
-	print "You didn't search anything!";
+	print "<p>You didn't search anything!</p>";
 } else if ($iterator->render() === false)
-	print "Nobody's talking about {$query}!";
+	print "<p>Nobody's talking about {$query}!</p>";
 ?>
 </main></div>
 <div class=discovery>
