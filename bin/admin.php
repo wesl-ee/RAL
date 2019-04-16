@@ -31,10 +31,27 @@ do { $answer = ask([
 	case 'Continuities':
 	$answer = ask([
 	'Metrics',
+	'Delete a Topic',
+	'Delete a Post',
 	'Create a Continuity',
 	'Delete a Continuity'
 	]); switch ($answer) {
 		case 'Metrics':
+		break;
+
+		case 'Delete a Topic':
+		$iterator->select(prompt('Continuity'),
+			prompt('Year'),
+			prompt('Id'));
+		$iterator->Topic->delete();
+		break;
+
+		case 'Delete a Post':
+		$iterator->select(prompt('Continuity'),
+			prompt('Year'),
+			prompt('Topic'),
+			prompt('Id'));
+		$iterator->Post->delete();
 		break;
 
 		case 'Create a Continuity':

@@ -7,6 +7,7 @@ class Topic {
 	public $Content;
 	public $Replies;
 	public $Year;
+	public $Deleted;
 
 	private $Parent;
 
@@ -17,6 +18,7 @@ class Topic {
 		$this->Content = $row['Content'];
 		$this->Replies = $row['Replies'];
 		$this->Year = $row['Year'];
+		$this->Deleted = $row['Deleted'];
 
 		$this->Parent = $parent;
 		return $this;
@@ -27,13 +29,25 @@ class Topic {
 	/* Methods for rendering as HTML, text, etc. */
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
+		if (isset($this->Deleted))
+			$content = $this->asHtml($this->deletedText());
+
 		$href = htmlentities($this->resolve());
 		$time = strtotime($this->Created);
 		$prettydate = date('l M jS \'y', $time);
 		$datetime = date(DATE_W3C, $time);
-		print <<<HTML
+		if (isset($this->Deleted)) print <<<HTML
+<section class="post deleted">
+	<strong>(Trashed)</strong>
+	<h3 class=id>{$this->title()}</h3>
+
+HTML;
+		else print <<<HTML
 <section class=post>
 	<h3 class=id>{$this->title()}</h3>
+
+HTML;
+		print <<<HTML
 	<time datetime="$datetime">$prettydate</time><br />
 	<span class=expand>
 		<a href="$href">Read Topic ($this->Replies Posts)</a>
@@ -47,6 +61,8 @@ HTML;
 	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsText() {
 		$content = $this->getContentAsText();
+		if (isset($this->Deleted))
+			$content = $this->asText($this->deletedText());
 		print <<<TEXT
 $this->Id. ($this->Created)
 $content
@@ -139,9 +155,21 @@ HTML;
 		$bbparser->accept($visitor);
 		return $bbparser->getAsHtml();
 	}
+	public function asHtml($content) {
+		$bbparser = $this->Rm()->getbbparser();
+		$visitor = $this->Rm()->getLineBreakVisitor();
+		$bbparser->parse(htmlentities($content));
+		$bbparser->accept($visitor);
+		return $bbparser->getAsHtml();
+	}
 	public function getContentAsText() {
 		$bbparser = $this->Rm()->getbbparser();
 		$bbparser->parse($this->Content);
+		return $bbparser->getAsText();
+	}
+	public function asText($content) {
+		$bbparser = $this->Rm()->getbbparser();
+		$bbparser->parse($content);
 		return $bbparser->getAsText();
 	}
 	/* Rendering the new post composer */
@@ -264,6 +292,30 @@ SQL;
 		$query = <<<SQL
 		UPDATE `Topics` SET `Replies`=`Replies`+1
 		WHERE `Continuity`=? AND `Year`=? AND `Id`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('sii', $this->Continuity, $this->Year, $this->Id);
+		$stmt->execute();
+	}
+	public function deletedText() {
+		$length = strlen($this->Content);
+		$md5 = md5($this->Content);
+		$sha1 = sha1($this->Content);
+		return <<<TEXT
+This topic is no longer here; it broke one of the two rules and was deleted :(
+
+MD5: $md5
+SHA1: $sha1
+Message Length: $length characters
+TEXT;
+	}
+	public function delete() {
+		$dbh = $this->Rm()->getdb();
+		var_dump($dbh);
+
+		$query = <<<SQL
+		UPDATE `Topics` SET `Deleted`=1 WHERE
+		`Continuity` = ? AND `Year` = ? AND `Id` = ?
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('sii', $this->Continuity, $this->Year, $this->Id);
