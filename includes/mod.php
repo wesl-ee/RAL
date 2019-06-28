@@ -59,35 +59,42 @@ function gen_robocheck()
 	$imgpath = CONFIG_LOCALROOT . "www/robocheck/"
 	. substr($id, 0, 2) . '/';
 
-	$answer = rand_line(CONFIG_WORDLIST);
-	$text = $answer;
+	do {
+		$answer = rand_line(CONFIG_WORDLIST);
+		$text = $answer;
+
+		$lines = 5; $angle = 0;
+		$font = CONFIG_LOCALROOT . "www/res/mouthbrebb.ttf";
+
+		$im = imagecreatetruecolor($width, $height);
+		$bg = imagecolorallocate($im, 230, 80, 0);
+		$fg = imagecolorallocate($im, 255, 255, 255);
+		$ns = imagecolorallocate($im, 200, 200, 200);
+		imagefill($im, 0, 0, $bg);
+
+		$centerX = $width / 2;
+		$centerY = $height / 2;
+		list($left, $bottom, $right, , , $top) = imageftbbox(20, $angle, $font, $text);
+		$left_offset = ($right - $left) / 2;
+		$top_offset = ($bottom - $top) / 2;
+		$x = $centerX - $left_offset;
+		$y = $centerY + $top_offset;
+	// No text larger than the canvas
+	} while ($x < 0);
+
+	imagettftext($im, 20, $angle, $x, $y, $fg, $font, $text);
+
+	while ($lines--) {
+		imageline($im, 0, rand(0, $height), $width, rand(0, $height), $fg);
+	}
+
+	for($i=0;$i<1000;$i++) {
+		imagesetpixel($im,rand()%$width,rand()%$height,$fg);
+	}
 
 	if (!is_dir($keypath)) mkdir($keypath);
 	if (!is_dir($imgpath)) mkdir($imgpath);
 
-	$lines = 5; $angle = 0;
-	$font = CONFIG_LOCALROOT . "www/res/mouthbrebb.ttf";
-
-	$im = imagecreatetruecolor($width, $height);
-	$bg = imagecolorallocate($im, 230, 80, 0);
-	$fg = imagecolorallocate($im, 255, 255, 255);
-	$ns = imagecolorallocate($im, 200, 200, 200);
-	imagefill($im, 0, 0, $bg);
-
-	$centerX = $width / 2;
-	$centerY = $height / 2;
-	list($left, $bottom, $right, , , $top) = imageftbbox(20, $angle, $font, $text);
-	$left_offset = ($right - $left) / 2;
-	$top_offset = ($bottom - $top) / 2;
-	$x = $centerX - $left_offset;
-	$y = $centerY + $top_offset;
-	imagettftext($im, 20, $angle, $x, $y, $fg, $font, $text);
-	while ($lines--) {
-		imageline($im, 0, rand(0, $height), $width, rand(0, $height), $fg);
-	}
-	for($i=0;$i<1000;$i++) {
-		imagesetpixel($im,rand()%$width,rand()%$height,$fg);
-	}
 	imagegif($im, $imgpath . $imgfile);
 	imagedestroy($im);
 

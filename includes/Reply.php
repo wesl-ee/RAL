@@ -171,7 +171,6 @@ TEXT;
 	}
 	public function delete() {
 		$dbh = $this->Rm()->getdb();
-		var_dump($dbh);
 
 		$query = <<<SQL
 		UPDATE `Replies` SET `Deleted`=1 WHERE

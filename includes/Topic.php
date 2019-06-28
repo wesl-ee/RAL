@@ -311,7 +311,6 @@ TEXT;
 	}
 	public function delete() {
 		$dbh = $this->Rm()->getdb();
-		var_dump($dbh);
 
 		$query = <<<SQL
 		UPDATE `Topics` SET `Deleted`=1 WHERE
