@@ -25,9 +25,9 @@ class Reply {
 	public function setParent($p) { $this->Parent = $p; }
 	/* Methods for rendering a reply as HTML, RSS, etc. */
 	public function renderAsHtml() {
-		$content = $this->getContentAsHtml();
-		if (isset($this->Deleted))
-			$content = $this->asHtml($this->deletedText());
+		$content = $this->asHtml(($this->Deleted ?
+				$this->deletedText() :
+				$this->Content));
 		$href = htmlentities($this->resolve(), ENT_QUOTES);
 		$time = strtotime($this->Created);
 		$prettydate = date('l M jS \'y', $time);
@@ -53,9 +53,9 @@ HTML;
 HTML;
 	}
 	public function renderAsText() {
-		$content = $this->getContentAsText();
-		if (isset($this->Deleted))
-			$content = $this->asText($this->deletedText());
+		$content = $this->Deleted ?
+			$this->deletedText() :
+			$this->getContentAsText();
 		print <<<TEXT
 $this->Id. ($this->Created)
 $content
@@ -64,10 +64,14 @@ TEXT;
 	}
 	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsRss() {
-		$content = htmlentities($this->getContentAsText());
+		$content = htmlspecialchars(
+			$this->asText($this->Deleted ?
+				$this->deletedText() :
+				$this->Content),
+			ENT_COMPAT,'utf-8');
 		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
 		$title = $this->title();
-		$date = $this->Created;
+		$date = date(DATE_RSS, strtotime($this->Created));
 		print <<<RSS
 <item>
 	<title>$title</title>
@@ -171,6 +175,9 @@ TEXT;
 	}
 	public function delete() {
 		$dbh = $this->Rm()->getdb();
+
+		if ($this->Id == 1)
+			$this->Parent->delete();
 
 		$query = <<<SQL
 		UPDATE `Replies` SET `Deleted`=1 WHERE

@@ -1,7 +1,9 @@
 <?php namespace RAL;
 class RecentPost extends Reply {
 	public function renderAsHtml() {
-		$content = $this->getContentAsHtml();
+		$content = $this->asHtml(($this->Deleted ?
+				$this->deletedText() :
+				$this->Content));
 		$time = strtotime($this->Created);
 		$prettydate = date('l M jS \'y', $time);
 		$datetime = date(DATE_W3C, $time);
@@ -35,7 +37,9 @@ HTML;
 			. "#" . urlencode($this->Id);
 	}
 	public function renderAsText() {
-		$content = $this->getContentAsText();
+		$content = $this->Deleted ?
+			$this->deletedText() :
+			$this->getContentAsText();
 		print <<<TEXT
 {$this->title()}. ($this->Created)
 $content
@@ -44,8 +48,10 @@ TEXT;
 	}
 	public function renderAsRss() {
 		$content = htmlspecialchars(
-			$this->getContentAsText(),ENT_COMPAT,'utf-8'
-			);
+			$this->asText($this->Deleted ?
+				$this->deletedText() :
+				$this->Content),
+			ENT_COMPAT,'utf-8');
 		$url = CONFIG_CANON_URL . htmlentities($this->resolve());
 		$title = $this->title();
 		$date = date(DATE_RSS, strtotime($this->Created));
