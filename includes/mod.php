@@ -13,11 +13,34 @@ function processbans($auth)
 	$query = "SELECT `Type` FROM `Bans` WHERE `Id`='$auth'";
 	$result = mysqli_query($dbh, $query);
 	while ($row = mysqli_fetch_assoc($result))
-	switch($row['Type']) {
+	$GLOBALS['flame'] = $row['Type'];
+	switch($GLOBALS['flame']) {
 	case 'SLOW':
 		sleep(rand(1, 5));
-	break;
+		$fuckem = rand(1, 100);
+		if ($fuckem > 60) {
+			// 40% - 500 Error
+			http_response_code(500);
+			die;
+		}
 	}
+}
+
+function addban($auth, $type) {
+	$dbh = mysqli_connect(CONFIG_RAL_SERVER,
+		CONFIG_RAL_USERNAME,
+		CONFIG_RAL_PASSWORD,
+		CONFIG_RAL_DATABASE);
+	mysqli_set_charset($dbh, 'utf8');
+
+	$query = <<<SQL
+	INSERT INTO `Bans`
+		(`Id`, `Type`) VALUES (
+		?, ?) ON DUPLICATE KEY UPDATE Type = ?
+SQL;
+	$stmt = $dbh->prepare($query);
+	$stmt->bind_param('sss', $auth, $type, $type);
+	$stmt->execute();
 }
 
 /*
@@ -61,6 +84,8 @@ function gen_robocheck()
 
 	do {
 		$answer = rand_line(CONFIG_WORDLIST);
+		if (@$GLOBALS['flame'] == 'HELL')
+			$answer = random_bytes(10);
 		$text = $answer;
 
 		$lines = 5; $angle = 0;

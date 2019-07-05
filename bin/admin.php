@@ -3,6 +3,7 @@
 include "{$ROOT}includes/config.php";
 include "{$ROOT}includes/ResourceManager.php";
 include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/mod.php";
 
 $RM = new RAL\ResourceManager();
 $dbh = $RM->getdb();
@@ -60,6 +61,16 @@ do { $answer = ask([
 		], $iterator);
 		if (prompt('Are you sure? (Y/n) ') == 'Y') $C->destroy();
 	} break;
+	case 'Bans':
+	$answer = ask([
+	'Flame a User',
+	'Forgive a Flamed User',
+	'List all Flamed Users'
+	]); switch ($answer) {
+		case 'Flame a User':
+			addban(prompt("User ID"),
+				ask(['SLOW', 'HELL']));
+	}
 
 	// Other main-menu options go here
 } } while ($answer != 'Quit');
