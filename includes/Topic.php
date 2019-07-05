@@ -13,13 +13,13 @@ class Topic {
 	private $Parent;
 
 	public function __construct($row, $parent) {
-		$this->Id = $row['Id'];
+		$this->Id = intval($row['Id']);
 		$this->Created = $row['Created'];
 		$this->Continuity = $row['Continuity'];
 		$this->Content = $row['Content'];
-		$this->Replies = $row['Replies'];
-		$this->Year = $row['Year'];
-		$this->Deleted = $row['Deleted'];
+		$this->Replies = intval($row['Replies']);
+		$this->Year = intval($row['Year']);
+		$this->Deleted = (bool)$row['Deleted'];
 		$this->User = $row['User'];
 
 		$this->Parent = $parent;

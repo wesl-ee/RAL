@@ -10,13 +10,13 @@ class Reply {
 	private $Parent;
 
 	function __construct($row, $parent = null) {
-		$this->Id = $row['Id'];
+		$this->Id = intval($row['Id']);
 		$this->Continuity = $row['Continuity'];
-		$this->Year = $row['Year'];
-		$this->Topic = $row['Topic'];
+		$this->Year = intval($row['Year']);
+		$this->Topic = intval($row['Topic']);
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
-		$this->Deleted = $row['Deleted'];
+		$this->Deleted = (bool)$row['Deleted'];
 		$this->User = $row['User'];
 
 		$this->Parent = $parent;

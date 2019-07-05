@@ -10,7 +10,7 @@ class Continuity {
 	public function __construct($row, $parent = null) {
 		$this->Name = $row['Name'];
 		@$this->Description = $row['Description'];
-		@$this->PostCount = $row['Post Count'];
+		@$this->PostCount = intval($row['Post Count']);
 		$this->Parent = $parent;
 		return $this;
 	}
