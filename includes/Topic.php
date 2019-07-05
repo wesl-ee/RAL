@@ -8,6 +8,7 @@ class Topic {
 	public $Replies;
 	public $Year;
 	public $Deleted;
+	private $User;
 
 	private $Parent;
 
@@ -19,6 +20,7 @@ class Topic {
 		$this->Replies = $row['Replies'];
 		$this->Year = $row['Year'];
 		$this->Deleted = $row['Deleted'];
+		$this->User = $row['User'];
 
 		$this->Parent = $parent;
 		return $this;

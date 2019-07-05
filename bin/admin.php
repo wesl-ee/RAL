@@ -32,12 +32,20 @@ do { $answer = ask([
 	case 'Continuities':
 	$answer = ask([
 	'Metrics',
+	'Post Info',
 	'Delete a Post',
 	'Create a Continuity',
 	'Delete a Continuity'
 	]); switch ($answer) {
 		case 'Metrics':
 		break;
+
+		case 'Post Info':
+		$iterator->select(prompt('Continuity'),
+			prompt('Year'),
+			prompt('Topic'),
+			prompt('Id'));
+		$iterator->Post->InfoText();
 
 		case 'Delete a Post':
 		$iterator->select(prompt('Continuity'),
@@ -70,6 +78,9 @@ do { $answer = ask([
 		case 'Flame a User':
 			addban(prompt("User ID"),
 				ask(['SLOW', 'HELL']));
+			break;
+		case 'Forgive a Flamed User':
+			clearban(prompt("User ID"));
 	}
 
 	// Other main-menu options go here

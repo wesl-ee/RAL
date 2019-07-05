@@ -48,7 +48,7 @@ SQL;
 			$this->Parent = $this->Continuity;
 		} if ($continuity && !$year) {
 			$query = <<<SQL
-			SELECT `Continuity`, `Year`, COUNT(*) AS Count
+			SELECT `Continuity`, `Year`, `User`, COUNT(*) AS Count
 			FROM `Topics` WHERE `Continuity`=? GROUP BY `Year`
 			ORDER BY `Year` DESC
 SQL;
@@ -61,7 +61,7 @@ SQL;
 			}
 		} else if ($continuity && $year) {
 			$query = <<<SQL
-			SELECT `Continuity`, `Year`, COUNT(*) AS Count
+			SELECT `Continuity`, `Year`, `User`, COUNT(*) AS Count
 			FROM `Topics` WHERE `Continuity`=? AND `Year`=?
 			GROUP BY `Year` ORDER BY `Year` DESC
 SQL;
@@ -73,7 +73,7 @@ SQL;
 			$this->Parent = $this->Year;
 		} if ($continuity && $year && !$topic) {
 			$query = <<<SQL
-			SELECT `Id`, `Created`, `Continuity`, `Content`,
+			SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
 			`Deleted`, `Replies`, `Year` FROM `Topics`
 			WHERE `Continuity`=? AND `Year`=?
 			ORDER BY `Created` DESC
@@ -87,10 +87,10 @@ SQL;
 			}
 		} else if ($continuity && $year && $topic) {
 			$query = <<<SQL
-			SELECT `Id`, `Created`, `Continuity`, `Content`,
-			`Deleted`, `Replies`, `Year` FROM `Topics`
-			WHERE `Continuity`=? AND `Year`=? AND `Id`=?
-			ORDER BY `Created` DESC
+			SELECT `Id`, `Created`, `Continuity`, `User`,
+			`Content`, `Deleted`, `Replies`, `Year`
+			FROM `Topics` WHERE `Continuity`=? AND `Year`=?
+			AND `Id`=? ORDER BY `Created` DESC
 SQL;
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('sii', $continuity, $year, $topic);
@@ -103,8 +103,8 @@ SQL;
 			$this->Parent = $this->Topic;
 		} if ($continuity && $year && $topic && !$replies) {
 			$query = <<<SQL
-			SELECT `Id`, `Continuity`, `Topic`, `Content`
-			, `Created`, `Year`, `Deleted`  FROM `Replies`
+			SELECT `Id`, `Continuity`, `Topic`, `Content`, `User`,
+			`Created`, `Year`, `Deleted`  FROM `Replies`
 			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
 SQL;
 			$stmt = $dbh->prepare($query);
@@ -116,8 +116,8 @@ SQL;
 			}
 		} else if ($continuity && $year && $topic && $replies) {
 			$query = <<<SQL
-			SELECT `Id`, `Continuity`, `Topic`, `Content`
-			, `Created`, `Year`, `Deleted` FROM `Replies`
+			SELECT `Id`, `Continuity`, `Topic`, `Content`, `User`,
+			`Created`, `Year`, `Deleted` FROM `Replies`
 			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
 			AND (
 SQL;
@@ -153,9 +153,9 @@ SQL;
 		$this->Selection = [];
 		if (!$continuity) {
 			$query = <<<SQL
-			SELECT `Id`, `Continuity`, `Topic`, `Content`
-			, `Created`, `Year`, `Deleted` FROM `Replies`
-			WHERE MATCH(`Content`)
+			SELECT `Id`, `Continuity`, `Topic`, `Content`,
+			`Created`, `Year`, `Deleted` FROM `Replies`,
+			`User` WHERE MATCH(`Content`)
 			AGAINST(?)
 SQL;
 			$stmt = $dbh->prepare($query);
@@ -290,15 +290,15 @@ HTML;
 		$dbh = $this->RM->getdb();
 		if (!$n) { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
-			, `Content`, `Year`, `Deleted` FROM `Replies`
-			ORDER BY `Created`
+			, `Content`, `Year`, `Deleted`, `User`
+			FROM `Replies` ORDER BY `Created`
 SQL;
 			$res = $dbh->query($query);
 		}
 		else { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
-			, `Content`, `Year`, `Deleted` FROM `Replies`
-			ORDER BY `Created` DESC LIMIT ?
+			, `Content`, `Year`, `Deleted`, `User`
+			FROM `Replies` ORDER BY `Created` DESC LIMIT ?
 SQL;
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('i', $n);

@@ -5,6 +5,7 @@ class Reply {
 	public $Year;
 	public $Content;
 	public $Created;
+	private $User;
 
 	private $Parent;
 
@@ -16,6 +17,7 @@ class Reply {
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
 		$this->Deleted = $row['Deleted'];
+		$this->User = $row['User'];
 
 		$this->Parent = $parent;
 	}
