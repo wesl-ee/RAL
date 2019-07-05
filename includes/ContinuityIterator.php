@@ -267,8 +267,8 @@ BREAD;
 
 HTML;
 	}
-	public function post($content) {
-		$this->Selection[0]->Parent()->post($content);
+	public function post($content, $id) {
+		$this->Selection[0]->Parent()->post($content, $id);
 	}
 	public function resolve() {
 		return $this->Selection[0]->Parent()->resolve();
