@@ -263,22 +263,31 @@ HTML;
 
 HTML;
 	}
-	public function post($content) {
+	public function post($content, $id) {
 		$dbh = $this->Rm()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Replies`
-		(`Id`, `Continuity`, `Year`, `Topic`, `Content`) SELECT
+		(`Id`, `Continuity`, `Year`, `Topic`, `Content`, `User`) SELECT
 		COUNT(*)+1 AS `Id`,
 		? AS `Continuity`,
 		? AS `Year`,
 		? AS `Topic`,
-		? AS `Content`
+		? AS `Content`,
+		? AS `User`
 		FROM `Replies` WHERE Continuity=?
-		AND YEAR=? AND Topic=?
+		AND YEAR=? AND Topic=? 
 SQL;
 		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('siissii', $this->Continuity, $this->Year, $this->Id, $content, $this->Continuity, $this->Year, $this->Id);
+		$stmt->bind_param('siisssii',
+			$this->Continuity,
+			$this->Year,
+			$this->Id,
+			$content,
+			$id,
+			$this->Continuity,
+			$this->Year,
+			$this->Id);
 		$stmt->execute();
 
 		$query = <<<SQL

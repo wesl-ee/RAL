@@ -39,6 +39,7 @@ $queries[] = <<<SQL
 	`Content` text NOT NULL DEFAULT '',
 	`Replies` int(11) DEFAULT 0,
 	`Year` int(4) NOT NULL DEFAULT year(`Created`),
+	`USER` VARCHAR(64),
 	`Deleted` int(11) DEFAULT NULL,
 	PRIMARY KEY (`Continuity`,`Year`,`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
@@ -51,6 +52,7 @@ $queries[] = <<<SQL
 	`Year` int(4) NOT NULL DEFAULT year(`Created`),
 	`Topic` int(11) NOT NULL,
 	`Content` text NOT NULL DEFAULT '',
+	`USER` VARCHAR(64),
 	`Deleted` int(11) DEFAULT NULL,
 	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8

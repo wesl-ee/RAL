@@ -249,22 +249,29 @@ HTML;
 		. "continuities/{$this->Name}/theme.css";
 	}
 	/* Adding to the conversation */
-	public function post($content) {
+	public function post($content, $id) {
 		$year = date('Y');
 		$dbh = $this->Rm()->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Topics`
-		(`Id`, `Continuity`, `Year`, `Content`) SELECT
+		(`Id`, `Continuity`, `Year`, `Content`, `User`) SELECT
 		COUNT(*)+1 AS `Id`,
 		? AS `Continuity`,
 		? AS `Year`,
-		? AS `Content`
+		? AS `Content`,
+		? AS `User`
 		FROM `Topics` WHERE Continuity=?
 		AND YEAR=?
 SQL;
 		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('sissi', $this->Name, $year, $content, $this->Name, $year);
+		$stmt->bind_param('sisssi',
+			$this->Name,
+			$year,
+			$content,
+			$id,
+			$this->Name,
+			$year);
 		$stmt->execute();
 
 		$query = <<<SQL

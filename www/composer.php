@@ -40,7 +40,7 @@ if (@$_POST['post'] && @$_POST['robocheckid']) {
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
 	} else {
-		$iterator->post($_POST['content']);
+		$iterator->post($_POST['content'], $_COOKIE['id']);
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostSuccess.php";
 	} die;
