@@ -31,14 +31,14 @@ class Topic {
 	/* Methods for rendering as HTML, text, etc. */
 	public function renderAsHtml() {
 		$content = $this->getContentAsHtml();
-		if (isset($this->Deleted))
+		if ($this->Deleted)
 			$content = $this->asHtml($this->deletedText());
 
 		$href = htmlentities($this->resolve());
 		$time = strtotime($this->Created);
 		$prettydate = date('l M jS \'y', $time);
 		$datetime = date(DATE_W3C, $time);
-		if (isset($this->Deleted)) print <<<HTML
+		if ($this->Deleted) print <<<HTML
 <section class="post deleted">
 	<strong>(Trashed)</strong>
 	<h3 class=id>{$this->title()}</h3>
@@ -63,7 +63,7 @@ HTML;
 	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsText() {
 		$content = $this->getContentAsText();
-		if (isset($this->Deleted))
+		if ($this->Deleted)
 			$content = $this->asText($this->deletedText());
 		print <<<TEXT
 $this->Id. ($this->Created)

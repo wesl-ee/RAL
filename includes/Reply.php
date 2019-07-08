@@ -34,7 +34,7 @@ class Reply {
 		$time = strtotime($this->Created);
 		$prettydate = date('l M jS \'y', $time);
 		$datetime = date(DATE_W3C, $time);
-		if (isset($this->Deleted))
+		if ($this->Deleted)
 		print <<<HTML
 <section class="post deleted" id=$this->Id>
 	<strong>(Trashed)</strong>
