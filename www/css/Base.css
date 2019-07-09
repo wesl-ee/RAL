@@ -157,7 +157,11 @@ article .content > * {
 .banner a {
 	display: inline-block;
 }
-.button {
+.only.dumb.robots.sit.in.this.box {
+	position: absolute;
+	left: 100%;
+}
+button, .button {
 	border: 1px solid;
 	cursor: Pointer;
 	padding: 0 8px;

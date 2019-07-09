@@ -22,17 +22,16 @@ if (!$continuity) {
 	include "{$ROOT}template/404.php";
 	die;
 }
-if (@$_POST['post'] && @$_POST['robocheckid']) {
-	$id = $_POST['robocheckid'];
-	$answer = $_POST['robocheckanswer'];
+if (@$_POST['post']) {
 	$page = $iterator->resolve();
 	$until = 3;
-	if (!isset($id, $answer)) {
-		$reason = "Did you forget to verify your humanity?";
+	if ($_POST['robocheck-fail']) {
+		$reason = "Sorry, I don't let robots post here!";
+		header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request"); 
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
-	} else if (!check_robocheck($id, $answer)) {
-		$reason = "You failed the humanity check!";
+	} else if (!isset($_POST['robocheck'])) {
+		$reason = "Did you forget to verify your humanity?";
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
 	} else if (empty(@$_POST['content'])) {

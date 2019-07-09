@@ -213,18 +213,18 @@ HTML;
 		print <<<HTML
 		<form method=POST action="$action" class=composer>
 		<input type=hidden name=content value="$content">
-		<div class=robocheck>
-			<img height=$height width=$width src="$robosrc">
-			<input name=robocheckid type=hidden value=$robocode>
-			<input name=robocheckanswer
-			tabindex=1
-			placeholder="Verify Humanity"
-			autocomplete=off>
-		<div class="buttons center">
-			<a href="$cancel" class="button cancel">Cancel</a>
-			<button class=button name=post value=post type=submit
-			tabindex=2>Next</button>
-		</div></div></form>
+		<input name=robocheck id=robocheck type=checkbox>
+		<label for=robocheck>I am not a robot</label>
+		<div class="buttons">
+			<a href="$cancel" class="cancel button">Cancel</a>
+			<button name=post value=post type=submit
+			tabindex=2>Post</button>
+		</div>
+		<input id=robocheck-fail class="only dumb robots sit in this
+		box" name=robocheck-fail type=checkbox>
+		<label class="only dumb robots sit in this box"
+		for=robocheck>Only dumb robots fill out this box</label>
+		</form>
 
 HTML;
 	}
