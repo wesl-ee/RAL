@@ -54,6 +54,10 @@ $queries[] = <<<SQL
 	`Content` text NOT NULL DEFAULT '',
 	`User` VARCHAR(64),
 	`Deleted` bit DEFAULT 0 NOT NULL,
+	`LearnedAsSpam` bit(1) DEFAULT NULL,
+	`IsSpam` bit(1) NOT NULL DEFAULT b'0',
+	`Visible` bit(1) GENERATED ALWAYS AS
+		(`IsSpam` = 0 and `Deleted` = 0) VIRTUAL
 	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
