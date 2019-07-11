@@ -39,8 +39,8 @@ $queries[] = <<<SQL
 	`Content` text NOT NULL DEFAULT '',
 	`Replies` int(11) DEFAULT 0,
 	`Year` int(4) NOT NULL DEFAULT year(`Created`),
-	`USER` VARCHAR(64),
-	`Deleted` int(11) DEFAULT NULL,
+	`User` VARCHAR(64),
+	`Deleted` bit DEFAULT 0 NOT NULL,
 	PRIMARY KEY (`Continuity`,`Year`,`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
@@ -52,8 +52,8 @@ $queries[] = <<<SQL
 	`Year` int(4) NOT NULL DEFAULT year(`Created`),
 	`Topic` int(11) NOT NULL,
 	`Content` text NOT NULL DEFAULT '',
-	`USER` VARCHAR(64),
-	`Deleted` int(11) DEFAULT NULL,
+	`User` VARCHAR(64),
+	`Deleted` bit DEFAULT 0 NOT NULL,
 	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
@@ -89,7 +89,7 @@ foreach ($queries as $q) {
 	if (!$dbh->query($q)) {
 		printf("MySQL Error: %s\n", $dbh->error);
 		printf("Please resolve this before continuing!\n");
-		exit(1);
+		// exit(1);
 	}
 }
 
@@ -118,8 +118,32 @@ CMD;
 	rm -r {$tmp}/jBBCode-1.3.0
 CMD;
 	system($cmd);
+} if (is_dir("{$installfolder}/b8")) {
+	print "It seems like you aleady have b8 installed!\n";
+} else {
+	print "Downloadng b8-0.6.2...\n";
+	$zipfilepath = "b8-0.6.2/b8";
+	$tmp = realpath("{$ROOT}tmp/");
+	$relevpath = "{$tmp}/$zipfilepath";
+
+	$installto = escapeshellarg("{$installfolder}/b8");
+	$tmpfile = escapeshellarg("{$tmp}/b8-0.6.2.tar.xz");
+	$tmp = escapeshellarg($tmp);
+	$cmd = <<<CMD
+	curl https://nasauber.de/opensource/b8/b8-0.6.2.tar.xz --output \
+	$tmpfile
+CMD;
+	system($cmd);
+	$cmd = <<<CMD
+	tar xvf $tmpfile -C $tmp ; \
+	mv $relevpath $installto ; \
+	rm $tmpfile ; \
+	rm -r {$tmp}/b8-0.6.2
+	patch -p0 -d $installto < ${ROOT}patch/b8-abspath-fix.patch
+CMD;
+	system($cmd);
 }
 print <<<FIN
-	Finished!
+Finished!
 
 FIN;

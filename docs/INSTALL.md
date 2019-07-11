@@ -19,10 +19,11 @@ Tools
 	- fpm-PHP (PHP pool manager)
 	- Graphics Draw (GD) Library for PHP
 	- jBBCode
+	- b8
 
-Ensure that your webserver can serve PHP files. Then install jBBCode into
-`/includes/jBBCode`. jBBCode can be downloaded from
-[the official website](http://jbbcode.com/).
+Ensure that your webserver can serve PHP files. Then run the setup utility
+(`bin/install.php`) which will automatically download and install jBBCode
+and b8.
 
 Example Setup
 -------------
