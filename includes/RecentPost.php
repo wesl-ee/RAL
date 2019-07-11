@@ -1,7 +1,7 @@
 <?php namespace RAL;
 class RecentPost extends Reply {
 	public function renderAsHtml() {
-		$content = $this->asHtml(($this->Deleted ?
+		$content = $this->Rm()->asHtml(($this->Deleted ?
 				$this->deletedText() :
 				$this->Content));
 		$time = strtotime($this->Created);
@@ -48,7 +48,7 @@ TEXT;
 	}
 	public function renderAsRss() {
 		$content = htmlspecialchars(
-			$this->asText($this->Deleted ?
+			$this->Rm()->asText($this->Deleted ?
 				$this->deletedText() :
 				$this->Content),
 			ENT_COMPAT,'utf-8');

@@ -39,6 +39,10 @@ define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
 define("CONFIG_WEBROOT", "/");
 define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 
+// SPAM parameters
+define("CONFIG_SPAM_DB", "/var/http/hub/ral/tmp/b8-wordlist.db");
+define("CONFIG_SPAM_THRESHOLD", 0.75);
+
 define("CONFIG_SECRET_SALT", "NOT_SO_SECRET");
 
 define("CONFIG_TMP_EXPIRY", 1440);

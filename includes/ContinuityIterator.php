@@ -145,6 +145,21 @@ SQL;
 			$this->Post = $this->Selection[0];
 		}
 	}
+	public function selectUnlearned() {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Id`, `Continuity`, `Topic`, `Content`,
+		`Created`, `Year`, `Deleted`, `User` FROM `Replies`
+		WHERE `LearnedAsSpam` IS NULL ORDER BY `Created` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$this->Selection[] = new Reply($row, $this);
+		}
+	}
+
 	public function selectSearch($q, $continuity = null,
 	$year = null,
 	$topic = null) {

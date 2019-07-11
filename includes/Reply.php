@@ -27,7 +27,7 @@ class Reply {
 	public function setParent($p) { $this->Parent = $p; }
 	/* Methods for rendering a reply as HTML, RSS, etc. */
 	public function renderAsHtml() {
-		$content = $this->asHtml(($this->Deleted ?
+		$content = $this->Rm()->asHtml(($this->Deleted ?
 				$this->deletedText() :
 				$this->Content));
 		$href = htmlentities($this->resolve(), ENT_QUOTES);
@@ -54,20 +54,22 @@ HTML;
 
 HTML;
 	}
-	public function renderAsText() {
-		$content = $this->Deleted ?
+
+	public function renderAsText($censor = true) {
+		$content = ($this->Deleted && $censor) ?
 			$this->deletedText() :
-			$this->getContentAsText();
-		print <<<TEXT
-$this->Id. ($this->Created)
+			$this->Rm()->asText($this->Content);
+		$out = <<<TEXT
+[{$this->title()}] ($this->Created)
 $content
 
 TEXT;
+		print wordwrap($out, 80, "\n");
 	}
 	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsRss() {
 		$content = htmlspecialchars(
-			$this->asText($this->Deleted ?
+			$this->Rm()->asText($this->Deleted ?
 				$this->deletedText() :
 				$this->Content),
 			ENT_COMPAT,'utf-8');
@@ -138,31 +140,6 @@ HTML;
 	public function renderBanner($format) {
 		return $this->Parent->renderBanner($format);
 	}
-	/* Parse the BBCode of the content */
-	public function getContentAsHtml() {
-		$bbparser = $this->Rm()->getbbparser();
-		$visitor = $this->Rm()->getLineBreakVisitor();
-		$bbparser->parse(htmlentities($this->Content));
-		$bbparser->accept($visitor);
-		return $bbparser->getAsHtml();
-	}
-	public function asHtml($content) {
-		$bbparser = $this->Rm()->getbbparser();
-		$visitor = $this->Rm()->getLineBreakVisitor();
-		$bbparser->parse(htmlentities($content));
-		$bbparser->accept($visitor);
-		return $bbparser->getAsHtml();
-	}
-	public function getContentAsText() {
-		$bbparser = $this->Rm()->getbbparser();
-		$bbparser->parse($this->Content);
-		return $bbparser->getAsText();
-	}
-	public function asText($content) {
-		$bbparser = $this->Rm()->getbbparser();
-		$bbparser->parse($content);
-		return $bbparser->getAsText();
-	}
 	public function deletedText() {
 		$length = strlen($this->Content);
 		$md5 = md5($this->Content);
@@ -174,6 +151,94 @@ MD5: $md5
 SHA1: $sha1
 Message Length: $length characters
 TEXT;
+	}
+	public function InfoText() {
+		print <<<TXT
+{$this->title()} ($this->Created) (Author: $this->User)
+
+TXT;
+		if ($this->Deleted) print <<<TXT
+(TRASHED)
+
+TXT;
+	}
+	public function markLearned($category) {
+		$dbh = $this->Rm()->getdb();
+
+		$query = <<<SQL
+		UPDATE `Replies` SET `LearnedAsSpam`=?, `IsSpam`=?
+		WHERE `Continuity`=? AND `Year`=? AND `Topic`=?
+		AND `Id`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$isSpam = ($category == \b8::SPAM);
+
+		$stmt->bind_param('iisiii', $isSpam,
+			$isSpam,
+			$this->Continuity,
+			$this->Year,
+			$this->Topic,
+			$this->Id);
+		$stmt->execute();
+	}
+	public function unmarkLearned() {
+		$dbh = $this->Rm()->getdb();
+
+		$query = <<<SQL
+		SELECT 1 FROM `Replies` WHERE `Continuity`=?
+		AND `Year`=? AND `Topic`=? AND Id=? AND
+		`LearnedAsSpam` IS NOT NULL
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('siii', $this->Continuity,
+			$this->Year,
+			$this->Topic,
+			$this->Id);
+		$stmt->execute();
+		$stmt->store_result();
+		if (!($stmt->num_rows)) return false;
+
+		$query = <<<SQL
+		UPDATE `Replies` SET `LearnedAsSpam`=NULL AND
+		`IsSpam`=NULL WHERE
+		`Continuity`=? AND `Year`=? AND `Topic`=?
+		AND `Id`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+
+		$stmt->bind_param('siii', $this->Continuity,
+			$this->Year,
+			$this->Topic,
+			$this->Id);
+		$stmt->execute();
+		return true;
+	}
+	public function b8GuessWasCorrect($category) {
+		$this->markLearned($category);
+	}
+	public function learn($category) {
+		if (!($category == \b8::SPAM || $category == \b8::HAM))
+			return false;
+
+		$this->markLearned($category);
+
+		$b8 = $this->Rm()->getb8();
+
+		$b8->learn($this->Rm()->asHtml(
+			$this->Content
+			), $category);
+		$b8->sync();
+	}
+	public function unlearn() {
+		if (!($this->unmarkLearned())) return false;
+
+		$b8 = $this->Rm()->getb8();
+
+		$b8->unlearn($this->Rm()->asHtml(
+			$this->Content
+			));
+		$b8->sync();
+		return true;
 	}
 	public function delete() {
 		$dbh = $this->Rm()->getdb();

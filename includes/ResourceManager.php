@@ -3,13 +3,39 @@ $dir = dirname(__FILE__);
 if (is_dir("{$dir}/jBBCode")) {
 	include "{$dir}/jBBCode/Parser.php";
 	include "{$dir}/LineBreakVisitor.php";
+} if (is_dir("{$dir}/b8")) {
+	include "{$dir}/b8/b8/b8.php";
 }
 
 class ResourceManager {
 	public $raldb;
 	public $bbparser;
 	public $linebreakvisitor;
+	public $b8;
 
+	function asHtml($content) {
+		$bbparser = $this->getbbparser();
+		$visitor = $this->getLineBreakVisitor();
+		$bbparser->parse(htmlentities($content));
+		$bbparser->accept($visitor);
+		return $bbparser->getAsHtml();
+	}
+
+	public function asText($content) {
+		$bbparser = $this->getbbparser();
+		$bbparser->parse($content);
+		return $bbparser->getAsText();
+	}
+
+	function getb8() {
+		if ($this->b8) return $this->b8;
+		$b8 = new \b8(["storage" => "dba"
+			], ["database" => CONFIG_SPAM_DB
+			], ["get_html" => true
+			], ["multibyte" => true]);
+		$this->b8 = $b8;
+		return $this->b8;
+	}
 	function getdb() {
 		if ($this->raldb) return $this->raldb;
 		$dbh = mysqli_connect(

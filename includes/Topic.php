@@ -30,9 +30,9 @@ class Topic {
 	public function Parent() { return $this->Parent; }
 	/* Methods for rendering as HTML, text, etc. */
 	public function renderAsHtml() {
-		$content = $this->getContentAsHtml();
+		$content = $this->Rm()->asHtml($this->Content);
 		if ($this->Deleted)
-			$content = $this->asHtml($this->deletedText());
+			$content = $this->Rm()->asHtml($this->deletedText());
 
 		$href = htmlentities($this->resolve());
 		$time = strtotime($this->Created);
@@ -62,14 +62,15 @@ HTML;
 
 	public function renderHeader() { return $this->Parent->renderHeader(); }
 	public function renderAsText() {
-		$content = $this->getContentAsText();
+		$content = $this->Rm->asText($this->Content);
 		if ($this->Deleted)
-			$content = $this->asText($this->deletedText());
-		print <<<TEXT
-$this->Id. ($this->Created)
+			$content = $this->Rm()->asText($this->deletedText());
+		$out = <<<TEXT
+[$this->Continuity/$this->Year/$this->Topic] ($this->Created)
 $content
 
 TEXT;
+		print wordwrap($out, 80, "\n");
 	}
 	public function renderAsSitemap() {
 		$loc = $this->resolve();
@@ -148,31 +149,6 @@ HTML;
 	/* There are no special rules for topic banners */
 	public function renderBanner($format) {
 		return $this->Parent()->renderBanner($format);
-	}
-	/* Parsing BBCode from the topic's content */
-	public function getContentAsHtml() {
-		$bbparser = $this->Rm()->getbbparser();
-		$visitor = $this->Rm()->getLineBreakVisitor();
-		$bbparser->parse(htmlentities($this->Content));
-		$bbparser->accept($visitor);
-		return $bbparser->getAsHtml();
-	}
-	public function asHtml($content) {
-		$bbparser = $this->Rm()->getbbparser();
-		$visitor = $this->Rm()->getLineBreakVisitor();
-		$bbparser->parse(htmlentities($content));
-		$bbparser->accept($visitor);
-		return $bbparser->getAsHtml();
-	}
-	public function getContentAsText() {
-		$bbparser = $this->Rm()->getbbparser();
-		$bbparser->parse($this->Content);
-		return $bbparser->getAsText();
-	}
-	public function asText($content) {
-		$bbparser = $this->Rm()->getbbparser();
-		$bbparser->parse($content);
-		return $bbparser->getAsText();
 	}
 	/* Rendering the new post composer */
 	public function renderPostButton() {
