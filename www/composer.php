@@ -30,19 +30,36 @@ if (@$_POST['post']) {
 		header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request"); 
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
+		die;
 	} else if (!isset($_POST['robocheck'])) {
 		$reason = "Did you forget to verify your humanity?";
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
+		die;
 	} else if (empty(@$_POST['content'])) {
 		$reason = "Just what are you trying to do?";
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
-	} else {
-		$iterator->post($_POST['content'], $_COOKIE['id']);
+		die;
+	} else if (strlen($_POST['content']) < CONFIG_MIN_POST_BYTES) {
+		$reason = "Your post is too short... please write some more!";
 		header("Refresh: $until; url=$page");
-		include "{$ROOT}template/PostSuccess.php";
-	} die;
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	}
+
+	$b8 = $RM->getb8();
+	$spamminess = $b8->classify($RM->asHtml($_POST['content']));
+	if ($spamminess > CONFIG_SPAM_THRESHOLD) {
+		$reason = "Hmm... error code: " . round($spamminess * 100);
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	}
+
+	$iterator->post($_POST['content'], $_COOKIE['id']);
+	header("Refresh: $until; url=$page");
+	include "{$ROOT}template/PostSuccess.php";
 }
 ?>
 <!DOCTYPE HTML>
