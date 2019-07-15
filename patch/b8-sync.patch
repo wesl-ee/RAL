@@ -1,0 +1,29 @@
+--- b8.php	2019-02-08 14:51:36.000000000 -0500
++++ b8.php	2019-07-14 22:24:44.196134209 -0400
+@@ -405,6 +405,11 @@
+         return $this->_processText($text, $category, self::UNLEARN);
+     }
+ 
++	public function sync()
++	{
++		return $this->storage->sync();
++	}
++
+     /**
+      * Does the actual interaction with the storage backend for learning or unlearning texts
+      *
+ 
+
+--- storage/storage_dba.php	2014-09-03 09:07:31.000000000 -0400
++++ storage/storage_dba.php	2019-07-14 22:24:49.676134195 -0400
+@@ -102,6 +102,10 @@
+         dba_close($this->_db);
+     }
+ 
++	function sync() {
++		dba_sync($this->_db);
++	}
++
+     /**
+      * Does the actual interaction with the database when fetching data.
+      *

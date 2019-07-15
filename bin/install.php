@@ -144,6 +144,7 @@ CMD;
 	rm $tmpfile ; \
 	rm -r {$tmp}/b8-0.6.2
 	patch -p0 -d $installto < ${ROOT}patch/b8-abspath-fix.patch
+	patch -p0 -d $installto < ${ROOT}patch/b8-sync.patch
 CMD;
 	system($cmd);
 }
