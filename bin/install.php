@@ -57,7 +57,7 @@ $queries[] = <<<SQL
 	`LearnedAsSpam` bit(1) DEFAULT NULL,
 	`IsSpam` bit(1) NOT NULL DEFAULT b'0',
 	`Visible` bit(1) GENERATED ALWAYS AS
-		(`IsSpam` = 0 and `Deleted` = 0) VIRTUAL
+		(`IsSpam` = 0 and `Deleted` = 0) VIRTUAL,
 	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
@@ -148,6 +148,8 @@ CMD;
 CMD;
 	system($cmd);
 }
+dba_close(dba_open(CONFIG_SPAM_DB, "c"));
+
 print <<<FIN
 Finished!
 
