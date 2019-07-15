@@ -178,6 +178,7 @@ BREAD;
 		$WROOT = CONFIG_WEBROOT;
 		$action = htmlentities($this->resolveComposer());
 		$cancel = htmlentities($this->resolve());
+		$minlength = CONFIG_MIN_POST_BYTES;
 		if (CONFIG_CLEAN_URL) $bbcoderef = "{$WROOT}bbcode-help";
 		else $bbcoderef = "{$WROOT}bbcode-help.php";
 		print <<<HTML
@@ -185,7 +186,7 @@ BREAD;
 		<form method=POST action="$action" class=composer>
 		<div class=textarea>
 			<textarea autofocus rows=5 tabindex=1
-			maxlength=5000
+			maxlength=5000 minlength=$minlength
 			placeholder="Contribute your thoughts and desires..."
 			name=content>$content</textarea>
 		</div>

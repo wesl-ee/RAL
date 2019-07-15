@@ -6,7 +6,7 @@ class PreviewPost extends Reply {
 	}
 	public function getRM() { return $this->Parent->getRM(); }
 	public function renderAsHtml() {
-		$content = $this->getContentAsHtml();
+		$content = $this->Rm()->asHtml($this->Content);
 		$time = time();
 		$prettydate = date('l M jS \'y', $time);
 		$datetime = date(DATE_W3C, $time);

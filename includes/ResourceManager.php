@@ -4,7 +4,7 @@ if (is_dir("{$dir}/jBBCode")) {
 	include "{$dir}/jBBCode/Parser.php";
 	include "{$dir}/LineBreakVisitor.php";
 } if (is_dir("{$dir}/b8")) {
-	include "{$dir}/b8/b8/b8.php";
+	include "{$dir}/b8/b8.php";
 }
 
 class ResourceManager {

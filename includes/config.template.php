@@ -42,6 +42,7 @@ define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 // SPAM parameters
 define("CONFIG_SPAM_DB", "/var/http/hub/ral/tmp/b8-wordlist.db");
 define("CONFIG_SPAM_THRESHOLD", 0.75);
+define("CONFIG_MIN_POST_BYTES", 25);
 
 define("CONFIG_SECRET_SALT", "NOT_SO_SECRET");
 
