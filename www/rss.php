@@ -13,7 +13,7 @@ $Ral = new RAL\Ral($rm);
 $recent = $Ral->SelectRecent(20);
 
 // RFC822 date with the year extended to 4-digits
-$lastbuild = date(DATE_RSS, strtotime($iterator->Selection[0]->Created));
+$lastbuild = date(DATE_RSS, strtotime($recent[0]->Created));
 
 // Portability (W3C recommendation)
 if (CONFIG_CLEAN_URL) $self = CONFIG_CANON_URL . "/rss";
