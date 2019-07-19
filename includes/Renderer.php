@@ -418,6 +418,17 @@ HTML;
 		}
 	} }
 
+	public function Recent($r, $format) { switch($format) {
+		case "html":
+			print <<<HTML
+<h2>Fresh Posts</h2><article>
+HTML;
+		$this->RecentSlice($r, "html");
+			print <<<HTML
+</article>
+HTML;
+	} }
+
 	public function RecentSlice($slice, $format) {
 		foreach ($slice as $recent) { switch($format) {
 		case "html":

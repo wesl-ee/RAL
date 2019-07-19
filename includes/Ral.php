@@ -386,6 +386,7 @@ HTML;
 				return CONFIG_WEBROOT . "search.php";
 		}
 	}
+
 	public function SelectRecent($n = 0) {
 		$dbh = $this->RM->getdb();
 		if (!$n) { $query = <<<SQL
