@@ -1,41 +1,123 @@
 <?php namespace RAL;
 include 'Continuity.php';
 include 'Year.php';
-include 'Topic.php';
-include 'TopicSlice.php';
 include 'Reply.php';
+include 'Topic.php';
 include 'RecentPost.php';
 include 'SearchResult.php';
-include 'PreviewPost.php';
-class ContinuityIterator {
+include 'PreviewReply.php';
+include 'PreviewTopic.php';
+class Ral {
 	// State
 	public $Continuity;
 	public $Year;
 	public $Topic;
 	public $Post;
+	public $HideSpam = true;
 
-	public $Selection = [];
-	private $Parent;
 	private $RM;
 
 	public function __construct($RM) { $this->RM = $RM; }
-	public function select($continuity = null,
+	public function Select($continuity = null,
 	$year = null,
 	$topic = null,
 	$replies = null) {
-		$dbh = $this->RM->getdb();
-		$this->Selection = [];
 
-		if (!$continuity) {
+		if ($year && $continuity && $topic)
+			return $this->Topic($continuity, $year, $topic);
+		if ($year && $continuity)
+			return $this->Year($continuity, $year);
+		if ($continuity)
+			return $this->Continuity($continuity);
+		return $this->Continuities();
+
+	}
+
+	public function Continuities() {
+			$dbh = $this->RM->getdb();
 			$query = <<<SQL
 			SELECT `Name`, `Post Count`, `Description` FROM
 			`Continuities`
 SQL;
 			$res = $dbh->query($query);
 			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Continuity($row, $this);
-			}
-		} else {
+				$ret[] = new Continuity($row, $this);
+			} return $ret;
+	}
+
+	public function PostTopic($continuity, $content, $id) {
+		$year = date('Y');
+		$dbh = $this->RM->getdb();
+
+		$query = <<<SQL
+		INSERT INTO `Replies`
+		(`Id`, `Continuity`, `Year`, `Content`, `User`) SELECT
+		COUNT(*)+1 AS `Id`,
+		? AS `Continuity`,
+		? AS `Year`,
+		? AS `Content`,
+		? AS `User`
+		FROM `Topics` WHERE Continuity=?
+		AND YEAR=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('sisssi',
+			$continuity,
+			$year,
+			$content,
+			$id,
+			$continuity,
+			$year);
+		$stmt->execute();
+
+		$query = <<<SQL
+		UPDATE `Continuities` SET `Post Count`=`Post Count`+1
+		WHERE `Name`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $continuity);
+
+		$stmt->execute();
+	}
+
+	public function PostReply($continuity, $year, $topic, $content, $id) {
+		$dbh = $this->RM->getdb();
+
+		$query = <<<SQL
+		INSERT INTO `Replies`
+		(`Id`, `Continuity`, `Year`, `Topic`, `Content`, `User`) SELECT
+		COUNT(*)+1 AS `Id`,
+		? AS `Continuity`,
+		? AS `Year`,
+		? AS `Topic`,
+		? AS `Content`,
+		? AS `User`
+		FROM `Replies` WHERE Continuity=?
+		AND YEAR=? AND Topic=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('siisssii',
+			$continuity,
+			$year,
+			$topic,
+			$content,
+			$id,
+			$continuity,
+			$year,
+			$topic);
+		$stmt->execute();
+
+		$query = <<<SQL
+		UPDATE `Continuities` SET `Post Count`=`Post Count`+1
+		WHERE `Name`=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $this->Continuity);
+		$stmt->execute();
+	}
+
+	public function Continuity($continuity) {
+			$dbh = $this->RM->getdb();
 			$query = <<<SQL
 			SELECT `Name`, `Post Count`, `Description` FROM
 			`Continuities` WHERE `Name`=?
@@ -43,108 +125,112 @@ SQL;
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('s', $continuity);
 			$stmt->execute();
+
 			$row = $stmt->get_result()->fetch_assoc();
-			$this->Continuity = new Continuity($row, $this);
-			$this->Parent = $this->Continuity;
-		} if ($continuity && !$year) {
-			$query = <<<SQL
-			SELECT `Continuity`, `Year`, `User`, COUNT(*) AS Count
-			FROM `Topics` WHERE `Continuity`=? GROUP BY `Year`
-			ORDER BY `Year` DESC
-SQL;
-			$stmt = $dbh->prepare($query);
-			$stmt->bind_param('s', $continuity);
-			$stmt->execute();
-			$res = $stmt->get_result();
-			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Year($row, $this->Parent);
-			}
-		} else if ($continuity && $year) {
-			$query = <<<SQL
-			SELECT `Continuity`, `Year`, `User`, COUNT(*) AS Count
-			FROM `Topics` WHERE `Continuity`=? AND `Year`=?
-			GROUP BY `Year` ORDER BY `Year` DESC
-SQL;
-			$stmt = $dbh->prepare($query);
-			$stmt->bind_param('si', $continuity, $year);
-			$stmt->execute();
-			$row = $stmt->get_result()->fetch_assoc();
-			$this->Year = new Year($row, $this->Parent);
-			$this->Parent = $this->Year;
-		} if ($continuity && $year && !$topic) {
-			$query = <<<SQL
-			SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
-			`Deleted`, `Replies`, `Year` FROM `Topics`
-			WHERE `Continuity`=? AND `Year`=?
-			ORDER BY `Created` DESC
-SQL;
-			$stmt = $dbh->prepare($query);
-			$stmt->bind_param('si', $continuity, $year);
-			$stmt->execute();
-			$res = $stmt->get_result();
-			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Topic($row, $this->Parent);
-			}
-		} else if ($continuity && $year && $topic) {
-			$query = <<<SQL
-			SELECT `Id`, `Created`, `Continuity`, `User`,
-			`Content`, `Deleted`, `Replies`, `Year`
-			FROM `Topics` WHERE `Continuity`=? AND `Year`=?
-			AND `Id`=? ORDER BY `Created` DESC
-SQL;
-			$stmt = $dbh->prepare($query);
-			$stmt->bind_param('sii', $continuity, $year, $topic);
-			$stmt->execute();
-			$row = $stmt->get_result()->fetch_assoc();
-			if (!$replies)
-				$this->Topic = new Topic($row, $this->Parent);
-			else
-				$this->Topic = new TopicSlice($row, $this->Parent, $replies);
-			$this->Parent = $this->Topic;
-		} if ($continuity && $year && $topic && !$replies) {
-			$query = <<<SQL
-			SELECT `Id`, `Continuity`, `Topic`, `Content`, `User`,
-			`Created`, `Year`, `Deleted`  FROM `Replies`
-			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
-SQL;
-			$stmt = $dbh->prepare($query);
-			$stmt->bind_param('sii', $continuity, $year, $topic);
-			$stmt->execute();
-			$res = $stmt->get_result();
-			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Reply($row, $this->Parent);
-			}
-		} else if ($continuity && $year && $topic && $replies) {
-			$query = <<<SQL
-			SELECT `Id`, `Continuity`, `Topic`, `Content`, `User`,
-			`Created`, `Year`, `Deleted` FROM `Replies`
-			WHERE `Continuity`=? AND `YEAR`=? AND `Topic`=?
-			AND (
-SQL;
-			$ranges = explode(',', $replies);
-			for ($i = 0; $i < count($ranges); $i++) {
-				$range = $ranges[$i];
-				if (!($pos = strpos($range, '-'))) {
-					$reply = (int)$ranges[$i];
-					if (!$i) $query .= " `Id`=$reply";
-					else $query .= " OR `Id`=$reply";
-				} else {
-					$to = substr($range, $pos + 1);
-					$from = substr($range, 0, $pos);
-					if (!$i) $query .= " (`Id` BETWEEN $from AND $to)";
-					else $query .= " OR (`Id` BETWEEN $from AND $to)";
-				}
-			} $query .= " )";
-			$stmt = $dbh->prepare($query);
-			$stmt->bind_param('sii', $continuity, $year, $topic);
-			$stmt->execute();
-			$res = $stmt->get_result();
-			while ($row = $res->fetch_assoc()) {
-				$this->Selection[] = new Reply($row, $this->Parent);
-			}
-			$this->Post = $this->Selection[0];
-		}
+			return new Continuity($row, $this);
 	}
+
+	public function Years($continuity) {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Continuity`, `Year`, `User`, COUNT(*) AS Count
+		FROM `Replies` WHERE `Continuity`=? GROUP BY `Year`
+		ORDER BY `Year` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('s', $continuity);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$ret[] = new Year($row, $this, false);
+		} return $ret;
+	}
+
+	public function Year($continuity, $year) {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Continuity`, `Year`, COUNT(*) AS Count
+		FROM `Replies` WHERE `Continuity`=? AND `Year`=?
+SQL;
+		if ($this->HideSpam) $query .= <<<SQL
+		AND IsSpam=0
+SQL;
+		$query .= <<<SQL
+		GROUP BY `Year` ORDER BY `Year` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('si', $continuity, $year);
+		$stmt->execute();
+		$row = $stmt->get_result()->fetch_assoc();
+		return new Year($row, $this);
+	}
+
+	public function Topics($continuity, $year) {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
+		`Deleted`, `Year`, `Topic`, COUNT(*) AS `Replies` FROM `Replies`
+		WHERE `Continuity`=? AND `Year`=?
+SQL;
+		if ($this->HideSpam) $query .= <<<SQL
+		AND IsSpam=0
+SQL;
+		$query .= <<<SQL
+		GROUP By `Topic`
+		ORDER BY `Id`, `Created` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('si', $continuity, $year);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$ret[] = new Topic($row, $this, false);
+		} return $ret;
+	}
+
+	public function Topic($continuity, $year, $topic) {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
+		`Deleted`, `Year`, `Topic`, COUNT(*) AS `Replies` FROM `Replies`
+		WHERE `Continuity`=? AND `Year`=? AND `Topic`=?
+SQL;
+		if ($this->HideSpam) $query .= <<<SQL
+		AND IsSpam=0
+SQL;
+		$query .= <<<SQL
+		GROUP By `Topic`
+		ORDER BY `Id`, `Created` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('sii', $continuity, $year, $topic);
+		$stmt->execute();
+		$row = $stmt->get_result()->fetch_assoc();
+		return new Topic($row, $this);
+	}
+
+	public function Posts($continuity, $year, $topic) {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
+		`Deleted`, `Year`, `Topic` FROM `Replies`
+		WHERE `Continuity`=? AND `Year`=? AND `Topic`=?
+SQL;
+		if ($this->HideSpam) $query .= <<<SQL
+		AND IsSpam=0
+SQL;
+		$query .= <<<SQL
+		ORDER BY `Id`, `Created` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('sii', $continuity, $year, $topic);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$ret[] = new Reply($row, $this, false);
+		} return $ret;
+	}
+
 	public function selectUnlearned() {
 		$dbh = $this->RM->getdb();
 		$query = <<<SQL
@@ -300,20 +386,31 @@ HTML;
 				return CONFIG_WEBROOT . "search.php";
 		}
 	}
-	public function selectRecent($n = 0) {
-		$this->Selection = [];
+	public function SelectRecent($n = 0) {
 		$dbh = $this->RM->getdb();
 		if (!$n) { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
 			, `Content`, `Year`, `Deleted`, `User`
-			FROM `Replies` ORDER BY `Created`
+			FROM `Replies`
+SQL;
+			if ($this->HideSpam) $query .= <<<SQL
+			WHERE IsSpam=0
+SQL;
+			$query .= <<<SQL
+			ORDER BY `Created`
 SQL;
 			$res = $dbh->query($query);
 		}
 		else { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
 			, `Content`, `Year`, `Deleted`, `User`
-			FROM `Replies` ORDER BY `Created` DESC LIMIT ?
+			FROM `Replies`
+SQL;
+			if ($this->HideSpam) $query .= <<<SQL
+			WHERE IsSpam=0
+SQL;
+			$query .= <<<SQL
+			ORDER BY `Created` DESC LIMIT ?
 SQL;
 			$stmt = $dbh->prepare($query);
 			$stmt->bind_param('i', $n);
@@ -321,9 +418,11 @@ SQL;
 			$res = $stmt->get_result();
 		}
 		while ($row = $res->fetch_assoc()) {
-			$this->Selection[] = new RecentPost($row, $this);
-		}
+			$ret[] = new RecentPost($row, $this);
+		} return $ret;
 	}
+
+	public function getdb() { return $this->RM->getdb(); }
 	public function title() {
 		return $this->Selection[0]->Parent()->title();
 	}

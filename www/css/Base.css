@@ -9,13 +9,13 @@ body {
 	font-family: 'ＭＳ Ｐゴシック', IPAMonaPGothic, Mona;
 }
 main, aside  { padding: 0 10px 10px; }
-footer { padding: 10px; text-align: center; }
+body > footer { padding: 10px; text-align: center; }
 .search { padding: 0 10px; }
 .info-links { padding: 10px 0; }
-header { grid-area: header; }
+body > header { grid-area: header; }
 .main { grid-area: main; }
 .discovery { grid-area: discovery; }
-footer { grid-area: footer; }
+body > footer { grid-area: footer; }
 aside figure {
 	margin: 0;
 	text-align: center;
@@ -26,7 +26,7 @@ figure img {
 aside h2 {
 	text-align: right;
 }
-header {
+body > header {
 	display: flex;
 	align-items: flex-end;
 	flex-wrap: wrap;
@@ -49,16 +49,16 @@ header.no-flair:before,
 header.no-flair:after {
 	display: none;
 }
+.header-box { text-align: right; padding: 3px 8px }
 table, tr, td, th {
 	border: 1px solid;
 	border-collapse: collapse;
 	padding: 3px;
 	text-align: center;
 }
-.post h2,
 .post h3 {
-	font-size: 1em;
-	display: inline;
+	font-size: 1.1em;
+	margin: 0;
 }
 main table {
 	margin: auto;
@@ -120,6 +120,16 @@ article .content > * {
 	word-wrap: break-word;
 	word-break: break-word;
 	max-width: calc(100% - 10px)
+}
+.post header {
+	display: flex;
+	align-items: flex-start;
+}
+.attrs { margin: 0;
+	list-style: none;
+	padding: 0;
+	flex: 1 1 auto;
+	text-align: right;
 }
 .timeline ul li {
 	list-style-type: none;
@@ -234,6 +244,7 @@ textarea {
 	padding: 5px;
 	border: 3px double;
 	font-family: inherit;
+	font-size: 1.1rem;
 	width: 100%;
 	min-width: 30px;
 }
@@ -259,6 +270,7 @@ input, select { border: 1px solid; }
 input[type=number] {
 	-moz-appearance: textfield;
 }
+fieldset { margin: 10px 0 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;

@@ -48,6 +48,8 @@ define("CONFIG_SECRET_SALT", "NOT_SO_SECRET");
 
 define("CONFIG_TMP_EXPIRY", 1440);
 
+define("CONFIG_BANNER", "https://ralee.org/res/RAL.gif");
+
 // Only used for the RSS feed
 define("CONFIG_CANON_URL", "https://ralee.org");
 

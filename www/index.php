@@ -1,14 +1,14 @@
 <?php
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Ral.php";
 include "{$ROOT}includes/News.php";
 include "{$ROOT}includes/Renderer.php";
 
-$Renderer = new RAL\Renderer();
+$rm = new RAL\ResourceManager();
+$Renderer = new RAL\Renderer($rm);
 $Renderer->themeFromCookie($_COOKIE);
-$RM = new RAL\ResourceManager();
-$iterator = new RAL\ContinuityIterator($RM);
+$ral = new RAL\Ral($rm);
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -32,11 +32,13 @@ HREF;
 ?>>
 </head>
 <body>
-<?php $iterator->renderHeader(); ?><hr />
+<header><div>
+<?php include "{$ROOT}template/SiteBanner.php"; ?>
+<?php include "{$ROOT}template/Feelies.php"; ?>
+</div></header>
 <div class=main><main>
-<?php $iterator->select(); $iterator->render(); ?>
-<?php $iterator->selectRecent(10); $iterator->render(); ?><hr />
-<?php (new RAL\News($RM))->select()->draw(); ?><hr />
+<?php $Renderer->Continuities($ral->select(), "html"); ?>
+<?php $Renderer->RecentSlice($ral->SelectRecent(10), "html"); ?>
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
 </main></div>

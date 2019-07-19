@@ -38,7 +38,7 @@ class Syspanel {
 		<input type=radio name=consequence id=cosysop value=Cosysop>
 		<label for=cosysop>Co-sysop</label>
 	</fieldset>
-	<input type=submit value=Continue>
+	<input type=submit class=button value=Continue>
 </form>
 
 HTML;
@@ -125,6 +125,7 @@ SQL;
 		WHERE `Username`=(?) AND `Birthday`=(?) AND
 		`Consequence`=(?)
 SQL;
+
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('sss', $this->Username,
 		$this->Birthday, $this->Consequence);

@@ -1,14 +1,13 @@
 <?php
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/ContinuityIterator.php";
-include "{$ROOT}includes/News.php";
+include "{$ROOT}includes/Ral.php";
 include "{$ROOT}includes/Renderer.php";
 
-$Renderer = new RAL\Renderer();
+$rm = new RAL\ResourceManager();
+$Renderer = new RAL\Renderer($rm);
 $Renderer->themeFromCookie($_COOKIE);
-$RM = new RAL\ResourceManager();
-$iterator = new RAL\ContinuityIterator($RM);
+$Ral = new RAL\Ral($rm);
 
 if (isset($_POST['Theme'])) {
 	setcookie('Theme', $_POST['Theme']);
@@ -30,7 +29,11 @@ if (isset($_POST['Theme'])) {
 ?>
 </head>
 <body>
-<?php $iterator->renderHeader(); ?>
+<header><div>
+	<div class=header-box><h1>Configuration Panel</h1>
+	<span>Customize your Reality</span></div>
+	<?php include "{$ROOT}template/Feelies.php" ?>
+</div></header>
 <div class=main><main>
 <article>
 <h2>Configuration</h2>
