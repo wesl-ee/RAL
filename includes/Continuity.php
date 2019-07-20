@@ -8,6 +8,8 @@ class Continuity {
 	private $ral;
 	private $years;
 
+	const TYPE = 'Continuity';
+
 	public function __construct($row, $ral, $doChildren = true) {
 		$this->Name = $row['Name'];
 		@$this->Description = $row['Description'];
@@ -20,9 +22,7 @@ class Continuity {
 
 	/* Methods for accessing the elitist superstructure */
 	public function Children() { return $this->years; }
-
-	/* Lazy... */
-	public function Type() { return "Continuity"; }
+	public function Type() { return static::TYPE; }
 
 	/* For HTML purposes, returns a URL to the current object */
 	public function resolve() {

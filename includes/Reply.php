@@ -12,6 +12,8 @@ class Reply {
 	private $ral;
 	private $Children;
 
+	const TYPE = 'Reply';
+
 	function __construct($row, $ral = false, $doChildren = true) {
 		$this->Id = intval($row['Id']);
 		$this->Continuity = $row['Continuity'];
@@ -29,6 +31,7 @@ class Reply {
 
 	/* Methods for accessing the elitist superstructure */
 	public function Children() { return $this->Children; }
+	public function Type() { return static::TYPE; }
 
 	public function isTopic() { return $this->Id == 1; }
 

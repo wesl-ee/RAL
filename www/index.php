@@ -37,8 +37,8 @@ HREF;
 <?php include "{$ROOT}template/Feelies.php"; ?>
 </div></header>
 <div class=main><main>
-<?php $Renderer->Continuities($ral->select(), "html"); ?><hr />
-<?php $Renderer->Recent($ral->SelectRecent(10), "html"); ?>
+<?php $Renderer->Put($ral->select(), "html"); ?><hr />
+<?php $Renderer->Put($ral->SelectRecent(10), "html"); ?>
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
 </main></div>

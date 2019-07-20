@@ -7,6 +7,9 @@ class Year {
 	private $Parent;
 	private $topics;
 
+	const TYPE = 'Year';
+
+
 	public function __construct($row, $ral, $doChildren = true) {
 		$this->Year = $row['Year'];
 		$this->Continuity = $row['Continuity'];
@@ -16,7 +19,10 @@ class Year {
 			$this->topics = $ral->Topics($this->Continuity, $this->Year);
 		return $this;
 	}
+
+	/* Methods for accessing the elitist superstructure */
 	public function Children() { return $this->topics; }
+	public function Type() { return static::TYPE; }
 
 	public function title() {
 		return "[{$this->Continuity}/{$this->Year}]";

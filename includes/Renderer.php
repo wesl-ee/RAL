@@ -123,6 +123,21 @@ HTML;*/
 		return $bbparser->getAsHtml();
 	}
 
+	/* Render the object with the specificed format */
+	public function Put($r, $format) {
+		if (is_array($r)) switch($r[0]->Type()) {
+			case "Recent": $this->Recent($r, $format); break;
+			case "Topic": $this->Topics($r, $format); break;
+			case "Continuity": $this->Continuities($r, $format); break;
+			case "Year": $this->Years($r, $format); break;
+			case "Reply": $this->Replies($r, $format); break;
+		} else switch ($r->Type()) {
+			case "Topic": $this->Topic($r, $format); break;
+			case "Continuity": $this->Continuity($r, $format); break;
+			case "Year": $this->Year($r, $format); break;
+			case "Reply": $this->Reply($r, $format); break;
+	} }
+
 	public function Year($r, $format) { switch($format) {
 		case "html":
 			if ($this->ShowComposer) { $this->NewTopic($r); }

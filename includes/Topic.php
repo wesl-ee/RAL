@@ -1,6 +1,7 @@
 <?php namespace RAL;
 class Topic extends Reply {
 	public $Replies;
+	const TYPE = "Topic";
 
 	function __construct($row, $ral = false, $doChildren = true) {
 		parent::__construct($row, $ral, $doChildren);

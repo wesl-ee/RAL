@@ -17,7 +17,7 @@ $year = @$_GET['year'];
 $topic = @$_GET['topic'];
 // Which posts (if any) we are reading
 $replies = @$_GET['replies'];
-//
+// Should we display the post-writer?
 $compose = @$_GET['compose'];
 
 if ($topic) $specifies = "topic";
@@ -25,7 +25,7 @@ else if ($year) $specifies = "year";
 else if ($continuity) $specifies ="continuity";
 
 $resource = $Ral->Select($continuity, $year, $topic, $replies);
-if (!$specifies) {
+if (!$continuity) {
 	http_response_code(404);
 	include "{$ROOT}template/404.php";
 	die;
@@ -97,19 +97,8 @@ else if (@$_POST['post']) {
 <div><header><?php $Renderer->PutBanner($resource); ?>
 <?php include "{$ROOT}template/Feelies.php"; ?></header></div>
 <div class=main><main>
-<?php switch($specifies) {
-	case "topic":
-		$Renderer->Topic($resource, "html");
-		break;
-	case "year":
-		$Renderer->Year($resource, "html");
-		break;
-	case "continuity":
-		$Renderer->Continuity($resource, "html");
-		break;
-	default:
-		$Renderer->Continuities($resource, "html");
-} ?></main></div>
+<?php $Renderer->Put($resource, "html"); ?>
+</main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>
 </div>
