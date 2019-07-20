@@ -183,7 +183,7 @@ button, .button {
 	cursor: Pointer;
 	padding: 0 8px;
 	outline: none;
-	color: inherit;
+	color: inherit !important;
 }
 .breadcrumb a { color: inherit; }
 .info-links> * { margin: 0 8px; }
