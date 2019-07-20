@@ -1,13 +1,13 @@
 <?php
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Ral.php";
 include "{$ROOT}includes/Renderer.php";
 
-$Renderer = new RAL\Renderer();
+$rm = new RAL\ResourceManager();
+$Renderer = new RAL\Renderer($rm);
 $Renderer->themeFromCookie($_COOKIE);
-$RM = new RAL\ResourceManager();
-$iterator = new RAL\ContinuityIterator($RM);
+$Ral = new RAL\Ral($rm);
 
 // Which continuity we are reading
 $continuity = urldecode($_GET['continuity']);
@@ -17,11 +17,69 @@ $year = @$_GET['year'];
 $topic = @$_GET['topic'];
 // Which posts (if any) we are reading
 $replies = @$_GET['replies'];
+// Should we display the post-writer?
+$compose = @$_GET['compose'];
 
-$iterator->select($continuity, $year, $topic, $replies);
+if ($topic) $specifies = "topic";
+else if ($year) $specifies = "year";
+else if ($continuity) $specifies ="continuity";
+
+$resource = $Ral->Select($continuity, $year, $topic, $replies);
 if (!$continuity) {
 	http_response_code(404);
 	include "{$ROOT}template/404.php";
+	die;
+}
+
+if (isset($compose))
+	$Renderer->ShowComposer = true;
+else if (@$_POST['preview'])
+	$Renderer->PendingMessage = $_POST['content'];
+else if (@$_POST['post']) {
+	$page = $resource->resolve();
+	$until = 3;
+	if ($_POST['robocheck-fail']) {
+		$reason = "Sorry, I don't let robots post here!";
+		header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request"); 
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	} else if (!isset($_POST['robocheck'])) {
+		$reason = "Did you forget to verify your humanity?";
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	} else if (empty(@$_POST['content'])) {
+		$reason = "Just what are you trying to do?";
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	} else if (strlen($_POST['content']) < CONFIG_MIN_POST_BYTES) {
+		$reason = "Your post is too short... please write some more!";
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	}
+
+	$b8 = $rm->getb8();
+	$spamminess = $b8->classify($rm->asHtml($_POST['content']));
+	if ($spamminess > CONFIG_SPAM_THRESHOLD) {
+		$reason = "Hmm... error code: " . round($spamminess * 100);
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
+	}
+
+	switch ($specifies) {
+		case "continuity":
+		case "year":
+			$Ral->PostTopic($continuity, $_POST['content'], $_COOKIE['id']);
+			break;
+		case "topic":
+			$Ral->PostReply($continuity, $year, $topic, $_POST['content'], $_COOKIE['id']);
+	}
+	header("Refresh: $until; url=$page");
+	include "{$ROOT}template/PostSuccess.php";
 	die;
 }
 
@@ -30,15 +88,16 @@ if (!$continuity) {
 <HTML>
 <head>
 <?php
-	$Renderer->Title = $iterator->title();
-	$Renderer->Desc = $iterator->description();
+	$Renderer->Title = $resource->Title();
+	$Renderer->Desc = $resource->Description();
 	$Renderer->putHead();
 ?>
 </head>
 <body>
-<?php $iterator->renderHeader(); ?>
+<div><header><?php $Renderer->PutBanner($resource); ?>
+<?php include "{$ROOT}template/Feelies.php"; ?></header></div>
 <div class=main><main>
-<?php $iterator->render();?>
+<?php $Renderer->Put($resource, "html"); ?>
 </main></div>
 <div class=discovery>
 <?php include "{$ROOT}template/Sponsors.php"; ?>

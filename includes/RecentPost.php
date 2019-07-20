@@ -1,5 +1,7 @@
 <?php namespace RAL;
 class RecentPost extends Reply {
+	const TYPE = 'Recent';
+
 	public function renderAsHtml() {
 		$content = $this->Rm()->asHtml(($this->Deleted ?
 				$this->deletedText() :

@@ -4,9 +4,9 @@ include "{$ROOT}includes/main.php";
 include "{$ROOT}includes/Renderer.php";
 include "{$ROOT}includes/Syspanel.php";
 
-$Renderer = new RAL\Renderer();
-$Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
+$Renderer = new RAL\Renderer($RM);
+$Renderer->themeFromCookie($_COOKIE);
 $Syspanel = new RAL\Syspanel($RM);
 $Syspanel->loadSession($_COOKIE['id']);
 
@@ -25,13 +25,12 @@ if ($Syspanel->isAuthorizationAttempt($_POST)) {
 <body>
 <header>
 <div>
-	<h1>Sysop / Co-sysop Panel</h1>
-	<span>Bless this mess</span><br />
+	<div class=header-box><h1>Sysop / Co-sysop Panel</h1>
+	<span>Bless this mess</span></div>
 	<?php include "{$ROOT}template/Feelies.php" ?>
 </div></header>
 <div class=main><main>
-<article>
-<?php if (!$Syspanel->Authorized) {
+<article><?php if (!$Syspanel->Authorized) {
 	print <<<HTML
 	<h2>Who are you?</h2>
 

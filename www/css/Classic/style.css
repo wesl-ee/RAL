@@ -30,7 +30,7 @@ hr {
 .news-item .title {
 	color: DarkViolet;
 }
-a {
+a, a:visited {
 	color: Blue;
 }
 .button {

@@ -1,14 +1,13 @@
 <?php
 $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Ral.php";
 include "{$ROOT}includes/News.php";
 include "{$ROOT}includes/Renderer.php";
 
-$Renderer = new RAL\Renderer();
-$Renderer->themeFromCookie($_COOKIE);
 $RM = new RAL\ResourceManager();
-$iterator = new RAL\ContinuityIterator($RM);
+$Renderer = new RAL\Renderer($RM);
+$Renderer->themeFromCookie($_COOKIE);
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -20,12 +19,11 @@ $iterator = new RAL\ContinuityIterator($RM);
 </head>
 <body>
 <header>
-<div><h1>Using BBCode on RAL</h1>
-	<span>or, making your text look pretty on-line</span>
+<div><div class=header-box><h1>Using BBCode on RAL</h1>
+	<span>or, making your text look pretty on-line</span></div>
 	<?php include "{$ROOT}template/Feelies.php"; ?></div>
 </header>
 <div class=main><main>
-<?php include "{$ROOT}template/Feelies.php" ?><hr />
 <?php include "{$ROOT}info/BBCode.txt" ?>
 </main></div>
 <div class=discovery>
