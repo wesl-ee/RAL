@@ -177,7 +177,7 @@ SQL;
 SQL;
 		$query .= <<<SQL
 		GROUP By `Topic`
-		ORDER BY `Id`, `Created` DESC
+		ORDER BY `Created` DESC, `Id`
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('si', $continuity, $year);
