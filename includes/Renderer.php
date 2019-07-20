@@ -125,6 +125,7 @@ HTML;*/
 
 	/* Render the object with the specificed format */
 	public function Put($r, $format) {
+		// var_dump($r);
 		if (is_array($r)) switch($r[0]->Type()) {
 			case "Recent": $this->Recent($r, $format); break;
 			case "Topic": $this->Topics($r, $format); break;
@@ -139,6 +140,9 @@ HTML;*/
 	} }
 
 	public function Year($r, $format) { switch($format) {
+		case "json":
+			print json_encode($r->Children());
+		break;
 		case "html":
 			if ($this->ShowComposer) { $this->NewTopic($r); }
 			else if ($this->PendingMessage) {
@@ -171,6 +175,9 @@ HTML;
 	} }
 
 	public function Continuities($slice, $format) { switch($format) {
+		case "json":
+			print json_encode($slice);
+		break;
 		case "html":
 			print <<<HTML
 <article>
@@ -328,6 +335,9 @@ HTML;
 	} }
 
 	public function Continuity($r, $format) { switch($format) {
+		case "json":
+			print json_encode($r);
+			break;
 		case "html":
 			if ($this->ShowComposer) { $this->NewTopic($r); }
 			else if ($this->PendingMessage) {
@@ -386,6 +396,9 @@ HTML;
 	} }
 
 	public function Topic($r, $format) { switch($format) {
+		case "json":
+			print json_encode($r->Children());
+		break;
 		case "html":
 			if ($this->ShowComposer) { $this->NewReply($r); }
 			else if ($this->PendingMessage) {

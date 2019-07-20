@@ -21,7 +21,6 @@ class Reply {
 		$this->Topic = intval($row['Topic']);
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
-		$this->Deleted = (bool)$row['Deleted'];
 		$this->User = $row['User'];
 
 		$this->ral = $ral;

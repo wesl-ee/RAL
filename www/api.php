@@ -1,6 +1,7 @@
 <?php $ROOT = '../';
 include "{$ROOT}includes/main.php";
-include "{$ROOT}includes/ContinuityIterator.php";
+include "{$ROOT}includes/Ral.php";
+include "{$ROOT}includes/Renderer.php";
 include "{$ROOT}includes/News.php";
 
 
@@ -21,8 +22,10 @@ switch ($action) {
 }
 
 function view($continuity, $year, $topic, $format) {
-	$RM = new RAL\ResourceManager();
-	$iterator = new RAL\ContinuityIterator($RM);
-	$iterator->select($continuity, $year, $topic);
-	$iterator->render($format);
+	$rm = new RAL\ResourceManager();
+	$Renderer = new RAL\Renderer($rm);
+	$ral = new RAL\Ral($rm);
+	$Renderer->Put(
+		$ral->Select($continuity, $year, $topic),
+		$format);
 }
