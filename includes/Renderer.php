@@ -269,7 +269,7 @@ HTML;
 		$encodedContent = htmlspecialchars($p->Content);
 		print <<<HTML
 		<form method=POST class=composer>
-		<input type=hidden name=content value="$encodedContent)">
+		<input type=hidden name=content value="$encodedContent">
 		<input name=robocheck id=robocheck type=checkbox>
 		<label for=robocheck>I am not a robot</label>
 		<div class="buttons">
