@@ -127,6 +127,7 @@ HTML;*/
 	public function Put($r, $format) {
 		// var_dump($r);
 		if (is_array($r)) switch($r[0]->Type()) {
+			case "News": $this->News($r, $format); break;
 			case "Recent": $this->Recent($r, $format); break;
 			case "Topic": $this->Topics($r, $format); break;
 			case "Continuity": $this->Continuities($r, $format); break;
@@ -137,6 +138,40 @@ HTML;*/
 			case "Continuity": $this->Continuity($r, $format); break;
 			case "Year": $this->Year($r, $format); break;
 			case "Reply": $this->Reply($r, $format); break;
+	} }
+
+	public function News($r, $format) { switch($format) {
+		case "html":
+			print <<<HTML
+		<article><h2>News</h2>
+HTML;
+			$this->NewsSlice($r, $format);
+			print <<<HTML
+		</article>
+HTML;
+	} }
+
+	public function NewsSlice($slice, $format) { switch($format) {
+		case "html":
+			foreach ($slice as $newspost) {
+				$id = $newspost->Id;
+				$time = strtotime($newspost->Created);
+				$prettydate = date('l M jS \'y', $time);
+				$datetime = date(DATE_W3C, $time);
+				$author = $newspost->Author;
+				$email = $newspost->Email;
+				$title = $newspost->Title;
+				$content = $this->asHtml($newspost->Content);
+
+				print <<<HTML
+				<section class=news-item>
+					<h3 class=title>$title</h3>
+					by <a href="mailto:$email">$author</a>
+				/ <time datetime="$datetime">$prettydate</time><hr />
+				$content
+				</section>
+HTML;
+			}
 	} }
 
 	public function Year($r, $format) { switch($format) {

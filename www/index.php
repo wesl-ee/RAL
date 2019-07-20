@@ -39,6 +39,7 @@ HREF;
 <div class=main><main>
 <?php $Renderer->Put($ral->select(), "html"); ?><hr />
 <?php $Renderer->Put($ral->SelectRecent(10), "html"); ?>
+<?php $Renderer->Put((new RAL\News($rm))->Select(), "html"); ?><hr />
 <?php include "{$ROOT}info/About.txt" ?><hr />
 <?php include "{$ROOT}info/Rules.txt" ?>
 </main></div>

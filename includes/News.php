@@ -1,12 +1,11 @@
 <?php namespace RAL;
 include 'NewsItem.php';
 class News {
-	public $Selection;
 	private $RM;
 
-	public function __construction($RM) { $this->RM = $RM; }
-	public function select() {
-		$dbh = $GLOBALS['RM']->getdb();
+	public function __construct($RM) { $this->RM = $RM; }
+	public function Select() {
+		$dbh = $this->RM->getdb();
 		$query = <<<SQL
 		SELECT
 			`Id`,
@@ -20,13 +19,7 @@ class News {
 SQL;
 		$res = $dbh->query($query);
 		while ($row = $res->fetch_assoc()) {
-			$this->Selection[] = new NewsItem($row, $this);
-		}
-		return $this;
-	}
-	public function getRM() { return $this->RM; }
-	public function draw() {
-		if ($this->Selection[0])
-			$this->Selection[0]->drawSelection($this->Selection);
+			$ret[] = new NewsItem($row, $this);
+		} return $ret;
 	}
 }
