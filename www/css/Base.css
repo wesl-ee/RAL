@@ -6,13 +6,7 @@ body {
 		'footer footer';
 	grid-gap: 1em;
 	grid-template-columns: 1fr 350px;
-	font-family: "San Francisco",
-	"Roboto",
-	"Segoe UI",
-	"Helvetica Neue",
-	"Lucida Grande",
-	sans-serif;
-	line-height: 1.6rem;
+	font-family: Merriweather, serif;
 }
 main, aside  { padding: 0 10px 10px; }
 body > footer { padding: 10px; text-align: center; }
@@ -93,10 +87,7 @@ main table {
 	font-size: 1.5em;
 	font-weight: bold;
 }
-article .content {
-}
-article .content > * {
-}
+article { line-height: 1.2rem }
 .hoverbox {
 	display: inline-block;
 	position: relative;
@@ -318,3 +309,6 @@ blockquote > * {
 	background: Black;
 	color: Black;
 }
+h1, h2, h3, h4 {
+	font-family: Open Sans, Arial, Helvetica, sans-serif;
+	line-height: 1.6rem }
