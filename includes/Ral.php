@@ -49,14 +49,15 @@ SQL;
 
 		$query = <<<SQL
 		INSERT INTO `Replies`
-		(`Id`, `Continuity`, `Year`, `Content`, `User`) SELECT
-		COUNT(*)+1 AS `Id`,
+		(`Id`, `Topic`, `Continuity`, `Year`, `Content`, `User`) SELECT
+		1 AS `Id`,
+		COUNT(*)+1 AS `Topic`,
 		? AS `Continuity`,
 		? AS `Year`,
 		? AS `Content`,
 		? AS `User`
-		FROM `Topics` WHERE Continuity=?
-		AND YEAR=?
+		FROM `Replies` WHERE Continuity=?
+		AND YEAR=? AND Id=1
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('sisssi',
