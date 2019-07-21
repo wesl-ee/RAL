@@ -125,7 +125,6 @@ HTML;*/
 
 	/* Render the object with the specificed format */
 	public function Put($r, $format) {
-		// var_dump($r);
 		if (is_array($r)) switch($r[0]->Type()) {
 			case "News": $this->News($r, $format); break;
 			case "Recent": $this->Recent($r, $format); break;
@@ -371,7 +370,7 @@ HTML;
 
 	public function Continuity($r, $format) { switch($format) {
 		case "json":
-			print json_encode($r);
+			print json_encode($r->Children());
 			break;
 		case "html":
 			if ($this->ShowComposer) { $this->NewTopic($r); }

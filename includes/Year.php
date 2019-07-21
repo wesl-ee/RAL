@@ -4,11 +4,10 @@ class Year {
 	public $Continuity;
 	public $Count;
 
-	private $Parent;
 	private $topics;
+	private $ral;
 
 	const TYPE = 'Year';
-
 
 	public function __construct($row, $ral, $doChildren = true) {
 		$this->Year = $row['Year'];

@@ -111,7 +111,7 @@ SQL;
 		WHERE `Name`=?
 SQL;
 		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('s', $this->Continuity);
+		$stmt->bind_param('s', $continuity);
 		$stmt->execute();
 	}
 
