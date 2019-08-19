@@ -63,8 +63,8 @@ class Reply {
 		. "continuities/{$this->Continuity}/banner.gif";
 	}
 
-	public function markLearned($category) {
-		$dbh = $this->Rm()->getdb();
+	public function markLearned($rm, $category) {
+		$dbh = $rm->getdb();
 
 		$query = <<<SQL
 		UPDATE `Replies` SET `LearnedAsSpam`=?, `IsSpam`=?
@@ -82,8 +82,8 @@ SQL;
 			$this->Id);
 		$stmt->execute();
 	}
-	public function unmarkLearned() {
-		$dbh = $this->Rm()->getdb();
+	public function unmarkLearned($rm) {
+		$dbh = $rm->getdb();
 
 		$query = <<<SQL
 		SELECT 1 FROM `Replies` WHERE `Continuity`=?
@@ -114,26 +114,26 @@ SQL;
 		$stmt->execute();
 		return true;
 	}
-	public function b8GuessWasCorrect($category) {
-		$this->markLearned($category);
+	public function b8GuessWasCorrect($rm, $category) {
+		$this->markLearned($rm, $category);
 	}
-	public function learn($category) {
+	public function learn($rm, $category) {
 		if (!($category == \b8::SPAM || $category == \b8::HAM))
 			return false;
 
-		$this->markLearned($category);
+		$this->markLearned($rm, $category);
 
-		$b8 = $this->Rm()->getb8();
+		$b8 = $rm->getb8();
 
-		$b8->learn($this->Rm()->asHtml(
+		$b8->learn($rm->asHtml(
 			$this->Content
 			), $category);
 		$b8->sync();
 	}
-	public function unlearn() {
+	public function unlearn($rm) {
 		if (!($this->unmarkLearned())) return false;
 
-		$b8 = $this->Rm()->getb8();
+		$b8 = $rm->getb8();
 
 		$b8->unlearn($this->Rm()->asHtml(
 			$this->Content

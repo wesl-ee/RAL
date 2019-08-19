@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?php $ROOT = "../";
+include "{$ROOT}includes/Ral.php";
 include "{$ROOT}includes/config.php";
 include "{$ROOT}includes/ResourceManager.php";
-include "{$ROOT}includes/ContinuityIterator.php";
-include "{$ROOT}includes/mod.php";
-
-$RM = new RAL\ResourceManager();
-$dbh = $RM->getdb();
-$iterator = new RAL\ContinuityIterator($RM);
+include "{$ROOT}includes/Renderer.php";
+$rm = new RAL\ResourceManager();
+$Renderer = new RAL\Renderer($rm);
+$Ral = new RAL\Ral($rm);
+$dbh = $rm->getdb();
 $STDIN = fopen('php://stdin', 'r');
 
 PRINT <<<BANNER
@@ -47,44 +47,44 @@ do { $answer = ask([
 		break;
 
 		case 'Unmark / Unlearn as Spam':
-		$iterator->select(prompt('Continuity'),
+		$Ral->select(prompt('Continuity'),
 			prompt('Year'),
 			prompt('Topic'),
 			prompt('Id'));
-		if ($iterator->Post->unlearn())
+		if ($Ral->Post->unlearn($rm))
 			print "Successfully unlearned!\n";
 		else
 			print "Failure: post was never learned as spam\n";
 		break;
 
 		case 'Post Info':
-		$iterator->select(prompt('Continuity'),
+		$Ral->select(prompt('Continuity'),
 			prompt('Year'),
 			prompt('Topic'),
 			prompt('Id'));
-		$iterator->Post->InfoText();
+		$Ral->Post->InfoText();
 		break;
 
 		case 'Delete a Post':
-		$iterator->select(prompt('Continuity'),
+		$Ral->select(prompt('Continuity'),
 			prompt('Year'),
 			prompt('Topic'),
 			prompt('Id'));
-		$iterator->Post->delete();
+		$Ral->Post->delete();
 		break;
 
 		case 'Create a Continuity':
 		$C = new RAL\Continuity([
 			'Name' => prompt('Name'),
 			'Description' => prompt('Description'),
-		], $iterator);
+		], $Ral);
 		$C->create();
 		break;
 
 		case 'Delete a Continuity':
 		$C = new RAL\Continuity([
 			'Name' => prompt('Name'),
-		], $iterator);
+		], $Ral);
 		if (prompt('Are you sure? (Y/n) ') == 'Y') $C->destroy();
 	} break;
 	case 'Spam':
@@ -92,33 +92,33 @@ do { $answer = ask([
 		'Train Filter',
 		]); switch ($answer) {
 		case 'Train Filter':
-			$b8 = $RM->getb8();
-			$iterator->selectUnlearned();
-			for ($i = 0; $i < sizeof($iterator->Selection); $i++) {
-				$post = $iterator->Selection[$i];
-				$spamminess = $b8->classify($RM->asHtml(
+			$b8 = $rm->getb8();
+			$Ral->selectUnlearned();
+			for ($i = 0; $i < sizeof($Ral->Selection); $i++) {
+				$post = $Ral->Selection[$i];
+				$spamminess = $b8->classify($rm->asHtml(
 					$post->Content));
 
-				printf("(%d posts remain)\n", sizeof($iterator->Selection) - $i);
-				print $post->renderAsText(false);
-				switch(prompt("Is this spam? (Y/n) (Score: $spamminess)")) {
+				printf("(%d posts remain)\n", sizeof($Ral->Selection) - $i);
+				print $rm->asText($post->Content);
+				switch(prompt("\nIs this spam? (Y/n) (Score: $spamminess)")) {
 					case 'Y':
 					case 'y':
 						if ($spamminess > 0.8) {
 							print "That's what I figured!\n";
-							$post->b8GuessWasCorrect(\b8::SPAM);
+							$post->b8GuessWasCorrect($rm, \b8::SPAM);
 						} else {
 							print "I'll make a note of that...\n";
-							$post->learn(\b8::SPAM);
+							$post->learn($rm, \b8::SPAM);
 						} break;
 					case 'N':
 					case 'n':
 						if ($spamminess < 0.6) {
 							print "That's what I figured!\n";
-							$post->b8GuessWasCorrect(\b8::HAM);
+							$post->b8GuessWasCorrect($rm, \b8::HAM);
 						} else {
 							print "I'll make a note of that...\n";
-							$post->learn(\b8::HAM);
+							$post->learn($rm, \b8::HAM);
 						} break;
 					default:
 						print "Skipping...";
