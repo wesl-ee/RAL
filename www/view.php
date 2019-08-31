@@ -59,6 +59,11 @@ else if (@$_POST['post']) {
 		header("Refresh: $until; url=$page");
 		include "{$ROOT}template/PostFailure.php";
 		die;
+	} else if (strlen($_POST['content']) > CONFIG_MAX_POST_BYTES) {
+		$reason = "Your post is too long... be more concise!";
+		header("Refresh: $until; url=$page");
+		include "{$ROOT}template/PostFailure.php";
+		die;
 	}
 
 	$b8 = $rm->getb8();

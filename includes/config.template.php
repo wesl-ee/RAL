@@ -29,9 +29,6 @@ define("CONFIG_RAL_USERNAME", "MY_USERNAME");
 define("CONFIG_RAL_PASSWORD", "MY_PASSWORD");
 define("CONFIG_RAL_DATABASE", "MY_DATABASE");
 
-// Maximum post length in characters
-define("CONFIG_RAL_POSTMAXLEN", 5000);
-
 // Expiry date of the auth cookie we hand out
 define("CONFIG_COOKIE_TIMEOUT", 60*60*24*30);
 
@@ -43,6 +40,7 @@ define("CONFIG_LOCALROOT", "/var/http/hub/ral/");
 define("CONFIG_SPAM_DB", "/var/http/hub/ral/tmp/b8-wordlist.db");
 define("CONFIG_SPAM_THRESHOLD", 0.75);
 define("CONFIG_MIN_POST_BYTES", 25);
+define("CONFIG_MAX_POST_BYTES", 5000);
 
 define("CONFIG_SECRET_SALT", "NOT_SO_SECRET");
 
