@@ -116,11 +116,7 @@ HTML;*/
 	}
 
 	function asHtml($content) {
-		$bbparser = $this->rm->getbbparser();
-		$visitor = $this->rm->getLineBreakVisitor();
-		$bbparser->parse(htmlentities($content));
-		$bbparser->accept($visitor);
-		return $bbparser->getAsHtml();
+		return $this->rm->asHtml($content);
 	}
 
 	/* Render the object with the specificed format */

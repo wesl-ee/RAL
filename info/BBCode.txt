@@ -76,5 +76,25 @@ reference of BBCode tags which are appropriate in the context of RAL.
 	<td>SJIS Art</td>
 	<td>&lt;span class=sjis&gt;</td>
 	<td>N/A</td>
-</tr></table>
+</tr></table><h2>Smilies</h2>
+<p>Furthermore, there are an ever-expanding number of <a
+href="https://en.wikipedia.org/wiki/Smiley">smilies</a> you can use on RAL; these
+emotes help to convey a simple range of emotions on the BBS; simply type the
+text you see next to the smiley you want into the reply box and you will see
+the smiley shown on the right! A full list of
+smilies is given below:</p>
+<table>
+<tr><th>Text Form</th><th>Smiley</th></tr>
+<tr><td>:smile:</td><td><img src="res/smiley/Smile.gif" /></td>
+<tr><td>:grin:</td><td><img src="res/smiley/Grin.gif" /></td>
+<tr><td>:wow:</td><td><img src="res/smiley/Wow.gif" /></td>
+<tr><td>:beatup:</td><td><img src="res/smiley/Beatup.gif" /></td>
+<tr><td>:roll:</td><td><img src="res/smiley/Roll.gif" /></td>
+<tr><td>:mad:</td><td><img src="res/smiley/Mad.gif" /></td>
+<tr><td>:frown:</td><td><img src="res/smiley/Frown.gif" /></td>
+<tr><td>:sick:</td><td><img src="res/smiley/Sick.gif" /></td>
+<tr><td>:yes:</td><td><img src="res/smiley/Yes.gif" /></td>
+<tr><td>:music:</td><td><img src="res/smiley/Music.gif" /></td>
+<tr><td>:think:</td><td><img src="res/smiley/Think.gif" /></td>
+</table>
 </article>

@@ -3,6 +3,7 @@ $dir = dirname(__FILE__);
 if (is_dir("{$dir}/jBBCode")) {
 	include "{$dir}/jBBCode/Parser.php";
 	include "{$dir}/LineBreakVisitor.php";
+	include "{$dir}/SmileyVisitor.php";
 } if (is_dir("{$dir}/b8")) {
 	include "{$dir}/b8/b8.php";
 }
@@ -11,13 +12,17 @@ class ResourceManager {
 	public $raldb;
 	public $bbparser;
 	public $linebreakvisitor;
+	public $smileyvisitor;
 	public $b8;
 
 	function asHtml($content) {
 		$bbparser = $this->getbbparser();
-		$visitor = $this->getLineBreakVisitor();
+		$visitors = [
+			$this->getLineBreakVisitor(),
+			$this->getSmileyVisitor() ];
 		$bbparser->parse(htmlentities($content));
-		$bbparser->accept($visitor);
+		foreach ($visitors as $v) {
+			$bbparser->accept($v); }
 		return $bbparser->getAsHtml();
 	}
 
@@ -139,5 +144,10 @@ HTML;
 		if ($this->linebreakvisitor) return $this->linebreakvisitor;
 		$this->linebreakvisitor =  new \JBBCode\Visitors\LineBreakVisitor();
 		return $this->linebreakvisitor;
+	}
+	function getSmileyVisitor() {
+		if ($this->smileyvisitor) return $this->smileyvisitor;
+		$this->smileyvisitor =  new \JBBCode\Visitors\SmileyVisitor();
+		return $this->smileyvisitor;
 	}
 }
