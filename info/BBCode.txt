@@ -96,5 +96,6 @@ smilies is given below:</p>
 <tr><td>:yes:</td><td><img src="res/smiley/Yes.gif" /></td>
 <tr><td>:music:</td><td><img src="res/smiley/Music.gif" /></td>
 <tr><td>:think:</td><td><img src="res/smiley/Think.gif" /></td>
+<tr><td>:nida:</td><td><img src="res/smiley/Nida.gif" /></td>
 </table>
 </article>

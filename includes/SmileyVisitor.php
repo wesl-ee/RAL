@@ -36,7 +36,10 @@ class SmileyVisitor implements \JBBCode\NodeVisitor
 			'res/smiley/Music.gif" />',
 		':think:' => '<img alt=":think:" src="' .
 			CONFIG_WEBROOT .
-			'res/smiley/Think.gif" />' ];
+			'res/smiley/Think.gif" />',
+		':nida:' => '<img alt=":nida:" src="' .
+			CONFIG_WEBROOT .
+			'res/smiley/Nida.gif" />' ];
 
 
 	function visitDocumentElement(\JBBCode\DocumentElement $documentElement) {
