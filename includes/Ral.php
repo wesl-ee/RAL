@@ -80,7 +80,7 @@ SQL;
 		$stmt->execute();
 
 		$row = $stmt->get_result()->fetch_assoc();
-		$topic = $row["Topic"];
+		$topic = $row[Topic];
 		$stmt->close();
 
 		// Generate OP's User Id for this thread

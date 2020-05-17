@@ -6,6 +6,7 @@ class PreviewReply extends Reply {
 		$this->Content = $row['content'];
 		$this->Continuity = $row['continuity'];
 		$this->Topic = $row['topic'];
+		$this->UserIdentity = "ID - ID";
 	}
 	public function title() {
 		return "[{$this->Continuity}/{$this->Year}/$this->Topic/Post Preview]";

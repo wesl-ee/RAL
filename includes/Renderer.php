@@ -497,6 +497,7 @@ HTML;
 			$time = strtotime($recent->Created);
 			$prettydate = date('l M jS \'y', $time);
 			$datetime = date(DATE_W3C, $time);
+			list($idbg, $idfg) = $this->IdColor($recent->UserIdentity);
 			$href = htmlentities($recent->resolve());
 		print <<<HTML
 		<section class=post>
@@ -504,6 +505,9 @@ HTML;
 			<div><h3 class=id>{$recent->title()}</h3>
 			<span class=expand><a href="$href">Show Context</a></span></div>
 		<ul class=attrs>
+			<li>Author: <span class=author
+				style="color:$idfg;background-color:$idbg">
+				$recent->UserIdentity</span></li>
 		<li><time datetime="$datetime">$prettydate</time></li>
 		</ul>
 </header><hr />
