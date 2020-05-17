@@ -52,13 +52,17 @@ $queries[] = <<<SQL
 	`Year` int(4) NOT NULL DEFAULT year(`Created`),
 	`Topic` int(11) NOT NULL,
 	`Content` text NOT NULL DEFAULT '',
-	`User` VARCHAR(64),
-	`Deleted` bit DEFAULT 0 NOT NULL,
-	`LearnedAsSpam` bit(1) DEFAULT NULL,
-	`IsSpam` bit(1) NOT NULL DEFAULT b'0',
+	`ContentId` int(11) NOT NULL AUTO_INCREMENT,
+	`User` VARCHAR(64) DEFAULT '',
+	`UserIdentity` VARCHAR(64) DEFAULT '',
+	`Deleted` TINYINT(1) DEFAULT 0 NOT NULL,
+	`LearnedAsSpam` TINYINT(1) NOT NULL DEFAULT 0,
+	`IsSpam` TINYINT(1) NOT NULL DEFAULT 0,
 	`Visible` bit(1) GENERATED ALWAYS AS
 		(`IsSpam` = 0 and `Deleted` = 0) VIRTUAL,
-	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`)
+	PRIMARY KEY (`Continuity`,`Year`,`Topic`,`Id`),
+	UNIQUE KEY `ContentId` (`ContentId`),
+	FULLTEXT KEY `index_name` (`Content`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
 $queries[] = <<<SQL
