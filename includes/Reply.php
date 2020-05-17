@@ -7,6 +7,7 @@ class Reply {
 	public $Created;
 	public $Topic;
 	private $User;
+	public $UserIdentity;
 
 	private $Parent;
 	private $ral;
@@ -22,6 +23,7 @@ class Reply {
 		$this->Content = $row['Content'];
 		$this->Created = $row['Created'];
 		$this->User = $row['User'];
+		$this->UserIdentity = $row['UserIdentity'];
 
 		$this->ral = $ral;
 		if ($doChildren)

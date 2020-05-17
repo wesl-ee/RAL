@@ -221,9 +221,9 @@ SQL;
 	public function Topic($continuity, $year, $topic) {
 		$dbh = $this->RM->getdb();
 		$query = <<<SQL
-		SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
-		`Year`, `Topic`, COUNT(*) AS `Replies` FROM `Replies`
-		WHERE `Continuity`=? AND `Year`=? AND `Topic`=?
+		SELECT `Id`, `Created`, `Continuity`, `User`, `UserIdentity`, `Content`,
+		`Year`, `Topic`, COUNT(*) AS `Replies` FROM `Replies` WHERE
+		`Continuity`=? AND `Year`=? AND `Topic`=?
 SQL;
 		if ($this->HideSpam) $query .= <<<SQL
 		AND IsSpam=0
@@ -242,9 +242,9 @@ SQL;
 	public function Posts($continuity, $year, $topic) {
 		$dbh = $this->RM->getdb();
 		$query = <<<SQL
-		SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
-		`Year`, `Topic` FROM `Replies`
-		WHERE `Continuity`=? AND `Year`=? AND `Topic`=?
+		SELECT `Id`, `Created`, `Continuity`, `User`, `UserIdentity`, `Content`,
+		`Year`, `Topic` FROM `Replies` WHERE `Continuity`=? AND `Year`=? AND
+		`Topic`=?
 SQL;
 		if ($this->HideSpam) $query .= <<<SQL
 		AND IsSpam=0
@@ -268,7 +268,7 @@ SQL;
 		$dbh = $this->RM->getdb();
 		$query = <<<SQL
 		SELECT `Id`, `Continuity`, `Topic`, `Content`,
-		`Created`, `Year`, `User` FROM `Replies`
+		`Created`, `Year`, `User`, `UserIdentity`, FROM `Replies`
 		WHERE `LearnedAsSpam` IS NULL ORDER BY `Created` DESC
 SQL;
 		$stmt = $dbh->prepare($query);
@@ -283,7 +283,7 @@ SQL;
 		$dbh = $this->RM->getdb();
 		$query = <<<SQL
 		SELECT `Id`, `Continuity`, `Topic`, `Content`,
-		`Created`, `Year`, `User` FROM `Replies`
+		`Created`, `Year`, `User`, `UserIdentity` FROM `Replies`
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->execute();
@@ -303,7 +303,7 @@ SQL;
 			$query = <<<SQL
 			SELECT `Id`, `Continuity`, `Topic`, `Content`,
 			`Created`, `Year` FROM `Replies`,
-			`User` WHERE MATCH(`Content`)
+			`User`, `UserIdentity` WHERE MATCH(`Content`)
 			AGAINST(?)
 SQL;
 			$stmt = $dbh->prepare($query);
@@ -438,7 +438,7 @@ HTML;
 		$dbh = $this->RM->getdb();
 		if (!$n) { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
-			, `Content`, `Year`, `User`
+			, `Content`, `Year`, `User`, `UserIdentity`
 			FROM `Replies`
 SQL;
 			if ($this->HideSpam) $query .= <<<SQL
@@ -451,7 +451,7 @@ SQL;
 		}
 		else { $query = <<<SQL
 			SELECT `Id`, `Created`, `Continuity`, `Topic`
-			, `Content`, `Year`, `User`
+			, `Content`, `Year`, `User`, `UserIdentity`
 			FROM `Replies`
 SQL;
 			if ($this->HideSpam) $query .= <<<SQL

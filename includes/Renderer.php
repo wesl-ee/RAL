@@ -458,12 +458,16 @@ HTML;
 			$time = strtotime($reply->Created);
 			$prettydate = date('l M jS \'y', $time);
 			$datetime = date(DATE_W3C, $time);
+			list($idbg, $idfg) = $this->IdColor($reply->UserIdentity);
 		print <<<HTML
 		<section class=post>
 		<header>
 			<h3 class=id>{$reply->title()}</h3>
 		<ul class=attrs>
-		<li><time datetime="$datetime">$prettydate</time></li>
+			<li>Author: <span class=author
+				style="color:$idfg;background-color:$idbg">
+				$reply->UserIdentity</span></li>
+			<li><time datetime="$datetime">$prettydate</time></li>
 		</ul>
 </header><hr />
 
@@ -541,4 +545,27 @@ RSS;
 HTML;
 			}
 	} }
+
+	// Returns a [BG Color, FG Color] for each Id
+	public function IdColor($id) {
+		$seed = substr(bin2hex(base64_decode($id)), 0, 1);
+		switch($seed) {
+			case '0': return ['blue', 'white'];
+			case '1': return ['black', 'white'];
+			case '2': return ['crimson', 'white'];
+			case '3': return ['deeppink', 'white'];
+			case '4': return ['orchid', 'white'];
+			case '5': return ['sienna', 'white'];
+			case '6': return ['steelblue', 'white'];
+			case '7': return ['darkturquoise', 'black'];
+			case '8': return ['fuchsia', 'black'];
+			case '9': return ['gold', 'black'];
+			case 'a': return ['lightblue', 'black'];
+			case 'b': return ['lime', 'black'];
+			case 'c': return ['mistyrose', 'black'];
+			case 'd': return ['springgreen', 'black'];
+			case 'e': return ['violet', 'black'];
+			case 'f': return ['violet', 'white'];
+		}
+	}
 }

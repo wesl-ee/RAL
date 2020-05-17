@@ -293,6 +293,7 @@ input::-webkit-inner-spin-button {
 	margin-right: 0.25em;
 	vertical-align: -0.4em;
 }
+.author { padding: 0 5px; border-radius: 3px }
 blockquote > * {
 	display: inline;
 }
