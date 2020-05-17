@@ -42,6 +42,9 @@ define("CONFIG_SPAM_THRESHOLD", 0.75);
 define("CONFIG_MIN_POST_BYTES", 25);
 define("CONFIG_MAX_POST_BYTES", 5000);
 
+// OP and poster identities
+define("CONFIG_IDENTITY_LEN", 8);
+
 define("CONFIG_SECRET_SALT", "NOT_SO_SECRET");
 
 define("CONFIG_TMP_EXPIRY", 1440);

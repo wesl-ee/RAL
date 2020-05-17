@@ -57,7 +57,7 @@ SQL;
 		? AS `Content`,
 		? AS `User`
 		FROM `Replies` WHERE Continuity=?
-		AND YEAR=? AND Id=1
+		AND Year=? AND Id=1
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('sisssi',
@@ -68,39 +68,62 @@ SQL;
 			$continuity,
 			$year);
 		$stmt->execute();
+		$stmt->close();
+
+		// Extract the "Auto-incremented" topic
+		$contentid = $dbh->insert_id;
+		$query = <<<SQL
+		SELECT `Topic` FROM `Replies` WHERE `ContentId`=?
+		SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('i', $contentid);
+		$stmt->execute();
+
+		$row = $stmt->get_result()->fetch_assoc();
+		$topic = $row["Topic"];
+		$stmt->close();
+
+		// Generate OP's User Id for this thread
+		$identity = $this->UserIdentity($id, $year, $topic);
+		$query = <<<SQL
+		UPDATE `Replies` SET `UserIdentity`=? WHERE ContentId=?
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->bind_param('si', $identity, $contentid);
+		$stmt->execute();
 
 		$query = <<<SQL
-		UPDATE `Continuities` SET `Post Count`=`Post Count`+1
-		WHERE `Name`=?
+		UPDATE `Continuities` SET `Post Count`=`Post Count`+1 WHERE `Name`=?
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('s', $continuity);
-
 		$stmt->execute();
 	}
 
 	public function PostReply($continuity, $year, $topic, $content, $id) {
+		$identity = $this->UserIdentity($id, $year, $topic);
 		$dbh = $this->RM->getdb();
 
 		$query = <<<SQL
 		INSERT INTO `Replies`
-		(`Id`, `Continuity`, `Year`, `Topic`, `Content`, `User`) SELECT
+		(`Id`, `Continuity`, `Year`, `Topic`, `Content`, `User`, `UserIdentity`) SELECT
 		COUNT(*)+1 AS `Id`,
 		? AS `Continuity`,
 		? AS `Year`,
 		? AS `Topic`,
 		? AS `Content`,
-		? AS `User`
-		FROM `Replies` WHERE Continuity=?
-		AND YEAR=? AND Topic=?
+		? AS `User`,
+		? AS `UserIdentity`
+		FROM `Replies` WHERE Continuity=? AND Year=? AND Topic=?
 SQL;
 		$stmt = $dbh->prepare($query);
-		$stmt->bind_param('siisssii',
+		$stmt->bind_param('siissssii',
 			$continuity,
 			$year,
 			$topic,
 			$content,
 			$id,
+			$identity,
 			$continuity,
 			$year,
 			$topic);
@@ -113,6 +136,11 @@ SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->bind_param('s', $continuity);
 		$stmt->execute();
+	}
+
+	public function UserIdentity($id, $year, $topic) {
+		return substr(base64_encode(md5($id . $year . $topic, true)), 0,
+			CONFIG_IDENTITY_LEN);
 	}
 
 	public function Continuity($continuity) {
@@ -242,6 +270,20 @@ SQL;
 		SELECT `Id`, `Continuity`, `Topic`, `Content`,
 		`Created`, `Year`, `User` FROM `Replies`
 		WHERE `LearnedAsSpam` IS NULL ORDER BY `Created` DESC
+SQL;
+		$stmt = $dbh->prepare($query);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		while ($row = $res->fetch_assoc()) {
+			$this->Selection[] = new Reply($row, $this);
+		}
+	}
+
+	public function selectAllContent() {
+		$dbh = $this->RM->getdb();
+		$query = <<<SQL
+		SELECT `Id`, `Continuity`, `Topic`, `Content`,
+		`Created`, `Year`, `User` FROM `Replies`
 SQL;
 		$stmt = $dbh->prepare($query);
 		$stmt->execute();
