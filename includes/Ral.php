@@ -196,7 +196,7 @@ SQL;
 		$dbh = $this->RM->getdb();
 		$query = <<<SQL
 		SELECT `Id`, `Created`, `Continuity`, `User`, `Content`,
-		`Year`, `Topic`, COUNT(*) AS `Replies` FROM `Replies`
+		`Year`, `Topic`, `UserIdentity`, COUNT(*) AS `Replies` FROM `Replies`
 		WHERE `Continuity`=? AND `Year`=?
 SQL;
 		if ($this->HideSpam) $query .= <<<SQL
