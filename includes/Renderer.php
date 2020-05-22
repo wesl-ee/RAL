@@ -460,7 +460,7 @@ HTML;
 			$datetime = date(DATE_W3C, $time);
 			list($idbg, $idfg) = $this->IdColor($reply->UserIdentity);
 		print <<<HTML
-		<section class=post>
+		<section class=post id=$reply->Id>
 		<header>
 			<h3 class=id>{$reply->title()}</h3>
 		<ul class=attrs>
