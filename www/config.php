@@ -10,7 +10,7 @@ $Renderer->themeFromCookie($_COOKIE);
 $Ral = new RAL\Ral($rm);
 
 if (isset($_POST['Theme'])) {
-	setcookie('Theme', $_POST['Theme']);
+	setcookie('Theme', $_POST['Theme'], CONFIG_COOKIE_TIMEOUT + time());
 	$_COOKIE['Theme'] = $_POST['Theme'];
 	if (CONFIG_CLEAN_URL) $page = CONFIG_WEBROOT . 'config';
 	else $page = CONFIG_WEBROOT . 'config.php';
