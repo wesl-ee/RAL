@@ -71,3 +71,80 @@ of http/2 [practically requires SSL](https://www.nginx.com/wp-content/uploads/20
 In this case, nginx will also act as a SSL termination proxy; you will need
 to obtain an SSL certificate from a trusted CA in order to provide adequate
 transport security.
+
+### Actually Installing RAL
+
+Copy the example configuration file from `includes/config.template.php` into
+`includes/config.php`. This is where you will define (e.g.) database connection
+parameters as well as canonical URLs for site resources.
+
+```
+cp includes/config.template.php includes/config.php
+```
+
+Edit this file to your liking, making sure that the MySQL parameters match the
+database and connection address used above.
+
+Next make sure you've got a SQL server running at the address specified in the
+above configuration file, then run the install script.
+
+```
+php ./bin/install.php
+```
+
+Address any errors which come up (including installing any missing PHP modules)
+and then try connecting to the site at your URL. You should at least see the RAL
+banner and a small "about" blurb, followed by some rules. These are configurable
+in the `info/About.txt` and `info/Rules.txt` files respectively. The contents of
+these files will be displayed directly on the page so any HTML markup applied
+here will be reflected on the website as is.
+
+### Creating Continuities
+
+The main organization unit of RAL is the "Continuity", essentially a centering
+topic for the discussion within. This is pretty straightforward using the admin
+script included in the `bin` directory.
+
+```
+y@fss$ php ./bin/admin.php
+  _____            _
+ |  __ \     /\   | |
+ | |__) |   /  \  | |
+ |  _  /   / /\ \ | |
+ | | \ \  / ____ \| |____
+ |_|  \_\/_/    \_\______|
+   Welcome, Super-user.
+1.) Content
+2.) News
+3.) Spam
+4.) Bans
+5.) Post Details
+6.) Miscellany
+7.) Quit
+> 1
+1.) Metrics
+2.) Post Info
+3.) Mark / Learn as Spam
+4.) Unmark / Unlearn as Spam
+5.) Delete a Post
+6.) Create a Continuity
+7.) Delete a Continuity
+> 6
+Name: Meta
+Description: Discussion about Discussion
+PHP Notice:  Undefined variable: ret in /pub/www/dev.ralee.org/includes/Ral.php on line 173
+1.) Content
+2.) News
+3.) Spam
+4.) Bans
+5.) Post Details
+6.) Miscellany
+7.) Quit
+> 7
+```
+
+You should see the new continuity on the front page!
+
+Finally, you'll want to make a banner for this new continuity. Banners are
+expected to be 380x150px, formatted as GIF, and placed at
+`www/continuities/[Name]/banner.gif`.

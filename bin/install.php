@@ -6,6 +6,12 @@ include "{$ROOT}includes/ResourceManager.php";
 $RM = new RAL\ResourceManager();
 $dbh = $RM->getdb();
 
+if (!$dbh) {
+	print "Error connecting to database :(\n";
+	print "Please check your DB credentials\n";
+	return -1;
+}
+
 $CONFIG_RAL_SERVER = CONFIG_RAL_SERVER;
 $CONFIG_RAL_USERNAME = CONFIG_RAL_USERNAME;
 $CONFIG_RAL_DATABASE = CONFIG_RAL_DATABASE;
@@ -89,6 +95,17 @@ $queries[] = <<<SQL
 	`Type` VARCHAR(64) NOT NULL,
 	`Date` DATETIME DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`Id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
+SQL;
+$queries[] = <<<SQL
+	CREATE TABLE `News` (
+		`Id` int(11) NOT NULL AUTO_INCREMENT,
+		`Created` datetime DEFAULT current_timestamp(),
+		`Author` varchar(40) NOT NULL,
+		`Email` varchar(100) DEFAULT NULL,
+		`TITLE` varchar(100) NOT NULL,
+		`Content` varchar(5000) NOT NULL,
+		PRIMARY KEY (`Id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 SQL;
 

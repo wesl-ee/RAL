@@ -79,6 +79,12 @@ do { $answer = ask([
 			'Description' => prompt('Description'),
 		], $Ral);
 		$C->create();
+		$Ral->PostTopic($C->Name, <<<WELCOME
+Welcome to the [i]$C->Name[/i] continuity.
+Here you will find topics about [i]$C->Description[/i]
+I hope you will enjoy your time here!
+WELCOME
+,'');
 		break;
 
 		case 'Delete a Continuity':
@@ -137,6 +143,12 @@ do { $answer = ask([
 			break;
 		case 'Forgive a Flamed User':
 			clearban(prompt("User ID"));
+	} break;
+	case 'Miscellany':
+	$answer = ask([
+	'Generate User Identities'
+	]); switch ($answer) {
+		case 'Generate User Identities':
 	}
 
 	// Other main-menu options go here
